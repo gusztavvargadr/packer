@@ -1,0 +1,75 @@
+{
+  "description": "Windows Server 2012 R2 Standard Evaluation",
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Windows2012_64",
+      "iso_url": "http://care.dlservice.microsoft.com/dl/download/6/2/A/62A76ABB-9990-4EFC-A4FE-C7D698DAEB96/9600.17050.WINBLUE_REFRESH.140317-1640_X64FRE_SERVER_EVAL_EN-US-IR3_SSS_X64FREE_EN-US_DV9.ISO",
+      "iso_checksum_type": "sha1",
+      "iso_checksum": "849734f37346385dac2c101e4aacba4626bb141c",
+      "headless": true,
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "disk_size": "31744",
+      "boot_wait": "1m",
+      "guest_additions_mode": "disable",      
+      "floppy_files": [
+        "../windows/virtualbox-iso",
+        "virtualbox-iso"
+      ],
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "1h",
+      "shutdown_command": "A:\\shutdown.bat"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "guest_os_type": "windows",
+      "skip_install": true,
+      "cookbook_paths": [
+        "chef/cookbooks",
+        "../windows/chef/cookbooks"
+      ],
+      "run_list": [
+        "recipe[packer_windows2012r2se::boot]"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "windows",
+      "skip_install": true,
+      "cookbook_paths": [
+        "chef/cookbooks",
+        "../windows/chef/cookbooks"
+      ],
+      "run_list": [
+        "recipe[packer_windows2012r2se::shutdown]"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "gusztavvargadr--windows2012r2se--0.1.0--{{.Provider}}.box",      
+      "vagrantfile_template": "../windows/vagrant/Vagrantfile"
+    }
+  ]
+}
