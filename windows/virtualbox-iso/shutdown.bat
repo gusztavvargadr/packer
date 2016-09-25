@@ -1,12 +1,14 @@
-echo "Uninstalling Chef Client"
-cuninst -y chef-client
+@echo off
 
-echo "Disabling WinRM"
+timeout /t 10 /nobreak
+cuninst -y chef-client
+timeout /t 10 /nobreak
+rmdir /s /q C:\opscode
+
 netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
 
-echo "Executing Sysprep"
 copy A:\Autounattend.sysprep.xml C:\Windows
 mkdir C:\Windows\Setup\Scripts
 copy A:\Autounattend.sysprep.bat C:\Windows\Setup\Scripts\SetupComplete.cmd
 
-C:\Windows\System32\Sysprep\sysprep.exe /generalize /oobe /quiet /shutdown /unattend:C:\Windows\Autounattend.sysprep.xml
+A:\sysprep.bat
