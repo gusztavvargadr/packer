@@ -9,11 +9,13 @@ This repository contains [Packer] templates to build [Vagrant] base boxes for .N
 
 This repository is used to build the following boxes:
 
+* [Windows 10][windows10ee]
 * [Windows Server 2012 R2][windows2012r2se]
 
 See [all the boxes][Boxes] in [Atlas].
 
 [Overview]: #overview
+[windows10ee]: windows10ee
 [windows2012r2se]: windows2012r2se
 [Boxes]: https://atlas.hashicorp.com/gusztavvargadr
 
