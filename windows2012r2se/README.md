@@ -12,7 +12,7 @@ This box includes the following components:
 
 See [all the versions][Versions] in [Atlas].
 
-[Home]: ..
+[Home]: ../README.md
 [Versions]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se
 
 [Packer]: https://www.packer.io/
