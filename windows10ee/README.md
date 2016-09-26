@@ -4,7 +4,7 @@
 
 This folder contains the [Packer] template to build a [Vagrant] base box for Windows 10.
 
-This box includes the following components:
+This box contains the following components:
 
 * Windows 10 Enterprise Evaluation
 * VirtualBox Guest Additions

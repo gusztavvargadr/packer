@@ -8,16 +8,16 @@ action :install do
     action :create
   end
 
-  file_name = "VBoxGuestAdditions_#{version}.iso"
-  file_path = "#{directory_path}/#{file_name}"
-  source_url = "#{node['packer_windows']['virtualbox_guest']['source_base_url']}/#{version}/#{file_name}"
+  iso_file_name = "VBoxGuestAdditions_#{version}.iso"
+  iso_file_path = "#{directory_path}/#{iso_file_name}"
+  iso_file_source_url = "http://download.virtualbox.org/virtualbox/#{version}/#{iso_file_name}"
 
-  remote_file file_path do
-    source source_url
+  remote_file iso_file_path do
+    source iso_file_source_url
     action :create
   end
 
-  packer_windows_iso file_path do
+  packer_windows_iso iso_file_path do
     drive_letter 'I'
     action :mount
   end
@@ -30,7 +30,7 @@ action :install do
     action :run
   end
 
-  packer_windows_iso file_path do
+  packer_windows_iso iso_file_path do
     action :dismount
   end
 
