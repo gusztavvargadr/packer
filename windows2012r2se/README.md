@@ -4,7 +4,7 @@
 
 This folder contains the [Packer] template to build a [Vagrant] base box for Windows Server 2012 R2.
 
-This box includes the following components:
+This box contains the following components:
 
 * Windows Server 2012 R2 Standard Evaluation
 * VirtualBox Guest Additions

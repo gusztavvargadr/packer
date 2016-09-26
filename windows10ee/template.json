@@ -24,7 +24,7 @@
       ],
       "disk_size": "31744",
       "boot_wait": "1m",
-      "guest_additions_mode": "disable",      
+      "guest_additions_mode": "disable",
       "floppy_files": [
         "../windows/virtualbox-iso",
         "virtualbox-iso"
@@ -68,7 +68,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "gusztavvargadr--windows10ee--0.1.0--{{.Provider}}.box",
+      "output": "gusztavvargadr--windows10ee--0.1.1--{{.Provider}}.box",
       "vagrantfile_template": "../windows/vagrant/Vagrantfile"
     }
   ]
