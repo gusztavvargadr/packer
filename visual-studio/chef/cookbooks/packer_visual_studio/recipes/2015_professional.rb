@@ -1,15 +1,3 @@
-# features = [
-#   'NET-Framework-Features',
-#   'NET-Framework-45-Features',
-#   'Web-Server'
-# ]
-# features.each do |feature|
-#   packer_windows_feature feature do
-#     include_subfeatures true
-#     action :install
-#   end
-# end
-
 directory_path = "#{Chef::Config[:file_cache_path]}/packer_visual_studio/2015_professional"
 
 directory directory_path do
@@ -26,19 +14,10 @@ cookbook_file configuration_file_path do
   action :create
 end
 
-installer_file_name = 'vs_professional_ENU.exe'
-installer_file_path = "#{directory_path}/#{installer_file_name}"
-
-remote_file installer_file_path do
-  source "http://download.microsoft.com/download/D/2/8/D28D3B41-BF4A-409A-AFB5-2C82C216D4E1/#{installer_file_name}"
-  action :create
-end
-
-powershell_script 'Install Visual Studio 2015 Professional' do
-  code <<-EOH
-    Start-Process "#{installer_file_path.tr('/', '\\')}" "/adminfile #{configuration_file_path.tr('/', '\\')} /quiet /norestart" -Wait
-  EOH
-  action :run
+chocolatey_package 'visualstudio2015professional' do
+  options "-packageParameters \"--AdminFile #{configuration_file_path.tr('/', '\\')}\""
+  timeout 3600
+  action :upgrade
 end
 
 directory directory_path do
