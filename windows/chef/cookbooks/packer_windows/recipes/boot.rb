@@ -1,3 +1,7 @@
+packer_windows_windows_updates '' do
+  action :disable
+end
+
 packer_windows_virtualbox_guest '' do
   action :install
 end

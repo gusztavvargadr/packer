@@ -19,12 +19,12 @@
     <SelectableItemCustomization Id="NetFX452MTPackHidden" Selected="yes" FriendlyName="NetFX452MTPackHidden" />
     <SelectableItemCustomization Id="NetFX46MTPackHidden" Selected="yes" FriendlyName="NetFX46MTPackHidden" />
     <SelectableItemCustomization Id="PortableDTPHidden" Selected="yes" FriendlyName="PortableDTPHidden" />
+    <SelectableItemCustomization Id="PreEmptiveDotfuscatorHidden" Selected="yes" FriendlyName="PreEmptiveDotfuscatorHidden" />
     <SelectableItemCustomization Id="PreEmptiveAnalyticsHidden" Selected="yes" FriendlyName="PreEmptiveAnalyticsHidden" />
     <SelectableItemCustomization Id="ProfilerHidden" Selected="yes" FriendlyName="ProfilerHidden" />
     <SelectableItemCustomization Id="RoslynLanguageServicesHidden" Selected="yes" FriendlyName="RoslynLanguageServicesHidden" />
     <SelectableItemCustomization Id="SDKTools3Hidden" Selected="yes" FriendlyName="SDKTools3Hidden" />
     <SelectableItemCustomization Id="SDKTools4Hidden" Selected="yes" FriendlyName="SDKTools4Hidden" />
-    <SelectableItemCustomization Id="StoryboardingHidden" Selected="yes" FriendlyName="StoryboardingHidden" />
     <SelectableItemCustomization Id="WCFDataServicesHidden" Selected="yes" FriendlyName="WCFDataServicesHidden" />
     <SelectableItemCustomization Id="VSUV1PreReqV1" Selected="no" FriendlyName="Visual Studio 2015 Update 1 Prerequisite" />
     <SelectableItemCustomization Id="VSUV3RTMV1" Selected="no" FriendlyName="Visual Studio 2015 Update 3" />
@@ -35,7 +35,6 @@
     <SelectableItemCustomization Id="FSharpV1" Hidden="no" Selected="yes" FriendlyName="Visual F#" />
     <SelectableItemCustomization Id="PythonToolsForVisualStudioV7" Hidden="no" Selected="no" FriendlyName="Python Tools for Visual Studio (September 2016)" />
     <SelectableItemCustomization Id="ClickOnceV1" Hidden="no" Selected="no" FriendlyName="ClickOnce Publishing Tools" />
-    <SelectableItemCustomization Id="OfficeDeveloperToolsV1" Hidden="no" Selected="no" FriendlyName="Microsoft Office Developer Tools" />
     <SelectableItemCustomization Id="SQLV1" Hidden="no" Selected="yes" FriendlyName="Microsoft SQL Server Data Tools" />
     <SelectableItemCustomization Id="PowerShellToolsV1" Hidden="no" Selected="no" FriendlyName="PowerShell Tools for Visual Studio" />
     <SelectableItemCustomization Id="SilverLight_Developer_KitV1" Hidden="no" Selected="no" FriendlyName="Silverlight Development Kit" />

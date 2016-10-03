@@ -68,7 +68,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "gusztavvargadr--windows2012r2se--0.1.1--{{.Provider}}.box",
+      "output": "gusztavvargadr--windows2012r2se--0.1.2--{{.Provider}}.box",
       "vagrantfile_template": "../windows/vagrant/Vagrantfile"
     }
   ]
