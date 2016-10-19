@@ -1,11 +1,20 @@
 action :enable do
-  Set-Service wuauserv -StartupType Manual
-  Start-Service wuauserv
+  powershell_script 'Enable Windows Updates' do
+    code <<-EOH
+      Set-Service wuauserv -StartupType Manual
+      Start-Service wuauserv
+    EOH
+    action :run
+  end
 end
 
 action :disable do
-  Stop-Service wuauserv
-  Set-Service wuauserv -StartupType Disabled
+  powershell_script 'Disable Windows Updates' do
+    code <<-EOH
+      Stop-Service wuauserv
+      Set-Service wuauserv -StartupType Disabled
+    EOH
+  end
 end
 
 action :install do
