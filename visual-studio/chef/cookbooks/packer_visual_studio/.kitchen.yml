@@ -3,7 +3,7 @@ driver:
   name: vagrant
   customize:
     memory: 4096
-    cpus: 2
+    cpus: 4
 
 provisioner:
   name: chef_solo
