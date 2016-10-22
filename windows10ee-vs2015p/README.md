@@ -2,11 +2,11 @@
 
 **Quick links** [Home] | [Versions]  
 
-This folder contains the [Packer] template to build a [Vagrant] base box for Windows Server 10 Enterprise Evaluation with Visual Studio 2015 Professional.
+This folder contains the [Packer] template to build a [Vagrant] base box for Windows 10 Enterprise Evaluation with Visual Studio 2015 Professional.
 
 This box contains the following components:
 
-* Everything [Windows Server 10 Enterprise Evaluation][windows10ee] contains
+* Everything [Windows 10 Enterprise Evaluation][windows10ee] contains
 * Visual Studio 2015 Professional
 
 See [all the versions][Versions] in [Atlas].
