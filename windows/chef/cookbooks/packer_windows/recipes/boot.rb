@@ -1,3 +1,7 @@
+packer_windows_windows_updates '' do
+  action :disable
+end
+
 packer_windows_virtualbox_guest '' do
   action :install
 end
@@ -18,6 +22,6 @@ packer_windows_pagefile '' do
   action :disable
 end
 
-packer_windows_boxstarter '' do
-  action :uninstall
-end
+# packer_windows_boxstarter '' do
+#   action :uninstall
+# end

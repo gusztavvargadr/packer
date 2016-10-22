@@ -13,13 +13,13 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "2048"
+          "4096"
         ],
         [
           "modifyvm",
           "{{.Name}}",
           "--cpus",
-          "2"
+          "4"
         ]
       ],
       "disk_size": "31744",
@@ -27,7 +27,8 @@
       "guest_additions_mode": "disable",
       "floppy_files": [
         "../windows/virtualbox-iso",
-        "virtualbox-iso"
+        "virtualbox-iso",
+        "chef/.berkshelf"
       ],
       "communicator": "winrm",
       "winrm_username": "vagrant",
@@ -41,9 +42,8 @@
       "type": "chef-solo",
       "guest_os_type": "windows",
       "skip_install": true,
-      "cookbook_paths": [
-        "chef/cookbooks",
-        "../windows/chef/cookbooks"
+      "remote_cookbook_paths": [
+        "/tmp/chef/cookbooks"
       ],
       "run_list": [
         "recipe[packer_windows10ee::boot]"
@@ -56,9 +56,8 @@
       "type": "chef-solo",
       "guest_os_type": "windows",
       "skip_install": true,
-      "cookbook_paths": [
-        "chef/cookbooks",
-        "../windows/chef/cookbooks"
+      "remote_cookbook_paths": [
+        "/tmp/chef/cookbooks"
       ],
       "run_list": [
         "recipe[packer_windows10ee::shutdown]"
@@ -68,7 +67,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "gusztavvargadr--windows10ee--0.1.1--{{.Provider}}.box",
+      "output": "gusztavvargadr--windows10ee--0.2.0--{{.Provider}}.box",
       "vagrantfile_template": "../windows/vagrant/Vagrantfile"
     }
   ]

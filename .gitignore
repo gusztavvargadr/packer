@@ -1,2 +1,6 @@
+tools
+.kitchen
+Berksfile.lock
+.berkshelf
 output*
 *.box

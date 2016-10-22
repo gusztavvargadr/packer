@@ -4,6 +4,7 @@ timeout /t 10 /nobreak
 cuninst -y chef-client
 timeout /t 10 /nobreak
 rmdir /s /q C:\opscode
+rmdir /s /q C:\tmp
 
 netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
 

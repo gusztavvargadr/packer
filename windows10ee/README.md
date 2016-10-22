@@ -1,8 +1,8 @@
-# Windows 10
+# Windows 10 Enterprise Evaluation
 
 **Quick links** [Home] | [Versions]  
 
-This folder contains the [Packer] template to build a [Vagrant] base box for Windows 10.
+This folder contains the [Packer] template to build a [Vagrant] base box for Windows 10 Enterprise Evaluation.
 
 This box contains the following components:
 

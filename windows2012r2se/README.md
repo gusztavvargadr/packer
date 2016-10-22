@@ -1,8 +1,8 @@
-# Windows Server 2012 R2
+# Windows Server 2012 R2 Standard Evaluation
 
 **Quick links** [Home] | [Versions]  
 
-This folder contains the [Packer] template to build a [Vagrant] base box for Windows Server 2012 R2.
+This folder contains the [Packer] template to build a [Vagrant] base box for Windows Server 2012 R2 Standard Evaluation.
 
 This box contains the following components:
 

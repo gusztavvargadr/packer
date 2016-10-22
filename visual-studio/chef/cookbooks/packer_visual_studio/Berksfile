@@ -1,0 +1,6 @@
+source 'https://supermarket.chef.io'
+
+metadata
+
+cookbook 'packer_windows', path: '../../../../windows/chef/cookbooks/packer_windows'
+cookbook 'windows'

@@ -1,0 +1,25 @@
+---
+driver:
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 4
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: win10
+    driver:
+      box: gusztavvargadr/windows10ee
+  - name: win2012r2
+    driver:
+      box: gusztavvargadr/windows2012r2se
+
+suites:
+  - name: 2015c
+    run_list:
+      - recipe[packer_visual_studio::2015_community]
+  - name: 2015p
+    run_list:
+      - recipe[packer_visual_studio::2015_professional]
