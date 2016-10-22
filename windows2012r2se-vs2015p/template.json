@@ -1,5 +1,5 @@
 {
-  "description": "Windows Server 2012 R2 Standard Evaluation",
+  "description": "Windows Server 2012 R2 Standard Evaluation with Visual Studio 2015 Professional",
   "builders": [
     {
       "type": "virtualbox-iso",
@@ -27,7 +27,7 @@
       "guest_additions_mode": "disable",
       "floppy_files": [
         "../windows/virtualbox-iso",
-        "virtualbox-iso",
+        "../windows2012r2se/virtualbox-iso",
         "chef/.berkshelf"
       ],
       "communicator": "winrm",
@@ -46,7 +46,7 @@
         "/tmp/chef/cookbooks"
       ],
       "run_list": [
-        "recipe[packer_windows2012r2se::boot]"
+        "recipe[packer_windows2012r2se_vs2015p::boot]"
       ]
     },
     {
@@ -60,15 +60,29 @@
         "/tmp/chef/cookbooks"
       ],
       "run_list": [
-        "recipe[packer_windows2012r2se::shutdown]"
+        "recipe[packer_windows2012r2se_vs2015p::install]"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "windows",
+      "skip_install": true,
+      "remote_cookbook_paths": [
+        "/tmp/chef/cookbooks"
+      ],
+      "run_list": [
+        "recipe[packer_windows2012r2se_vs2015p::shutdown]"
       ]
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "gusztavvargadr--windows2012r2se--0.2.0--{{.Provider}}.box",
-      "vagrantfile_template": "../windows/vagrant/Vagrantfile"
+      "output": "gusztavvargadr--windows2012r2se-vs2015p--0.2.0--{{.Provider}}.box",
+      "vagrantfile_template": "../visual-studio/vagrant/Vagrantfile"
     }
   ]
 }

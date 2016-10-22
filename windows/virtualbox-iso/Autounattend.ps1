@@ -4,6 +4,13 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 Write-Host "Installing Chef Client"
 cinst -y chef-client
 
+Write-Host "Installing 7zip"
+cinst -y 7zip.commandline
+
+Write-Host "Extracting cookbooks"
+7z x A:\cookbooks.tar.gz -o"C:\tmp\chef"
+7z x C:\tmp\chef\cookbooks.tar -o"C:\tmp\chef"
+
 Write-Host "Configuring network connections"
 reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"
 

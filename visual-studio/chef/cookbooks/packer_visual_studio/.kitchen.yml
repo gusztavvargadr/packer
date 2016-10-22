@@ -8,9 +8,6 @@ driver:
 provisioner:
   name: chef_solo
 
-transport:
-  elevated: true
-
 platforms:
   - name: win10
     driver:

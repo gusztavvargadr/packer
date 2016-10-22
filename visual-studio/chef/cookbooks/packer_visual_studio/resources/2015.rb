@@ -25,11 +25,10 @@ action :install do
     action :create
   end
 
-  powershell_script "Install Visual Studio 2015 #{edition}" do
+  packer_windows_powershell_script_elevated "Install Visual Studio 2015 #{edition}" do
     code <<-EOH
       Start-Process "#{installer_file_path.tr('/', '\\')}" "/adminfile #{configuration_file_path.tr('/', '\\')} /quiet /norestart" -Wait
     EOH
     action :run
   end
 end
-
