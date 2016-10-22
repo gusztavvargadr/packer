@@ -9,7 +9,10 @@ This repository contains [Packer] templates to build [Vagrant] base boxes for .N
 
 This repository is used to build the following boxes:
 
-* [Windows 10][windows10ee]
+* Windows 10
+  * [Enterprise Evaluation][windows10ee]
+  * [Enterprise Evaluation with Visual Studio 2015 Community][windows10ee-vs2015c]
+  * [Enterprise Evaluation with Visual Studio 2015 Professional][windows10ee-vs2015p]
 * Windows Server 2012 R2
   * [Standard Evaluation][windows2012r2se]
   * [Standard Evaluation with Visual Studio 2015 Community][windows2012r2se-vs2015c]
@@ -19,6 +22,8 @@ See [all the boxes][Boxes] in [Atlas].
 
 [Overview]: #overview
 [windows10ee]: windows10ee
+[windows10ee-vs2015c]: windows10ee-vs2015c
+[windows10ee-vs2015p]: windows10ee-vs2015p
 [windows2012r2se]: windows2012r2se
 [windows2012r2se-vs2015c]: windows2012r2se-vs2015c
 [windows2012r2se-vs2015p]: windows2012r2se-vs2015p
