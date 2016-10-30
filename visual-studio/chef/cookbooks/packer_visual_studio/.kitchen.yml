@@ -12,14 +12,21 @@ platforms:
   - name: win10
     driver:
       box: gusztavvargadr/windows10ee
-  - name: win2012r2
+  - name: win12
     driver:
       box: gusztavvargadr/windows2012r2se
 
 suites:
-  - name: 2015c
+  - name: 10p
     run_list:
+      - recipe[packer_visual_studio::2010_prerequisites]
+      - recipe[packer_visual_studio::2010_professional]
+      - recipe[packer_visual_studio::2010_sp1]
+  - name: 15c
+    run_list:
+      - recipe[packer_visual_studio::2015_prerequisites]
       - recipe[packer_visual_studio::2015_community]
-  - name: 2015p
+  - name: 15p
     run_list:
+      - recipe[packer_visual_studio::2015_prerequisites]
       - recipe[packer_visual_studio::2015_professional]
