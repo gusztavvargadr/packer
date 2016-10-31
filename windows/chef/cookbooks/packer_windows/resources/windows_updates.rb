@@ -18,7 +18,7 @@ action :disable do
 end
 
 action :install do
-  powershell_script 'Install Windows Updates' do
+  packer_windows_powershell_script_elevated 'Install Windows Updates' do
     code <<-EOH
       Install-WindowsUpdate -AcceptEula -SuppressReboots
     EOH

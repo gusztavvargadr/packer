@@ -11,6 +11,8 @@ This repository is used to build the following boxes:
 
 * Windows 10
   * [Enterprise Evaluation][windows10ee]
+  * [Enterprise Evaluation with Visual Studio 2010 Professional][windows10ee-vs2010p]
+  * [Enterprise Evaluation with Visual Studio 2010 Professional and Visual Studio 2015 Professional][windows10ee-vs2010p-vs2015p]
   * [Enterprise Evaluation with Visual Studio 2015 Community][windows10ee-vs2015c]
   * [Enterprise Evaluation with Visual Studio 2015 Professional][windows10ee-vs2015p]
 * Windows Server 2012 R2
@@ -22,6 +24,8 @@ See [all the boxes][Boxes] in [Atlas].
 
 [Overview]: #overview
 [windows10ee]: windows10ee
+[windows10ee-vs2010p]: windows10ee-vs2010p
+[windows10ee-vs2010p-vs2015p]: windows10ee-vs2010p-vs2015p
 [windows10ee-vs2015c]: windows10ee-vs2015c
 [windows10ee-vs2015p]: windows10ee-vs2015p
 [windows2012r2se]: windows2012r2se

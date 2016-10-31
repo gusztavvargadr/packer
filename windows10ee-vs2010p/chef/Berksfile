@@ -1,0 +1,7 @@
+source 'https://supermarket.chef.io'
+
+cookbook 'packer_windows10ee_vs2010p', path: 'cookbooks/packer_windows10ee_vs2010p'
+cookbook 'packer_windows10ee', path: '../../windows10ee/chef/cookbooks/packer_windows10ee'
+cookbook 'packer_windows', path: '../../windows/chef/cookbooks/packer_windows'
+cookbook 'packer_visual_studio', path: '../../visual-studio/chef/cookbooks/packer_visual_studio'
+cookbook 'windows'

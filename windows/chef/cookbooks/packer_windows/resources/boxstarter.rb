@@ -1,10 +1,10 @@
 action :install do
   chocolatey_package 'boxstarter.common' do
-    action :upgrade
+    action :install
   end
 
   chocolatey_package 'boxstarter.winconfig' do
-    action :upgrade
+    action :install
   end
 end
 
