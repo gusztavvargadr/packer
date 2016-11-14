@@ -2,18 +2,16 @@ var target = Argument("target", "default");
 
 Task("clean")
   .Does(() => {
-    DeleteFiles("chef/Berksfile.lock");
-    CleanDirectories("chef/.berkshelf");
-    CleanDirectories("output*");
-    DeleteFiles("*.box");
+    DeleteFiles("Berksfile.lock");
+    CleanDirectories("build");
   });
 
 Task("berks-package")
   .Does(() => {
-    CreateDirectory("chef/.berkshelf");
+    CreateDirectory("build/chef");
     StartProcess("C:/opscode/chefdk/bin/berks.bat", new ProcessSettings {
-      Arguments = "package .berkshelf/cookbooks.tar.gz",
-      WorkingDirectory = "chef"
+      Arguments = "package build/chef/cookbooks.tar.gz",
+      WorkingDirectory = "."
     });
   });
 
