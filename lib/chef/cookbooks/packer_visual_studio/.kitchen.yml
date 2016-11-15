@@ -12,9 +12,6 @@ platforms:
   - name: win10
     driver:
       box: gusztavvargadr/windows10ee
-  - name: win12
-    driver:
-      box: gusztavvargadr/windows2012r2se
 
 suites:
   - name: 10p
