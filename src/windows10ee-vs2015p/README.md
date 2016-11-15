@@ -12,7 +12,7 @@ This box contains the following components:
 See [all the versions][Vagrant box] in [Atlas].
 
 [Home]: ../../README.md
-[Versions]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2015p
+[Vagrant box]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2015p
 [windows10ee]: ../windows10ee
 
 [Packer]: https://www.packer.io/
