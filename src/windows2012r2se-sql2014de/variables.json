@@ -1,0 +1,5 @@
+{
+  "name": "windows2012r2se-sql2014de",
+  "description": "Windows Server 2012 R2 Standard Evaluation with SQL Server 2014 Developer",
+  "run_list_provision": "recipe[packer_sql::2014_developer]"
+}
