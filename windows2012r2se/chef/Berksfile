@@ -1,4 +1,0 @@
-source 'https://supermarket.chef.io'
-
-cookbook 'packer_windows2012r2se', path: 'cookbooks/packer_windows2012r2se'
-cookbook 'packer_windows', path: '../../windows/chef/cookbooks/packer_windows'

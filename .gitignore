@@ -1,6 +1,4 @@
-tools
 .kitchen
 Berksfile.lock
-.berkshelf
-output*
-*.box
+build
+tools

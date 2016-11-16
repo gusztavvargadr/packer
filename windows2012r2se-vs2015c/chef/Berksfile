@@ -1,7 +1,0 @@
-source 'https://supermarket.chef.io'
-
-cookbook 'packer_windows2012r2se_vs2015c', path: 'cookbooks/packer_windows2012r2se_vs2015c'
-cookbook 'packer_windows2012r2se', path: '../../windows2012r2se/chef/cookbooks/packer_windows2012r2se'
-cookbook 'packer_windows', path: '../../windows/chef/cookbooks/packer_windows'
-cookbook 'packer_visual_studio', path: '../../visual-studio/chef/cookbooks/packer_visual_studio'
-cookbook 'windows'
