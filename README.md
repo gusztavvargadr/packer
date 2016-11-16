@@ -19,7 +19,7 @@ This repository is used to build the following boxes. See [all their versions][V
 ### Windows 10 Enterprise Evaluation
 
 Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
---- | --- | --- | ---
+:--- | :--- | :--- | :---
 [windows10ee] | :no_entry: | :no_entry: | :no_entry:
 [windows10ee-vs2015c] | :no_entry: | :no_entry: | :white_check_mark: Community
 [windows10ee-vs2015p] | :no_entry: | :no_entry: | :white_check_mark: Professional
@@ -37,7 +37,7 @@ Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
 ### Windows Server 2012 R2
 
 Id | SQL Server 2014
---- | ---
+:--- | :---
 [windows2012r2se] | :no_entry:
 [windows2012r2se-sql214de] | :white_check_mark: Developer
 
