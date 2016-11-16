@@ -25,24 +25,24 @@ Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
 [windows10ee-vs2015p] | :no_entry: | :no_entry: | :white_check_mark: Professional
 [windows10ee-vs2010p] | :no_entry: | :white_check_mark: Professional | :no_entry:
 [windows10ee-vs2010p-vs2015p] | :no_entry: | :white_check_mark: Professional | :white_check_mark: Professional
-[windows10ee-sql214de] | :white_check_mark: Developer | :no_entry: | :no_entry:
+[windows10ee-sql2014de] | :white_check_mark: Developer | :no_entry: | :no_entry:
 
 [windows10ee]: src/windows10ee
 [windows10ee-vs2010p]: src/windows10ee-vs2010p
 [windows10ee-vs2010p-vs2015p]: src/windows10ee-vs2010p-vs2015p
 [windows10ee-vs2015c]: src/windows10ee-vs2015c
 [windows10ee-vs2015p]: src/windows10ee-vs2015p
-[windows10ee-sql214de]: src/windows10ee-sql214de
+[windows10ee-sql2014de]: src/windows10ee-sql2014de
 
 ### Windows Server 2012 R2
 
 Id | SQL Server 2014
 :--- | :---
 [windows2012r2se] | :no_entry:
-[windows2012r2se-sql214de] | :white_check_mark: Developer
+[windows2012r2se-sql2014de] | :white_check_mark: Developer
 
 [windows2012r2se]: src/windows2012r2se
-[windows2012r2se-sql214de]: src/windows2012r2se-sql214de
+[windows2012r2se-sql2014de]: src/windows2012r2se-sql2014de
 
 ## Resources
 
