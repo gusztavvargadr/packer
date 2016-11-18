@@ -1,0 +1,17 @@
+{
+  "name": "",
+  "description": "",
+  "source_path": "",
+  "headless": "true",
+  "memory": "4096",
+  "cpus": "4",
+  "boot_wait": "1m",
+  "guest_additions_mode": "disable",
+  "floppy_files": "floppy_files",
+  "communicator": "winrm",
+  "winrm_username": "vagrant",
+  "winrm_password": "vagrant",
+  "winrm_timeout": "1h",
+  "shutdown_command": "A:\\shutdown.bat",
+  "output_directory": ""
+}

@@ -1,4 +1,5 @@
 .kitchen
 Berksfile.lock
-build
 tools
+build
+artifacts

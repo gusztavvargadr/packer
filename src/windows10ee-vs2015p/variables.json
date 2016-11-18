@@ -1,5 +1,0 @@
-{
-  "name": "windows10ee-vs2015p",
-  "description": "Windows 10 Enterprise Evaluation with Visual Studio 2015 Professional",
-  "run_list_provision": "recipe[packer_visual_studio::2015_professional]"
-}

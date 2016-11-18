@@ -17,16 +17,18 @@ action :install do
     action :create
   end
 
+  installer_file_name = 'installer.exe'
+  installer_file_path = "#{directory_path}/#{installer_file_name}"
   installer_file_source = node['packer_visual_studio']["2010_#{edition}"]['installer_file_url']
-  windows_package "Visual Studio 2010 #{edition}" do
+  remote_file installer_file_path do
     source installer_file_source
-    installer_type :custom
-    options "/UnattendFile #{configuration_file_path.tr('/', '\\')} /q /norestart"
-    timeout 3600
-    action :install
+    action :create
   end
 
-  directory directory_path do
-    action :delete
+  packer_windows_powershell_script_elevated "Install Visual Studio 2010 #{edition}" do
+    code <<-EOH
+      Start-Process "#{installer_file_path.tr('/', '\\')}" "/UnattendFile #{configuration_file_path.tr('/', '\\')} /q /norestart" -Wait
+    EOH
+    action :run
   end
 end

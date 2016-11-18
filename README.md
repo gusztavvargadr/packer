@@ -26,13 +26,21 @@ Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
 [windows10ee-vs2010p] | :no_entry: | :white_check_mark: Professional | :no_entry:
 [windows10ee-vs2010p-vs2015p] | :no_entry: | :white_check_mark: Professional | :white_check_mark: Professional
 [windows10ee-sql2014de] | :white_check_mark: Developer | :no_entry: | :no_entry:
+[windows10ee-sql2014de-vs2015c] | :white_check_mark: Developer | :no_entry: | :white_check_mark: Community
+[windows10ee-sql2014de-vs2015p] | :white_check_mark: Developer | :no_entry: | :white_check_mark: Professional
+[windows10ee-sql2014de-vs2010p] | :white_check_mark: Developer | :white_check_mark: Professional | :no_entry:
+[windows10ee-sql2014de-vs2010p-vs2015p] | :white_check_mark: Developer | :white_check_mark: Professional | :white_check_mark: Professional
 
 [windows10ee]: src/windows10ee
-[windows10ee-vs2010p]: src/windows10ee-vs2010p
-[windows10ee-vs2010p-vs2015p]: src/windows10ee-vs2010p-vs2015p
 [windows10ee-vs2015c]: src/windows10ee-vs2015c
 [windows10ee-vs2015p]: src/windows10ee-vs2015p
+[windows10ee-vs2010p]: src/windows10ee-vs2010p
+[windows10ee-vs2010p-vs2015p]: src/windows10ee-vs2010p-vs2015p
 [windows10ee-sql2014de]: src/windows10ee-sql2014de
+[windows10ee-sql2014de-vs2015c]: src/windows10ee-sql2014de-vs2015c
+[windows10ee-sql2014de-vs2015p]: src/windows10ee-sql2014de-vs2015p
+[windows10ee-sql2014de-vs2010p]: src/windows10ee-sql2014de-vs2010p
+[windows10ee-sql2014de-vs2010p-vs2015p]: src/windows10ee-sql2014de-vs2010p-vs2015p
 
 ### Windows Server 2012 R2
 

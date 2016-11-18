@@ -1,5 +1,0 @@
-{
-  "name": "windows10ee-sql2014de",
-  "description": "Windows 10 Enterprise Evaluation with SQL Server 2014 Developer",
-  "run_list_provision": "recipe[packer_sql::2014_developer]"
-}

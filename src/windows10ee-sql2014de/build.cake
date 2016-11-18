@@ -1,10 +1,9 @@
 #load ../../lib/cake/build.cake
 
-packerVarFiles = new List<string> { "../../lib/packer/windows/variables.json", "../../lib/packer/windows10/variables.json", "variables.json" };
-var ovf = GetFiles("../../src/windows10ee/build/virtualbox/*.ovf").Single().ToString();
-packerVars = new Dictionary<string, string> { { "source_path", ovf } };
+name = Argument("name", "windows10ee-sql2014de");
+description = Argument("description", "Windows 10 Enterprise Evaluation with SQL Server 2014 Developer");
 
-Task("default")
-  .IsDependentOn("packer-build");
+components = new List<string> { "windows10ee", "sql2014de" };
+parent = "windows10ee";
 
 RunTarget(target);
