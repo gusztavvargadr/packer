@@ -1,8 +1,9 @@
 #load ../../lib/cake/build.cake
 
-packerVarFiles = new List<string> { "../../lib/packer/windows/variables.json", "../../lib/packer/windows2012r2/variables.json", "variables.json" };
+name = Argument("name", "windows2012r2se");
+description = Argument("description", "Windows Server 2012 R2 Standard Evaluation");
 
-Task("default")
-  .IsDependentOn("packer-build");
+components = new List<string> { "windows2012r2se" };
+parent = string.Empty;
 
 RunTarget(target);

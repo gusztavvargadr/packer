@@ -1,8 +1,9 @@
 #load ../../lib/cake/build.cake
 
-packerVarFiles = new List<string> { "../../lib/packer/windows/variables.json", "../../lib/packer/windows10/variables.json", "variables.json" };
+name = Argument("name", "windows10ee");
+description = Argument("description", "Windows 10 Enterprise Evaluation");
 
-Task("default")
-  .IsDependentOn("packer-build");
+components = new List<string> { "windows10ee" };
+parent = string.Empty;
 
 RunTarget(target);

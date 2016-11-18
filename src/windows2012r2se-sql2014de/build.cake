@@ -1,10 +1,9 @@
 #load ../../lib/cake/build.cake
 
-packerVarFiles = new List<string> { "../../lib/packer/windows/variables.json", "../../lib/packer/windows2012r2/variables.json", "variables.json" };
-var ovf = GetFiles("../../src/windows2012r2se/build/virtualbox/*.ovf").Single().ToString();
-packerVars = new Dictionary<string, string> { { "source_path", ovf } };
+name = Argument("name", "windows2012r2se-sql2014de");
+description = Argument("description", "indows Server 2012 R2 Standard Evaluation with SQL Server 2014 Developer");
 
-Task("default")
-  .IsDependentOn("packer-build");
+components = new List<string> { "windows2012r2se", "sql2014de" };
+parent = "windows2012r2se";
 
 RunTarget(target);

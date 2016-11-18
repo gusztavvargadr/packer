@@ -1,10 +1,9 @@
 #load ../../lib/cake/build.cake
 
-packerVarFiles = new List<string> { "../../lib/packer/windows/variables.json", "../../lib/packer/windows10/variables.json", "variables.json" };
-var ovf = GetFiles("../../src/windows10ee-vs2010p/build/virtualbox/*.ovf").Single().ToString();
-packerVars = new Dictionary<string, string> { { "source_path", ovf } };
+name = Argument("name", "windows10ee-vs2010p-vs2015p");
+description = Argument("description", "Windows 10 Enterprise Evaluation with Visual Studio 2010 Professional and Visual Studio 2015 Professional");
 
-Task("default")
-  .IsDependentOn("packer-build");
+components = new List<string> { "windows10ee", "vs2010p", "vs2015p" };
+parent = "windows10ee-vs2010p";
 
 RunTarget(target);

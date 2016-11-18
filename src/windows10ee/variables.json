@@ -1,5 +1,0 @@
-{
-  "name": "windows10ee",
-  "description": "Windows 10 Enterprise Evaluation",
-  "run_list_provision": "recipe[packer_windows::provision],recipe[packer_windows10ee::provision]"
-}
