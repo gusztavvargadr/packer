@@ -82,7 +82,7 @@ Id | IIS | SQL Server 2014
 [windows2012r2se] | :no_entry: | :no_entry:
 [windows2012r2se-sql2014de] | :no_entry: | :white_check_mark: Developer
 [windows2012r2se-iis] | :white_check_mark: | :no_entry:
-[windows2012r2se-iis-sql2014de] | :white_check_mark: | :white_check_mark: Developer
+[windows2012r2se-sql2014de-iis] | :white_check_mark: | :white_check_mark: Developer
 
 #### Box contents
 
@@ -115,6 +115,8 @@ See the [Vagrant environments] repo for usage samples.
 
 [windows2012r2se]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se
 [windows2012r2se-sql2014de]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de
+[windows2012r2se-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-iis
+[windows2012r2se-sql2014de-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de-iis
 
 ## Contributing
 
