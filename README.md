@@ -77,10 +77,12 @@ See the [Vagrant environments] repo for usage samples.
 
 ### Windows Server 2012 R2
 
-Id | SQL Server 2014
-:--- | :---
-[windows2012r2se] | :no_entry:
-[windows2012r2se-sql2014de] | :white_check_mark: Developer
+Id | IIS | SQL Server 2014
+:--- | :--- | :---
+[windows2012r2se] | :no_entry: | :no_entry:
+[windows2012r2se-sql2014de] | :no_entry: | :white_check_mark: Developer
+[windows2012r2se-iis] | :white_check_mark: | :no_entry:
+[windows2012r2se-sql2014de-iis] | :white_check_mark: | :white_check_mark: Developer
 
 #### Box contents
 
@@ -106,11 +108,15 @@ In addition, the components marked with :white_check_mark: add the features as b
 
 * SQL Server 2014
   * Developer: SQL Server 2014 Developer Edition with Service Pack 2
+* IIS
+  * .NET Framework 3.5, .NET Framework 4.6.1, IIS 8.5
 
 See the [Vagrant environments] repo for usage samples.
 
 [windows2012r2se]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se
 [windows2012r2se-sql2014de]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de
+[windows2012r2se-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-iis
+[windows2012r2se-sql2014de-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de-iis
 
 ## Contributing
 
