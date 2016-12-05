@@ -1,6 +1,6 @@
 property :command, String, name_property: true
-property :user, String, default: 'vagrant'
-property :password, String, default: 'vagrant'
+property :user, String, default: node['packer_windows']['powershell_script_elevated']['username']
+property :password, String, default: node['packer_windows']['powershell_script_elevated']['password']
 property :cwd, String, default: 'C:\\'
 property :code, String, required: true
 property :wait_poll, Integer, default: 5
@@ -49,10 +49,6 @@ action :run do
   end
 
   windows_task windows_task_name do
-    action :delete
-  end
-
-  file script_file_path do
     action :delete
   end
 end
