@@ -1,11 +1,14 @@
 Write-Host "Install Chocolatey"
-iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 Write-Host "Installing Chef Client"
-cinst -y chef-client
+choco install chef-client -y
 
 Write-Host "Installing 7zip"
-cinst -y 7zip.commandline
+choco install 7zip.commandline -y
+
+Write-Host "Installing PowerShell"
+choco install powershell -y
 
 Write-Host "Configuring network connections"
 reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"
@@ -39,6 +42,8 @@ sc.exe config winrm start= disabled
 sc.exe config winrm start= auto
 
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
+
+timeout /t 30 /nobreak
 
 Write-Host "Shutting Down"
 shutdown /r /t 1

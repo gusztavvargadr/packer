@@ -1,17 +1,21 @@
 {
-  "name": "",
-  "description": "",
-  "source_path": "",
+  "virtualbox_guest_os_type": "",
+  "iso_url": "",
+  "iso_checksum_type": "",
+  "iso_checksum": "",
   "headless": "true",
   "memory": "4096",
   "cpus": "4",
+  "disk_size": "64512",
   "boot_wait": "1m",
   "guest_additions_mode": "disable",
-  "floppy_files": "floppy_files",
+  "floppy_files": "virtualbox/floppy_files",
   "communicator": "winrm",
   "winrm_username": "vagrant",
   "winrm_password": "vagrant",
   "winrm_timeout": "1h",
   "shutdown_command": "A:\\shutdown.bat",
-  "output_directory": ""
+  "output_directory": "",
+
+  "source_path": ""
 }

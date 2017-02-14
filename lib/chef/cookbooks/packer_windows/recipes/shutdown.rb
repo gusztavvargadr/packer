@@ -23,40 +23,40 @@ powershell_script 'Clearing temporary files' do
   action :run
 end
 
-powershell_script 'Optimizing volume' do
-  code <<-EOH
-    Optimize-Volume -DriveLetter C
-  EOH
-  action :run
-end
+# powershell_script 'Optimizing volume' do
+#   code <<-EOH
+#     Optimize-Volume -DriveLetter C
+#   EOH
+#   action :run
+# end
 
-powershell_script 'Zeroing volume' do
-  code <<-EOH
-    Write-Host "Wiping empty space on disk..."
-    $FilePath="c:\\zero.tmp"
-    $Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
-    $ArraySize= 64kb
-    $SpaceToLeave= $Volume.Size * 0.001
-    $FileSize= $Volume.FreeSpace - $SpacetoLeave
-    $ZeroArray= new-object byte[]($ArraySize)
+# powershell_script 'Zeroing volume' do
+#   code <<-EOH
+#     Write-Host "Wiping empty space on disk..."
+#     $FilePath="c:\\zero.tmp"
+#     $Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
+#     $ArraySize= 64kb
+#     $SpaceToLeave= $Volume.Size * 0.001
+#     $FileSize= $Volume.FreeSpace - $SpacetoLeave
+#     $ZeroArray= new-object byte[]($ArraySize)
 
-    $Stream= [io.File]::OpenWrite($FilePath)
-    try {
-       $CurFileSize = 0
-        while($CurFileSize -lt $FileSize) {
-            $Stream.Write($ZeroArray,0, $ZeroArray.Length)
-            $CurFileSize +=$ZeroArray.Length
-        }
-    }
-    finally {
-        if($Stream) {
-            $Stream.Close()
-        }
-    }
-    Del $FilePath
-  EOH
-  action :run
-end
+#     $Stream= [io.File]::OpenWrite($FilePath)
+#     try {
+#        $CurFileSize = 0
+#         while($CurFileSize -lt $FileSize) {
+#             $Stream.Write($ZeroArray,0, $ZeroArray.Length)
+#             $CurFileSize +=$ZeroArray.Length
+#         }
+#     }
+#     finally {
+#         if($Stream) {
+#             $Stream.Close()
+#         }
+#     }
+#     Del $FilePath
+#   EOH
+#   action :run
+# end
 
 packer_windows_pagefile '' do
   action :enable

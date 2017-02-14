@@ -123,7 +123,7 @@
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c powershell -File A:\install.ps1</CommandLine>
+                    <CommandLine>cmd.exe /c powershell -File A:\Autounattend.ps1</CommandLine>
                     <Description>First Logon</Description>
                     <Order>3</Order>
                     <RequiresUserInput>true</RequiresUserInput>

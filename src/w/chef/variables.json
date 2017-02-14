@@ -1,0 +1,8 @@
+{
+  "chef_guest_os_type": "windows",
+  "chef_skip_install": "true",
+  "remote_cookbook_paths": "/tmp/chef/cookbooks",
+  "run_list_boot": "recipe[packer_windows::boot]",
+  "run_list_provision": "recipe[packer_windows::provision]",
+  "run_list_shutdown": "recipe[packer_windows::shutdown]"
+}

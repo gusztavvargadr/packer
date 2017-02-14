@@ -46,7 +46,6 @@ All of the above boxes share the following baseline confguration:
 * Chocolatey
 * Chef Client
 * 7zip
-* Boxstarter
 * Vagrant defaults
   * 1 CPU
   * 1 GB RAM
@@ -98,7 +97,6 @@ All of the above boxes share the following baseline confguration:
 * Chocolatey
 * Chef Client
 * 7zip
-* Boxstarter
 * Vagrant defaults
   * 1 CPU
   * 1 GB RAM

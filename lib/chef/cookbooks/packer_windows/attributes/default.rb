@@ -4,6 +4,6 @@ default['packer_windows'] = {
     'password' => nil
   },
   'virtualbox_guest' => {
-    'version' => '5.1.2'
+    'version' => '5.1.14'
   }
 }
