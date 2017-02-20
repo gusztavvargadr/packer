@@ -4,11 +4,11 @@
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "source_ami": "{{user `source_ami`}}",
-      "ami_name": "{{user `name`}}-{{timestamp}}",
+      "ami_name": "{{user `name`}}-{{user `task}}-{{timestamp}}",
       "ami_description": "{{user `description`}}",
       "instance_type": "{{user `instance_type`}}",
       "tags": {
-        "Name": "{{user `name`}}-{{timestamp}}",
+        "Name": "{{user `name`}}-{{user `task}}-{{timestamp}}",
       },
       "user_data_file": "host/user_data.ps1",
       "communicator": "winrm",

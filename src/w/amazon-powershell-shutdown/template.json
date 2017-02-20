@@ -2,7 +2,7 @@
   "provisioners": [
     {
       "type": "windows-shell",
-      "scripts": "scripts/shutdown.cmd"
+      "scripts": "scripts/shutdown.{{user `task`}}.cmd"
     }
   ]
 }

@@ -2,12 +2,12 @@ packer_windows_ngen '' do
   action :run
 end
 
-powershell_script 'Clearing components' do
-  code <<-EOH
-    Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
-  EOH
-  action :run
-end
+# powershell_script 'Clearing components' do
+#   code <<-EOH
+#     Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
+#   EOH
+#   action :run
+# end
 
 packer_windows_windows_updates '' do
   action [:disable, :stop]
