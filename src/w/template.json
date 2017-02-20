@@ -1,10 +1,14 @@
 {
   "description": "{{user `description`}}",
+  "builders": [
+  ],
   "provisioners": [
     {
       "type": "file",
       "source": "disk/",
       "destination": "/Users/vagrant/Downloads/packer"
     },
+  ],
+  "post-processors": [
   ]
 }

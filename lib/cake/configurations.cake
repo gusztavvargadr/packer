@@ -43,11 +43,12 @@ Task("Configurations_Default")
   .IsDependentOn("Info");
 
 var configurations = new List<Configuration>() {
-  Configuration_Create("w10e.virtualbox"),
-  Configuration_Create("w10e-vs15c.virtualbox"),
-  Configuration_Create("w12r2s.virtualbox"),
-  Configuration_Create("w12r2s-iis.virtualbox"),
-  Configuration_Create("w16s.virtualbox")
+  Configuration_Create("w10e.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w12r2s.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w12r2s-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w16s.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w16s.amazon", new [] { ".", "amazon", "chef", "amazon-powershell-shutdown" })
 };
 
 Configuration Configurations_GetByName(string name) {
@@ -69,6 +70,7 @@ class Configuration {
   public IEnumerable<Component> Components { get; set; }
   public Provider Provider { get; set; }
   public Func<Configuration> ParentResolver { get; set; }
+  public IEnumerable<string> PackerComponents { get; set; }
 
   public bool IsMatching(string name) {
     return string.IsNullOrEmpty(name) || Name.Contains(name);
@@ -94,8 +96,12 @@ class Configuration {
     return GetTargetDirectory(task) + "/*." + Provider.NativeExtension;
   }
 
+  public string GetBaseName() {
+    return string.Join("-", Components.Select(item => item.Name));
+  }
+
   public string GetDescription() {
-    return string.Join(", ", Components.Select(item => item.Name));
+    return string.Join(", ", Components.Select(item => item.Description));
   }
 
   public string GetBuilder(string task) {
@@ -107,7 +113,7 @@ class Configuration {
   }
 }
 
-Configuration Configuration_Create(string name) {
+Configuration Configuration_Create(string name, IEnumerable<string> packerComponents) {
   var componentNames = name.Split('.')[0].Split('-');
   var components = componentNames.Select(Components_GetByName).ToList();
 
@@ -120,7 +126,7 @@ Configuration Configuration_Create(string name) {
     parentResolver = () => Configurations_GetByName(parentName);
   }
 
-  return new Configuration { Name = name, Components = components, Provider = provider, ParentResolver = parentResolver };
+  return new Configuration { Name = name, Components = components, Provider = provider, ParentResolver = parentResolver, PackerComponents = packerComponents };
 }
 
 void Configuration_Info(Configuration configuration) {
@@ -147,13 +153,12 @@ void Configuration_Restore(Configuration configuration) {
   Configuration_MergeJson(configuration, "template.json");
   Configuration_MergeJson(configuration, "variables.json");
 
+  Configuration_MergeDirectories(configuration, "host");
   Configuration_MergeDirectories(configuration, "floppy");
   Configuration_MergeDirectories(configuration, "disk");
   Configuration_MergeDirectories(configuration, "scripts");
 
-  Configuration_MergeFiles(configuration);
-  
-  Configuration_Berkshelf(configuration, "package disk/cookbooks.tar.gz");
+  Configuration_Berkshelf(configuration, "package disk/cookbooks.tar.gz -b host/Berksfile");
 }
 
 void Configuration_Build(Configuration configuration) {
@@ -206,8 +211,10 @@ void Configuration_MergeJson(Configuration configuration, string fileName) {
         continue;
       }
 
-      foreach (var file in GetFiles(sourceDirectory + "/**/" + fileName)) {
-        merged.Merge(ParseJsonFromFile(file));
+      foreach (var packerComponent in configuration.PackerComponents) {
+        foreach (var file in GetFiles(sourceDirectory + "/" + packerComponent + "/" + fileName)) {
+          merged.Merge(ParseJsonFromFile(file));
+        }
       }
     }
   }
@@ -225,25 +232,8 @@ void Configuration_MergeDirectories(Configuration configuration, string director
         continue;
       }
 
-      CopyFiles(sourceDirectory + "/**/" + directoryName + "/**/*", targetDirectory);
-    }
-  }
-}
-
-void Configuration_MergeFiles(Configuration configuration) {
-  foreach (var component in configuration.Components) {
-    foreach (var sourceDirectory in GetDirectories("./src/*")) {
-      var sourceDirectoryName = sourceDirectory.GetDirectoryName(); 
-      if (!component.IsMatching(sourceDirectoryName)) {
-        continue;
-      }
-
-      foreach (var file in GetFiles(sourceDirectory + "/*/*")) {
-        if (file.GetFilename().ToString() == "template.json" || file.GetFilename().ToString() == "variables.json") {
-          continue;
-        }
-
-        CopyFiles(file.ToString(), configuration.GetBuildDirectory());
+      foreach (var packerComponent in configuration.PackerComponents) {
+        CopyFiles(sourceDirectory + "/" + packerComponent + "/" + directoryName + "/**/*", targetDirectory);
       }
     }
   }
@@ -278,11 +268,13 @@ void Configuration_Berkshelf(Configuration configuration, string arguments) {
 void Packer(Configuration configuration, string task, string command) {
   var packerVarFiles = new [] { "variables.json" };
 
+  var name = configuration.GetBaseName();
   var description = configuration.GetDescription();
   var sourceFile = Configuration_GetSourceFile(configuration, task);
   var outputDirectory = Directory(configuration.GetTargetDirectory(task));
 
   var packerVars = new Dictionary<string, string> {
+    { "name", name },
     { "description", description },
     { "task", task },
     { "source_path", sourceFile != null ? MakeAbsolute(sourceFile).ToString() : "" },

@@ -1,0 +1,8 @@
+{
+  "provisioners": [
+    {
+      "type": "windows-shell",
+      "scripts": "scripts/shutdown.cmd"
+    }
+  ]
+}

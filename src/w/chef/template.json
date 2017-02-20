@@ -29,8 +29,6 @@
     {
       "type": "powershell",
       "scripts": "scripts/install-updates.ps1",
-      "elevated_user": "{{user `winrm_username`}}",
-      "elevated_password": "{{user `winrm_password`}}"
     },
     {
       "type": "windows-restart",
@@ -39,8 +37,6 @@
     {
       "type": "powershell",
       "scripts": "scripts/install-updates.ps1",
-      "elevated_user": "{{user `winrm_username`}}",
-      "elevated_password": "{{user `winrm_password`}}"
     },
     {
       "type": "windows-restart",

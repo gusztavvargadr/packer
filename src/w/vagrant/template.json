@@ -4,7 +4,7 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "{{user `output_directory`}}/vagrant.box",
-      "vagrantfile_template": "Vagrantfile"
+      "vagrantfile_template": "host/Vagrantfile"
     }
   ]
 }

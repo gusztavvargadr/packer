@@ -1,4 +1,5 @@
 var providers = new List<Provider>() {
+  Provider_Create("amazon", "", "amazon-ebs", "amazon-ebs" ),
   Provider_Create("virtualbox", "ovf", "virtualbox-ovf", "virtualbox-iso" )
 };
 
