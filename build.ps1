@@ -41,7 +41,9 @@ http://cakebuild.net
 [CmdletBinding()]
 Param(
     [string]$Script = "build.cake",
+    [Parameter(Position=1,Mandatory=$false)]
     [string]$Target = "Default",
+    [Parameter(Position=2,Mandatory=$false)]
     [string]$Configuration = "",
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
     [string]$Verbosity = "Verbose",
