@@ -158,7 +158,7 @@ void Configuration_Restore(Configuration configuration) {
   Configuration_MergeDirectories(configuration, "disk");
   Configuration_MergeDirectories(configuration, "scripts");
 
-  Configuration_Berkshelf(configuration, "package disk/cookbooks.tar.gz -b host/Berksfile");
+  Configuration_Berkshelf(configuration, "package ../disk/cookbooks.tar.gz");
 }
 
 void Configuration_Build(Configuration configuration) {
@@ -258,7 +258,7 @@ FilePath Configuration_GetSourceFile(Configuration configuration, string task) {
 void Configuration_Berkshelf(Configuration configuration, string arguments) {
   var result = StartProcess("C:/opscode/chefdk/bin/berks.bat", new ProcessSettings {
     Arguments = arguments,
-    WorkingDirectory = configuration.GetBuildDirectory()
+    WorkingDirectory = configuration.GetBuildDirectory() + "/host"
   });
   if (result != 0) {
     throw new Exception("Process exited with code " + result + ".");
