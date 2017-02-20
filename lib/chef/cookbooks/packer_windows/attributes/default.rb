@@ -1,9 +1,9 @@
 default['packer_windows'] = {
   'powershell_script_elevated' => {
-    'username' => nil,
-    'password' => nil
+    'username' => 'vagrant',
+    'password' => 'vagrant'
   },
   'virtualbox_guest' => {
-    'version' => '5.1.14'
+    'version' => '5.1.2'
   }
 }

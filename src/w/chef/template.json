@@ -1,0 +1,57 @@
+{
+  "provisioners": [
+    {
+      "type": "powershell",
+      "scripts": "scripts/extract-cookbooks.ps1"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_install]"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "scripts": "scripts/install-updates.ps1",
+      "elevated_user": "{{user `winrm_username`}}",
+      "elevated_password": "{{user `winrm_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "scripts": "scripts/install-updates.ps1",
+      "elevated_user": "{{user `winrm_username`}}",
+      "elevated_password": "{{user `winrm_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_cleanup]"
+    }
+  ]
+}

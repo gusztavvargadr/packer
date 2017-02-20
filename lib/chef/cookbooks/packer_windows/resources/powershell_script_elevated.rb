@@ -4,6 +4,7 @@ property :password, String, default: node['packer_windows']['powershell_script_e
 property :cwd, String, default: 'C:\\'
 property :code, String, required: true
 property :wait_poll, Integer, default: 5
+property :timeout, Integer, default: 3600
 
 action :run do
   script_directory_path = "#{Chef::Config[:file_cache_path]}/packer_windows"
@@ -45,6 +46,7 @@ action :run do
           Start-Sleep #{wait_poll}
       }
     EOH
+    timeout new_resource.timeout
     action :run
   end
 

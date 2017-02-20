@@ -1,6 +1,6 @@
 action :install do
   packer_windows_windows_updates '' do
-    action :enable
+    action [:enable, :start]
   end
 
   packer_windows_windows_feature 'NetFx3' do
@@ -8,7 +8,7 @@ action :install do
   end
 
   packer_windows_windows_updates '' do
-    action :disable
+    action [:disable, :stop]
   end
 
   packer_windows_windows_feature 'NetFx4-AdvSrvs' do

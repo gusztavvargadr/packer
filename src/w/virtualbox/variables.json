@@ -3,19 +3,13 @@
   "iso_url": "",
   "iso_checksum_type": "",
   "iso_checksum": "",
+  "source_path": "",  
   "headless": "true",
-  "memory": "4096",
+  "memory": "8192",
   "cpus": "4",
   "disk_size": "64512",
   "boot_wait": "1m",
-  "guest_additions_mode": "disable",
-  "floppy_files": "virtualbox/floppy_files",
-  "communicator": "winrm",
   "winrm_username": "vagrant",
   "winrm_password": "vagrant",
   "winrm_timeout": "1h",
-  "shutdown_command": "A:\\shutdown.bat",
-  "output_directory": "",
-
-  "source_path": ""
 }

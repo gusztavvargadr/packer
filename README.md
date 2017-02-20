@@ -36,7 +36,7 @@ Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
 All of the above boxes share the following baseline confguration:
 
 * Windows 10 Enterprise Evaluation
-  * User name / Password: vagrant / vagrant 
+  * User name / Password: vagrant / vagrant
   * Windows Updates disabled
   * Windows Defender disabled
   * UAC disabled
@@ -88,7 +88,7 @@ Id | IIS | SQL Server 2014
 All of the above boxes share the following baseline confguration:
 
 * Windows Server 2012 R2 Standard Evaluation
-  * User name / Password: vagrant / vagrant 
+  * User name / Password: vagrant / vagrant
   * Windows Updates disabled
   * UAC disabled
   * Remote Desktop enabled
