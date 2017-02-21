@@ -1,5 +1,7 @@
 {
   "region": "eu-west-1",
   "source_ami": "ami-29f7dd5a",
-  "instance_type": "t2.medium"
+  "instance_type": "t2.medium",
+  "username": "Administrator",
+  "password": ""
 }

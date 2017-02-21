@@ -6,7 +6,7 @@
     {
       "type": "file",
       "source": "disk/",
-      "destination": "/Users/vagrant/Downloads/packer"
+      "destination": "/Users/{{user `username`}}/Downloads/packer"
     },
   ],
   "post-processors": [

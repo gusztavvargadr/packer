@@ -9,7 +9,5 @@
   "cpus": "4",
   "disk_size": "64512",
   "boot_wait": "1m",
-  "winrm_username": "vagrant",
-  "winrm_password": "vagrant",
-  "winrm_timeout": "1h",
+  "winrm_timeout": "1h"
 }
