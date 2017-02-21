@@ -1,0 +1,10 @@
+name 'gusztavvargadr_packer_w16s'
+maintainer 'Gusztav Varga'
+maintainer_email 'me@gusztavvargadr.me'
+license 'MIT'
+description 'Installs/Configures Windows Server 2016 Standard in Packer'
+long_description 'Installs/Configures Windows Server 2016 Standard in Packer'
+version '0.1.0'
+
+depends 'gusztavvargadr_packer_w'
+depends 'packer_windows'

@@ -1,20 +1,5 @@
 #load "./lib/cake/configurations.cake"
 
-// todo: rename to ci?
-// todo: targets: version, test, docs, publish
-// todo: w16, containers
-// todo: ami, hyperv, vmware
-// todo: sysprep on desktop
-// todo: all bat to cmd
-// todo: review issues on GitHub (both Vagrant and Packer)
-// todo: review and refactor included scripts and other resources
-// todo: update iso sources
-// todo: yaml load
-// todo: check which configs to continue
-// tood: build parent if missing
-// todo: build / package remove from template (configure from script)
-// todo: all vars to save to json (make build folder work standalone)
-
 var target = Argument("Target", "Default");
 
 Task("Info")

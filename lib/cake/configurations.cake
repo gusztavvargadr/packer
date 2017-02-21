@@ -44,11 +44,25 @@ Task("Configurations_Default")
 
 var configurations = new List<Configuration>() {
   Configuration_Create("w10e.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w10e-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w12r2s.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w12r2s-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+
+  Configuration_Create("w10e-sql14d.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+
+  Configuration_Create("w10e-sql14d-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-iis-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-iis-vs10p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-iis-vs10p-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  
   Configuration_Create("w16s.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w16s.amazon", new [] { ".", "amazon", "chef", "amazon-powershell-shutdown" })
+  Configuration_Create("w16s.amazon", new [] { ".", "amazon", "chef", "amazon-shell-shutdown" }),
+  
+  Configuration_Create("w16s-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w16s-iis.amazon", new [] { ".", "amazon", "chef", "amazon-shell-shutdown" }),
+
+  Configuration_Create("w16s-sql14d.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w16s-sql14d.amazon", new [] { ".", "amazon", "chef", "amazon-shell-shutdown" }),
+  
+  Configuration_Create("w16s-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w16s-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" })
 };
 
 Configuration Configurations_GetByName(string name) {
@@ -233,7 +247,7 @@ void Configuration_MergeDirectories(Configuration configuration, string director
       }
 
       foreach (var packerComponent in configuration.PackerComponents) {
-        CopyFiles(sourceDirectory + "/" + packerComponent + "/" + directoryName + "/**/*", targetDirectory);
+        CopyFiles(sourceDirectory + "/" + packerComponent + "/" + directoryName + "/**/*", targetDirectory, true);
       }
     }
   }

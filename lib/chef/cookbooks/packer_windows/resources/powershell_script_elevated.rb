@@ -20,15 +20,26 @@ action :run do
   end
 
   windows_task_name = 'powershell_script_elevated'
-  windows_task_command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File '#{script_file_path.gsub('/', '\\')}'"
-  windows_task windows_task_name do
-    user new_resource.user
-    password new_resource.password
-    cwd new_resource.cwd
-    command windows_task_command
-    action [ :create, :run ]
-    run_level :highest
-    force true
+  windows_task_command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File '#{script_file_path.tr('/', '\\')}'"
+
+  if new_resource.user == ''
+    windows_task windows_task_name do
+      cwd new_resource.cwd
+      command windows_task_command
+      action [:create, :run]
+      run_level :highest
+      force true
+    end
+  else
+    windows_task windows_task_name do
+      user new_resource.user
+      password new_resource.password
+      cwd new_resource.cwd
+      command windows_task_command
+      action [:create, :run]
+      run_level :highest
+      force true
+    end
   end
 
   powershell_script "Wait for task #{windows_task_name}" do
