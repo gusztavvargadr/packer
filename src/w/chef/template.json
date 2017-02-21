@@ -9,7 +9,12 @@
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
       "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
-      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_install]"
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_install]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
     },
     {
       "type": "windows-restart",
@@ -20,7 +25,12 @@
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
       "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
-      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]"
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
     },
     {
       "type": "windows-restart",
@@ -31,7 +41,12 @@
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
       "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
-      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]"
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
     },
     {
       "type": "windows-restart",
@@ -42,7 +57,12 @@
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
       "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
-      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_cleanup]"
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_cleanup]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
     }
   ]
 }

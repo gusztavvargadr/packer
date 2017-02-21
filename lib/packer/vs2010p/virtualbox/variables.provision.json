@@ -1,4 +1,0 @@
-{
-  "run_list_boot": "recipe[packer_windows::boot],recipe[packer_visual_studio::2010_professional]",
-  "run_list_provision": "recipe[packer_visual_studio::2010_sp1]"
-}

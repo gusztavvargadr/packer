@@ -290,6 +290,7 @@ void Packer(Configuration configuration, string task, string command) {
   var packerVars = new Dictionary<string, string> {
     { "name", name },
     { "description", description },
+    { "provider", configuration.Provider.Name },
     { "task", task },
     { "source_path", sourceFile != null ? MakeAbsolute(sourceFile).ToString() : "" },
     { "output_directory", MakeAbsolute(outputDirectory).ToString() }
