@@ -9,5 +9,6 @@
   "cpus": "4",
   "disk_size": "64512",
   "boot_wait": "1m",
-  "winrm_timeout": "1h"
+  "winrm_timeout": "1h",
+  "post_shutdown_delay": "1m"
 }

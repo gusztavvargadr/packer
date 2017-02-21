@@ -31,6 +31,7 @@
       "winrm_password": "{{user `password`}}",
       "winrm_timeout": "{{user `winrm_timeout`}}",
       "shutdown_command": "/Users/{{user `username`}}/Downloads/packer/shutdown.{{user `task`}}.cmd",
+      "post_shutdown_delay": "{{user `post_shutdown_delay`}}",
       "output_directory": "{{user `output_directory`}}"
     },
     {
@@ -60,6 +61,7 @@
       "winrm_password": "{{user `password`}}",
       "winrm_timeout": "{{user `winrm_timeout`}}",
       "shutdown_command": "/Users/{{user `username`}}/Downloads/packer/shutdown.{{user `task`}}.cmd",
+      "post_shutdown_delay": "{{user `post_shutdown_delay`}}",
       "output_directory": "{{user `output_directory`}}"
     }
   ]
