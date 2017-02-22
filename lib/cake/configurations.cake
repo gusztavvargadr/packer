@@ -47,10 +47,9 @@ var configurations = new List<Configuration>() {
 
   Configuration_Create("w10e-sql14d.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
 
-  Configuration_Create("w10e-sql14d-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w10e-sql14d-iis-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w10e-sql14d-iis-vs10p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  Configuration_Create("w10e-sql14d-iis-vs10p-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-vs10p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
+  Configuration_Create("w10e-sql14d-vs10p-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
   
   Configuration_Create("w16s.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
   Configuration_Create("w16s.amazon", new [] { ".", "amazon", "chef", "amazon-shell-shutdown" }),

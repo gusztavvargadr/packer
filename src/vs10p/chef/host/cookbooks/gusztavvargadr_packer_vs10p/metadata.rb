@@ -7,4 +7,4 @@ long_description 'Installs/Configures Visual Studio 2010 Professional in Packer'
 version '0.1.0'
 
 depends 'gusztavvargadr_packer_w'
-depends 'packer_visual_studio'
+depends 'gusztavvargadr_visual_studio'

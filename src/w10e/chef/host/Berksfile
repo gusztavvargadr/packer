@@ -1,4 +1,5 @@
-instance_eval(File.read(File.expand_path(File.join(File.dirname(__FILE__), '../../../lib/chef/Berksfile'))))
+source 'https://supermarket.chef.io'
 
-local_cookbooks('../../../lib/chef/cookbooks')
-local_cookbooks('cookbooks')
+cookbook 'gusztavvargadr_packer_w10e', path: 'cookbooks/gusztavvargadr_packer_w10e'
+cookbook 'gusztavvargadr_packer_w', path: 'cookbooks/gusztavvargadr_packer_w'
+cookbook 'gusztavvargadr_windows', github: 'gusztavvargadr/chef', branch: 'feature/9-update-with-changes-from-packer', rel: 'cookbooks/gusztavvargadr_windows'

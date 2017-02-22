@@ -6,4 +6,4 @@ description 'Installs/Configures Windows in Packer'
 long_description 'Installs/Configures Windows in Packer'
 version '0.1.0'
 
-depends 'packer_windows'
+depends 'gusztavvargadr_windows'

@@ -1,12 +1,12 @@
-packer_windows_pagefile '' do
+gusztavvargadr_windows_pagefile '' do
   action :enable
 end
 
-packer_windows_ngen '' do
+gusztavvargadr_windows_ngen '' do
   action :run
 end
 
-packer_windows_powershell_script_elevated 'Clearing components' do
+gusztavvargadr_windows_powershell_script_elevated 'Clearing components' do
   code <<-EOH
     Dism.exe /online /Cleanup-Image /AnalyzeComponentStore
     Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
@@ -15,11 +15,11 @@ packer_windows_powershell_script_elevated 'Clearing components' do
   action :run
 end
 
-packer_windows_windows_updates '' do
+gusztavvargadr_windows_windows_updates '' do
   action [:disable, :stop]
 end
 
-packer_windows_powershell_script_elevated 'Clearing temporary files' do
+gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
   code <<-EOH
     @(
         "$env:localappdata\\Nuget",

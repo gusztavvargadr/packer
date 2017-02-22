@@ -7,4 +7,4 @@ long_description 'Installs/Configures Windows Server 2016 Standard in Packer'
 version '0.1.0'
 
 depends 'gusztavvargadr_packer_w'
-depends 'packer_windows'
+depends 'gusztavvargadr_windows'

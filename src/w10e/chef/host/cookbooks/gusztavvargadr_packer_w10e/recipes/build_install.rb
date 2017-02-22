@@ -16,6 +16,6 @@ powershell_script 'Remove AppX Packages' do
   action :run
 end
 
-packer_windows_windows_defender '' do
+gusztavvargadr_windows_windows_defender '' do
   action :disable
 end
