@@ -8,7 +8,7 @@
       "type": "chef-solo",
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
-      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
       "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_install]",
       "json": {
         "gusztavvargadr_packer_w": {
@@ -24,7 +24,7 @@
       "type": "chef-solo",
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
-      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
       "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
       "json": {
         "gusztavvargadr_packer_w": {
@@ -40,7 +40,7 @@
       "type": "chef-solo",
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
-      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
       "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
       "json": {
         "gusztavvargadr_packer_w": {
@@ -56,7 +56,7 @@
       "type": "chef-solo",
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "true",
-      "remote_cookbook_paths": "/Users/vagrant/Downloads/packer/cookbooks",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
       "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_cleanup]",
       "json": {
         "gusztavvargadr_packer_w": {

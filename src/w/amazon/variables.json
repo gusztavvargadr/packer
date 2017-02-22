@@ -1,6 +1,6 @@
 {
   "region": "eu-west-1",
-  "source_ami": "ami-29f7dd5a",
+  "source_ami": "",
   "instance_type": "t2.medium",
   "username": "Administrator",
   "password": ""

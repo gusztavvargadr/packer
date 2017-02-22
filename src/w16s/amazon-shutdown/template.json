@@ -1,0 +1,8 @@
+{
+  "provisioners": [
+    {
+      "type": "powershell",
+      "scripts": "scripts/shutdown.{{user `task`}}.ps1"
+    }
+  ]
+}

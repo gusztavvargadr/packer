@@ -1,7 +1,7 @@
 netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
 
 mkdir C:\Windows\Setup\Scripts
-cd /Users/vagrant/Downloads/packer
+cd /Users/Public/Downloads/packer
 copy Autounattend.xml C:\Windows\Setup
 copy Autounattend.cmd C:\Windows\Setup\Scripts\SetupComplete.cmd
 

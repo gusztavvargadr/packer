@@ -6,7 +6,7 @@
     {
       "type": "file",
       "source": "disk/",
-      "destination": "/Users/{{user `username`}}/Downloads/packer"
+      "destination": "{{user `upload_directory`}}"
     },
   ],
   "post-processors": [
