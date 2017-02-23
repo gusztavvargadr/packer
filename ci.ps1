@@ -40,7 +40,7 @@ http://cakebuild.net
 
 [CmdletBinding()]
 Param(
-    [string]$Script = "build.cake",
+    [string]$Script = "ci.cake",
     [Parameter(Position=1,Mandatory=$false)]
     [string]$Target = "Default",
     [Parameter(Position=2,Mandatory=$false)]
