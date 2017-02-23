@@ -1,6 +1,0 @@
-source 'https://supermarket.chef.io'
-
-cookbook 'gusztavvargadr_packer_sql14d', path: 'cookbooks/gusztavvargadr_packer_sql14d'
-cookbook 'gusztavvargadr_packer_w', path: 'cookbooks/gusztavvargadr_packer_w'
-cookbook 'gusztavvargadr_sql', github: 'gusztavvargadr/chef', branch: 'feature/9-update-with-changes-from-packer', rel: 'cookbooks/gusztavvargadr_sql'
-cookbook 'gusztavvargadr_windows', github: 'gusztavvargadr/chef', branch: 'feature/9-update-with-changes-from-packer', rel: 'cookbooks/gusztavvargadr_windows'

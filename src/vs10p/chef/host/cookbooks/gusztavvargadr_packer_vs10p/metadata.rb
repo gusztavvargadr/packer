@@ -1,4 +1,4 @@
-name 'gusztavvargadr_packer_vs15p'
+name 'gusztavvargadr_packer_vs10p'
 maintainer 'Gusztav Varga'
 maintainer_email 'me@gusztavvargadr.me'
 license 'MIT'
