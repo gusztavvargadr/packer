@@ -1,0 +1,9 @@
+{
+  "provisioners": [
+    {
+      "type": "powershell",
+      "scripts": "scripts/shutdown.{{user `task`}}.ps1",
+      "valid_exit_codes": [0, 1]
+    }
+  ]
+}

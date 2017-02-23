@@ -1,5 +1,4 @@
-.kitchen
-Berksfile.lock
 tools
 build
 artifacts
+.vagrant

@@ -1,0 +1,68 @@
+{
+  "provisioners": [
+    {
+      "type": "powershell",
+      "scripts": "scripts/extract-cookbooks.ps1"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_install]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_update]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "true",
+      "remote_cookbook_paths": "{{user `upload_directory`}}/cookbooks",
+      "run_list": "recipe[{{user `cookbook_name`}}::{{user `task`}}_cleanup]",
+      "json": {
+        "gusztavvargadr_packer_w": {
+          "provider": "{{user `provider`}}"
+        }
+      }
+    }
+  ]
+}

@@ -1,3 +1,0 @@
-{
-  "run_list_provision": "recipe[packer_windows::provision],recipe[packer_windows10ee::provision]"
-}

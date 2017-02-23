@@ -1,0 +1,14 @@
+{
+  "description": "{{user `description`}}",
+  "builders": [
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "disk/",
+      "destination": "{{user `upload_directory`}}"
+    },
+  ],
+  "post-processors": [
+  ]
+}

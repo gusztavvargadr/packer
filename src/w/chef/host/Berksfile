@@ -1,0 +1,11 @@
+source 'https://supermarket.chef.io'
+
+def gusztavvargadr_packer_cookbook(name)
+  cookbook "gusztavvargadr_packer_#{name}", path: "cookbooks/gusztavvargadr_packer_#{name}"
+end
+
+def gusztavvargadr_cookbook(name)
+  cookbook "gusztavvargadr_#{name}", github: 'gusztavvargadr/chef', rel: "cookbooks/gusztavvargadr_#{name}", tag: '0.1.0'
+end
+
+instance_eval(File.read(File.expand_path(File.join(File.dirname(__FILE__), 'Berksfile.local.rb'))))

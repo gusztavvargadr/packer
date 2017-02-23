@@ -1,0 +1,68 @@
+{
+  "builders": [
+    {
+      "name": "virtualbox-iso",
+      "type": "virtualbox-iso",
+      "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "headless": "{{user `headless`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpus`}}"
+        ]
+      ],
+      "disk_size": "{{user `disk_size`}}",
+      "boot_wait": "{{user `boot_wait`}}",
+      "guest_additions_mode": "disable",
+      "floppy_files": "floppy",
+      "communicator": "winrm",
+      "winrm_username": "{{user `username`}}",
+      "winrm_password": "{{user `password`}}",
+      "winrm_timeout": "{{user `winrm_timeout`}}",
+      "shutdown_command": "{{user `upload_directory`}}/shutdown.{{user `task`}}.cmd",
+      "post_shutdown_delay": "{{user `post_shutdown_delay`}}",
+      "output_directory": "{{user `output_directory`}}"
+    },
+    {
+      "name": "virtualbox-ovf",
+      "type": "virtualbox-ovf",
+      "source_path": "{{user `source_path`}}",
+      "headless": "{{user `headless`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpus`}}"
+        ]
+      ],
+      "boot_wait": "{{user `boot_wait`}}",
+      "guest_additions_mode": "disable",
+      "floppy_files": "floppy",
+      "communicator": "winrm",
+      "winrm_username": "{{user `username`}}",
+      "winrm_password": "{{user `password`}}",
+      "winrm_timeout": "{{user `winrm_timeout`}}",
+      "shutdown_command": "{{user `upload_directory`}}/shutdown.{{user `task`}}.cmd",
+      "post_shutdown_delay": "{{user `post_shutdown_delay`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}

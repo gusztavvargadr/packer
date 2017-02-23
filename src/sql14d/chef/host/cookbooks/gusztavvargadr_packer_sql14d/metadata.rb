@@ -1,0 +1,10 @@
+name 'gusztavvargadr_packer_sql14d'
+maintainer 'Gusztav Varga'
+maintainer_email 'me@gusztavvargadr.me'
+license 'MIT'
+description 'Installs/Configures SQL Server 2014 Developer in Packer'
+long_description 'Installs/Configures SQL Server 2014 Developer in Packer'
+version '0.1.0'
+
+depends 'gusztavvargadr_packer_w'
+depends 'gusztavvargadr_sql'

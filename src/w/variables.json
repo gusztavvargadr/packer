@@ -1,0 +1,10 @@
+{
+  "name": "",
+  "description": "",
+  "provider": "",
+  "task": "",
+  "username": "vagrant",
+  "password": "vagrant",
+  "upload_directory": "/Users/Public/Downloads/packer",
+  "output_directory": ""
+}
