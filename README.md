@@ -18,7 +18,7 @@ See below the details of the boxes this repository builds.
 
 ### Notes
 
-All the components the boxes use, including the core operating systems are:
+All the components the boxes use, including the core operating systems, are:
 
 * Based on their publicly available versions.
   * You might need to provide your own license(s) (for example, a valid Windows license) to start or keep using them after their evaluation period expires.
@@ -31,8 +31,11 @@ All the components the boxes use, including the core operating systems are:
 
 The following boxes contain the core operating systems with the minimum configuration required to make Vagrant work and some commonly used tools and options for easier provisioning. They can be used for generic expirments on the respective platforms. All the other boxes below are based on these configurations as well.
 
-* [w16s] Windows Server 2016 Standard
-* [w10e] Windows 10 Enterprise
+* [Windows Server 2016 Standard][w16s]
+* [Windows 10 Enterprise][w10e]
+
+[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
+[w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
 
 #### Operating system
 
@@ -59,20 +62,24 @@ The following boxes contain the core operating systems with the minimum configur
 * 1 GB RAM
 * Port forwarding for RDP to 33389 on the host
 
-[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
-[w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
-
 ### Development boxes
 
 The following boxes can be used for setting up development workstations.
 
 * Windows Server 2016 Standard
-  * [w16s-sql14d-vs15c] SQL Server 2014 Developer, Visual Studio 2015 Community
-  * [w16s-sql14d-vs10p-vs15p] SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional
+  * [SQL Server 2014 Developer, Visual Studio 2015 Community][w16s-sql14d-vs15c]
+  * [SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional][w16s-sql14d-vs10p-vs15p]
 * Windows 10 Enterprise
-  * [w10e-sql14d] SQL Server 2014 Developer
-  * [w10e-sql14d-vs15c] SQL Server 2014 Developer, Visual Studio 2015 Community
-  * [w10e-sql14d-vs10p-vs15p] SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional
+  * [SQL Server 2014 Developer][w10e-sql14d]
+  * [SQL Server 2014 Developer, Visual Studio 2015 Community][w10e-sql14d-vs15c]
+  * [SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional][w10e-sql14d-vs10p-vs15p]
+
+[w16s-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs15c
+[w16s-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs10p-vs15p
+
+[w10e-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d
+[w10e-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs15c
+[w10e-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs10p-vs15p
 
 #### SQL Server 2014
 
@@ -97,20 +104,16 @@ The following boxes can be used for setting up development workstations.
 * SQL Server Data Tools
 * .NET Core Tools
 
-[w16s-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs15c
-[w16s-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs10p-vs15p
-
-[w10e-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d
-[w10e-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs15c
-[w10e-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs10p-vs15p
-
 ### Hosting boxes
 
 The following boxes can be used for hosting scenarios.
 
 * Windows Server 2016 Standard
-  * [w16s-iis] IIS
-  * [w16s-sql14d] SQL Server 2014 Developer
+  * [IIS][w16s-iis]
+  * [SQL Server 2014 Developer][w16s-sql14d]
+
+[w16s-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-iis
+[w16s-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d
 
 #### IIS
 
@@ -152,7 +155,7 @@ This repository borrows awesome ideas and solutions from the following sources:
 
 [Packer]: https://www.packer.io/
 [Vagrant]: https://www.vagrantup.com/
-[Atlas]: https://www.hashicorp.com/atlas.html
+[Atlas]: https://atlas.hashicorp.com/boxes/search
 [VirtualBox]: https://www.virtualbox.org/
 
 [Matt Wrock]: https://github.com/mwrock/packer-templates
