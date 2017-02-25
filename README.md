@@ -1,126 +1,137 @@
 # Packer
 
-**Quick links** [Vagrant environments] | [Vagrant boxes]  
+**Quick links** [Boxes] | [Environments]   
 **Contents** [Overview] | [Contributing] | [Resources]  
 
-This repository contains [Packer] templates to build [Vagrant] boxes for .NET development purposes.
+This repository contains [Packer] templates to build [Vagrant] boxes for .NET development purposes using [VirtualBox]. See [all of them][Boxes] hosted in [Atlas].
 
-If you are interested in setting up your (virtual) development environments instead, check out the [Vagrant environments] repo.
+If you are interested in setting up your (virtual) development environments instead, check out [this repo][Environments].
 
-[Vagrant environments]: https://github.com/gusztavvargadr/vagrant
+[Boxes]: https://atlas.hashicorp.com/gusztavvargadr
+[Environments]: https://github.com/gusztavvargadr/vagrant
 
 ## Overview
 
-This repository builds the following boxes. See [all of them][Vagrant boxes] in [Atlas].
+See below the details of the boxes this repository builds.
 
 [Overview]: #overview
-[Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
 
-### Windows 10
+### Notes
 
-Id | SQL Server 2014 | Visual Studio 2010 | Visual Studio 2015
-:--- | :--- | :--- | :---
-[windows10ee] | :no_entry: | :no_entry: | :no_entry:
-[windows10ee-vs2015c] | :no_entry: | :no_entry: | :white_check_mark: Community
-[windows10ee-vs2015p] | :no_entry: | :no_entry: | :white_check_mark: Professional
-[windows10ee-vs2010p] | :no_entry: | :white_check_mark: Professional | :no_entry:
-[windows10ee-vs2010p-vs2015p] | :no_entry: | :white_check_mark: Professional | :white_check_mark: Professional
-[windows10ee-sql2014de] | :white_check_mark: Developer | :no_entry: | :no_entry:
-[windows10ee-sql2014de-vs2015c] | :white_check_mark: Developer | :no_entry: | :white_check_mark: Community
-[windows10ee-sql2014de-vs2015p] | :white_check_mark: Developer | :no_entry: | :white_check_mark: Professional
-[windows10ee-sql2014de-vs2010p] | :white_check_mark: Developer | :white_check_mark: Professional | :no_entry:
-[windows10ee-sql2014de-vs2010p-vs2015p] | :white_check_mark: Developer | :white_check_mark: Professional | :white_check_mark: Professional
+All the components the boxes use, including the core operating systems, are:
 
-#### Box contents
+* Based on their publicly available versions.
+  * You might need to provide your own license(s) (for example, a valid Windows license) to start or keep using them after their evaluation period expires.
+  * Evaluation periods start when creating a machine for the first time from a given box, not when the box was built.
+  * Machines built from the boxes can be destroyed and recreated.
+* Installed using their latest available versions.
+  * Their latest patches (for example, all the Windows Updates) are applied as well.
 
-All of the above boxes share the following baseline confguration:
+### Base boxes
 
-* Windows 10 Enterprise Evaluation
-  * User name / Password: vagrant / vagrant
-  * Windows Updates disabled
-  * Windows Defender disabled
-  * UAC disabled
-  * Remote Desktop enabled
-  * Generalized with Sysprep
-* VirtualBox Guest Additions
+The following boxes contain the core operating systems with the minimum configuration required to make Vagrant work and some commonly used tools and options for easier provisioning. They can be used for generic expirments on the respective platforms. All the other boxes below are based on these configurations as well.
+
+* [Windows Server 2016 Standard][w16s]
+* [Windows 10 Enterprise][w10e]
+
+[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
+[w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
+
+#### Operating system
+
+* Evaluation version
+* Administrator user with user name `vagrant` and password `vagrant` set to never expire  
+* WinRM enabled
+* UAC disabled
+* Windows Updates disabled
+* Windows Defender disabled
+* Remote Desktop enabled
+* Generalized with Sysprep
+
+#### Tools
+
 * Chocolatey
-* Chef Client
 * 7zip
-* Vagrant defaults
-  * 1 CPU
-  * 1 GB RAM
-  * Port forwarding for RDP to 33389 on the host
-
-In addition, the components marked with :white_check_mark: add the features as below:
-
-* SQL Server 2014
-  * Developer: SQL Server 2014 Developer Edition with Service Pack 2
-* Visaul Studio 2010
-  * Professional: Visual Studio 2010 Professional with Service Pack 1
-* Visual Studio 2015
-  * Community: Visual Studio 2015 Community with Update 3
-  * Professional: Visual Studio 2015 Professional with Update 3
-
-See the [Vagrant environments] repo for usage samples.
-
-[windows10ee]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee
-[windows10ee-vs2015c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2015c
-[windows10ee-vs2015p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2015p
-[windows10ee-vs2010p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2010p
-[windows10ee-vs2010p-vs2015p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-vs2010p-vs2015p
-[windows10ee-sql2014de]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-sql2014de
-[windows10ee-sql2014de-vs2015c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-sql2014de-vs2015c
-[windows10ee-sql2014de-vs2015p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-sql2014de-vs2015p
-[windows10ee-sql2014de-vs2010p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-sql2014de-vs2010p
-[windows10ee-sql2014de-vs2010p-vs2015p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows10ee-sql2014de-vs2010p-vs2015p
-
-### Windows Server 2012 R2
-
-Id | IIS | SQL Server 2014
-:--- | :--- | :---
-[windows2012r2se] | :no_entry: | :no_entry:
-[windows2012r2se-sql2014de] | :no_entry: | :white_check_mark: Developer
-[windows2012r2se-iis] | :white_check_mark: | :no_entry:
-[windows2012r2se-sql2014de-iis] | :white_check_mark: | :white_check_mark: Developer
-
-#### Box contents
-
-All of the above boxes share the following baseline confguration:
-
-* Windows Server 2012 R2 Standard Evaluation
-  * User name / Password: vagrant / vagrant
-  * Windows Updates disabled
-  * UAC disabled
-  * Remote Desktop enabled
-  * Generalized with Sysprep
+* Chef Client
 * VirtualBox Guest Additions
-* Chocolatey
-* Chef Client
-* 7zip
-* Vagrant defaults
-  * 1 CPU
-  * 1 GB RAM
-  * Port forwarding for RDP to 33389 on the host
 
-In addition, the components marked with :white_check_mark: add the features as below:
+#### Vagrant
 
-* SQL Server 2014
-  * Developer: SQL Server 2014 Developer Edition with Service Pack 2
-* IIS
-  * .NET Framework 3.5, .NET Framework 4.6.1, IIS 8.5
+* WinRM communicator
+* 1 CPU
+* 1 GB RAM
+* Port forwarding for RDP to 33389 on the host
 
-See the [Vagrant environments] repo for usage samples.
+### Development boxes
 
-[windows2012r2se]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se
-[windows2012r2se-sql2014de]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de
-[windows2012r2se-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-iis
-[windows2012r2se-sql2014de-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/windows2012r2se-sql2014de-iis
+The following boxes can be used for setting up development workstations.
+
+* Windows Server 2016 Standard
+  * [SQL Server 2014 Developer, Visual Studio 2015 Community][w16s-sql14d-vs15c]
+  * [SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional][w16s-sql14d-vs10p-vs15p]
+* Windows 10 Enterprise
+  * [SQL Server 2014 Developer][w10e-sql14d]
+  * [SQL Server 2014 Developer, Visual Studio 2015 Community][w10e-sql14d-vs15c]
+  * [SQL Server 2014 Developer, Visual Studio 2010 Professional, Visual Studio 2015 Professional][w10e-sql14d-vs10p-vs15p]
+
+[w16s-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs15c
+[w16s-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d-vs10p-vs15p
+
+[w10e-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d
+[w10e-sql14d-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs15c
+[w10e-sql14d-vs10p-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-sql14d-vs10p-vs15p
+
+#### SQL Server 2014
+
+* Developer edition
+* Engine
+* Management Studio
+
+#### Visual Studio 2010
+
+* Professional Evaluation version
+* .NET Framework 3.5 and 4.0
+* C# and F#
+* Web Developer Tools
+* SQL Server Data Tools
+
+#### Visual Studio 2015
+
+* Community / Professional Evaluation version
+* .NET Framework 3.5 and 4.6.1
+* C# and F#
+* Web Developer Tools
+* SQL Server Data Tools
+* .NET Core Tools
+
+### Hosting boxes
+
+The following boxes can be used for hosting scenarios.
+
+* Windows Server 2016 Standard
+  * [IIS][w16s-iis]
+  * [SQL Server 2014 Developer][w16s-sql14d]
+
+[w16s-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-iis
+[w16s-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d
+
+#### IIS
+
+* .NET Framework 3.5 and 4.6.1
+* .NET Core Windows Server Hosting bundle
+
+#### SQL Server 2014
+
+* Developer edition
+* Engine
+* Management Studio
 
 ## Contributing
 
 Any feedback, [issues] or [pull requests] are welcome and greatly appreciated.
 
 [Contributing]: #contributing
+
 [Issues]: https://github.com/gusztavvargadr/packer/issues
 [Pull requests]: https://github.com/gusztavvargadr/packer/pulls
 
@@ -131,17 +142,23 @@ This repository could not exist without the following great tools:
 * [Packer]
 * [Vagrant]
 * [Atlas]
+* [VirtualBox]
 
 This repository borrows awesome ideas and solutions from the following sources:
 
 * [Matt Wrock]
+* [Jacqueline]
 * [Joe Fitzgerald]
 * [Boxcutter]
 
 [Resources]: #resources
+
 [Packer]: https://www.packer.io/
 [Vagrant]: https://www.vagrantup.com/
-[Atlas]: https://www.hashicorp.com/atlas.html
+[Atlas]: https://atlas.hashicorp.com/boxes/search
+[VirtualBox]: https://www.virtualbox.org/
+
 [Matt Wrock]: https://github.com/mwrock/packer-templates
+[Jacqueline]: https://github.com/jacqinthebox/packer-templates
 [Joe Fitzgerald]: https://github.com/joefitzgerald/packer-windows
 [Boxcutter]: https://github.com/boxcutter/windows
