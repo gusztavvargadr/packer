@@ -1,14 +1,8 @@
 # Packer
 
-**Quick links** [Boxes] | [Environments]   
 **Contents** [Overview] | [Contributing] | [Resources]  
 
-This repository contains [Packer] templates to build [Vagrant] boxes for .NET development purposes using [VirtualBox]. See [all of them][Boxes] hosted in [Atlas].
-
-If you are interested in setting up your (virtual) development environments instead, check out [this repo][Environments].
-
-[Boxes]: https://atlas.hashicorp.com/gusztavvargadr
-[Environments]: https://github.com/gusztavvargadr/vagrant
+This repository contains [Packer] templates to build Windows boxes for .NET development purposes using [VirtualBox] and [Chef].
 
 ## Overview
 
@@ -140,9 +134,8 @@ Any feedback, [issues] or [pull requests] are welcome and greatly appreciated.
 This repository could not exist without the following great tools:
 
 * [Packer]
-* [Vagrant]
-* [Atlas]
 * [VirtualBox]
+* [Chef]
 
 This repository borrows awesome ideas and solutions from the following sources:
 
@@ -154,9 +147,8 @@ This repository borrows awesome ideas and solutions from the following sources:
 [Resources]: #resources
 
 [Packer]: https://www.packer.io/
-[Vagrant]: https://www.vagrantup.com/
-[Atlas]: https://atlas.hashicorp.com/boxes/search
 [VirtualBox]: https://www.virtualbox.org/
+[Chef]: https://chef.io/chef/
 
 [Matt Wrock]: https://github.com/mwrock/packer-templates
 [Jacqueline]: https://github.com/jacqinthebox/packer-templates

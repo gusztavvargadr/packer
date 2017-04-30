@@ -1,0 +1,7 @@
+local_directory = File.expand_path('../../../../chef/', __FILE__)
+core_directory = local_directory
+
+instance_eval(File.read("#{core_directory}/Berksfile.core.rb"))
+
+gusztavvargadr_packer_cookbook 'vs10p', local_directory
+gusztavvargadr_packer_cookbook 'vs', local_directory

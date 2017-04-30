@@ -1,0 +1,43 @@
+{
+  "variables": {
+    "virtualbox_guest_os_type": "",
+    "virtualbox_disk_size": "130048",
+    "virtualbox_floppy_files": "builders/virtualbox-iso/floppy"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "{{user `virtualbox_vm_name`}}",
+      "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `virtualbox_memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `virtualbox_cpus`}}"
+        ]
+      ],
+      "disk_size": "{{user `virtualbox_disk_size`}}",
+      "floppy_files": "{{user `virtualbox_floppy_files`}}",
+      "headless": "{{user `virtualbox_headless`}}",
+      "boot_wait": "{{user `virtualbox_boot_wait`}}",
+      "communicator": "{{user `virtualbox_communicator`}}",
+      "winrm_username": "{{user `virtualbox_winrm_username`}}",
+      "winrm_password": "{{user `virtualbox_winrm_password`}}",
+      "winrm_timeout": "{{user `virtualbox_winrm_timeout`}}",
+      "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
+      "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
+      "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}
