@@ -1,5 +1,0 @@
-gusztavvargadr_packer_cookbook 'vs15p'
-gusztavvargadr_packer_cookbook 'w'
-gusztavvargadr_cookbook 'visual_studio'
-gusztavvargadr_cookbook 'iis'
-gusztavvargadr_cookbook 'windows'

@@ -1,0 +1,44 @@
+---
+driver:
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
+
+provisioner:
+  name: chef_solo
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: w16s
+    transport:
+      name: winrm
+    driver:
+      box: gusztavvargadr/w16s
+
+suites:
+  - name: default
+    run_list:
+      - recipe[gusztavvargadr_packer_core::default]
+    attributes:
+      gusztavvargadr_packer_core:
+        requirements:
+          environment:
+            VARIABLE_NAME: VARIABLE_VALUE
+          features:
+            TelnetClient:
+        tools:
+          chocolatey:
+            nuget.commandline:
+          windows:
+            .NET Core SDK:
+              source: https://download.microsoft.com/download/8/F/9/8F9659B9-E628-4D1A-B6BF-C3004C8C954B/dotnet-dev-win-x64.1.0.1.exe
+              install: /install /quiet /norestart
+              directory: /Program Files/dotnet
+          files:
+            /Windows/System32/drivers/etc/hosts: /Users/vagrant/hosts
+    verifier:
+      inspec_tests:
+        - test/smoke/default

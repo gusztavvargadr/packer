@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"cake-build.cake-vscode",
+		"ms-vscode.powershell",
+		"ms-vscode.csharp",
+		"Pendrica.Chef",
+		"rebornix.ruby",
+		"bbenoist.vagrant"
+	]
+}

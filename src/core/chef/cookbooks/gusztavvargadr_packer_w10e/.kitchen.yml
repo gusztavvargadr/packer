@@ -1,0 +1,27 @@
+---
+driver:
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
+
+provisioner:
+  name: chef_solo
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: w10e
+    transport:
+      name: winrm
+    driver:
+      box: gusztavvargadr/w10e
+
+suites:
+  - name: default
+    run_list:
+      - recipe[gusztavvargadr_packer_w10e::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default

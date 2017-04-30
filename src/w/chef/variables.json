@@ -1,5 +1,0 @@
-{
-  "chef_guest_os_type": "windows",
-  "cookbook_name": "gusztavvargadr_packer_w",
-  "restart_timeout": "1h"
-}

@@ -1,0 +1,16 @@
+{
+  "variables": {
+    "name": "",
+    "description": "",
+    "version": "",
+    "input_directory": "",
+    "output_directory": ""
+  },
+  "description": "{{user `description`}}",
+  "builders": [
+  ],
+  "provisioners": [
+  ],
+  "post-processors": [
+  ]
+}
