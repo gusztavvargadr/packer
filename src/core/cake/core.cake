@@ -3,24 +3,6 @@
 PackerImage packerImage = new PackerImage();
 var packerTemplate = string.Empty;
 
-  // Configuration_Create("w10e.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-
-  // Configuration_Create("w10e-sql14d.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-
-  // Configuration_Create("w10e-vs10p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // Configuration_Create("w10e-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // Configuration_Create("w10e-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  
-  // Configuration_Create("w16s-iis.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // // Configuration_Create("w16s-iis.amazon", new [] { ".", "amazon", "chef", "amazon-shutdown" }),
-
-  // Configuration_Create("w16s-sql14d.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // // Configuration_Create("w16s-sql14d.amazon", new [] { ".", "amazon", "chef", "amazon-shutdown" }),
-  
-  // Configuration_Create("w16s-vs10p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // Configuration_Create("w16s-vs15c.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),
-  // Configuration_Create("w16s-vs15p.virtualbox", new [] { ".", "virtualbox", "chef", "vagrant" }),  
-
 Task("packer-info")
   .Does(() => {
     PackerImage_Info(packerImage, packerTemplate);
