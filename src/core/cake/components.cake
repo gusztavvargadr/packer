@@ -6,7 +6,8 @@ var components = new List<Component>() {
   Component_Create("sql14d", "SQL Server 2014 Developer"),
   Component_Create("vs10p", "Visual Studio 2010 Professional"),
   Component_Create("vs15c", "Visual Studio 2015 Community"),
-  Component_Create("vs15p", "Visual Studio 2015 Professional")
+  Component_Create("vs15p", "Visual Studio 2015 Professional"),
+  Component_Create("vs17c", "Visual Studio 2017 Community")
 };
 
 Component Components_GetByName(string name) {

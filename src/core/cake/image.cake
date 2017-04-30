@@ -67,20 +67,3 @@ void PackerImage_ForEachTemplate(PackerImage image, string template, Action<Pack
     action(t);
   }
 }
-
-// // FilePath Configuration_GetTargetFile(Configuration configuration, string task) {
-// //   return GetFiles(configuration.GetTargetFilePattern(task)).FirstOrDefault();
-// // }
-
-// // FilePath Configuration_GetSourceFile(Configuration configuration, string task) {
-// //   if (task == "package") {
-// //     return GetFiles(configuration.GetTargetFilePattern("build")).FirstOrDefault();
-// //   }
-
-// //   if (configuration.GetParent() == null) {
-// //     return null;
-// //   }
-
-// //   return GetFiles(configuration.GetParent().GetTargetFilePattern("build")).FirstOrDefault();  
-// // }
-
