@@ -4,7 +4,7 @@
 
 This repository contains [Packer] templates to build Windows-based [images] for [.NET development purposes][Overview] using [VirtualBox] and [Chef].
 
-Check out the [workstations] using these images for some real-life usage samples with [Vagrant].
+Check out the [workstations] using these images with [Vagrant] for some real-life usage samples.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This repository contains [Packer] templates to build Windows-based [images] for 
 
 The images are built for [VirtualBox] and are provisioned with [Chef]. All the components, including the core operating systems, share the following characteristics:
 
-* They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows license) to start or keep using them after their evaluation periods expire.
+* They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
 * They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
 * Unless noted otherwise, they are installed using the default configuration options.
 
@@ -30,8 +30,8 @@ For example, you can use the images to build your [workstations] using [Vagrant]
 
 The following images contain the core operating systems with the minimum configuration required to make [Vagrant] work, and some of the commonly used tools and options for easier provisioning. They can be used for generic expirments on the respective platforms. All the other images below are based on these configurations as well.
 
-* [Windows Server 2016 Standard][w16s]
-* [Windows 10 Enterprise][w10e]
+* **[Windows Server 2016 Standard][w16s]**
+* **[Windows 10 Enterprise][w10e]**
 
 In the box:
 
@@ -62,7 +62,7 @@ In the box:
 
 The following images can be used for setting up .NET development [workstations].
 
-* Windows Server 2016 Standard
+* **Windows Server 2016 Standard**
   * [Visual Studio 2010 Professional][w16s-vs10p]
   * [Visual Studio 2015 Community][w16s-vs15c]
   * [Visual Studio 2015 Professional][w16s-vs15p]
@@ -95,7 +95,7 @@ In the box:
 
 The following images can be used for .NET hosting scenarios.
 
-* Windows Server 2016 Standard
+* **Windows Server 2016 Standard**
   * [IIS][w16s-iis]
   * [SQL Server 2014 Developer][w16s-sql14d]
 
