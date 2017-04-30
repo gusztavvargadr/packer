@@ -17,5 +17,18 @@ default['gusztavvargadr_packer_vs']['2017_community']['installer_options'] = [
   '--includeOptional',
   '--quiet --norestart'
 ]
-default['gusztavvargadr_packer_vs']['2017_professional']['installer_file_url'] = ''
-default['gusztavvargadr_packer_vs']['2017_professional']['installer_options'] = ''
+default['gusztavvargadr_packer_vs']['2017_professional']['installer_file_url'] = 'https://download.microsoft.com/download/7/B/0/7B0534FD-DCE5-46D5-8771-91FD32AFC51D/vs_Professional.exe'
+default['gusztavvargadr_packer_vs']['2017_professional']['installer_options'] = [
+  '--installPath ""C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional""',
+  '--add Microsoft.VisualStudio.Workload.CoreEditor',
+  '--add Microsoft.VisualStudio.Workload.NetWeb',
+  '--add Microsoft.VisualStudio.Workload.Data',
+  '--add Microsoft.VisualStudio.Workload.Azure',
+  '--add Microsoft.VisualStudio.Workload.NetCoreTools',
+  '--add Microsoft.VisualStudio.Component.TestTools.Core',
+  '--add Microsoft.Net.Component.3.5.DeveloperTools',
+  '--add Component.GitHub.VisualStudio',
+  '--includeRecommended',
+  '--includeOptional',
+  '--quiet --norestart'
+]

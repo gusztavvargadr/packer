@@ -27,7 +27,8 @@ action :run do
   end
 
   gusztavvargadr_windows_windows_updates '' do
-    action [:stop, :disable]
+    # action [:stop, :disable]
+    action :disable
   end
 
   gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
