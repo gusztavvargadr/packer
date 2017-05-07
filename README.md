@@ -1,34 +1,34 @@
 # Packer
 
-**Contents** [Overview] | [Contributing] | [Resources] | [Images] | [Workstations]  
+**Quick links** [Overview] | [Contributing] | [Resources] | [Workstations] | [Vagrant boxes]  
 
-This repository contains [Packer] templates to build Windows-based [images] for [.NET development purposes][Overview] using [VirtualBox] and [Chef].
+This repository contains [Packer] templates to build Windows-based [Vagrant boxes] for [.NET development purposes][Overview] using [VirtualBox] and [Chef].
 
-Check out the [workstations] using these images with [Vagrant] for some real-life usage samples.
+Check out the [workstations] for some real-life usage samples.
 
 ## Overview
 
-This repository contains [Packer] templates to build Windows-based [images] for the following scenarios:
+This repository contains [Packer] templates to build Windows-based [Vagrant boxes] for the following scenarios:
 
 * Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016.
 * [.NET development] using Visual Studio 2010, 2015 and 2017.
 * [.NET hosting] using IIS and SQL Server 2014.
 
-The images are built for [VirtualBox] and are provisioned with [Chef]. All the components, including the core operating systems, share the following characteristics:
+The boxes are built for [VirtualBox] and are provisioned using [Chef]. All the components, including the core operating systems, share the following characteristics:
 
 * They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
 * They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
 * Unless noted otherwise, they are installed using the default configuration options.
 
-For example, you can use the images to build your [workstations] using [Vagrant].
+For example, you can use the boxes to build your [workstations] using [Vagrant].
 
 [Overview]: #overview
-[Images]: https://atlas.hashicorp.com/gusztavvargadr
+[Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
 [Workstations]: https://github.com/gusztavvargadr/workstations
 
 ### Operating systems
 
-The following images contain the core operating systems with the minimum configuration required to make [Vagrant] work, and some of the commonly used tools and options for easier provisioning. They can be used for generic expirments on the respective platforms. All the other images below are based on these configurations as well.
+The following boxes contain the core operating systems with the minimum configuration required to make Vagrant work, and some of the commonly used tools and options for easier provisioning. They can be used for generic expirments on the respective platforms. All the other boxes below are based on these configurations as well.
 
 * **[Windows Server 2016 Standard][w16s]**
 * **[Windows 10 Enterprise][w10e]**
@@ -60,7 +60,7 @@ In the box:
 
 ### .NET development
 
-The following images can be used for setting up .NET development [workstations].
+The following boxes can be used for setting up .NET development [workstations].
 
 * **Windows Server 2016 Standard**
   * [Visual Studio 2010 Professional][w16s-vs10p]
@@ -76,13 +76,12 @@ In the box:
   * C# and F#
   * Web Developer Tools
   * SQL Server Data Tools
-  * .NET Core Tools
 * **Visual Studio 2015 and 2017**
-  * .NET Framework 3.5, 4.0 and 4.6.2
+  * .NET Framework 3.5, 4.0-4.6
   * C# and F#
   * Web Developer Tools
   * SQL Server Data Tools
-  * .NET Core Tools
+  * .NET Core SDK
 
 [.NET development]: #net-development
 [w16s-vs10p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs10p
@@ -93,7 +92,7 @@ In the box:
 
 ### .NET hosting
 
-The following images can be used for .NET hosting scenarios.
+The following boxes can be used for .NET hosting scenarios.
 
 * **Windows Server 2016 Standard**
   * [IIS][w16s-iis]
@@ -102,7 +101,7 @@ The following images can be used for .NET hosting scenarios.
 In the box:
 
 * **IIS**
-  * .NET Framework 3.5 and 4.6.1
+  * .NET Framework 3.5, 4.0-4.6
   * .NET Core Windows Server Hosting bundle
 * **SQL Server 2014**
   * Database Engine
