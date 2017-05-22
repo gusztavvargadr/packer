@@ -22,6 +22,14 @@ packerImage = PackerImage_Create(
       new [] { PackerPostProcessor_Create("vagrant") },
       "w10e",
       "virtualbox-ovf"
+    ),
+    PackerTemplate_Create(
+      "hyperv-vagrant",
+      new [] { PackerBuilder_Create("hyperv-iso") },
+      new [] { PackerProvisioner_Create("chef"), PackerProvisioner_Create("sysprep") },
+      new [] { PackerPostProcessor_Create("vagrant") },
+      string.Empty,
+      string.Empty
     )
   }
 );

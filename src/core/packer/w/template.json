@@ -3,8 +3,8 @@
     "name": "",
     "description": "",
     "version": "",
-    "input_directory": "",
-    "output_directory": ""
+    "artifacts_directory": "",
+    "parent_artifacts_directory": "",
   },
   "description": "{{user `description`}}",
   "builders": [
@@ -12,5 +12,9 @@
   "provisioners": [
   ],
   "post-processors": [
+    {
+      "type": "manifest",
+      "output": "{{user `artifacts_directory`}}/manifest.json"
+    }
   ]
 }

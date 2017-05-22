@@ -1,0 +1,27 @@
+{
+  "variables": {
+    "hyperv_disk_size": "130048",
+    "hyperv_floppy_files": "builders/hyperv-iso/floppy"
+  },
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "vm_name": "gusztavvargadr-{{user `name`}}-{{timestamp}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "ram_size": "{{user `hyperv_ram_size`}}",
+      "cpu": "{{user `hyperv_cpu`}}",
+      "disk_size": "{{user `hyperv_disk_size`}}",
+      "floppy_files": "{{user `hyperv_floppy_files`}}",
+      "boot_wait": "{{user `hyperv_boot_wait`}}",
+      "communicator": "{{user `hyperv_communicator`}}",
+      "winrm_username": "{{user `hyperv_winrm_username`}}",
+      "winrm_password": "{{user `hyperv_winrm_password`}}",
+      "winrm_timeout": "{{user `hyperv_winrm_timeout`}}",
+      "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
+      "shutdown_command": "{{user `hyperv_shutdown_command`}}",
+      "output_directory": "{{user `artifacts_directory`}}"
+    }
+  ]
+}

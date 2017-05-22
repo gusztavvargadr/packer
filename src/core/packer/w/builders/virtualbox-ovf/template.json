@@ -5,8 +5,8 @@
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "vm_name": "{{user `virtualbox_vm_name`}}",
-      "source_path": "{{user `input_directory`}}/{{user `virtualbox_vm_name`}}.ovf",
+      "vm_name": "gusztavvargadr-{{user `name`}}-{{timestamp}}",
+      "source_path": "{{user `parent_artifacts_directory`}}/gusztavvargadr-{{user `name`}}.ovf",
       "vboxmanage": [
         [
           "modifyvm",
@@ -31,7 +31,7 @@
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
-      "output_directory": "{{user `output_directory`}}"
+      "output_directory": "{{user `artifacts_directory`}}"
     }
   ]
 }

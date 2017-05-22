@@ -1,12 +1,9 @@
 {
-  "variables": {
-    "vagrant_vagrantfile_template": "postprocessors/vagrant/Vagrantfile",
-  },
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{user `output_directory`}}/packer.box",
-      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
+      "output": "{{user `artifacts_directory`}}/gusztavvargadr-{{user `name`}}-{{timestamp}}.box",
+      "vagrantfile_template": "postprocessors/vagrant/{{.Provider}}-Vagrantfile",
       "keep_input_artifact": true
     }
   ]

@@ -11,6 +11,10 @@ class PackerImage {
   public string GetBuildDirectory() {
     return RootDirectory + "/build/" + Name;
   }
+
+  public string GetArtifactsDirectory() {
+    return RootDirectory + "/artifacts/" + Name;
+  }
 }
 
 PackerImage PackerImage_Create(
@@ -24,7 +28,7 @@ PackerImage PackerImage_Create(
     Name = name,
     Description = string.Join(", ", components.Select(item => item.Description)),
     RootDirectory = rootDirectory,
-    Components = name.Split('-').Select(Components_GetByName).ToList(),
+    Components = components,
     Templates = templates.ToList()
   };
   foreach (var item in image.Templates) {

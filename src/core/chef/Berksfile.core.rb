@@ -8,6 +8,10 @@ def gusztavvargadr_cookbook(name)
   cookbook "gusztavvargadr_#{name}", github: 'gusztavvargadr/chef', rel: "cookbooks/gusztavvargadr_#{name}", branch: '0.2.2'
 end
 
+gusztavvargadr_packer_cookbook 'w10e', local_directory
+gusztavvargadr_packer_cookbook 'w12r2s', local_directory
+gusztavvargadr_packer_cookbook 'w16s', local_directory
+gusztavvargadr_packer_cookbook 'w', local_directory
 gusztavvargadr_packer_cookbook 'virtualbox', local_directory
 gusztavvargadr_packer_cookbook 'os', local_directory
 gusztavvargadr_packer_cookbook 'core', local_directory
