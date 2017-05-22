@@ -19,7 +19,7 @@ packerImage = PackerImage_Create(
       "virtualbox-vagrant",
       new [] { PackerBuilder_Create("virtualbox-ovf") },
       new [] { PackerProvisioner_Create("sysprep") },
-      new [] { PackerPostProcessor_Create("vagrant") },
+      new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
       "w10e",
       "virtualbox-ovf"
     ),
@@ -27,7 +27,7 @@ packerImage = PackerImage_Create(
       "hyperv-vagrant",
       new [] { PackerBuilder_Create("hyperv-iso") },
       new [] { PackerProvisioner_Create("chef"), PackerProvisioner_Create("sysprep") },
-      new [] { PackerPostProcessor_Create("vagrant") },
+      new [] { PackerPostProcessor_Create("vagrant-hyperv") },
       string.Empty,
       string.Empty
     )
