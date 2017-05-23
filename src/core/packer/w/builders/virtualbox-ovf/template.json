@@ -1,12 +1,13 @@
 {
   "variables": {
+    "parent_artifact_file": "",
     "virtualbox_floppy_files": "builders/virtualbox-ovf/floppy"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
       "vm_name": "gusztavvargadr-{{user `name`}}-{{timestamp}}",
-      "source_path": "{{user `parent_artifacts_directory`}}/gusztavvargadr-{{user `name`}}.ovf",
+      "source_path": "{{user `parent_artifact_file`}}",
       "vboxmanage": [
         [
           "modifyvm",

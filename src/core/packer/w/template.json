@@ -3,8 +3,7 @@
     "name": "",
     "description": "",
     "version": "",
-    "artifacts_directory": "",
-    "parent_artifacts_directory": "",
+    "artifacts_directory": ""
   },
   "description": "{{user `description`}}",
   "builders": [

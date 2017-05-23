@@ -190,7 +190,8 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var parent = PackerTemplate_GetParent(template);
   if (parent != null) {
     var parentArtifactsDirectory = MakeAbsolute(Directory(parent.GetArtifactsDirectory()));
-    jsonTemplateVariables["parent_artifacts_directory"] = MakeAbsolute(buildDirectory).GetRelativePath(parentArtifactsDirectory).ToString();
+    var manifest = ParseJsonFromFile(parentArtifactsDirectory + "/manifest.json");
+    jsonTemplateVariables["parent_artifact_file"] = manifest["builds"][0]["files"][1]["name"].ToString();
   }
   var runList = new List<string>();
   runList.AddRange(template.Builders.Select(item => item.Name));
