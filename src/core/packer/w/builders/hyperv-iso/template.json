@@ -11,6 +11,7 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "ram_size": "{{user `hyperv_ram_size`}}",
+      "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
       "cpu": "{{user `hyperv_cpu`}}",
       "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
       "disk_size": "{{user `hyperv_disk_size`}}",

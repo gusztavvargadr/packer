@@ -1,6 +1,7 @@
 {
   "variables": {
     "hyperv_ram_size": "8192",
+    "hyperv_enable_dynamic_memory": "false",
     "hyperv_cpu": "4",
     "hyperv_enable_virtualization_extensions": "true",
     "hyperv_enable_mac_spoofing": "true",
