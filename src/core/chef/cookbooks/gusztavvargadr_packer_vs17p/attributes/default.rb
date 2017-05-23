@@ -1,5 +1,9 @@
 default['gusztavvargadr_packer_vs17p'] = {
-  'requirements' => {},
+  'requirements' => {
+    'features' => {
+      'NetFx3' => {},
+    },
+  },
   'tools' => {},
   'updates' => {},
   'cleanup' => {},
