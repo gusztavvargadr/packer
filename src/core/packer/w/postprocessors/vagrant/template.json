@@ -6,8 +6,7 @@
     {
       "type": "vagrant",
       "output": "{{user `artifacts_directory`}}/gusztavvargadr-{{user `name`}}-{{timestamp}}.box",
-      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
-      "keep_input_artifact": true
+      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}"
     }
   ]
 }
