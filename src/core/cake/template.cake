@@ -11,7 +11,6 @@ class PackerTemplate {
   public IEnumerable<PackerBuilder> Builders { get; set; }
   public IEnumerable<PackerProvisioner> Provisioners { get; set; }
   public IEnumerable<PackerPostProcessor> PostProcessors { get; set; }
-
   public string ParentImageName { get; set; }
   public string ParentTemplateName { get; set; }
 
@@ -27,12 +26,8 @@ class PackerTemplate {
     return Image.GetBuildDirectory() + "/" + Name;
   }
 
-  public string GetInputDirectory() {
-    return Image.RootDirectory + "/build/" + ParentImageName + "/" + ParentTemplateName + "/output";
-  }
-
-  public string GetOutputDirectory() {
-    return GetBuildDirectory() + "/output";
+  public string GetArtifactsDirectory() {
+    return Image.GetArtifactsDirectory() + "/" + Name;
   }
 }
 
@@ -54,6 +49,16 @@ PackerTemplate PackerTemplate_Create(
   };
 }
 
+PackerTemplate PackerTemplate_GetParent(PackerTemplate template) {
+  if (string.IsNullOrEmpty(template.ParentImageName) || string.IsNullOrEmpty(template.ParentTemplateName)) {
+    return null;
+  }
+
+  var parentTemplate = new PackerTemplate { Name = template.ParentTemplateName };
+  var parentImage = PackerImage_Create(template.ParentImageName, template.Image.RootDirectory, new [] { parentTemplate });
+  return parentTemplate;
+}
+
 void PackerTemplate_Info(PackerTemplate template) {
   PackerTemplate_Log(template, "Info");
 }
@@ -61,8 +66,9 @@ void PackerTemplate_Info(PackerTemplate template) {
 void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
-  var buildDirectory = template.GetBuildDirectory();
-  CleanDirectory(buildDirectory);
+  CleanDirectory(template.GetBuildDirectory());
+  CleanDirectory(template.GetArtifactsDirectory());
+  DeleteDirectory(template.GetArtifactsDirectory());
 }
 
 void PackerTemplate_Version(PackerTemplate template) {
@@ -72,8 +78,11 @@ void PackerTemplate_Version(PackerTemplate template) {
 void PackerTemplate_Restore(PackerTemplate template) {
   PackerTemplate_Log(template, "Restore");
 
-  var buildDirectory = template.GetBuildDirectory();
-  EnsureDirectoryExists(buildDirectory);
+  if (GetFiles(template.GetBuildDirectory() + "/template.json").Any()) {
+    return;
+  }
+
+  EnsureDirectoryExists(template.GetBuildDirectory());
 
   PackerTemplate_MergeDirectories(template);
   PackerTemplate_Berkshelf(template, "package cookbooks.tar.gz");
@@ -85,11 +94,10 @@ void PackerTemplate_Restore(PackerTemplate template) {
 void PackerTemplate_Build(PackerTemplate template) {
   PackerTemplate_Log(template, "Build");
 
-  var outputDirectory = template.GetOutputDirectory();
-  if (DirectoryExists(outputDirectory)) {
+  if (DirectoryExists(template.GetArtifactsDirectory())) {
     return;
   }
-
+  
   PackerTemplate_Packer(template, "build template.json");
 }
 
@@ -171,7 +179,31 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   PackerTemplate_Log(template, "Merge Json " + jsonFile);
 
   var json = new JObject();
+
+  var jsonTemplateVariables = new JObject();
+  jsonTemplateVariables["name"] = template.Image.Name;
+  jsonTemplateVariables["description"] = template.Image.Description;
+  jsonTemplateVariables["version"] = "0.0.0";
+  var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
+  var artifactsDirectory = MakeAbsolute(Directory(template.GetArtifactsDirectory()));
+  jsonTemplateVariables["artifacts_directory"] = buildDirectory.GetRelativePath(artifactsDirectory).ToString();
+  var parent = PackerTemplate_GetParent(template);
+  if (parent != null) {
+    var parentArtifactsDirectory = MakeAbsolute(Directory(parent.GetArtifactsDirectory()));
+    var manifestFile = parentArtifactsDirectory + "/manifest.json";
+    if (FileExists(manifestFile)) {
+    var manifest = ParseJsonFromFile(parentArtifactsDirectory + "/manifest.json");
+      jsonTemplateVariables["parent_artifact_file"] = manifest["builds"][0]["files"][1]["name"].ToString();
+    }
+  }
+  var runList = new List<string>();
+  runList.AddRange(template.Builders.Select(item => item.Name));
+  
   foreach (var component in template.Image.Components) {
+    if (parent == null || !parent.Image.Components.Any(item => item.Name == component.Name)) {
+      runList.Add(component.Name);
+    }
+
     foreach (var sourceDirectory in GetDirectories("../core/packer/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
@@ -181,22 +213,6 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       foreach (var file in GetFiles(sourceDirectory + "/" + jsonFileName)) {
         json.Merge(ParseJsonFromFile(file));
       }
-
-      var jsonTemplateVariables = new JObject();
-      jsonTemplateVariables["name"] = template.Image.Name;
-      jsonTemplateVariables["description"] = template.Image.Description;
-      jsonTemplateVariables["version"] = "0.0.0";
-      jsonTemplateVariables["input_directory"] = MakeAbsolute(Directory(template.GetBuildDirectory())).GetRelativePath(MakeAbsolute(Directory(template.GetInputDirectory()))).ToString();
-      jsonTemplateVariables["output_directory"] = MakeAbsolute(Directory(template.GetBuildDirectory())).GetRelativePath(MakeAbsolute(Directory(template.GetOutputDirectory()))).ToString();
-      
-      var runList = new List<string>();
-      runList.AddRange(template.Builders.Select(item => item.Name));
-      runList.Add(template.Image.Components.Last().Name);
-      jsonTemplateVariables["chef_run_list"] = string.Join(",", runList.Select(item => "role[gusztavvargadr_packer_" + item.Replace("-", "_") + "]"));
-      
-      var jsonTemplate = new JObject();
-      jsonTemplate["variables"] = jsonTemplateVariables;
-      json.Merge(jsonTemplate);
 
       foreach (var builder in template.Builders) {
         foreach (var builderDirectory in GetDirectories(sourceDirectory + "/builders/*")) {
@@ -238,6 +254,12 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
     }
   }
+
+  jsonTemplateVariables["chef_run_list"] = string.Join(",", runList.Select(item => "role[gusztavvargadr_packer_" + item.Replace("-", "_") + "]"));
+  var jsonTemplate = new JObject();
+  jsonTemplate["variables"] = jsonTemplateVariables;
+  json.Merge(jsonTemplate);
+
   FileWriteText(jsonFile, json.ToString());
 }
 

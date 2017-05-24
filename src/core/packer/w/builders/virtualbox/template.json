@@ -1,6 +1,5 @@
 {
   "variables": {
-    "virtualbox_vm_name": "packer",
     "virtualbox_memory": "8192",
     "virtualbox_cpus": "4",
     "virtualbox_headless": "true",

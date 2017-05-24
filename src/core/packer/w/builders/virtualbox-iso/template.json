@@ -7,7 +7,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "vm_name": "{{user `virtualbox_vm_name`}}",
+      "vm_name": "gusztavvargadr-{{user `name`}}-{{timestamp}}",
       "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -37,7 +37,7 @@
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
-      "output_directory": "{{user `output_directory`}}"
+      "output_directory": "{{user `artifacts_directory`}}"
     }
   ]
 }
