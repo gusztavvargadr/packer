@@ -4,7 +4,7 @@
 
 This repository contains Packer templates to build Windows-based Vagrant boxes for .NET development purposes using Hyper-V / VirtualBox and Chef.
 
-**Contents** [Overview] | [Getting started] | [Usage] | [Contributing] | [Resources]
+**Contents** [Overview] | [Getting started] | [Usage] | [Contributing] | [Resources]  
 
 ## Overview
 
@@ -136,28 +136,136 @@ In the box:
 
 ## Getting started
 
-The rest of this document covers the details of building Vagrant boxes using Packer. If you are intested in using the already available [boxes][Vagrant boxes], check out the [workstation] samples for some common usage scenarios.
+**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are intested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [workstations] for some common usage scenarios.  
+**Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
-<!--
-TODO: prerequisites - packer, env vars, chef, windows
-TODO: tool knowledge
-TODO: sample
--->
+Follow the steps below to install the required tools:
+
+1. Install [Packer][PackerInstallation].
+1. Install the [Chef Development Kit][ChefDKInstallation].
+1. Install the tools for the virtualization provider you want to use.
+    - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
+    - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
+
+Then, clone this repo, and navigate to the root directory of the clone using PowerShell. Type the following commands to verify the installations:
+
+```powershell
+$ cd .\src\w16s
+$ .\ci.ps1 restore virtualbox-ovf
+```
+
+If the build script completes without errors, and the folder `build/w16s/virtualbox-ovf` in the root of your clone contains the file `template.json`, that means that you have set up everything correctly.
+
+You are ready to build a Vagrant box.
 
 [Getting started]: #getting-started
 
 [Workstations]: https://github.com/gusztavvargadr/workstations
+[PackerInstallation]: https://www.packer.io/docs/install/index.html
+[ChefDKInstallation]: https://downloads.chef.io/chefdk
+[HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+[VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads
 
 ## Usage
 
-<!--
-TODO: cake usage details
-TODO: custom build samples
--->
+**Note** This section assumes you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
+**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded artifacts across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
+
+This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the templates and the related resources (e.g. the unattended install configuration) required to build the boxes. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
+related resources, and makes chaining builds and creating new configurations quite easy.
+
+### Building a native box
+
+Start by navigating to the [source] of the configuration you want to build using PowerShell. For example, to build a `Windows Server 2016 Standard` box, select `w16s` and enter the `info` command to list the available templates:
+
+```powershell
+$ cd .\src\w16s
+$ .\ci.ps1 info
+```
+
+The output will contain a section similar to the one below:
+
+```
+========================================
+packer-info
+========================================
+Executing task: packer-info
+virtualbox-ovf: Info
+virtualbox-vagrant: Info
+hyperv-vagrant: Info
+Finished executing task: packer-info
+```
+
+This means that this configuration supports building a box with the output format `virtualbox-ovf` (resulting in the native VirtualBox image format), and also boxes to be used with Vagrant directly with the respective virtualization provider (`virtualbox-vagrant`, `hyperv-vagrant`). Under the hood, `virtualbox-vagrant` will simply reuse the output of `virtualbox-ovf`, so the build time can be reduced significantly.
+
+Now, invoke the `restore` command with the name of the template you want to build to create the template and the related resources. For example, for the native VirtualBox image format, type the following command:
+
+```powershell
+$ .\ci.ps1 restore virtualbox-ovf
+``` 
+
+This will create the folder `build/w16s/virtualbox-ovf` in the root of your clone with all the files required to build the box. This setup is self-contained, so you can adjust the parameters manually in `template.json` and / or copy it to a different computer and simply invoke `packer build template.json`. Most of the time though, you just simply want to build it as it is, as the templates are already preconfigured. This can be done from the source directory as well:
+
+```powershell
+$ .\ci.ps1 build virtualbox-ovf
+```
+
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w16s/virtualbox-ovf` in the root of your clone. Native images like this can now be directly imported into the respective virtualization platform.
+
+### Building a Vagrant box
+
+As mentioned above, based on Packer's support for starting builds from some virtualization providers' native format, builds can reuse the artifacts of a previous one. To build the Vagrant box for the above configuration, type the following command:
+
+```powershell
+$ .\ci.ps1 build virtualbox-vagrant
+```
+
+Note that this will include restoring the build folder with the template and the related resource automatically and then invoke the build process in a single step. It will also reuse the output of the `virtualbox-ovf` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.).
+
+For Hyper-V Packer this build chaining is not supported yet, though of course you can still build a Vagrant box, it's just that it will always start from scratch:
+
+```powershell
+$ .\ci.ps1 build hyperv-vagrant
+```
+
+As you can expect, for this sample the build artifacts will be created in the `artifacts/w16s` folder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+
+### Chaining builds further
+
+Similarly to the example above, you can use build chaining to build more complex boxes. For example, the configuration for Windows Server 2016 Standard with IIS works like this.
+
+```powershell
+$ cd src\w16s-iis
+$ .\ci.ps1 build virtualbox-ovf
+$ .\ci.ps1 build virtualbox-vagrant
+```
+
+Unlike in the previous `w16s` sample, for this configuration the first `virtualbox-ovf` build will start from the native output of `w16s` instead of starting with the OS installation. Chanining builds like this has other limitations, so you can use this approach to build boxes with any number of components very effectively.
+
+For now, for Hyper-V you can simply start from scratch:
+
+```powershell
+$ .\ci.ps1 build hyperv-vagrant
+```
+
+Builds will take significantly longer, but the result will be exactly the same as for the VirtualBox chained builds.
 
 [Usage]: #usage
 
+[PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
+[PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
+[SourceCoreCake]: src/core/cake
+[Cake]: http://cakebuild.net/
+[Source]: [src]
+[VagrantDistribute]: https://www.vagrantup.com/docs/boxes/base.html#distributing-the-box
+
 ## Contributing
+
+<!--
+**Note** This section assumes you are familiar with the basics of [Chef]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][ChefGettingStarted].
+
+TODO: custom template and build
+-->
 
 Any feedback, [issues] or [pull requests] are welcome and greatly appreciated. Chek out the [milestones] for the list of planned releases.
 
