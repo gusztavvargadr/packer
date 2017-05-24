@@ -136,7 +136,7 @@ In the box:
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are intested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [workstations] for some common usage scenarios.  
+**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are interested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [workstations] for some common usage scenarios.  
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
 Follow the steps below to install the required tools:
@@ -173,6 +173,13 @@ You are ready to build a Vagrant box.
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the templates and the related resources (e.g. the unattended install configuration) required to build the boxes. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
+
+[Usage]: #usage
+
+[PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
+[PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
+[SourceCoreCake]: src/core/cake
+[Cake]: http://cakebuild.net/
 
 ### Building a native box
 
@@ -212,6 +219,8 @@ $ .\ci.ps1 build virtualbox-ovf
 
 This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w16s/virtualbox-ovf` in the root of your clone. Native images like this can now be directly imported into the respective virtualization platform.
 
+[Source]: src
+
 ### Building a Vagrant box
 
 As mentioned above, based on Packer's support for starting builds from some virtualization providers' native format, builds can reuse the artifacts of a previous one. To build the Vagrant box for the above configuration, type the following command:
@@ -230,9 +239,11 @@ $ .\ci.ps1 build hyperv-vagrant
 
 As you can expect, for this sample the build artifacts will be created in the `artifacts/w16s` folder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
+[VagrantDistribute]: https://www.vagrantup.com/docs/boxes/base.html#distributing-the-box
+
 ### Chaining builds further
 
-Similarly to the example above, you can use build chaining to build more complex boxes. For example, the configuration for Windows Server 2016 Standard with IIS works like this.
+Similarly to the example above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2016 Standard` with `IIS` works like this.
 
 ```powershell
 $ cd src\w16s-iis
@@ -240,7 +251,7 @@ $ .\ci.ps1 build virtualbox-ovf
 $ .\ci.ps1 build virtualbox-vagrant
 ```
 
-Unlike in the previous `w16s` sample, for this configuration the first `virtualbox-ovf` build will start from the native output of `w16s` instead of starting with the OS installation. Chanining builds like this has other limitations, so you can use this approach to build boxes with any number of components very effectively.
+Unlike in the previous `w16s` sample, for this configuration the first `virtualbox-ovf` build will start from the native output of `w16s` instead of starting with the OS installation. Chanining builds like this has no limitations, so you can use this approach to build boxes with any number of components very effectively.
 
 For now, for Hyper-V you can simply start from scratch:
 
@@ -249,15 +260,6 @@ $ .\ci.ps1 build hyperv-vagrant
 ```
 
 Builds will take significantly longer, but the result will be exactly the same as for the VirtualBox chained builds.
-
-[Usage]: #usage
-
-[PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
-[PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
-[SourceCoreCake]: src/core/cake
-[Cake]: http://cakebuild.net/
-[Source]: [src]
-[VagrantDistribute]: https://www.vagrantup.com/docs/boxes/base.html#distributing-the-box
 
 ## Contributing
 
