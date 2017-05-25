@@ -51,7 +51,10 @@ In the box:
     - [Chocolatey](https://chocolatey.org/packages/chocolatey/) 0.10.5
     - [7-Zip](https://chocolatey.org/packages/7zip/) 16.4.0
     - [Chef Client](https://chocolatey.org/packages/chef-client) 12.14.77
+    - **Hyper-V** Generation 1, Configuration Version 8.0
+      - Requires Windows 10 or Windows Server 2016 version 1607 or later on the host
     - **VirtualBox** [VirtualBox Guest Additions](https://www.virtualbox.org/manual/ch04.html) 5.1.22
+      - Recommended to have VirtualBox version 5.1.22 or later on the host
   - Vagrant box
     - WinRM communicator
     - 1 CPU
