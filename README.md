@@ -1,8 +1,10 @@
 # Packer
 
-**Quick links** [Vagrant boxes] | [Workstation samples][Workstations]  
+**Quick links** [Vagrant boxes] | [Workstation samples][Workstations] | [Vagrant resources]  
 
-This repository contains Packer templates to build Windows-based Vagrant boxes for .NET development purposes using Hyper-V / VirtualBox and Chef.
+This repository contains Packer templates to build Vagrant boxes for virtualized .NET development on Windows with Hyper-V and VirtualBox.
+
+[Vagrant resources]: https://github.com/gusztavvargadr/vagrant
 
 **Contents** [Overview] | [Getting started] | [Usage] | [Contributing] | [Resources]  
 
