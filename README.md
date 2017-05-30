@@ -1,6 +1,6 @@
 # Packer
 
-**Quick links** [Vagrant boxes] | [Workstation samples][Workstations] | [Vagrant resources]  
+**Quick links** [Vagrant boxes] | [Virtual workstations] | [Vagrant resources]  
 
 This repository contains Packer templates to build Vagrant boxes for virtualized .NET development on Windows with Hyper-V and VirtualBox.
 
@@ -13,7 +13,7 @@ This repository contains Packer templates to build Vagrant boxes for virtualized
 This repository contains [Packer] templates to build Windows-based [Vagrant boxes] for the following scenarios:
 
 - Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016.
-- [.NET development] [workstations] using Visual Studio 2017, 2015 and 2010.
+- [.NET development] using Visual Studio 2017, 2015 and 2010.
 - [.NET hosting] using IIS and SQL Server 2014.
 
 The boxes are built for [Hyper-V] - supporting [nested virtualization] - and [VirtualBox] and are provisioned using [Chef]. All the components, including the core operating systems, share the following characteristics:
@@ -71,7 +71,7 @@ In the box:
 
 ### .NET development
 
-The following boxes can be used for setting up .NET development [workstations].
+The following boxes can be used for setting up [virtual workstations] for .NET development .
 
 The boxes contain the respective Visual Studio version with the commonly used options and are based on the core images of the [operating systems].
 
@@ -141,7 +141,7 @@ In the box:
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are interested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [workstations] for some common usage scenarios.  
+**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are interested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [virtual workstations] for some common usage scenarios.  
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
 Follow the steps below to install the required tools:
@@ -165,7 +165,7 @@ You are now ready to build a Vagrant box.
 
 [Getting started]: #getting-started
 
-[Workstations]: https://github.com/gusztavvargadr/workstations
+[Virtual workstations]: https://github.com/gusztavvargadr/workstations
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
 [ChefDKInstallation]: https://downloads.chef.io/chefdk
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
