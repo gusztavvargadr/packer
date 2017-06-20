@@ -1,5 +1,18 @@
 # Packer
 
+<!--
+TODO: native vs vagrant outputs
+TODO: more options to core Vagrantfile (e.g. network, SMB)
+TODO: aws treesize
+TODO: artifacts dir create, force
+TODO: move artifact files to fixed locations
+TODO: restore only warn if validate fails?
+TODO: restore vs build to check for change
+TODO: package / publish to move artifacts?
+TODo: artifacts in build dir?
+TODO: aws custom security group with rdp
+-->
+
 **Quick links** [Vagrant resources] | [Virtual workstations] | [Vagrant boxes] | [Packer templates]  
 
 [This repository][Packer templates] contains Packer templates to build Vagrant boxes for virtualized .NET development on Windows with Hyper-V and VirtualBox.
@@ -143,6 +156,7 @@ In the box:
 ## Getting started
 
 **Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are interested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [virtual workstations] for some common usage scenarios.  
+
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
 Follow the steps below to install the required tools:
@@ -175,6 +189,7 @@ You are now ready to build a Vagrant box.
 ## Usage
 
 **Note** This section assumes you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
+
 **Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the templates and the related resources (e.g. the unattended install configuration) required to build the boxes. Besides supporting easier automation, this approach helps with reusing parts of the templates and the

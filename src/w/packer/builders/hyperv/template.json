@@ -1,0 +1,16 @@
+{
+  "variables": {
+    "hyperv_ram_size": "4096",
+    "hyperv_enable_dynamic_memory": "false",
+    "hyperv_cpu": "2",
+    "hyperv_enable_virtualization_extensions": "true",
+    "hyperv_enable_mac_spoofing": "true",
+    "hyperv_boot_wait": "1m",
+    "hyperv_communicator": "winrm",
+    "hyperv_winrm_username": "vagrant",
+    "hyperv_winrm_password": "vagrant",
+    "hyperv_winrm_timeout": "1h",
+    "hyperv_guest_additions_mode": "disable",
+    "hyperv_shutdown_command": "A:/shutdown.cmd",
+  }
+}

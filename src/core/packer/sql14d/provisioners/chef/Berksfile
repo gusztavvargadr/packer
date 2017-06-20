@@ -1,7 +1,0 @@
-local_directory = File.expand_path('../../../../../../src/core/chef/', __FILE__)
-core_directory = local_directory
-
-instance_eval(File.read("#{core_directory}/Berksfile.core.rb"))
-
-gusztavvargadr_packer_cookbook 'sql14d', local_directory
-gusztavvargadr_packer_cookbook 'sql', local_directory

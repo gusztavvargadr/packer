@@ -1,0 +1,4 @@
+directory = File.dirname(__FILE__)
+require "#{directory}/../../../../../Berksfile.core"
+
+gusztavvargadr_packer_sources
