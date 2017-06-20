@@ -5,7 +5,7 @@ powershell_script 'Execute NGen' do
   action :run
 end
 
-volume = node['gusztavvargadr_w']['cleanup']['volume']
+volume = node['gusztavvargadr_packer_w']['cleanup']['volume']
 if volume
   gusztavvargadr_windows_updates '' do
     action [:cleanup]

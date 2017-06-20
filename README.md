@@ -1,36 +1,26 @@
 # Packer
 
-<!--
-TODO: native vs vagrant outputs
-TODO: more options to core Vagrantfile (e.g. network, SMB)
-TODO: aws treesize
-TODO: artifacts dir create, force
-TODO: move artifact files to fixed locations
-TODO: restore only warn if validate fails?
-TODO: restore vs build to check for change
-TODO: package / publish to move artifacts?
-TODo: artifacts in build dir?
-TODO: aws custom security group with rdp
--->
-
 **Quick links** [Vagrant resources] | [Virtual workstations] | [Vagrant boxes] | [Packer templates]  
 
-[This repository][Packer templates] contains Packer templates to build Vagrant boxes for virtualized .NET development on Windows with Hyper-V and VirtualBox.
-
 [Vagrant resources]: https://github.com/gusztavvargadr/vagrant
+
+[This repository][Packer templates] contains Packer templates to build Vagrant boxes for .NET development scenarios with Hyper-V, VirtualBox and AWS.
+
 [Packer templates]: https://github.com/gusztavvargadr/packer
 
 **Contents** [Overview] | [Getting started] | [Usage] | [Contributing] | [Resources]  
 
 ## Overview
 
-This repository contains [Packer] templates to build Windows-based [Vagrant boxes] for the following scenarios:
+This repository contains [Packer] templates to build [Vagrant boxes] and native virtual machine images for the following scenarios:
 
 - Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016.
 - [.NET development] using Visual Studio 2017, 2015 and 2010.
 - [.NET hosting] using IIS and SQL Server 2014.
 
-The boxes are built for [Hyper-V] - supporting [nested virtualization] - and [VirtualBox] and are provisioned using [Chef]. All the components, including the core operating systems, share the following characteristics:
+The virtual machine images are built for [Hyper-V] - supporting [nested virtualization] -, [VirtualBox] and [AWS] and are provisioned using [Chef].
+
+All the components, including the core operating systems, share the following characteristics:
 
 * They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
 * They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
@@ -43,18 +33,18 @@ The boxes are built for [Hyper-V] - supporting [nested virtualization] - and [Vi
 
 ### Operating systems
 
-The following boxes can be used for generic expirments on the respective platforms.
+The following Vagrant boxes can be used for generic expirments on the respective platforms.
 
-The boxes contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other boxes below are based on these configurations as well.
+They contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other Vagrant boxes below are based on these configurations as well.
 
-- **Windows Server 2016**
-  - **[Standard][w16s]**
 - **Windows 10**
   - **[Enterpise][w10e]**
+- **Windows Server 2016**
+  - **[Standard][w16s]**
 
 In the box:
 
-- **Windows Server 2016 1607** and **Windows 10 1703**
+- **Windows 10 1703** and **Windows Server 2016 1607** 
   - Operating system
     - Administrator user with user name `vagrant` and password `vagrant` set to never expire
     - WinRM enabled
@@ -80,14 +70,14 @@ In the box:
 
 [Operating systems]: #operating-systems
 
-[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
 [w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
+[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
 
 ### .NET development
 
-The following boxes can be used for setting up [virtual workstations] for .NET development .
+The following Vagrant boxes can be used for setting up [virtual workstations] for .NET development .
 
-The boxes contain the respective Visual Studio version with the commonly used options and are based on the core images of the [operating systems].
+They contain the respective Visual Studio version with the commonly used options and are based on the core [operating systems].
 
 - **Visual Studio 2017**
   - **[Community][w16s-vs17c]** with Windows Server 2016
@@ -130,9 +120,9 @@ In the box:
 
 ### .NET hosting
 
-The following boxes can be used for .NET hosting scenarios.
+The following Vagrant boxes can be used for .NET hosting scenarios.
 
-The boxes contain the respective hosting tools with the default configuration are based on the core images of the [operating systems].
+They contain the respective hosting tools with the default configuration are based on the core [operating systems].
 
 - **IIS 10**
   - **[OS component][w16s-iis]** with Windows Server 2016
@@ -155,7 +145,7 @@ In the box:
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes using Packer. If you are interested in just using the already available [boxes][Vagrant boxes] instead, check out the samples of [virtual workstations] for some common usage scenarios.  
+**Note** The rest of this document covers the details of building Vagrant boxes or native virtual machine images using Packer. If you are interested in just using the already available [Vagrant boxes] instead, check out the samples of [virtual workstations] for some common usage scenarios.  
 
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
@@ -166,15 +156,7 @@ Follow the steps below to install the required tools:
 1. Install the tools for the virtualization provider you want to use.
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
-
-Then, clone this repo, and navigate to the root directory of the clone using PowerShell. Type the following commands to verify the installations:
-
-```powershell
-$ cd .\src\w16s
-$ .\ci.ps1 restore virtualbox-ovf
-```
-
-If the build script completes without errors, and the folder `build/w16s/virtualbox-ovf` in the root of your clone contains the file `template.json`, that means that you have set up everything correctly.
+    - **AWS** Install the [AWS Command Line Interface][AWSCLIInstallation].
 
 You are now ready to build a Vagrant box.
 
@@ -185,6 +167,7 @@ You are now ready to build a Vagrant box.
 [ChefDKInstallation]: https://downloads.chef.io/chefdk
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads
+[AWSCLIInstallation]: https://aws.amazon.com/cli/
 
 ## Usage
 
@@ -192,7 +175,7 @@ You are now ready to build a Vagrant box.
 
 **Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
 
-This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the templates and the related resources (e.g. the unattended install configuration) required to build the boxes. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
+This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the Packer templates and the related resources (e.g. the unattended install configuration) required to build the virtual machine images. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
 
 [Usage]: #usage
@@ -202,85 +185,139 @@ related resources, and makes chaining builds and creating new configurations qui
 [SourceCoreCake]: src/core/cake
 [Cake]: http://cakebuild.net/
 
-### Building a native box
+### Building a native virtual machine image
 
-Start by navigating to the [source] of the configuration you want to build using PowerShell. For example, to build a `Windows Server 2016 Standard` box, select `w16s` and enter the `info` command to list the available templates:
+Clone this repo, and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
 
 ```powershell
-$ cd .\src\w16s
-$ .\ci.ps1 info
+$ .\ci.ps1 [info]
 ```
 
-The output will contain a section similar to the one below:
+The output will be contain the section `packer-info` with the list of the templates:
 
 ```
+...
 ========================================
 packer-info
 ========================================
 Executing task: packer-info
-virtualbox-ovf: Info
-virtualbox-vagrant: Info
-hyperv-vagrant: Info
-Finished executing task: packer-info
+w10e-virtualbox-base: Info
+w10e-virtualbox-sysprep: Info
+w10e-hyperv-sysprep: Info
+w16s-virtualbox-base: Info
+w16s-virtualbox-sysprep: Info
+w16s-hyperv-sysprep: Info
+w16s-amazon-sysprep: Info
+w16s-iis-virtualbox-base: Info
+...
 ```
 
-This means that this configuration supports building a box with the native VirtualBox image format (`virtualbox-ovf`), and also boxes to be used with Vagrant directly with the respective virtualization provider (`virtualbox-vagrant`, `hyperv-vagrant`). Under the hood, `virtualbox-vagrant` will simply reuse the output of `virtualbox-ovf`, so the build time can be reduced significantly.
-
-Now, invoke the `restore` command with the name of the template you want to build to create the template and the related resources. For example, for the native VirtualBox image format, type the following command:
+You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates of the `Windows 10 Enterprise` image, invoke the `info` command with the `w10e` parameter:
 
 ```powershell
-$ .\ci.ps1 restore virtualbox-ovf
+$ .\ci.ps1 info w10e
+```
+
+The output will contain only the matching templates:
+
+```
+...
+========================================
+packer-info
+========================================
+Executing task: packer-info
+w10e-virtualbox-base: Info
+w10e-virtualbox-sysprep: Info
+w10e-hyperv-sysprep: Info
+Finished executing task: packer-info
+...
+```
+
+This means that this configuration supports building an image with the native VirtualBox image format (`virtualbox-base`), and also a box to be used with Vagrant directly with the respective virtualization provider (`virtualbox-sysprep`, `hyperv-sysprep`). Under the hood, `virtualbox-sysprep` will simply reuse the output of `virtualbox-base`, so the build time can be reduced significantly.
+
+Now, invoke the `restore` command with the name of the template you want to build to create resources required by Packer. For example, for the native VirtualBox image format, type the following command:
+
+```powershell
+$ .\ci.ps1 restore w10e-virtualbox-base
 ``` 
 
-This will create the folder `build/w16s/virtualbox-ovf` in the root of your clone with all the files required to build the box. This setup is self-contained, so you can adjust the parameters manually in `template.json` and / or even copy it to a different machine and simply invoke `packer build template.json` there to build it. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured. This can be done from the source directory as well:
+This will create the folder `build/w10e/virtualbox-base` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
 
 ```powershell
 $ .\ci.ps1 build virtualbox-ovf
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w16s/virtualbox-ovf` in the root of your clone. Native images like this can now be directly imported into the respective virtualization provider.
-
-[Source]: src
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w10e/virtualbox-base` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
 
 ### Building a Vagrant box
 
-As mentioned above, based on Packer's support for starting builds from some virtualization providers' native format, builds can reuse the artifacts of a previous one. To build the Vagrant box for the above configuration, type the following command:
+As mentioned above, based on Packer's support for starting builds from some virtualization providers' native image format, builds can reuse the artifacts of a previous build. To build the Vagrant box for the above configuration, type the following command:
 
 ```powershell
-$ .\ci.ps1 build virtualbox-vagrant
+$ .\ci.ps1 build w10e-virtualbox-sysprep
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically and then invoking the build process in a single step. It will also reuse the output of the `virtualbox-ovf` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.).
+Note that this will include restoring the build folder with the template and the related resources automatically and then invoking the build process in a single step. It will also reuse the output of the `w10e-virtualbox-base` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.).
 
 For Hyper-V this build chaining is not supported yet, though of course you can still build a Vagrant box, it's just that it will always start from scratch:
 
 ```powershell
-$ .\ci.ps1 build hyperv-vagrant
+$ .\ci.ps1 build w10e-hyperv-sysprep
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `artifacts/w16s` folder as well. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `artifacts/w10e` folder as well, this time under the `hyperv-sysprep` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [VagrantDistribute]: https://www.vagrantup.com/docs/boxes/base.html#distributing-the-box
 
 ### Chaining builds further
 
-Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2016 Standard` with `IIS` works like this.
+Similarly to the process above, you can use build chaining to build more complex Vagrant boxes. For example, the configuration for `Windows Server 2016 Standard` with `IIS` can be built like this:
 
 ```powershell
-$ cd src\w16s-iis
-$ .\ci.ps1 build virtualbox-ovf
-$ .\ci.ps1 build virtualbox-vagrant
+$ .\ci.ps1 build w16s-virtualbox-base
+$ .\ci.ps1 build w16s-iis-virtualbox-base
+$ .\ci.ps1 build w16s-iis-virtualbox-sysprep
 ```
 
-Unlike in the previous `w16s` sample, for this configuration the first `virtualbox-ovf` build will start from the native output of `w16s` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build boxes with any number of components very effectively.
+Similar to the previous `w10e` sample, for this configuration the `w16s-iis-virtualbox-base` build will start from the output of `w16s-virtualbox-base` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build Vagrant boxes with any number of components very effectively.
+
+Note that the script can invokethe build of the dependencies automatically, so for the previous example you can simply type:
+
+```powershell
+$ .\ci.ps1 build w16s-iis-virtualbox-sysprep --recursive=true
+```
+
+This will in turn invoke the `restore` and `build` stages for the `w16s-virtualbox-base` and `w16s-iis-virtualbox-base` images. By default, `restore` and `build` is skipped if the artifacts from a previous build exist. You can force the build to run again using the `rebuild` command instead.
 
 For now, for Hyper-V you can simply start from scratch:
 
 ```powershell
-$ .\ci.ps1 build hyperv-vagrant
+$ .\ci.ps1 build w16s-iis-hyperv-sysprep
 ```
 
-Builds will take significantly longer, but the result will be exactly the same as for the VirtualBox chained builds.
+The build will take somewhat longer, but the result will be exactly the same as for the VirtualBox chained builds.
+
+### Cleaning up
+
+Though the `build` and `artifacts` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
+
+```
+$ .\ci.ps1 clean w16s-iis-virtualbox-sysprep
+```
+
+The build script parameter specifying the template to work with uses simple pattern matching on the names of the available templates, so you can use this to select multiple templates easily. For example, to clean up the artifacts of all the VirtualBox builds, you can type:
+
+```powershell
+$ .\ci.ps1 clean virtualbox
+```
+
+Omitting this parameter will apply the command to all the templates, so this command will clean up everything.
+
+```powershell
+$ .\ci.ps1 clean virtualbox
+```
+
+The pattern matching used for cleanup works with all the other commands (`info`, `restore`, `build`) mentioned earlier.
 
 ## Contributing
 
@@ -305,6 +342,7 @@ This repository could not exist without the following great tools:
 * [Packer]
 * [Hyper-V]
 * [VirtualBox]
+* [AWS]
 * [Chef]
 * [Vagrant]
 
@@ -320,6 +358,7 @@ This repository borrows awesome ideas and solutions from the following sources:
 [Packer]: https://www.packer.io/
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
 [VirtualBox]: https://www.virtualbox.org/
+[AWS]: https://aws.amazon.com/
 [Chef]: https://chef.io/chef/
 [Vagrant]: https://www.vagrantup.com/
 
