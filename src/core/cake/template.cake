@@ -1,3 +1,4 @@
+#load "./component.cake"
 #load "./builder.cake"
 #load "./provisioner.cake"
 #load "./postprocessor.cake"
@@ -6,57 +7,51 @@
 #addin "Cake.Json"
 
 class PackerTemplate {
-  public PackerImage Image { get; set; }
+  public string Type { get; set; }
   public string Name { get; set; }
+  public string FullName { get { return Type + "-" + Name; } }
+  public IEnumerable<Component> Components { get; set; }
   public IEnumerable<PackerBuilder> Builders { get; set; }
   public IEnumerable<PackerProvisioner> Provisioners { get; set; }
   public IEnumerable<PackerPostProcessor> PostProcessors { get; set; }
-  public string ParentImageName { get; set; }
-  public string ParentTemplateName { get; set; }
+  public PackerTemplate Parent { get; set; }
 
   public bool IsMatching(string name) {
-    return string.IsNullOrEmpty(name) || Name.Contains(name);
+    return string.IsNullOrEmpty(name) || FullName.Contains(name);
   }
 
   public string GetLogMessage(string message) {
-    return Name + ": " + message;
+    return FullName + ": " + message;
   }
 
   public string GetBuildDirectory() {
-    return Image.GetBuildDirectory() + "/" + Name;
+    return "build/" + Type + "/" + Name;
   }
 
   public string GetArtifactsDirectory() {
-    return Image.GetArtifactsDirectory() + "/" + Name;
+    return "artifacts/" + Type + "/" + Name;
   }
 }
 
 PackerTemplate PackerTemplate_Create(
+  string type,
   string name,
   IEnumerable<PackerBuilder> builders,
   IEnumerable<PackerProvisioner> provisioners,
   IEnumerable<PackerPostProcessor> postprocessors,
-  string parentImageName,
-  string parentTemplateName
+  PackerTemplate parent
 ) {
+  var components = type.Split('-').Select(component => Component_Create(component)).ToList();
+
   return new PackerTemplate {
+    Type = type,
     Name = name,
+    Components = components,
     Builders = builders,
     Provisioners = provisioners,
     PostProcessors = postprocessors,
-    ParentImageName = parentImageName,
-    ParentTemplateName = parentTemplateName
+    Parent = parent
   };
-}
-
-PackerTemplate PackerTemplate_GetParent(PackerTemplate template) {
-  if (string.IsNullOrEmpty(template.ParentImageName) || string.IsNullOrEmpty(template.ParentTemplateName)) {
-    return null;
-  }
-
-  var parentTemplate = new PackerTemplate { Name = template.ParentTemplateName };
-  var parentImage = PackerImage_Create(template.ParentImageName, template.Image.RootDirectory, new [] { parentTemplate });
-  return parentTemplate;
 }
 
 void PackerTemplate_Info(PackerTemplate template) {
@@ -67,6 +62,8 @@ void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
   CleanDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory());
+  
   CleanDirectory(template.GetArtifactsDirectory());
   DeleteDirectory(template.GetArtifactsDirectory());
 }
@@ -78,17 +75,12 @@ void PackerTemplate_Version(PackerTemplate template) {
 void PackerTemplate_Restore(PackerTemplate template) {
   PackerTemplate_Log(template, "Restore");
 
-  if (GetFiles(template.GetBuildDirectory() + "/template.json").Any()) {
+  if (DirectoryExists(template.GetBuildDirectory())) {
     return;
   }
 
-  EnsureDirectoryExists(template.GetBuildDirectory());
-
   PackerTemplate_MergeDirectories(template);
-  PackerTemplate_Berkshelf(template, "package cookbooks.tar.gz");
   PackerTemplate_MergeJson(template);
-
-  PackerTemplate_Packer(template, "validate template.json");  
 }
 
 void PackerTemplate_Build(PackerTemplate template) {
@@ -97,22 +89,34 @@ void PackerTemplate_Build(PackerTemplate template) {
   if (DirectoryExists(template.GetArtifactsDirectory())) {
     return;
   }
-  
+
   PackerTemplate_Packer(template, "build template.json");
+}
+
+void PackerTemplate_Test(PackerTemplate template) {
+  PackerTemplate_Log(template, "Test");
+}
+
+void PackerTemplate_Package(PackerTemplate template) {
+  PackerTemplate_Log(template, "Package");
+}
+
+void PackerTemplate_Publish(PackerTemplate template) {
+  PackerTemplate_Log(template, "Publish");
 }
 
 void PackerTemplate_MergeDirectories(PackerTemplate template) {
   PackerTemplate_Log(template, "Merge Directories");
 
-  foreach (var component in template.Image.Components) {
-    foreach (var sourceDirectory in GetDirectories("../core/packer/*")) {
+  foreach (var component in template.Components) {
+    foreach (var sourceDirectory in GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/builders/*")) {
+        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -125,7 +129,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/provisioners/*")) {
+        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -138,7 +142,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/postprocessors/*")) {
+        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -155,23 +159,6 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
 }
 
-void PackerTemplate_Berkshelf(PackerTemplate template, string arguments) {
-  PackerTemplate_Log(template, "Berkshelf " + arguments);
-
-  var berksDirectory = template.GetBuildDirectory() + "/provisioners/chef";
-  if (!FileExists(berksDirectory + "/Berksfile")) {
-    return;
-  }
-
-  var result = StartProcess("C:/opscode/chefdk/bin/berks.bat", new ProcessSettings {
-    Arguments = arguments,
-    WorkingDirectory = berksDirectory
-  });
-  if (result != 0) {
-    throw new Exception("Process exited with code " + result + ".");
-  }
-}
-
 void PackerTemplate_MergeJson(PackerTemplate template) {
   var jsonFileName = "template.json";
   var jsonFile = template.GetBuildDirectory() + "/" + jsonFileName;
@@ -181,41 +168,44 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var json = new JObject();
 
   var jsonTemplateVariables = new JObject();
-  jsonTemplateVariables["name"] = template.Image.Name;
-  jsonTemplateVariables["description"] = template.Image.Description;
-  jsonTemplateVariables["version"] = "0.0.0";
+  jsonTemplateVariables["name"] = template.FullName;
   var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
   var artifactsDirectory = MakeAbsolute(Directory(template.GetArtifactsDirectory()));
   jsonTemplateVariables["artifacts_directory"] = buildDirectory.GetRelativePath(artifactsDirectory).ToString();
-  var parent = PackerTemplate_GetParent(template);
+  var parent = template.Parent;
   if (parent != null) {
-    var parentArtifactsDirectory = MakeAbsolute(Directory(parent.GetArtifactsDirectory()));
-    var manifestFile = parentArtifactsDirectory + "/manifest.json";
+    var parentBuildDirectory = MakeAbsolute(Directory(parent.GetBuildDirectory()));
+    var manifestFile = parentBuildDirectory + "/manifest.json";
     if (FileExists(manifestFile)) {
-    var manifest = ParseJsonFromFile(parentArtifactsDirectory + "/manifest.json");
+    var manifest = ParseJsonFromFile(manifestFile);
       jsonTemplateVariables["parent_artifact_file"] = manifest["builds"][0]["files"][1]["name"].ToString();
     }
   }
+  var descriptions = new List<string>();
   var runList = new List<string>();
   runList.AddRange(template.Builders.Select(item => item.Name));
   
-  foreach (var component in template.Image.Components) {
-    if (parent == null || !parent.Image.Components.Any(item => item.Name == component.Name)) {
+  foreach (var component in template.Components) {
+    if (parent == null || !parent.Components.Any(item => item.Name == component.Name)) {
       runList.Add(component.Name);
     }
 
-    foreach (var sourceDirectory in GetDirectories("../core/packer/*")) {
+    foreach (var sourceDirectory in GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
       }
 
-      foreach (var file in GetFiles(sourceDirectory + "/" + jsonFileName)) {
+      foreach (var file in GetFiles(sourceDirectory + "/packer/" + jsonFileName)) {
         json.Merge(ParseJsonFromFile(file));
+      }
+      var description = json["variables"]["description"].ToString();
+      if (!string.IsNullOrEmpty(description)) {
+        descriptions.Add(description);
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/builders/*")) {
+        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -228,7 +218,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/provisioners/*")) {
+        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -241,7 +231,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/postprocessors/*")) {
+        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -255,7 +245,13 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
     }
   }
 
-  jsonTemplateVariables["chef_run_list"] = string.Join(",", runList.Select(item => "role[gusztavvargadr_packer_" + item.Replace("-", "_") + "]"));
+  jsonTemplateVariables["description"] = string.Join(", ", descriptions);
+
+  jsonTemplateVariables["chef_run_list_prepare"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::prepare]"));
+  jsonTemplateVariables["chef_run_list_install"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::install]"));
+  jsonTemplateVariables["chef_run_list_patch"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::patch]"));
+  jsonTemplateVariables["chef_run_list_cleanup"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::cleanup]"));
+  
   var jsonTemplate = new JObject();
   jsonTemplate["variables"] = jsonTemplateVariables;
   json.Merge(jsonTemplate);

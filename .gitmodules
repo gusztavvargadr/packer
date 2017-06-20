@@ -1,0 +1,3 @@
+[submodule "lib/gusztavvargadr/infrastructure"]
+	path = lib/gusztavvargadr/infrastructure
+	url = https://github.com/gusztavvargadr/infrastructure.git

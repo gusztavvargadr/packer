@@ -1,0 +1,20 @@
+{
+  "variables": {
+    "name": "",
+    "description": "",
+    "version": "0.0.0",
+    "author": "gusztavvargadr",
+    "artifacts_directory": ""
+  },
+  "description": "{{user `description`}}",
+  "builders": [
+  ],
+  "provisioners": [
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json"
+    }
+  ]
+}

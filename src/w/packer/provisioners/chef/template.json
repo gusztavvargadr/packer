@@ -1,0 +1,76 @@
+{
+  "variables": {
+    "chef_source": "provisioners/chef",
+    "chef_destination": "C:/packer-chef",
+    "chef_guest_os_type": "windows",
+    "chef_skip_install": "true",
+    "chef_run_list_prepare": "",
+    "chef_run_list_install": "",
+    "chef_run_list_patch": "",
+    "chef_run_list_cleanup": "",
+    "chef_restart_timeout": "1h"
+  },
+  "provisioners": [
+    {
+      "type": "shell-local",
+      "command": "berks package -b {{user `chef_source`}}/Berksfile {{user `chef_source`}}/upload/cookbooks.tar.gz"
+    },
+    {
+      "type": "file",
+      "source": "{{user `chef_source`}}/upload/",
+      "destination": "{{user `chef_destination`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "{{user `chef_destination`}}/prepare.ps1"
+      ]
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "{{user `chef_skip_install`}}",
+      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
+      "run_list": "{{user `chef_run_list_prepare`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "{{user `chef_skip_install`}}",
+      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
+      "run_list": "{{user `chef_run_list_install`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "{{user `chef_skip_install`}}",
+      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
+      "run_list": "{{user `chef_run_list_patch`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "{{user `chef_skip_install`}}",
+      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
+      "run_list": "{{user `chef_run_list_cleanup`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "{{user `chef_destination`}}/cleanup.ps1"
+      ]
+    }
+  ]
+}

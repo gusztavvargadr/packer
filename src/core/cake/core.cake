@@ -1,49 +1,65 @@
-#load "./image.cake"
+#load "./template.cake"
 
-PackerImage packerImage = new PackerImage();
+IEnumerable<PackerTemplate> packerTemplates = new PackerTemplate[] {};
 var packerTemplate = string.Empty;
+var packerRecursive = false;
+
+void PackerTemplates_ForEach(string template, Action<PackerTemplate> action, bool recursive) {
+  foreach (var t in packerTemplates.Where(item => item.IsMatching(template))) {
+    if (recursive && t.Parent != null) {
+      PackerTemplates_ForEach(t.Parent.FullName, action, true);
+    }
+    action(t);
+  }
+}
 
 Task("packer-info")
   .Does(() => {
-    PackerImage_Info(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Info, packerRecursive);
   });
 
 Task("packer-clean")
   .Does(() => {
-    PackerImage_Clean(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Clean, packerRecursive);
   });
 
 Task("packer-version")
   .Does(() => {
-    PackerImage_Version(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Version, packerRecursive);
   });
 
 Task("packer-restore")
   .Does(() => {
-    PackerImage_Restore(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Restore, packerRecursive);
   });
 
 Task("packer-build")
   .IsDependentOn("packer-version")
   .IsDependentOn("packer-restore")
   .Does(() => {
-    PackerImage_Build(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Build, packerRecursive);
+  });
+
+Task("packer-rebuild")
+  .IsDependentOn("packer-clean")
+  .IsDependentOn("packer-build")
+  .Does(() => {
   });
 
 Task("packer-test")
   .IsDependentOn("packer-build")
   .Does(() => {
-    PackerImage_Test(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Test, packerRecursive);
   });
 
 Task("packer-package")
   .IsDependentOn("packer-test")
   .Does(() => {
-    PackerImage_Package(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Package, packerRecursive);
   });
 
 Task("packer-publish")
   .IsDependentOn("packer-package")
   .Does(() => {
-    PackerImage_Publish(packerImage, packerTemplate);
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Publish, packerRecursive);
   });
