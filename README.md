@@ -1,8 +1,8 @@
 # Packer
 
-**Quick links** [Vagrant resources] | [Virtual workstations] | [Vagrant boxes] | [Packer templates]  
+**See also** [Virtual workstations] | [Packer templates] | [Infrastructure components]  
 
-[Vagrant resources]: https://github.com/gusztavvargadr/vagrant
+[Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
 
 [This repository][Packer templates] contains Packer templates to build Vagrant boxes for .NET development scenarios with Hyper-V, VirtualBox and AWS.
 
