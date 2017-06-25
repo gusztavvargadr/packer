@@ -4,8 +4,15 @@ var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
 
+packerTemplates = new List<PackerTemplate>();
+
 var w10e = PackerTemplates_Create("w10e");
 var w10e_dc = PackerTemplates_Create("w10e-dc", parent: w10e.First());
+
+packerTemplates = packerTemplates.
+  Concat(w10e).
+  Concat(w10e_dc).
+  ToList();
 
 var w16s = PackerTemplates_Create("w16s", amazon: true);
 var w16s_dc = PackerTemplates_Create("w16s-dc", parent: w16s.First());
@@ -17,11 +24,6 @@ var w16s_vs15p = PackerTemplates_Create("w16s-vs15p", parent: w16s.First());
 var w16s_vs17c = PackerTemplates_Create("w16s-vs17c", parent: w16s.First());
 var w16s_vs17p = PackerTemplates_Create("w16s-vs17p", parent: w16s.First());
 
-packerTemplates = new List<PackerTemplate>();
-packerTemplates = packerTemplates.
-  Concat(w10e).
-  Concat(w10e_dc).
-  ToList();
 packerTemplates = packerTemplates.
   Concat(w16s).
   Concat(w16s_dc).
@@ -33,6 +35,7 @@ packerTemplates = packerTemplates.
   Concat(w16s_vs17c).
   Concat(w16s_vs17p).
   ToList();
+
 packerTemplate = configuration;
 packerRecursive = recursive;
 

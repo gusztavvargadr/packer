@@ -184,7 +184,7 @@ You are now ready to build a Vagrant box.
 
 ## Usage
 
-**In this section** [Building a native virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Cleaning up]
+**In this section** [Building a native virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Testing] | [Cleaning up]
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the Packer templates and the related resources (e.g. the unattended install configuration) required to build the virtual machine images. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
@@ -312,6 +312,29 @@ The build will take somewhat longer, but the result will contain exactly the sam
 
 [Chaining builds further]: #chaining-builds-further
 
+### Testing
+
+To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs and the published images.
+
+For example, to test the `w10e` configuration, from the root of your clone you can type the following command to use the box file in the `build\w10`:
+
+```powershell
+$ vagrant up w10e-build
+```
+
+The following command will use the published [Vagrant boxes] instead:
+
+```powershell
+$ vagrant up w10e-publish
+```
+
+You can use the standard Vagrant commands to [clean up the boxes][VagrantCLIBox] after testing. 
+
+[Testing]: #testing
+
+[Vagrantfile]: Vagrantfile
+[VagrantCLIBox]: https://www.vagrantup.com/docs/cli/box.html
+
 ### Cleaning up
 
 Though the `build` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
@@ -329,7 +352,7 @@ $ .\ci.ps1 clean virtualbox
 Omitting this parameter will apply the command to all the templates, so the following command will clean up everything:
 
 ```powershell
-$ .\ci.ps1 clean virtualbox
+$ .\ci.ps1 clean
 ```
 
 The pattern matching used for cleanup works with all the other commands (`info`, `restore`, `build`, `rebuild`) mentioned earlier as well.
@@ -363,11 +386,11 @@ Any feedback, [issues] or [pull requests] are welcome and greatly appreciated. C
 This repository could not exist without the following great tools:
 
 * [Packer]
+* [Vagrant]
 * [Hyper-V]
 * [VirtualBox]
 * [AWS]
 * [Chef]
-* [Vagrant]
 
 This repository borrows awesome ideas and solutions from the following sources:
 
@@ -379,11 +402,11 @@ This repository borrows awesome ideas and solutions from the following sources:
 [Resources]: #resources
 
 [Packer]: https://www.packer.io/
+[Vagrant]: https://www.vagrantup.com/
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
 [VirtualBox]: https://www.virtualbox.org/
 [AWS]: https://aws.amazon.com/
 [Chef]: https://chef.io/chef/
-[Vagrant]: https://www.vagrantup.com/
 
 [Matt Wrock]: https://github.com/mwrock/packer-templates
 [Jacqueline]: https://github.com/jacqinthebox/packer-templates
