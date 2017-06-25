@@ -3,7 +3,7 @@
 **See also** [Vagrant boxes] | [Virtual workstations] | [Packer templates] | [Infrastructure components]  
 
 [Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
-[Virtual workstations]: https://github.com/gusztavvargadr/workstationss
+[Virtual workstations]: https://github.com/gusztavvargadr/workstations
 [Packer templates]: https://github.com/gusztavvargadr/packer
 [Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
 
@@ -155,7 +155,7 @@ In the box:
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes and native virtual machine images using Packer.  
+**Note** The rest of this document covers the details of building Vagrant boxes and native virtual machine images, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
 
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
@@ -170,29 +170,27 @@ Follow the steps below to install the required tools:
 
 You are now ready to build a Vagrant box.
 
+**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
+
 [Getting started]: #getting-started
 
+[PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
 [ChefDKInstallation]: https://downloads.chef.io/chefdk
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads
 [AWSCLIInstallation]: https://aws.amazon.com/cli/
+[PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
 
 ## Usage
 
-**In this section** [Building a native virtual machine image] | [Bulding a Vagrant box] | [Chaining builds further] | [Cleaning up]
-
-**Note** This section assumes you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
-
-**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
+**In this section** [Building a native virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Cleaning up]
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the Packer templates and the related resources (e.g. the unattended install configuration) required to build the virtual machine images. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
 
 [Usage]: #usage
 
-[PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
-[PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
 [SourceCoreCake]: src/core/cake
 [Cake]: http://cakebuild.net/
 
@@ -246,7 +244,7 @@ Finished executing task: packer-info
 
 This means that this configuration supports building an image with the native VirtualBox image format (`virtualbox-base`), and also a box to be used with Vagrant directly with the respective virtualization provider (`virtualbox-sysprep`, `hyperv-sysprep`). Under the hood, `virtualbox-sysprep` will simply reuse the output of `virtualbox-base`, so the build time can be reduced significantly.
 
-Now, invoke the `restore` command with the name of the template you want to build to create resources required by Packer. For example, for the native VirtualBox image format, type the following command:
+Now, invoke the `restore` command with the name of the template you want to build to create the resources required by Packer. For example, for the native VirtualBox image format, type the following command:
 
 ```powershell
 $ .\ci.ps1 restore w10e-virtualbox-base
@@ -258,7 +256,7 @@ This will create the folder `build/w10e/virtualbox-base` in the root of your clo
 $ .\ci.ps1 build virtualbox-ovf
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w10e/virtualbox-base` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `build/w10e/virtualbox-base/output` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
 
 [Building a native virtual machine image]: #building-a-native-virtual-machine-image
 
@@ -270,7 +268,7 @@ As mentioned above, based on Packer's support for starting builds from some virt
 $ .\ci.ps1 build w10e-virtualbox-sysprep
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically and then invoking the build process in a single step. It will also reuse the output of the `w10e-virtualbox-base` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.).
+Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `w10e-virtualbox-base` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.).
 
 For Hyper-V this build chaining is not supported yet, though of course you can still build a Vagrant box, it's just that it will always start from scratch:
 
@@ -278,7 +276,7 @@ For Hyper-V this build chaining is not supported yet, though of course you can s
 $ .\ci.ps1 build w10e-hyperv-sysprep
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `artifacts/w10e` folder as well, this time under the `hyperv-sysprep` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `builds/w10e` folder as well, this time under the `hyperv-sysprep/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [Building a Vagrant box]: #building-a-vagrant-box
 
@@ -294,15 +292,15 @@ $ .\ci.ps1 build w16s-iis-virtualbox-base
 $ .\ci.ps1 build w16s-iis-virtualbox-sysprep
 ```
 
-Similar to the previous `w10e` sample, for this configuration the `w16s-iis-virtualbox-base` build will start from the output of `w16s-virtualbox-base` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build Vagrant boxes with any number of components very effectively.
+As in the previous `w10e` sample, for this configuration the `w16s-iis-virtualbox-base` build will start from the output of `w16s-virtualbox-base` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build Vagrant boxes with any number of components very effectively.
 
-Note that the script can invokethe build of the dependencies automatically, so for the previous example you can simply type:
+Note that the script can invoke the build of the dependencies automatically, so for the previous example you can simply type:
 
 ```powershell
 $ .\ci.ps1 build w16s-iis-virtualbox-sysprep --recursive=true
 ```
 
-This will in turn invoke the `restore` and `build` stages for the `w16s-virtualbox-base` and `w16s-iis-virtualbox-base` images. By default, `restore` and `build` is skipped if the artifacts from a previous build exist. You can force the build to run again using the `rebuild` command instead.
+This will in turn invoke the `restore` and `build` stages for the `w16s-virtualbox-base` and `w16s-iis-virtualbox-base` images as well. By default, `restore` and `build` is skipped if the artifacts from a previous build exist. You can force the build to run again using the `rebuild` command instead.
 
 For now, for Hyper-V you can simply start from scratch:
 
@@ -310,13 +308,13 @@ For now, for Hyper-V you can simply start from scratch:
 $ .\ci.ps1 build w16s-iis-hyperv-sysprep
 ```
 
-The build will take somewhat longer, but the result will be exactly the same as for the VirtualBox chained builds.
+The build will take somewhat longer, but the result will contain exactly the same components as for the VirtualBox chained builds.
 
 [Chaining builds further]: #chaining-builds-further
 
 ### Cleaning up
 
-Though the `build` and `artifacts` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
+Though the `build` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
 
 ```
 $ .\ci.ps1 clean w16s-iis-virtualbox-sysprep
@@ -328,17 +326,19 @@ The build script parameter specifying the template to work with uses simple patt
 $ .\ci.ps1 clean virtualbox
 ```
 
-Omitting this parameter will apply the command to all the templates, so this command will clean up everything.
+Omitting this parameter will apply the command to all the templates, so the following command will clean up everything:
 
 ```powershell
 $ .\ci.ps1 clean virtualbox
 ```
 
-The pattern matching used for cleanup works with all the other commands (`info`, `restore`, `build`) mentioned earlier.
+The pattern matching used for cleanup works with all the other commands (`info`, `restore`, `build`, `rebuild`) mentioned earlier as well.
 
 [Cleaning up]: #cleaning-up
 
 ## Next steps
+
+Take a look at the repository of [virtual workstations] to easily automate and share your configurations using the [Vagrant boxes].
 
 [Next steps]: #next-steps
 
