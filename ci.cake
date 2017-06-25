@@ -5,27 +5,33 @@ var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
 
 var w10e = PackerTemplates_Create("w10e");
-var w10e_dc = PackerTemplates_Create("w10e_dc", parent: w10e.First());
-var w10e_dc_vs17c = PackerTemplates_Create("w10e-dc-vs17c", parent: w10e_dc.First());
+var w10e_dc = PackerTemplates_Create("w10e-dc", parent: w10e.First());
 
 var w16s = PackerTemplates_Create("w16s", amazon: true);
+var w16s_dc = PackerTemplates_Create("w16s-dc", parent: w16s.First());
 var w16s_iis = PackerTemplates_Create("w16s-iis", parent: w16s.First());
 var w16s_sql14d = PackerTemplates_Create("w16s-sql14d", parent: w16s.First());
-var w16s_dc = PackerTemplates_Create("w16s-dc", parent: w16s.First());
-var w16s_dc_vs17c = PackerTemplates_Create("w16s-dc-vs17c", parent: w16s_dc.First());
+var w16s_vs10p = PackerTemplates_Create("w16s-vs10p", parent: w16s.First());
+var w16s_vs15c = PackerTemplates_Create("w16s-vs15c", parent: w16s.First());
+var w16s_vs15p = PackerTemplates_Create("w16s-vs15p", parent: w16s.First());
+var w16s_vs17c = PackerTemplates_Create("w16s-vs17c", parent: w16s.First());
+var w16s_vs17p = PackerTemplates_Create("w16s-vs17p", parent: w16s.First());
 
 packerTemplates = new List<PackerTemplate>();
 packerTemplates = packerTemplates.
   Concat(w10e).
   Concat(w10e_dc).
-  Concat(w10e_dc_vs17c).
   ToList();
 packerTemplates = packerTemplates.
   Concat(w16s).
+  Concat(w16s_dc).
   Concat(w16s_iis).
   Concat(w16s_sql14d).
-  Concat(w16s_dc).
-  Concat(w16s_dc_vs17c).
+  Concat(w16s_vs10p).
+  Concat(w16s_vs15c).
+  Concat(w16s_vs15p).
+  Concat(w16s_vs17c).
+  Concat(w16s_vs17p).
   ToList();
 packerTemplate = configuration;
 packerRecursive = recursive;

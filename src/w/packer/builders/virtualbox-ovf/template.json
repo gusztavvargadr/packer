@@ -1,13 +1,13 @@
 {
   "variables": {
-    "parent_artifact_file": "",
+    "virtualbox_source_path": "",
     "virtualbox_floppy_files": "builders/virtualbox-ovf/floppy"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
       "vm_name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-      "source_path": "{{user `parent_artifact_file`}}",
+      "source_path": "{{user `virtualbox_source_path`}}",
       "vboxmanage": [
         [
           "modifyvm",
@@ -32,7 +32,7 @@
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
-      "output_directory": "{{user `artifacts_directory`}}"
+      "output_directory": "{{user `output_directory`}}"
     }
   ]
 }

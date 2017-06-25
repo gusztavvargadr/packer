@@ -4,7 +4,7 @@
     "description": "",
     "version": "0.7.0",
     "author": "gusztavvargadr",
-    "artifacts_directory": ""
+    "output_directory": "output"
   },
   "description": "{{user `description`}}",
   "builders": [

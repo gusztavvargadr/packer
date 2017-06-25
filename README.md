@@ -1,20 +1,23 @@
 # Packer
 
-**See also** [Virtual workstations] | [Packer templates] | [Infrastructure components]  
+**See also** [Vagrant boxes] | [Virtual workstations] | [Packer templates] | [Infrastructure components]  
 
+[Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
+[Virtual workstations]: https://github.com/gusztavvargadr/workstationss
+[Packer templates]: https://github.com/gusztavvargadr/packer
 [Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
 
 [This repository][Packer templates] contains Packer templates to build Vagrant boxes for .NET development scenarios with Hyper-V, VirtualBox and AWS.
 
-[Packer templates]: https://github.com/gusztavvargadr/packer
-
-**Contents** [Overview] | [Getting started] | [Usage] | [Contributing] | [Resources]  
+**Contents** [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 ## Overview
 
-This repository contains [Packer] templates to build [Vagrant boxes] and native virtual machine images for the following scenarios:
+**Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own Vagrant boxes and virtual machine images.  
 
-- Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016.
+This repository contains [Packer] templates to build [Vagrant] boxes and native virtual machine images for the following scenarios:
+
+- Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016 and Docker.
 - [.NET development] using Visual Studio 2017, 2015 and 2010.
 - [.NET hosting] using IIS and SQL Server 2014.
 
@@ -28,7 +31,6 @@ All the components, including the core operating systems, share the following ch
 
 [Overview]: #overview
 
-[Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
 [Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
 
 ### Operating systems
@@ -39,18 +41,20 @@ They contain the core operating system with the minimum configuration required t
 
 - **Windows 10**
   - **[Enterpise][w10e]**
+  - **[Enterpise with Docker for Windows Community][w10e-dc]**
 - **Windows Server 2016**
   - **[Standard][w16s]**
+  - **[Standard with Docker for Windows Community][w16s-dc]**
 
 In the box:
 
 - **Windows 10 1703** and **Windows Server 2016 1607** 
   - Operating system
     - Administrator user with user name `vagrant` and password `vagrant` set to never expire
-    - WinRM enabled
+    - WinRM service enabled
     - UAC disabled
-    - Windows Updates disabled
-    - Windows Defender disabled
+    - Windows Updates installed and service disabled
+    - Windows Defender service disabled
     - Remote Desktop enabled
     - Generalized with Sysprep
   - Tools
@@ -68,10 +72,16 @@ In the box:
     - **Hyper-V** IP address reporting timeout of 5 minutes
     - **VirtualBox** Port forwarding for RDP from 3389 to 33389 with auto correction
 
+**Docker for Windows Community 17.05 Edge**
+- **Hyper-V** Linux and Windows containers
+- **VirtualBox** Only Windows containers
+
 [Operating systems]: #operating-systems
 
 [w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
+[w10e-dc]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-dc
 [w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
+[w16s-dc]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-dc
 
 ### .NET development
 
@@ -145,7 +155,7 @@ In the box:
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes or native virtual machine images using Packer. If you are interested in just using the already available [Vagrant boxes] instead, check out the samples of [virtual workstations] for some common usage scenarios.  
+**Note** The rest of this document covers the details of building Vagrant boxes and native virtual machine images using Packer.  
 
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
@@ -162,7 +172,6 @@ You are now ready to build a Vagrant box.
 
 [Getting started]: #getting-started
 
-[Virtual workstations]: https://github.com/gusztavvargadr/workstations
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
 [ChefDKInstallation]: https://downloads.chef.io/chefdk
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
@@ -170,6 +179,8 @@ You are now ready to build a Vagrant box.
 [AWSCLIInstallation]: https://aws.amazon.com/cli/
 
 ## Usage
+
+**In this section** [Building a native virtual machine image] | [Bulding a Vagrant box] | [Chaining builds further] | [Cleaning up]
 
 **Note** This section assumes you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
 
@@ -249,6 +260,8 @@ $ .\ci.ps1 build virtualbox-ovf
 
 This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `artifacts/w10e/virtualbox-base` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
 
+[Building a native virtual machine image]: #building-a-native-virtual-machine-image
+
 ### Building a Vagrant box
 
 As mentioned above, based on Packer's support for starting builds from some virtualization providers' native image format, builds can reuse the artifacts of a previous build. To build the Vagrant box for the above configuration, type the following command:
@@ -266,6 +279,8 @@ $ .\ci.ps1 build w10e-hyperv-sysprep
 ```
 
 As you can expect, for these samples the build artifacts will be created in the `artifacts/w10e` folder as well, this time under the `hyperv-sysprep` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+
+[Building a Vagrant box]: #building-a-vagrant-box
 
 [VagrantDistribute]: https://www.vagrantup.com/docs/boxes/base.html#distributing-the-box
 
@@ -297,6 +312,8 @@ $ .\ci.ps1 build w16s-iis-hyperv-sysprep
 
 The build will take somewhat longer, but the result will be exactly the same as for the VirtualBox chained builds.
 
+[Chaining builds further]: #chaining-builds-further
+
 ### Cleaning up
 
 Though the `build` and `artifacts` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
@@ -318,6 +335,12 @@ $ .\ci.ps1 clean virtualbox
 ```
 
 The pattern matching used for cleanup works with all the other commands (`info`, `restore`, `build`) mentioned earlier.
+
+[Cleaning up]: #cleaning-up
+
+## Next steps
+
+[Next steps]: #next-steps
 
 ## Contributing
 
