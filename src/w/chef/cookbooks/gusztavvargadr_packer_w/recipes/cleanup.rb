@@ -5,12 +5,12 @@ powershell_script 'Execute NGen' do
   action :run
 end
 
+gusztavvargadr_windows_updates '' do
+  action [:cleanup]
+end
+
 volume = node['gusztavvargadr_packer_w']['cleanup']['volume']
 if volume
-  gusztavvargadr_windows_updates '' do
-    action [:cleanup]
-  end
-
   gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
     code <<-EOH
       @(

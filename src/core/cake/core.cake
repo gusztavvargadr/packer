@@ -34,32 +34,26 @@ Task("packer-restore")
   });
 
 Task("packer-build")
-  .IsDependentOn("packer-version")
-  .IsDependentOn("packer-restore")
   .Does(() => {
     PackerTemplates_ForEach(packerTemplate, PackerTemplate_Build, packerRecursive);
   });
 
 Task("packer-rebuild")
-  .IsDependentOn("packer-clean")
-  .IsDependentOn("packer-build")
   .Does(() => {
+    PackerTemplates_ForEach(packerTemplate, PackerTemplate_Rebuild, packerRecursive);
   });
 
 Task("packer-test")
-  .IsDependentOn("packer-build")
   .Does(() => {
     PackerTemplates_ForEach(packerTemplate, PackerTemplate_Test, packerRecursive);
   });
 
 Task("packer-package")
-  .IsDependentOn("packer-test")
   .Does(() => {
     PackerTemplates_ForEach(packerTemplate, PackerTemplate_Package, packerRecursive);
   });
 
 Task("packer-publish")
-  .IsDependentOn("packer-package")
   .Does(() => {
     PackerTemplates_ForEach(packerTemplate, PackerTemplate_Publish, packerRecursive);
   });

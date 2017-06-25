@@ -6,7 +6,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "{{user `artifacts_directory`}}/packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}.box",
+      "output": "{{user `output_directory`}}/vagrant.box",
       "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}"
     }
   ]

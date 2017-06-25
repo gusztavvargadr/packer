@@ -24,7 +24,7 @@
       "winrm_timeout": "{{user `hyperv_winrm_timeout`}}",
       "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
-      "output_directory": "{{user `artifacts_directory`}}"
+      "output_directory": "{{user `output_directory`}}"
     }
   ]
 }

@@ -27,10 +27,6 @@ class PackerTemplate {
   public string GetBuildDirectory() {
     return "build/" + Type + "/" + Name;
   }
-
-  public string GetArtifactsDirectory() {
-    return "artifacts/" + Type + "/" + Name;
-  }
 }
 
 PackerTemplate PackerTemplate_Create(
@@ -63,9 +59,6 @@ void PackerTemplate_Clean(PackerTemplate template) {
 
   CleanDirectory(template.GetBuildDirectory());
   DeleteDirectory(template.GetBuildDirectory());
-  
-  CleanDirectory(template.GetArtifactsDirectory());
-  DeleteDirectory(template.GetArtifactsDirectory());
 }
 
 void PackerTemplate_Version(PackerTemplate template) {
@@ -84,24 +77,40 @@ void PackerTemplate_Restore(PackerTemplate template) {
 }
 
 void PackerTemplate_Build(PackerTemplate template) {
+  PackerTemplate_Version(template);
+  PackerTemplate_Restore(template);
+
   PackerTemplate_Log(template, "Build");
 
-  if (DirectoryExists(template.GetArtifactsDirectory())) {
+  if (FileExists(template.GetBuildDirectory() + "/manifest.json")) {
     return;
   }
 
   PackerTemplate_Packer(template, "build template.json");
 }
 
+void PackerTemplate_Rebuild(PackerTemplate template) {
+  PackerTemplate_Clean(template);
+  PackerTemplate_Build(template);
+
+  PackerTemplate_Log(template, "Rebuild");
+}
+
 void PackerTemplate_Test(PackerTemplate template) {
+  PackerTemplate_Build(template);
+
   PackerTemplate_Log(template, "Test");
 }
 
 void PackerTemplate_Package(PackerTemplate template) {
+  PackerTemplate_Test(template);
+
   PackerTemplate_Log(template, "Package");
 }
 
 void PackerTemplate_Publish(PackerTemplate template) {
+  PackerTemplate_Package(template);
+
   PackerTemplate_Log(template, "Publish");
 }
 
@@ -170,15 +179,14 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var jsonTemplateVariables = new JObject();
   jsonTemplateVariables["name"] = template.FullName;
   var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
-  var artifactsDirectory = MakeAbsolute(Directory(template.GetArtifactsDirectory()));
-  jsonTemplateVariables["artifacts_directory"] = buildDirectory.GetRelativePath(artifactsDirectory).ToString();
   var parent = template.Parent;
   if (parent != null) {
     var parentBuildDirectory = MakeAbsolute(Directory(parent.GetBuildDirectory()));
     var manifestFile = parentBuildDirectory + "/manifest.json";
     if (FileExists(manifestFile)) {
-    var manifest = ParseJsonFromFile(manifestFile);
-      jsonTemplateVariables["parent_artifact_file"] = manifest["builds"][0]["files"][1]["name"].ToString();
+      var manifest = ParseJsonFromFile(manifestFile);
+      var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][1]["name"].ToString());
+      jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
     }
   }
   var descriptions = new List<string>();

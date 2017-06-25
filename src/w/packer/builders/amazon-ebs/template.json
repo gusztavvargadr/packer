@@ -4,7 +4,7 @@
     "amazon_region": "eu-west-1",
     "amazon_source_ami_filter_name": "",
     "amazon_instance_type": "t2.medium",
-    "amazon_volume_size": "127",
+    "amazon_volume_size": "31",
     "amazon_user_data_file": "builders/amazon-ebs/userdata.ps1",
     "amazon_ssh_keypair_name": "packer",
     "amazon_communicator": "winrm",
