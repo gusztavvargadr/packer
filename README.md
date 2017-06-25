@@ -196,7 +196,7 @@ related resources, and makes chaining builds and creating new configurations qui
 
 ### Building a native virtual machine image
 
-Clone this repo, and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
+Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
 
 ```powershell
 $ .\ci.ps1 [info]
@@ -259,6 +259,8 @@ $ .\ci.ps1 build virtualbox-ovf
 This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build artifacts will be created, in this case in the `build/w10e/virtualbox-base/output` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
 
 [Building a native virtual machine image]: #building-a-native-virtual-machine-image
+
+[GitCloneRecursive]: https://stackoverflow.com/a/4438292
 
 ### Building a Vagrant box
 
