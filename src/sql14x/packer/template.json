@@ -1,0 +1,6 @@
+{
+  "variables": {
+    "name": "sql14x",
+    "description": "SQL Server 2014 Express"
+  }
+}

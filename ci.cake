@@ -15,9 +15,10 @@ packerTemplates = packerTemplates.
   ToList();
 
 var w16s = PackerTemplates_Create("w16s", amazon: true);
-var w16s_dc = PackerTemplates_Create("w16s-dc", parent: w16s.First());
-var w16s_iis = PackerTemplates_Create("w16s-iis", parent: w16s.First());
-var w16s_sql14d = PackerTemplates_Create("w16s-sql14d", parent: w16s.First());
+var w16s_dc = PackerTemplates_Create("w16s-dc", amazon: true, parent: w16s.First());
+var w16s_iis = PackerTemplates_Create("w16s-iis", amazon: true, parent: w16s.First());
+var w16s_sql14x = PackerTemplates_Create("w16s-sql14x", amazon: true, parent: w16s.First());
+var w16s_sql14d = PackerTemplates_Create("w16s-sql14d", amazon: true, parent: w16s.First());
 var w16s_vs10p = PackerTemplates_Create("w16s-vs10p", parent: w16s.First());
 var w16s_vs15c = PackerTemplates_Create("w16s-vs15c", parent: w16s.First());
 var w16s_vs15p = PackerTemplates_Create("w16s-vs15p", parent: w16s.First());
@@ -28,6 +29,7 @@ packerTemplates = packerTemplates.
   Concat(w16s).
   Concat(w16s_dc).
   Concat(w16s_iis).
+  Concat(w16s_sql14x).
   Concat(w16s_sql14d).
   Concat(w16s_vs10p).
   Concat(w16s_vs15c).
@@ -77,7 +79,7 @@ IEnumerable<PackerTemplate> PackerTemplates_Create(string type, bool amazon = fa
       "amazon-sysprep",
       new [] { PackerBuilder_Create("amazon-ebs") },
       new [] { PackerProvisioner_Create("chef"), PackerProvisioner_Create("amazon-shutdown") },
-      new PackerPostProcessor[] {},
+      new [] { PackerPostProcessor_Create("vagrant-amazon") },
       null
     );
     items.Add(amazonSysprep);

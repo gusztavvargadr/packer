@@ -1,12 +1,10 @@
 {
   "variables": {
-    "home_directory": "{{env `USERPROFILE`}}",
     "amazon_region": "eu-west-1",
     "amazon_source_ami_filter_name": "",
     "amazon_instance_type": "t2.medium",
     "amazon_volume_size": "31",
     "amazon_user_data_file": "builders/amazon-ebs/userdata.ps1",
-    "amazon_ssh_keypair_name": "packer",
     "amazon_communicator": "winrm",
     "amazon_winrm_username": "Administrator"
   },
@@ -38,8 +36,6 @@
         "Name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
       },
       "user_data_file": "{{user `amazon_user_data_file`}}",
-      "ssh_keypair_name": "{{user `amazon_ssh_keypair_name`}}",
-      "ssh_private_key_file": "{{user `home_directory`}}/.aws/{{user `amazon_ssh_keypair_name`}}.pem",
       "communicator": "{{user `amazon_communicator`}}",
       "winrm_username": "{{user `amazon_winrm_username`}}",
       "disable_stop_instance": true
