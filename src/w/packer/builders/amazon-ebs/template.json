@@ -38,6 +38,8 @@
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",
       "winrm_username": "{{user `amazon_winrm_username`}}",
+      "winrm_use_ssl": true,
+      "winrm_insecure": true,
       "disable_stop_instance": true
     }
   ]
