@@ -6,7 +6,7 @@
 [Packer templates]: https://github.com/gusztavvargadr/packer
 [Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
 
-[This repository][Packer templates] contains Packer templates to build Vagrant boxes for .NET development scenarios with Hyper-V, VirtualBox and AWS.
+[This repository][Packer templates] contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows with Hyper-V, VirtualBox and AWS virtual machine images and Vagrant boxes.
 
 See [this blog][Blog] for more background and motivation.
 
@@ -14,15 +14,15 @@ See [this blog][Blog] for more background and motivation.
 
 ## Overview
 
-**Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own Vagrant boxes and virtual machine images.  
+**Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images and Vagrant boxes.  
 
-This repository contains [Packer] templates to build [Vagrant] boxes and native virtual machine images for the following scenarios:
+This repository contains [Packer] templates for the following scenarios:
 
 - Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016 and Docker.
 - [.NET development] using Visual Studio 2017, 2015 and 2010.
 - [.NET hosting] using IIS and SQL Server 2014.
 
-The virtual machine images are built for [Hyper-V] - supporting [nested virtualization] -, [VirtualBox] and [AWS] and are provisioned using [Chef].
+The virtual machine images and Vagrant boxes are built for [Hyper-V] - supporting [nested virtualization] -, [VirtualBox] and [AWS] and are provisioned using [Chef].
 
 All the components, including the core operating systems, share the following characteristics:
 
@@ -32,7 +32,7 @@ All the components, including the core operating systems, share the following ch
 
 [Overview]: #overview
 
-[Vagrant boxes]: https://atlas.hashicorp.com/gusztavvargadr
+[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr
 [Virtual workstations]: https://github.com/gusztavvargadr/workstations
 [Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
 
@@ -81,10 +81,10 @@ In the box:
 
 [Operating systems]: #operating-systems
 
-[w10e]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e
-[w10e-dc]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w10e-dc
-[w16s]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s
-[w16s-dc]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-dc
+[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e
+[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc
+[w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s
+[w16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc
 
 ### .NET development
 
@@ -125,11 +125,11 @@ In the box:
 
 [.NET development]: #net-development
 
-[w16s-vs17c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs17c
-[w16s-vs17p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs17p
-[w16s-vs15c]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs15c
-[w16s-vs15p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs15p
-[w16s-vs10p]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-vs10p
+[w16s-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs17c
+[w16s-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs17p
+[w16s-vs15c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs15c
+[w16s-vs15p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs15p
+[w16s-vs10p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs10p
 
 ### .NET hosting
 
@@ -153,12 +153,12 @@ In the box:
 
 [.NET hosting]: #net-hosting
 
-[w16s-iis]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-iis
-[w16s-sql14d]: https://atlas.hashicorp.com/gusztavvargadr/boxes/w16s-sql14d
+[w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis
+[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building Vagrant boxes and native virtual machine images, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
+**Note** The rest of this document covers the details of building virtual machine images and Vagrant boxes, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
 
 **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
@@ -169,11 +169,11 @@ Follow the steps below to install the required tools:
 1. Install the tools for the virtualization provider you want to use.
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
-    - **AWS** Install the [AWS Command Line Interface][AWSCLIInstallation].
+    - **AWS** Install the [AWS Command Line Interface][AWSCLIInstallation] and [configure a profile][AWSCLIProfile].
 
-You are now ready to build a Vagrant box.
+You are now ready to build a virtual machine image and a Vagrant box.
 
-**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
+**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of fxree disk space for the cache and the build artifacts.  
 
 [Getting started]: #getting-started
 
@@ -183,11 +183,12 @@ You are now ready to build a Vagrant box.
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads
 [AWSCLIInstallation]: https://aws.amazon.com/cli/
+[AWSCLIProfile]: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 [PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
 
 ## Usage
 
-**In this section** [Building a native virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Testing] | [Cleaning up]
+**In this section** [Building a virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Testing] | [Cleaning up]
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the Packer templates and the related resources (e.g. the unattended install configuration) required to build the virtual machine images. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
@@ -197,7 +198,7 @@ related resources, and makes chaining builds and creating new configurations qui
 [SourceCoreCake]: src/core/cake
 [Cake]: http://cakebuild.net/
 
-### Building a native virtual machine image
+### Building a virtual machine image
 
 Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
 
@@ -268,9 +269,9 @@ This will create the folder `build/w16s/virtualbox-base` in the root of your clo
 $ .\ci.ps1 build w16s-virtualbox-base
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/w16s/virtualbox-base/output` directory in the root of your clone. Native virtual machine images like this can now be directly imported into the respective virtualization provider.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/w16s/virtualbox-base/output` directory in the root of your clone. Virtual machine images like this can now be directly imported into the respective virtualization provider.
 
-[Building a native virtual machine image]: #building-a-native-virtual-machine-image
+[Building a virtual machine image]: #building-a-virtual-machine-image
 
 [GitCloneRecursive]: https://stackoverflow.com/a/4438292
 
