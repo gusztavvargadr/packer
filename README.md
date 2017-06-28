@@ -22,7 +22,7 @@
 
 ## Overview
 
-**In this section** [Operating systems] | [.NET development] | [.NET hosting]  
+**Contents** [Operating systems] | [.NET development] | [.NET hosting]  
 
 **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images and Vagrant boxes.  
 
@@ -204,7 +204,7 @@ You are now ready to build a virtual machine image and a Vagrant box.
 
 ## Usage
 
-**In this section** [Building a virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Testing] | [Cleaning up]
+**Contents** [Building a virtual machine image] | [Building a Vagrant box] | [Chaining builds further] | [Testing] | [Cleaning up]
 
 This repository uses some [custom wrapper scripts][SourceCoreCake] using [Cake] to generate the Packer templates and the related resources (e.g. the unattended install configuration) required to build the virtual machine images. Besides supporting easier automation, this approach helps with reusing parts of the templates and the
 related resources, and makes chaining builds and creating new configurations quite easy.
