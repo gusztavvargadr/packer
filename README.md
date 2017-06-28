@@ -13,7 +13,7 @@
 - [Virtual workstations]
 - [Infrastructure components]
 
-[TL;DR]: #tl-dr
+[TL;DR]: #tldr
 
 [Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr
 [Blog]: https://bit.ly/wdywttt5
@@ -21,6 +21,8 @@
 [Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
 
 ## Overview
+
+**In this section** [Operating systems] | [.NET development] | [.NET hosting]  
 
 **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images and Vagrant boxes.  
 
