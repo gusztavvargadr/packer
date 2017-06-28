@@ -43,6 +43,4 @@ net stop winrm
 sc.exe config winrm start= auto
 net start winrm
 
-netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
-
 </powershell>

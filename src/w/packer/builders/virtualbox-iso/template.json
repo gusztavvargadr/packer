@@ -7,7 +7,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "vm_name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",

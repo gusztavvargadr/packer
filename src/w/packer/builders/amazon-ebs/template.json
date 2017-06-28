@@ -18,7 +18,7 @@
         },
         "most_recent": true
       },
-      "ami_name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "ami_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "ami_description": "{{user `description`}}",
       "instance_type": "{{user `amazon_instance_type`}}",
       "launch_block_device_mappings": [
@@ -30,10 +30,12 @@
         }
       ],
       "tags": {
-        "Name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+        "packer": "{{build_name}}"
       },
       "run_tags": {
-        "Name": "packer-{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+        "packer": "{{build_name}}"
       },
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",

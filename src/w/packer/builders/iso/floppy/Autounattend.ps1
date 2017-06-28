@@ -30,11 +30,10 @@ winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="800"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/client/auth '@{Basic="true"}'
+netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
 net stop winrm
 sc.exe config winrm start= auto
-
-netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
 Write-Host "Shutting Down"
 shutdown /r /t 10
