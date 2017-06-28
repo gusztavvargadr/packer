@@ -1,16 +1,24 @@
 # Packer
 
-**See also** [Blog] | [Vagrant boxes] | [Virtual workstations] | [Packer templates] | [Infrastructure components]  
+**Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
+[This repository] contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for Hyper-V, VirtualBox and AWS.
+
+[This repository]: https://github.com/gusztavvargadr/packer
+
+## TL;DR
+
+- [Vagrant boxes]
+- [Blog]
+- [Virtual workstations]
+- [Infrastructure components]
+
+[TL;DR]: #tl-dr
+
+[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr
 [Blog]: https://bit.ly/wdywttt5
-[Packer templates]: https://github.com/gusztavvargadr/packer
+[Virtual workstations]: https://github.com/gusztavvargadr/workstations
 [Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
-
-[This repository][Packer templates] contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows with Hyper-V, VirtualBox and AWS virtual machine images and Vagrant boxes.
-
-See [this blog][Blog] for more background and motivation.
-
-**Contents** [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 ## Overview
 
@@ -18,11 +26,13 @@ See [this blog][Blog] for more background and motivation.
 
 This repository contains [Packer] templates for the following scenarios:
 
-- Core [operating systems] for generic experiments with Windows 10 and Windows Server 2016 and Docker.
+- Core [operating systems] for generic experiments with Windows 10, Windows Server 2016 and Docker.
 - [.NET development] using Visual Studio 2017, 2015 and 2010.
 - [.NET hosting] using IIS and SQL Server 2014.
 
-The virtual machine images and Vagrant boxes are built for [Hyper-V] - supporting [nested virtualization] -, [VirtualBox] and [AWS] and are provisioned using [Chef].
+The virtual machine images and [Vagrant] boxes are built for [Hyper-V] - supporting [nested virtualization] -, [VirtualBox] and [AWS] and are provisioned using [Chef].
+
+See [this blog][Blog] for more background and motivation.
 
 All the components, including the core operating systems, share the following characteristics:
 
@@ -32,9 +42,13 @@ All the components, including the core operating systems, share the following ch
 
 [Overview]: #overview
 
-[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr
-[Virtual workstations]: https://github.com/gusztavvargadr/workstations
+[Packer]: https://www.packer.io/
+[Vagrant]: https://www.vagrantup.com/
+[Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
 [Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
+[VirtualBox]: https://www.virtualbox.org/
+[AWS]: https://aws.amazon.com/
+[Chef]: https://chef.io/chef/
 
 ### Operating systems
 
@@ -413,13 +427,6 @@ This repository borrows awesome ideas and solutions from the following sources:
 * [Boxcutter]
 
 [Resources]: #resources
-
-[Packer]: https://www.packer.io/
-[Vagrant]: https://www.vagrantup.com/
-[Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[VirtualBox]: https://www.virtualbox.org/
-[AWS]: https://aws.amazon.com/
-[Chef]: https://chef.io/chef/
 
 [Matt Wrock]: https://github.com/mwrock/packer-templates
 [Jacqueline]: https://github.com/jacqinthebox/packer-templates
