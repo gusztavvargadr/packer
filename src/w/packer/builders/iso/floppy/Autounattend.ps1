@@ -32,6 +32,10 @@ winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/client/auth '@{Basic="true"}'
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
+$certificate = New-SelfSignedCertificate -DnsName packer -CertStoreLocation Cert:\LocalMachine\My
+winrm create winrm/config/listener?Address=*+Transport=HTTPS "@{Hostname=`"packer`";CertificateThumbprint=`"$($certificate.Thumbprint)`"}"
+netsh advfirewall firewall add rule name="WinRM-HTTPS" dir=in localport=5986 protocol=TCP action=allow
+
 net stop winrm
 sc.exe config winrm start= auto
 

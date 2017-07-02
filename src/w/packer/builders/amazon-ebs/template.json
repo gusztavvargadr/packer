@@ -31,11 +31,11 @@
       ],
       "tags": {
         "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-        "packer": "{{build_name}}"
+        "packer": ""
       },
       "run_tags": {
         "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-        "packer": "{{build_name}}"
+        "packer": ""
       },
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",

@@ -1,4 +1,5 @@
 netsh advfirewall firewall set rule name="WinRM-HTTP" new action=block
+netsh advfirewall firewall set rule name="WinRM-HTTPS" new action=block
 
 mkdir C:\Windows\Setup\Scripts
 copy A:\Autounattend.xml C:\Windows\Setup
