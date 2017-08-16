@@ -1,5 +1,5 @@
 directory = File.dirname(__FILE__)
-require "#{directory}/lib/gusztavvargadr/infrastructure/Berksfile.core"
+require "#{directory}/lib/gusztavvargadr/infrastructure/src/components/core/chef/Berksfile.core"
 
 def gusztavvargadr_packer_sources
   gusztavvargadr_sources
