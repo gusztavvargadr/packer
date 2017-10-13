@@ -3,8 +3,8 @@
 #load "./provisioner.cake"
 #load "./postprocessor.cake"
 
-#addin "Cake.FileHelpers"
-#addin "Cake.Json"
+#addin "Cake.FileHelpers&version=1.0.4.16"
+#addin "Cake.Json&version=1.0.2.13"
 
 class PackerTemplate {
   public string Type { get; set; }
