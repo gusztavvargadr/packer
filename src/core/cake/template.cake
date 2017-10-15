@@ -3,8 +3,8 @@
 #load "./provisioner.cake"
 #load "./postprocessor.cake"
 
-#addin "Cake.FileHelpers"
-#addin "Cake.Json"
+#addin "Cake.FileHelpers&version=1.0.4.16"
+#addin "Cake.Json&version=1.0.2.13"
 
 class PackerTemplate {
   public string Type { get; set; }
@@ -191,7 +191,6 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   }
   var descriptions = new List<string>();
   var runList = new List<string>();
-  runList.AddRange(template.Builders.Select(item => item.Name));
   
   foreach (var component in template.Components) {
     if (parent == null || !parent.Components.Any(item => item.Name == component.Name)) {
@@ -252,6 +251,8 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
     }
   }
+
+  runList.AddRange(template.Builders.Select(item => item.Name));
 
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 

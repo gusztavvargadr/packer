@@ -1,5 +1,5 @@
 Write-Host "Installing Chef Client"
-choco install chef-client -y
+choco install chef-client -y --version 12.14.77
 
 Write-Host "Installing 7zip"
 choco install 7zip.portable -y
