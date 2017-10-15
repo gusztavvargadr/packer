@@ -6,4 +6,5 @@ description 'Installs/Configures Packer Windows 10 Enterprise'
 long_description 'Installs/Configures Packer Windows 10 Enterprise'
 version '0.0.0'
 
+depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_windows'

@@ -191,7 +191,6 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   }
   var descriptions = new List<string>();
   var runList = new List<string>();
-  runList.AddRange(template.Builders.Select(item => item.Name));
   
   foreach (var component in template.Components) {
     if (parent == null || !parent.Components.Any(item => item.Name == component.Name)) {
@@ -252,6 +251,8 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
     }
   }
+
+  runList.AddRange(template.Builders.Select(item => item.Name));
 
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 

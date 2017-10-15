@@ -1,3 +1,5 @@
+include_recipe 'gusztavvargadr_packer_w::prepare'
+
 powershell_script 'Disable AppX Update' do
   code 'Schtasks.exe /change /disable /tn "\Microsoft\Windows\AppxDeploymentClient\Pre-staged app cleanup"'
   action :run

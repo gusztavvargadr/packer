@@ -6,5 +6,4 @@ description 'Installs/Configures Packer Virtualbox ISO'
 long_description 'Installs/Configures Packer Virtualbox ISO'
 version '0.0.0'
 
-depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_virtualbox'
