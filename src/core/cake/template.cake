@@ -3,7 +3,7 @@
 #load "./provisioner.cake"
 #load "./postprocessor.cake"
 
-#addin "Cake.FileHelpers&version=1.0.4.16"
+#addin "Cake.FileHelpers&version=1.0.4"
 #addin "Cake.Json&version=1.0.2.13"
 
 class PackerTemplate {
@@ -185,8 +185,14 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
     var manifestFile = parentBuildDirectory + "/manifest.json";
     if (FileExists(manifestFile)) {
       var manifest = ParseJsonFromFile(manifestFile);
-      var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][1]["name"].ToString());
-      jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
+      if (template.Builders.Any(item => item.IsMatching("virtualbox"))) {
+        var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][1]["name"].ToString());
+        jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
+      }
+      if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
+        var parentBuildOutputDirectory = parentBuildDirectory + "/output";
+        jsonTemplateVariables["hyperv_clone_from_vmxc_path"] = parentBuildOutputDirectory;
+      }
     }
   }
   var descriptions = new List<string>();

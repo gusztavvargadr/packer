@@ -6,4 +6,5 @@ description 'Installs/Configures Packer Visual Studio 2015 Community'
 long_description 'Installs/Configures Packer Visual Studio 2015 Community'
 version '0.0.0'
 
+depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_vs'

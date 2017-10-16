@@ -6,4 +6,5 @@ description 'Installs/Configures Packer SQL Server 2014 Express'
 long_description 'Installs/Configures Packer SQL Server 2014 Express'
 version '0.0.0'
 
+depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_sql'

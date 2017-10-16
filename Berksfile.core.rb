@@ -6,6 +6,7 @@ def gusztavvargadr_packer_sources
 
   gusztavvargadr_packer_cookbook 'w'
   gusztavvargadr_packer_cookbook 'w', 'hyperv_iso'
+  gusztavvargadr_packer_cookbook 'w', 'hyperv_vmcx'
   gusztavvargadr_packer_cookbook 'w', 'virtualbox_iso'
   gusztavvargadr_packer_cookbook 'w', 'virtualbox_ovf'
   gusztavvargadr_packer_cookbook 'w', 'amazon_ebs'

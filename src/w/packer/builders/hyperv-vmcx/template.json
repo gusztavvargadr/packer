@@ -1,0 +1,27 @@
+{
+  "variables": {
+    "hyperv_clone_from_vmxc_path": "",
+    "hyperv_floppy_files": "builders/hyperv-vmcx/floppy"
+  },
+  "builders": [
+    {
+      "type": "hyperv-vmcx",
+      "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "clone_from_vmxc_path": "{{user `hyperv_clone_from_vmxc_path`}}",
+      "ram_size": "{{user `hyperv_ram_size`}}",
+      "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
+      "cpu": "{{user `hyperv_cpu`}}",
+      "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
+      "floppy_files": "{{user `hyperv_floppy_files`}}",
+      "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
+      "boot_wait": "{{user `hyperv_boot_wait`}}",
+      "communicator": "{{user `hyperv_communicator`}}",
+      "winrm_username": "{{user `hyperv_winrm_username`}}",
+      "winrm_password": "{{user `hyperv_winrm_password`}}",
+      "winrm_timeout": "{{user `hyperv_winrm_timeout`}}",
+      "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
+      "shutdown_command": "{{user `hyperv_shutdown_command`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 include_recipe 'gusztavvargadr_packer_w::prepare'
 
+gusztavvargadr_windows_uac '' do
+  action :disable
+end
+
+gusztavvargadr_windows_remote_desktop '' do
+  action :enable
+end
+
 powershell_script 'Disable AppX Update' do
   code 'Schtasks.exe /change /disable /tn "\Microsoft\Windows\AppxDeploymentClient\Pre-staged app cleanup"'
   action :run
