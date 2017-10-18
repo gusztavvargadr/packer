@@ -14,6 +14,7 @@ def gusztavvargadr_packer_sources
   gusztavvargadr_packer_cookbook 'w10e'
   gusztavvargadr_packer_cookbook 'w16s'
   gusztavvargadr_packer_cookbook 'dc'
+  gusztavvargadr_packer_cookbook 'dotnet'
   gusztavvargadr_packer_cookbook 'iis'
   gusztavvargadr_packer_cookbook 'sql14x'
   gusztavvargadr_packer_cookbook 'sql14d'
