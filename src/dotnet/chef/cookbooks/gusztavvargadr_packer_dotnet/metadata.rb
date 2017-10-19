@@ -1,0 +1,10 @@
+name 'gusztavvargadr_packer_dotnet'
+maintainer 'Gusztáv Varga'
+maintainer_email 'me@gusztavvargadr.me'
+license 'MIT'
+description 'Installs/Configures Packer .NET Framework and .NET Core Runtimes'
+long_description 'Installs/Configures Packer .NET Framework and .NET Core Runtimes'
+version '0.0.0'
+
+depends 'gusztavvargadr_packer_w'
+depends 'gusztavvargadr_windows'

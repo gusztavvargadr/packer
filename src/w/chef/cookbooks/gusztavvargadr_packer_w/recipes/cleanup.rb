@@ -1,3 +1,8 @@
+powershell_script 'Set service \'WinRM\' to \'Autostart\'' do
+  code 'sc.exe config winrm start= auto'
+  action :run
+end
+
 powershell_script 'Execute NGen' do
   code <<-EOH
     Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
