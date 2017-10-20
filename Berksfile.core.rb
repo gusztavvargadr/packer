@@ -18,11 +18,7 @@ def gusztavvargadr_packer_sources
   gusztavvargadr_packer_cookbook 'iis'
   gusztavvargadr_packer_cookbook 'sql14x'
   gusztavvargadr_packer_cookbook 'sql14d'
-  gusztavvargadr_packer_cookbook 'vs10p'
-  gusztavvargadr_packer_cookbook 'vs15c'
-  gusztavvargadr_packer_cookbook 'vs15p'
   gusztavvargadr_packer_cookbook 'vs17c'
-  gusztavvargadr_packer_cookbook 'vs17p'
 
   gusztavvargadr_cookbook 'components', 'windows'
   gusztavvargadr_cookbook 'components', 'virtualbox'

@@ -1,5 +1,27 @@
 # Packer
 
+<!--
+build upload download docs release
+hyperv
+  w10e build upload
+  w10e-dc build upload
+  w10e-vs17c build -upload
+  w16s build upload
+  w16s-dc
+  w16s-vs17c
+  w16s-iis
+  w16s-sql1
+vb
+  w10e
+  w10e-vs17c
+  w16s
+  w16s-dc
+  w16s-vs17c
+  w16s-iis
+  w16s-sql1
+deprecate
+-->
+
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 This repository contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS, provisioned with Chef.
@@ -89,9 +111,9 @@ In the box:
     - **VirtualBox** Port forwarding for RDP from 3389 to 33389 with auto correction
     - **Hyper-V** IP address reporting timeout of 5 minutes
 
-- **Docker for Windows Community 17.05 Edge**
-  - **VirtualBox** Only Windows containers
-  - **Hyper-V** Linux and Windows containers
+- **Docker for Windows Community 17.09 Edge**
+  - **VirtualBox** Windows containers on Windows Server 2016
+  - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
 
 [Operating systems]: #operating-systems
 
@@ -120,6 +142,12 @@ In the box:
   - ASP.NET and web development
   - Data storage and processing
   - Azure development
+
+- **Docker for Windows Community 17.09 Edge**
+  - **VirtualBox** Windows containers on Windows Server 2016
+  - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
+
+- **JetBrains ReSharper Ultimate 2017.2.2**
 
 [.NET development]: #net-development
 
