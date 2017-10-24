@@ -11,15 +11,17 @@ Environment.new(name: 'packer.local') do |environment|
   create_packer_vms(environment, 'w16s-dotnet')
   create_packer_vms(environment, 'w16s-vs17c')
   create_packer_vms(environment, 'w16s-iis')
-  create_packer_vms(environment, 'w16s-sql14d')
+  create_packer_vms(environment, 'w16s-sql17d')
 end
 
 def create_packer_vms(environment, name)
-  create_packer_vm(environment, name, 'core')
-  create_packer_vm(environment, name, 'sysprep')
+  create_local_packer_vm(environment, name, 'core')
+  create_local_packer_vm(environment, name, 'sysprep')
+
+  create_cloud_packer_vm(environment, name)
 end
 
-def create_packer_vm(environment, name, type)
+def create_local_packer_vm(environment, name, type)
   PackerVM.new(environment, name: "#{name}-#{type}", box: "local/#{name}-#{type}") do |vm|
     VirtualBoxProvider.new(vm) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/vagrant.box"
@@ -28,6 +30,17 @@ def create_packer_vm(environment, name, type)
     HyperVProvider.new(vm) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-#{type}/output/vagrant.box"
 
+      provider.vagrant.differencing_disk = true
+      provider.vagrant.enable_virtualization_extensions = true
+    end
+  end
+end
+
+def create_cloud_packer_vm(environment, name)
+  PackerVM.new(environment, name: "#{name}-cloud", box: "gusztavvargadr/#{name}") do |vm|
+    VirtualBoxProvider.new(vm)
+
+    HyperVProvider.new(vm) do |provider|
       provider.vagrant.differencing_disk = true
       provider.vagrant.enable_virtualization_extensions = true
     end
