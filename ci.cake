@@ -23,7 +23,7 @@ var w16s_dc = PackerTemplates_Create("w16s-dc", parents: w16s);
 var w16s_dotnet = PackerTemplates_Create("w16s-dotnet", parents: w16s);
 var w16s_vs17c = PackerTemplates_Create("w16s-vs17c", parents: w16s_dotnet);
 var w16s_iis = PackerTemplates_Create("w16s-iis", parents: w16s_dotnet);
-var w16s_sql14d = PackerTemplates_Create("w16s-sql14d", parents: w16s_dotnet);
+var w16s_sql17d = PackerTemplates_Create("w16s-sql17d", parents: w16s_dotnet);
 
 packerTemplates = packerTemplates.
   Concat(w16s).
@@ -31,7 +31,7 @@ packerTemplates = packerTemplates.
   Concat(w16s_dotnet).
   Concat(w16s_vs17c).
   Concat(w16s_iis).
-  Concat(w16s_sql14d).
+  Concat(w16s_sql17d).
   ToList();
 
 packerTemplate = configuration;

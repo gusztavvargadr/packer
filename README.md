@@ -1,27 +1,5 @@
 # Packer
 
-<!--
-build upload download docs release
-hyperv
-  w10e build upload
-  w10e-dc build upload
-  w10e-vs17c build -upload
-  w16s build upload
-  w16s-dc
-  w16s-vs17c
-  w16s-iis
-  w16s-sql1
-vb
-  w10e
-  w10e-vs17c
-  w16s
-  w16s-dc
-  w16s-vs17c
-  w16s-iis
-  w16s-sql1
-deprecate
--->
-
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 This repository contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS, provisioned with Chef.
@@ -36,9 +14,9 @@ This repository contains Packer templates for .NET development with Docker, Visu
 [TL;DR]: #tldr
 
 [Blog]: https://bit.ly/wdywttt5
-[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr
-[Virtual workstations]: https://github.com/gusztavvargadr/workstations
-[Infrastructure components]: https://github.com/gusztavvargadr/infrastructure
+[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr/
+[Virtual workstations]: https://github.com/gusztavvargadr/workstations/
+[Infrastructure components]: https://github.com/gusztavvargadr/infrastructure/
 
 ## Overview
 
@@ -50,7 +28,7 @@ This repository contains [Packer] templates for the following scenarios:
 
 - Core [operating systems] for generic experiments with Windows 10, Windows Server 2016 and Docker.
 - [.NET development] using Visual Studio 2017.
-- [.NET hosting] using IIS and SQL Server 2014.
+- [.NET hosting] using IIS and SQL Server 2017.
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
 
@@ -87,7 +65,7 @@ They contain the core operating system with the minimum configuration required t
 
 In the box:
 
-- **Windows 10 1703** and **Windows Server 2016 1607** 
+- **Windows 10 Enterprise** 1703 (15063.674) and **Windows Server 2016 Standard** 1607 (14393.1770)
   - Operating system
     - Administrator user with user name `vagrant` and password `vagrant` set to never expire
     - WinRM service enabled
@@ -99,7 +77,7 @@ In the box:
   - Tools
     - [Chocolatey](https://chocolatey.org/packages/chocolatey/) 0.10.8
     - [7-Zip](https://chocolatey.org/packages/7zip/) 16.4.0
-    - [Chef Client](https://chocolatey.org/packages/chef-client) 12.14.77
+    - [Chef Client](https://chocolatey.org/packages/chef-client/) 12.14.77
     - **VirtualBox** [VirtualBox Guest Additions](https://www.virtualbox.org/manual/ch04.html) 5.1.22
       - Recommended to have VirtualBox version 5.1.22 or later on the host
     - **Hyper-V** Generation 1, Configuration Version 8.0
@@ -111,7 +89,7 @@ In the box:
     - **VirtualBox** Port forwarding for RDP from 3389 to 33389 with auto correction
     - **Hyper-V** IP address reporting timeout of 5 minutes
 
-- **Docker for Windows Community 17.09 Edge**
+- **Docker for Windows Community** 17.09 Edge
   - **VirtualBox** Windows containers on Windows Server 2016
   - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
 
@@ -134,7 +112,7 @@ They contain the respective Visual Studio version with the commonly used options
 
 In the box:
 
-- **Visual Studio 2017 Update 4**
+- **Visual Studio 2017 Community** Update 4
   - C# and F#
   - .NET Framework 2.0-3.5 and 4.0-4.7
   - .NET Core 1.0, 1.1 and 2.0 cross-platform development
@@ -143,11 +121,11 @@ In the box:
   - Data storage and processing
   - Azure development
 
-- **Docker for Windows Community 17.09 Edge**
+- **Docker for Windows Community**  17.09 Edge
   - **VirtualBox** Windows containers on Windows Server 2016
   - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
 
-- **JetBrains ReSharper Ultimate 2017.2.2**
+- **JetBrains ReSharper Ultimate** 2017.2.2
 
 [.NET development]: #net-development
 
@@ -161,23 +139,23 @@ The following Vagrant boxes can be used for .NET hosting scenarios.
 They contain the respective hosting tools with the default configuration are based on the core [operating systems].
 
 - **IIS 10**
-  - **[OS component][w16s-iis]** with Windows Server 2016 Standard
-- **SQL Server 2014**
-  - **[Developer][w16s-sql14d]** with Windows Server 2016 Standard
+  - **[Server][w16s-iis]** with Windows Server 2016 Standard
+- **SQL Server 2017**
+  - **[Developer][w16s-sql17d]** with Windows Server 2016 Standard
 
 In the box:
 
 * **IIS 10**
-  * .NET Framework 2.0-3.5 and 4.0-4.6
+  * .NET Framework 2.0-3.5 and 4.0-4.7
   * .NET Core 1.1 and 2.0 Windows Server Hosting bundle
-* **SQL Server 2014 SP2**
+* **SQL Server 2017 Developer**
   * Database Engine
   * Management Studio
 
 [.NET hosting]: #net-hosting
 
 [w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis
-[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d
+[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d
 
 ## Getting started
 
@@ -202,8 +180,8 @@ You are now ready to build a virtual machine image and a Vagrant box.
 
 [PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
-[ChefDKInstallation]: https://downloads.chef.io/chefdk
-[VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads
+[ChefDKInstallation]: https://downloads.chef.io/chefdk/
+[VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads/
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 [AWSCLIInstallation]: https://aws.amazon.com/cli/
 [AWSCLIProfile]: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
@@ -218,7 +196,7 @@ related resources, and makes chaining builds and creating new configurations qui
 
 [Usage]: #usage
 
-[SourceCoreCake]: src/core/cake
+[SourceCoreCake]: src/core/cake/
 [Cake]: http://cakebuild.net/
 
 ### Building base images
@@ -430,9 +408,9 @@ Any feedback, [issues] or [pull requests] are welcome and greatly appreciated. C
 
 [Contributing]: #contributing
 
-[Issues]: https://github.com/gusztavvargadr/packer/issues
-[Pull requests]: https://github.com/gusztavvargadr/packer/pulls
-[Milestones]: https://github.com/gusztavvargadr/packer/milestones 
+[Issues]: https://github.com/gusztavvargadr/packer/issues/
+[Pull requests]: https://github.com/gusztavvargadr/packer/pulls/
+[Milestones]: https://github.com/gusztavvargadr/packer/milestones/ 
 
 ## Resources
 
@@ -454,7 +432,7 @@ This repository borrows awesome ideas and solutions from the following sources:
 
 [Resources]: #resources
 
-[Matt Wrock]: https://github.com/mwrock/packer-templates
-[Jacqueline]: https://github.com/jacqinthebox/packer-templates
-[Joe Fitzgerald]: https://github.com/joefitzgerald/packer-windows
-[Boxcutter]: https://github.com/boxcutter/windows
+[Matt Wrock]: https://github.com/mwrock/packer-templates/
+[Jacqueline]: https://github.com/jacqinthebox/packer-templates/
+[Joe Fitzgerald]: https://github.com/joefitzgerald/packer-windows/
+[Boxcutter]: https://github.com/boxcutter/windows/

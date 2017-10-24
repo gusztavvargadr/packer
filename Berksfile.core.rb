@@ -16,8 +16,7 @@ def gusztavvargadr_packer_sources
   gusztavvargadr_packer_cookbook 'dc'
   gusztavvargadr_packer_cookbook 'dotnet'
   gusztavvargadr_packer_cookbook 'iis'
-  gusztavvargadr_packer_cookbook 'sql14x'
-  gusztavvargadr_packer_cookbook 'sql14d'
+  gusztavvargadr_packer_cookbook 'sql17d'
   gusztavvargadr_packer_cookbook 'vs17c'
 
   gusztavvargadr_cookbook 'components', 'windows'
