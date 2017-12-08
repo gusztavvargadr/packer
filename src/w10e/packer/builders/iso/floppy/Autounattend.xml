@@ -108,7 +108,7 @@
                 <LogonCount>1</LogonCount>
             </AutoLogon>
             <FirstLogonCommands>
-              <SynchronousCommand wcm:action="add">
+                <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
                     <Description>Set Execution Policy 64 Bit</Description>
                     <Order>1</Order>

@@ -8,3 +8,4 @@ version '0.0.0'
 
 depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_sql'
+depends 'gusztavvargadr_windows'

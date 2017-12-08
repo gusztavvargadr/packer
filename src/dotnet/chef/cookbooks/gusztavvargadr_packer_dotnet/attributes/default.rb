@@ -1,6 +1,6 @@
 default['gusztavvargadr_packer_dotnet']['default'] = {
   'features' => {
-    'NetFx3' => {},
+    # 'NetFx3' => {},
   },
   'native_packages' => {
     '.NET Core 1.1.4 Runtime' => {

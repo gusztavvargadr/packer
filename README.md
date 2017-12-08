@@ -1,5 +1,22 @@
 # Packer
 
+<!--
+Feedback link to boxes
+vagrant box add with tags like docker
+private network
+
+split windows / linux chef
+
+.net 3.5 remove
+
+test kitchen to build?
+build from vagrant box
+
+de / iis / sql / vs feature cleanup
+image size check (ngen, tmp)
+
+-->
+
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 This repository contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS, provisioned with Chef.
