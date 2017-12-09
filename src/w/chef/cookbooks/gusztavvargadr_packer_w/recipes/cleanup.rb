@@ -3,12 +3,12 @@ powershell_script 'Set service \'WinRM\' to \'Autostart\'' do
   action :run
 end
 
-# powershell_script 'Execute NGen' do
-#   code <<-EOH
-#     Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
-#   EOH
-#   action :run
-# end
+powershell_script 'Execute NGen' do
+  code <<-EOH
+    Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
+  EOH
+  action :run
+end
 
 gusztavvargadr_windows_updates '' do
   action [:cleanup]
@@ -18,8 +18,7 @@ gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
   code <<-EOH
     @(
         "$env:localappdata\\Nuget",
-        "$env:localappdata\\temp\\*",
-        "$env:localappdata\\temp\\chocolatey\\*",
+        "$env:localappdata\\temp\\chocolatey",
         "$env:windir\\logs",
         "$env:windir\\panther",
         "$env:windir\\temp\\*",
