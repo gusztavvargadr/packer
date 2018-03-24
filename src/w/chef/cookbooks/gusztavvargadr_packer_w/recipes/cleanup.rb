@@ -18,21 +18,19 @@ gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
   code <<-EOH
     @(
         "$env:localappdata\\Nuget",
-        "$env:localappdata\\temp\\*",
+        "$env:localappdata\\temp\\chocolatey",
         "$env:windir\\logs",
         "$env:windir\\panther",
         "$env:windir\\temp\\*",
         "$env:windir\\winsxs\\manifestcache",
         "$env:windir\\SoftwareDistribution\\Download\\*"
     ) | % {
-            if(Test-Path $_) {
-                Write-Host "Removing $_"
-                try {
-                  Takeown /d Y /R /f $_
-                  Icacls $_ /GRANT:r administrators:F /T /c /q  2>&1 | Out-Null
-                  Remove-Item $_ -Recurse -Force | Out-Null
-                } catch { $global:error.RemoveAt(0) }
-            }
+          Write-Host "Removing $_"
+          try {
+            Takeown /d Y /R /f $_
+            Icacls $_ /GRANT:r administrators:F /T /c /q  2>&1 | Out-Null
+            Remove-Item $_ -Recurse -Force | Out-Null
+          } catch { $global:error.RemoveAt(0) }
         }
   EOH
   action :run

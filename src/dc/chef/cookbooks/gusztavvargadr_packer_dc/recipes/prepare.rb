@@ -1,2 +1,5 @@
 include_recipe 'gusztavvargadr_packer_w::prepare'
-include_recipe 'gusztavvargadr_docker::requirements'
+
+gusztavvargadr_docker_engine 'community' do
+  action :prepare
+end

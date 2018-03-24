@@ -1,5 +1,34 @@
 # Packer
 
+<!-- TODOs
+Feedback link to boxes
+vagrant box add with tags like docker
+private network
+
+versioning updates (e.g. w10-1703)
+facade images for latest versions
+
+deprecate w16s-vs*
+update names (in docs as well)
+
+to chef zero / policyfile
+split windows / linux chef
+jetbrains tooling instead vs17c
+
+.net 3.5 remove
+merge .net with iis
+
+build from vagrant box
+
+de / iis / sql / vs feature cleanup
+image size check (ngen, tmp, drive cleanup)
+
+description of autounattend gen
+
+deprecated versions with "-deprecated" tag
+
+-->
+
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
 This repository contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS, provisioned with Chef.

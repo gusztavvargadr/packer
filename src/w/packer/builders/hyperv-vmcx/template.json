@@ -13,6 +13,7 @@
       "cpu": "{{user `hyperv_cpu`}}",
       "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
       "floppy_files": "{{user `hyperv_floppy_files`}}",
+      "switch_name": "{{user `hyperv_switch_name`}}",
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
       "communicator": "{{user `hyperv_communicator`}}",

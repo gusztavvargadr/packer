@@ -1,28 +1,29 @@
 require "#{File.dirname(__FILE__)}/lib/gusztavvargadr/infrastructure/src/components/core/vagrant/Vagrantfile.core"
 
 Environment.new(name: 'packer.local') do |environment|
-  create_packer_vms(environment, 'w10e')
-  create_packer_vms(environment, 'w10e-dc')
-  create_packer_vms(environment, 'w10e-dotnet')
-  create_packer_vms(environment, 'w10e-vs17c')
+  create_packer_windows_vms(environment, 'w10e')
+  create_packer_windows_vms(environment, 'w10e-dc')
+  create_packer_windows_vms(environment, 'w10e-vs17c')
 
-  create_packer_vms(environment, 'w16s')
-  create_packer_vms(environment, 'w16s-dc')
-  create_packer_vms(environment, 'w16s-dotnet')
-  create_packer_vms(environment, 'w16s-vs17c')
-  create_packer_vms(environment, 'w16s-iis')
-  create_packer_vms(environment, 'w16s-sql17d')
+  create_packer_windows_vms(environment, 'w16s')
+  create_packer_windows_vms(environment, 'w16s-de')
+  create_packer_windows_vms(environment, 'w16s-dotnet')
+  create_packer_windows_vms(environment, 'w16s-iis')
+  create_packer_windows_vms(environment, 'w16s-sql17d')
+
+  create_packer_windows_vms(environment, 'w16sc')
+  create_packer_windows_vms(environment, 'w16sc-de')
 end
 
-def create_packer_vms(environment, name)
+def create_packer_windows_vms(environment, name)
   create_local_packer_vm(environment, name, 'core')
   create_local_packer_vm(environment, name, 'sysprep')
 
-  create_cloud_packer_vm(environment, name)
+  create_atlas_packer_vm(environment, name)
 end
 
 def create_local_packer_vm(environment, name, type)
-  PackerVM.new(environment, name: "#{name}-#{type}", box: "local/#{name}-#{type}") do |vm|
+  PackerVM.new(environment, name: "#{name}-#{type}", box: "gusztavvargadr/#{name}:#{type}") do |vm|
     VirtualBoxProvider.new(vm) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/vagrant.box"
     end
@@ -33,17 +34,21 @@ def create_local_packer_vm(environment, name, type)
       provider.vagrant.differencing_disk = true
       provider.vagrant.enable_virtualization_extensions = true
     end
+
+    ChefSoloProvisioner.new(vm, 'run_list' => 'hello_world::default')
   end
 end
 
-def create_cloud_packer_vm(environment, name)
-  PackerVM.new(environment, name: "#{name}-cloud", box: "gusztavvargadr/#{name}") do |vm|
+def create_atlas_packer_vm(environment, name)
+  PackerVM.new(environment, name: name, box: "gusztavvargadr/#{name}") do |vm|
     VirtualBoxProvider.new(vm)
 
     HyperVProvider.new(vm) do |provider|
       provider.vagrant.differencing_disk = true
       provider.vagrant.enable_virtualization_extensions = true
     end
+
+    ChefSoloProvisioner.new(vm, 'run_list' => 'hello_world::default')
   end
 end
 
