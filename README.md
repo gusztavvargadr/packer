@@ -1,19 +1,31 @@
 # Packer
 
-<!--
+<!-- TODOs
 Feedback link to boxes
 vagrant box add with tags like docker
 private network
 
+versioning updates (e.g. w10-1703)
+facade images for latest versions
+
+deprecate w16s-vs*
+update names (in docs as well)
+
+to chef zero / policyfile
 split windows / linux chef
+jetbrains tooling instead vs17c
 
 .net 3.5 remove
+merge .net with iis
 
-test kitchen to build?
 build from vagrant box
 
 de / iis / sql / vs feature cleanup
-image size check (ngen, tmp)
+image size check (ngen, tmp, drive cleanup)
+
+description of autounattend gen
+
+deprecated versions with "-deprecated" tag
 
 -->
 

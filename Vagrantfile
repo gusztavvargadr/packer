@@ -1,20 +1,21 @@
 require "#{File.dirname(__FILE__)}/lib/gusztavvargadr/infrastructure/src/components/core/vagrant/Vagrantfile.core"
 
 Environment.new(name: 'packer.local') do |environment|
-  create_packer_vms(environment, 'w10e')
-  create_packer_vms(environment, 'w10e-vs17c')
+  create_packer_windows_vms(environment, 'w10e')
+  create_packer_windows_vms(environment, 'w10e-dc')
+  create_packer_windows_vms(environment, 'w10e-vs17c')
 
-  create_packer_vms(environment, 'w16s')
-  create_packer_vms(environment, 'w16s-de')
-  create_packer_vms(environment, 'w16s-dotnet')
-  create_packer_vms(environment, 'w16s-iis')
-  create_packer_vms(environment, 'w16s-sql17d')
+  create_packer_windows_vms(environment, 'w16s')
+  create_packer_windows_vms(environment, 'w16s-de')
+  create_packer_windows_vms(environment, 'w16s-dotnet')
+  create_packer_windows_vms(environment, 'w16s-iis')
+  create_packer_windows_vms(environment, 'w16s-sql17d')
 
-  create_packer_vms(environment, 'w16sc')
-  create_packer_vms(environment, 'w16sc-de')
+  create_packer_windows_vms(environment, 'w16sc')
+  create_packer_windows_vms(environment, 'w16sc-de')
 end
 
-def create_packer_vms(environment, name)
+def create_packer_windows_vms(environment, name)
   create_local_packer_vm(environment, name, 'core')
   create_local_packer_vm(environment, name, 'sysprep')
 

@@ -6,19 +6,21 @@ var recursive = Argument("recursive", false);
 
 packerTemplates = new List<PackerTemplate>();
 
-var w10e = PackerTemplates_Create("w10e");
-var w10e_vs17c = PackerTemplates_Create("w10e-vs17c", parents: w10e);
+var w10e = PackerTemplates_CreateWindows("w10e");
+var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
+var w10e_vs17c = PackerTemplates_CreateWindows("w10e-vs17c", parents: w10e_dc);
 
 packerTemplates = packerTemplates.
   Concat(w10e).
+  Concat(w10e_dc).
   Concat(w10e_vs17c).
   ToList();
 
-var w16s = PackerTemplates_Create("w16s", amazon: true);
-var w16s_de = PackerTemplates_Create("w16s-de", parents: w16s);
-var w16s_dotnet = PackerTemplates_Create("w16s-dotnet", parents: w16s);
-var w16s_iis = PackerTemplates_Create("w16s-iis", parents: w16s_dotnet);
-var w16s_sql17d = PackerTemplates_Create("w16s-sql17d", parents: w16s);
+var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);
+var w16s_de = PackerTemplates_CreateWindows("w16s-de", parents: w16s);
+var w16s_dotnet = PackerTemplates_CreateWindows("w16s-dotnet", parents: w16s);
+var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s_dotnet);
+var w16s_sql17d = PackerTemplates_CreateWindows("w16s-sql17d", parents: w16s);
 
 packerTemplates = packerTemplates.
   Concat(w16s).
@@ -28,8 +30,8 @@ packerTemplates = packerTemplates.
   Concat(w16s_sql17d).
   ToList();
 
-var w16sc = PackerTemplates_Create("w16sc");
-var w16sc_de = PackerTemplates_Create("w16sc-de", parents: w16sc);
+var w16sc = PackerTemplates_CreateWindows("w16sc");
+var w16sc_de = PackerTemplates_CreateWindows("w16sc-de", parents: w16sc);
 
 packerTemplates = packerTemplates.
   Concat(w16sc).
@@ -39,7 +41,7 @@ packerTemplates = packerTemplates.
 packerTemplate = configuration;
 packerRecursive = recursive;
 
-IEnumerable<PackerTemplate> PackerTemplates_Create(string type, bool amazon = false, IEnumerable<PackerTemplate> parents = null) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string type, bool amazon = false, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(
