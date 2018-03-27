@@ -1,0 +1,68 @@
+{
+  "variables": {
+    "virtualbox_guest_os_type": "",
+    "virtualbox_disk_size": "31744"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `virtualbox_memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `virtualbox_cpus`}}"
+        ]
+      ],
+      "disk_size": "{{user `virtualbox_disk_size`}}",
+      "headless": "{{user `virtualbox_headless`}}",
+      "boot_wait": "{{user `virtualbox_boot_wait`}}",
+      "boot_command": [
+        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "http_directory": ".",
+      "communicator": "{{user `virtualbox_communicator`}}",
+      "ssh_username": "{{user `virtualbox_ssh_username`}}",
+      "ssh_password": "{{user `virtualbox_ssh_password`}}",
+      "ssh_port": "{{user `virtualbox_ssh_port`}}",
+      "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
+      "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
+      "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}

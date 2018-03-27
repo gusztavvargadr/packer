@@ -1,0 +1,36 @@
+{
+  "variables": {
+    "virtualbox_source_path": ""
+  },
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "source_path": "{{user `virtualbox_source_path`}}",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `virtualbox_memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `virtualbox_cpus`}}"
+        ]
+      ],
+      "headless": "{{user `virtualbox_headless`}}",
+      "boot_wait": "{{user `virtualbox_boot_wait`}}",
+      "communicator": "{{user `virtualbox_communicator`}}",
+      "ssh_username": "{{user `virtualbox_ssh_username`}}",
+      "ssh_password": "{{user `virtualbox_ssh_password`}}",
+      "ssh_port": "{{user `virtualbox_ssh_port`}}",
+      "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
+      "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
+      "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}

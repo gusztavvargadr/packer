@@ -1,0 +1,24 @@
+{
+  "provisioners": [
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "provisioners/shell/scripts/update.sh",
+        "provisioners/shell/scripts/sshd.sh",
+        "provisioners/shell/scripts/networking.sh",
+        "provisioners/shell/scripts/sudoers.sh",
+        "provisioners/shell/scripts/vagrant.sh",
+        "provisioners/shell/scripts/virtualbox.sh",
+        "provisioners/shell/scripts/hyperv.sh",
+        "provisioners/shell/scripts/chef.sh",
+        "provisioners/shell/scripts/cleanup.sh",
+        "provisioners/shell/scripts/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}

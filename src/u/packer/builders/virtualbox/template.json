@@ -1,0 +1,15 @@
+{
+  "variables": {
+    "virtualbox_memory": "4096",
+    "virtualbox_cpus": "2",
+    "virtualbox_headless": "true",
+    "virtualbox_boot_wait": "10s",
+    "virtualbox_communicator": "ssh",
+    "virtualbox_ssh_username": "vagrant",
+    "virtualbox_ssh_password": "vagrant",
+    "virtualbox_ssh_port": "22",
+    "virtualbox_ssh_timeout": "15m",
+    "virtualbox_guest_additions_mode": "disable",
+    "virtualbox_shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+  }
+}
