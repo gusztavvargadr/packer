@@ -50,7 +50,7 @@
         " netcfg/get_hostname=vagrant<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg<wait>",
+        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/virtualbox-iso/http/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
