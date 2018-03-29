@@ -38,6 +38,14 @@ packerTemplates = packerTemplates.
   Concat(w16sc_de).
   ToList();
 
+var u16s = PackerTemplates_CreateLinux("u16s");
+var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
+
+packerTemplates = packerTemplates.
+  Concat(u16s).
+  Concat(u16s_dc).
+  ToList();
+
 packerTemplate = configuration;
 packerRecursive = recursive;
 
@@ -93,6 +101,32 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string type, bool amaz
     );
     items.Add(amazonSysprep);
   }
+
+  return items;
+}
+
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string type, IEnumerable<PackerTemplate> parents = null) {
+  var items = new List<PackerTemplate>();
+
+  var virtualBox = PackerTemplate_Create(
+    type,
+    "virtualbox",
+    new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
+    new [] { PackerProvisioner_Create("shell") },
+    new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
+    parents != null ? parents.First(item => item.IsMatching("virtualbox")) : null
+  );
+  items.Add(virtualBox);
+
+  var hyperV = PackerTemplate_Create(
+    type,
+    "hyperv",
+    new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
+    new [] { PackerProvisioner_Create("shell") },
+    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
+    parents != null ? parents.First(item => item.IsMatching("hyperv")) : null
+  );
+  items.Add(hyperV);
 
   return items;
 }

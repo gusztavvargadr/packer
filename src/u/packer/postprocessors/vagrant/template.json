@@ -1,0 +1,13 @@
+{
+  "variables": {
+    "vagrant_vagrantfile_template": ""
+  },
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "{{user `output_directory`}}/vagrant.box",
+      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}"
+    }
+  ]
+}
