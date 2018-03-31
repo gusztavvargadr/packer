@@ -1,0 +1,15 @@
+{
+  "provisioners": [
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "provisioners/shell/scripts/docker.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}

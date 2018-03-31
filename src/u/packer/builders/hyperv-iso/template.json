@@ -1,0 +1,57 @@
+{
+  "variables": {
+    "hyperv_disk_size": "31744"
+  },
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "ram_size": "{{user `hyperv_ram_size`}}",
+      "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
+      "cpu": "{{user `hyperv_cpu`}}",
+      "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
+      "disk_size": "{{user `hyperv_disk_size`}}",
+      "switch_name": "{{user `hyperv_switch_name`}}",
+      "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
+      "boot_wait": "{{user `hyperv_boot_wait`}}",
+      "boot_command": [
+        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "http_directory": ".",
+      "communicator": "{{user `hyperv_communicator`}}",
+      "ssh_username": "{{user `hyperv_ssh_username`}}",
+      "ssh_password": "{{user `hyperv_ssh_password`}}",
+      "ssh_port": "{{user `hyperv_ssh_port`}}",
+      "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
+      "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
+      "shutdown_command": "{{user `hyperv_shutdown_command`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ]
+}
