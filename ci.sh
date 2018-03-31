@@ -27,15 +27,25 @@ else
 fi
 
 # Define default arguments.
-SCRIPT="build.cake"
-CAKE_ARGUMENTS=()
+SCRIPT="ci.cake"
+TARGET="Default"
+CONFIGURATION=""
+VERBOSITY="verbose"
+DRYRUN=
+SHOW_VERSION=false
+SCRIPT_ARGUMENTS=()
 
 # Parse arguments.
 for i in "$@"; do
     case $1 in
         -s|--script) SCRIPT="$2"; shift ;;
-        --) shift; CAKE_ARGUMENTS+=("$@"); break ;;
-        *) CAKE_ARGUMENTS+=("$1") ;;
+        -t|--target) TARGET="$2"; shift ;;
+        -c|--configuration) CONFIGURATION="$2"; shift ;;
+        -v|--verbosity) VERBOSITY="$2"; shift ;;
+        -d|--dryrun) DRYRUN="-dryrun" ;;
+        --version) SHOW_VERSION=true ;;
+        --) shift; SCRIPT_ARGUMENTS+=("$@"); break ;;
+        *) SCRIPT_ARGUMENTS+=("$1") ;;
     esac
     shift
 done
@@ -114,4 +124,8 @@ if [ ! -f "$CAKE_EXE" ]; then
 fi
 
 # Start Cake
-exec mono "$CAKE_EXE" $SCRIPT "${CAKE_ARGUMENTS[@]}"
+if $SHOW_VERSION; then
+    exec mono "$CAKE_EXE" -version
+else
+    exec mono "$CAKE_EXE" $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
+fi
