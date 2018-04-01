@@ -2,36 +2,28 @@
 
 <!-- TODOs
 Feedback link to boxes
+windows update other producs (sql, docker?)
 vagrant box add with tags like docker
-private network
-
+restore / build / test / package / publish / deploy ? with customizations
 versioning updates (e.g. w10-1703)
 facade images for latest versions
-
 deprecate w16s-vs*
 update names (in docs as well)
-
 to chef zero / policyfile
 split windows / linux chef
 jetbrains tooling instead vs17c
-
-.net 3.5 remove
 merge .net with iis
-
 build from vagrant box
-
 de / iis / sql / vs feature cleanup
 image size check (ngen, tmp, drive cleanup)
-
 description of autounattend gen
-
 deprecated versions with "-deprecated" tag
-
+.net 3.x exclude for iis
 -->
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains Packer templates for .NET development with Docker, Visual Studio, IIS and and SQL Server on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS, provisioned with Chef.
+This repository contains Packer templates for Visual Studio, Docker, SQL Server and IIS on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS provisioned with Chef, focusing on .NET development.
 
 ## TL;DR
 
@@ -55,9 +47,9 @@ This repository contains Packer templates for .NET development with Docker, Visu
 
 This repository contains [Packer] templates for the following scenarios:
 
-- Core [operating systems] for generic experiments with Windows 10, Windows Server 2016 and Docker.
-- [.NET development] using Visual Studio 2017.
-- [.NET hosting] using IIS and SQL Server 2017.
+- Core [operating systems] for generic experiments with Windows and Docker.
+- [.NET development] using Visual Studio.
+- [.NET hosting] using SQL Server and IIS.
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
 
@@ -85,49 +77,35 @@ The following Vagrant boxes can be used for generic expirments on the respective
 
 They contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other Vagrant boxes below are based on these configurations as well.
 
-- **Windows 10**
-  - **[Enterpise][w10e]**
-  - **[Enterpise with Docker for Windows Community][w10e-dc]**
-- **Windows Server 2016**
-  - **[Standard][w16s]**
-  - **[Standard with Docker for Windows Community][w16s-dc]**
-
-In the box:
-
-- **Windows 10 Enterprise** 1703 (15063.674) and **Windows Server 2016 Standard** 1607 (14393.1770)
-  - Operating system
-    - Administrator user with user name `vagrant` and password `vagrant` set to never expire
-    - WinRM service enabled
-    - UAC disabled
-    - Windows Updates installed and service disabled
-    - Windows Defender service disabled
-    - Remote Desktop enabled
-    - Generalized with Sysprep
-  - Tools
-    - [Chocolatey](https://chocolatey.org/packages/chocolatey/) 0.10.8
-    - [7-Zip](https://chocolatey.org/packages/7zip/) 16.4.0
-    - [Chef Client](https://chocolatey.org/packages/chef-client/) 12.14.77
-    - **VirtualBox** [VirtualBox Guest Additions](https://www.virtualbox.org/manual/ch04.html) 5.1.22
-      - Recommended to have VirtualBox version 5.1.22 or later on the host
-    - **Hyper-V** Generation 1, Configuration Version 8.0
-      - Requires Windows 10 or Windows Server 2016 version 1607 or later on the host
-  - Vagrant box
-    - WinRM communicator
-    - 1 CPU
-    - 1 GB RAM
-    - **VirtualBox** Port forwarding for RDP from 3389 to 33389 with auto correction
-    - **Hyper-V** IP address reporting timeout of 5 minutes
-
-- **Docker for Windows Community** 17.09 Edge
-  - **VirtualBox** Windows containers on Windows Server 2016
-  - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
-
 [Operating systems]: #operating-systems
 
-[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e
-[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc
-[w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s
-[w16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc
+#### Windows 10
+
+- [**Windows 10 Enterpise**][w10e]
+- [**Windows 10 Enterpise, Docker Community**][w10e-dc]
+
+[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
+[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
+
+#### Windows Server 2016
+
+- [**Windows Server 2016 Standard**][w16s]
+- [**Windows Server 2016 Standard, Docker Enterprise**][w16s-de]
+- [**Windows Server 2016 Standard Core**][w16sc]
+- [**Windows Server 2016 Standard Core, Docker Enterprise**][w16sc-de]
+
+[w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s/
+[w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
+[w16sc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc/
+[w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
+
+#### Ubuntu 16
+
+- [**Ubuntu 16 Server**][u16s]
+- [**Ubuntu 16 Server, Docker Community**][u16s-dc]
+
+[u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
+[u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
 
 ### .NET development
 
@@ -135,31 +113,13 @@ The following Vagrant boxes can be used for setting up [virtual workstations] fo
 
 They contain the respective Visual Studio version with the commonly used options and are based on the core [operating systems].
 
-- **Visual Studio 2017**
-  - **[Community][w10e-vs17c]** with Windows 10 Enterprise
-  - **[Community][w16s-vs17c]** with Windows Server 2016 Standard
-
-In the box:
-
-- **Visual Studio 2017 Community** Update 4
-  - C# and F#
-  - .NET Framework 2.0-3.5 and 4.0-4.7
-  - .NET Core 1.0, 1.1 and 2.0 cross-platform development
-  - .NET desktop development
-  - ASP.NET and web development
-  - Data storage and processing
-  - Azure development
-
-- **Docker for Windows Community**  17.09 Edge
-  - **VirtualBox** Windows containers on Windows Server 2016
-  - **Hyper-V** Linux and Windows containers on Windows 10 and Windows Server 2016
-
-- **JetBrains ReSharper Ultimate** 2017.2.2
-
 [.NET development]: #net-development
 
-[w10e-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-vs17c
-[w16s-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-vs17c
+#### Visual Studio 2017
+
+- [Windows 10 Enterpise, Docker Community][w10e-dc], [**Visual Studio 2017 Community**][w10e-vs17c]
+
+[w10e-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-vs17c/
 
 ### .NET hosting
 
@@ -167,24 +127,25 @@ The following Vagrant boxes can be used for .NET hosting scenarios.
 
 They contain the respective hosting tools with the default configuration are based on the core [operating systems].
 
-- **IIS 10**
-  - **[Server][w16s-iis]** with Windows Server 2016 Standard
-- **SQL Server 2017**
-  - **[Developer][w16s-sql17d]** with Windows Server 2016 Standard
-
-In the box:
-
-* **IIS 10**
-  * .NET Framework 2.0-3.5 and 4.0-4.7
-  * .NET Core 1.1 and 2.0 Windows Server Hosting bundle
-* **SQL Server 2017 Developer**
-  * Database Engine
-  * Management Studio
-
 [.NET hosting]: #net-hosting
 
-[w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis
-[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d
+#### SQL Server 2014
+
+- [Windows Server 2016 Standard][w16s], [**SQL Server 2014 Developer**][w16s-sql14d]
+
+[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
+
+#### SQL Server 2017
+
+- [Windows Server 2016 Standard][w16s], [**SQL Server 2017 Developer**][w16s-sql17d]
+
+[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
+
+#### IIS 10
+
+- [Windows Server 2016 Standard][w16s], [**IIS 10**][w16s-iis]
+
+[w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis/
 
 ## Getting started
 
@@ -445,19 +406,19 @@ Any feedback, [issues] or [pull requests] are welcome and greatly appreciated. C
 
 This repository could not exist without the following great tools:
 
-* [Packer]
-* [Vagrant]
-* [VirtualBox]
-* [Hyper-V]
-* [AWS]
-* [Chef]
+- [Packer]
+- [Vagrant]
+- [VirtualBox]
+- [Hyper-V]
+- [AWS]
+- [Chef]
 
 This repository borrows awesome ideas and solutions from the following sources:
 
-* [Matt Wrock]
-* [Jacqueline]
-* [Joe Fitzgerald]
-* [Boxcutter]
+- [Matt Wrock]
+- [Jacqueline]
+- [Joe Fitzgerald]
+- [Boxcutter]
 
 [Resources]: #resources
 
