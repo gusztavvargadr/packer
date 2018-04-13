@@ -90,6 +90,7 @@ if(!$PSScriptRoot){
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
 $CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
+$CAKE_DLL = Join-Path $TOOLS_DIR "Cake.CoreCLR/Cake.dll"
 $NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 $PACKAGES_CONFIG = Join-Path $TOOLS_DIR "packages.config"
 $PACKAGES_CONFIG_MD5 = Join-Path $TOOLS_DIR "packages.config.md5sum"
@@ -184,7 +185,13 @@ if (!(Test-Path $CAKE_EXE)) {
     Throw "Could not find Cake.exe at $CAKE_EXE"
 }
 
+# Make sure that Cake.CoreCLR has been installed.
+if (!(Test-Path $CAKE_DLL)) {
+    Throw "Could not find Cake.dll at $CAKE_DLL"
+}
+
 # Start Cake
 Write-Host "Running build script..."
-Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
+#Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
+Invoke-Expression "& dotnet `"$CAKE_DLL`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" --settings_skipverification=true $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE
