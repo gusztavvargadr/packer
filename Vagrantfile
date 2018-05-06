@@ -7,8 +7,8 @@ Environment.new(name: 'packer.local') do |environment|
 
   create_packer_windows_vms(environment, 'w16s')
   create_packer_windows_vms(environment, 'w16s-de')
-  create_packer_windows_vms(environment, 'w16s-dotnet')
   create_packer_windows_vms(environment, 'w16s-iis')
+  create_packer_windows_vms(environment, 'w16s-sql14d')
   create_packer_windows_vms(environment, 'w16s-sql17d')
 
   create_packer_windows_vms(environment, 'w16sc')

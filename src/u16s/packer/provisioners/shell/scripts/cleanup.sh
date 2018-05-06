@@ -40,7 +40,7 @@ apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
 apt-get -y purge ppp pppconfig pppoeconf;
 
 # Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery bash-completion fonts-ubuntu-font-family-console laptop-detect;
+apt-get -y purge popularity-contest installation-report command-not-found command-not-found-data friendly-recovery fonts-ubuntu-font-family-console laptop-detect;
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"

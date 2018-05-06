@@ -1,6 +1,6 @@
 {
   "variables": {
-    "vagrant_vagrantfile_template": "",
+    "vagrant_vagrantfile_template": ""
   },
   "post-processors": [
     {

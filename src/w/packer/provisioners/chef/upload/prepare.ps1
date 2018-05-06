@@ -12,7 +12,7 @@ Write-Host "Install 7zip"
 choco install 7zip.portable -y
 
 Write-Host "Install Chef Client"
-choco install chef-client -y --version 12.8.1.1
+. { Invoke-WebRequest -useb https://omnitruck.chef.io/install.ps1 } | Invoke-Expression; install -v 13.8.5
 
 Write-Host "Extracting cookbooks"
 7z x C:\packer-chef\cookbooks.tar.gz -o"C:\packer-chef" -aoa

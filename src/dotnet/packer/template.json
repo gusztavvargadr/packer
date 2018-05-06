@@ -1,6 +1,0 @@
-{
-  "variables": {
-    "name": "dotnet",
-    "description": ".NET Framework and .NET Core Runtimes"
-  }
-}

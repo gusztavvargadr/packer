@@ -18,15 +18,15 @@ packerTemplates = packerTemplates.
 
 var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);
 var w16s_de = PackerTemplates_CreateWindows("w16s-de", parents: w16s);
-var w16s_dotnet = PackerTemplates_CreateWindows("w16s-dotnet", parents: w16s);
-var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s_dotnet);
+var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s);
+var w16s_sql14d = PackerTemplates_CreateWindows("w16s-sql14d", parents: w16s);
 var w16s_sql17d = PackerTemplates_CreateWindows("w16s-sql17d", parents: w16s);
 
 packerTemplates = packerTemplates.
   Concat(w16s).
   Concat(w16s_de).
-  Concat(w16s_dotnet).
   Concat(w16s_iis).
+  Concat(w16s_sql14d).
   Concat(w16s_sql17d).
   ToList();
 
