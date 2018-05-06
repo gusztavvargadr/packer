@@ -1,24 +1,27 @@
 # Packer
 
 <!-- TODOs
-Feedback link to boxes
-windows update other producs (sql, docker?)
-vagrant box add with tags like docker
 restore / build / test / package / publish / deploy ? with customizations
+vagrant box add with tags like docker
 versioning updates (e.g. w10-1703)
 facade images for latest versions
-deprecate w16s-vs*
-update names (in docs as well)
+build from vagrant box
+
 to chef zero / policyfile
 split windows / linux chef
-jetbrains tooling instead vs17c
-merge .net with iis
-build from vagrant box
-de / iis / sql / vs feature cleanup
+
+dc with hello-world
+vs with .net core images
+
+.net 3.5 back for all
+windows update other producs (sql, docker?)
+jetbrains rider also besides vs17c
 image size check (ngen, tmp, drive cleanup)
 description of autounattend gen
-deprecated versions with "-deprecated" tag
-.net 3.x exclude for iis
+
+linux base provisioning only at iso
+dc with docker-compose and docker-machine
+shutdown timeout
 -->
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
@@ -82,7 +85,7 @@ They contain the core operating system with the minimum configuration required t
 #### Windows 10
 
 - [**Windows 10 Enterpise**][w10e]
-- [**Windows 10 Enterpise, Docker Community**][w10e-dc]
+- [Windows 10 Enterpise, **Docker Community**][w10e-dc]
 
 [w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
 [w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
@@ -90,9 +93,9 @@ They contain the core operating system with the minimum configuration required t
 #### Windows Server 2016
 
 - [**Windows Server 2016 Standard**][w16s]
-- [**Windows Server 2016 Standard, Docker Enterprise**][w16s-de]
+- [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
 - [**Windows Server 2016 Standard Core**][w16sc]
-- [**Windows Server 2016 Standard Core, Docker Enterprise**][w16sc-de]
+- [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
 
 [w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s/
 [w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
@@ -102,7 +105,7 @@ They contain the core operating system with the minimum configuration required t
 #### Ubuntu 16
 
 - [**Ubuntu 16 Server**][u16s]
-- [**Ubuntu 16 Server, Docker Community**][u16s-dc]
+- [Ubuntu 16 Server, **Docker Community**][u16s-dc]
 
 [u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
 [u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
@@ -117,7 +120,7 @@ They contain the respective Visual Studio version with the commonly used options
 
 #### Visual Studio 2017
 
-- [Windows 10 Enterpise, Docker Community][w10e-dc], [**Visual Studio 2017 Community**][w10e-vs17c]
+- [Windows 10 Enterpise, **Visual Studio 2017 Community**][w10e-vs17c]
 
 [w10e-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-vs17c/
 
@@ -131,19 +134,19 @@ They contain the respective hosting tools with the default configuration are bas
 
 #### SQL Server 2014
 
-- [Windows Server 2016 Standard][w16s], [**SQL Server 2014 Developer**][w16s-sql14d]
+- [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
 
 [w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
 
 #### SQL Server 2017
 
-- [Windows Server 2016 Standard][w16s], [**SQL Server 2017 Developer**][w16s-sql17d]
+- [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
 
 [w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
 
 #### IIS 10
 
-- [Windows Server 2016 Standard][w16s], [**IIS 10**][w16s-iis]
+- [Windows Server 2016 Standard, **IIS 10**][w16s-iis]
 
 [w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis/
 
@@ -419,6 +422,7 @@ This repository borrows awesome ideas and solutions from the following sources:
 - [Jacqueline]
 - [Joe Fitzgerald]
 - [Boxcutter]
+- [Bento]
 
 [Resources]: #resources
 
@@ -426,3 +430,4 @@ This repository borrows awesome ideas and solutions from the following sources:
 [Jacqueline]: https://github.com/jacqinthebox/packer-templates/
 [Joe Fitzgerald]: https://github.com/joefitzgerald/packer-windows/
 [Boxcutter]: https://github.com/boxcutter/windows/
+[Bento]: https://github.com/chef/bento/

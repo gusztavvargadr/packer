@@ -24,8 +24,3 @@ powershell_script 'Disable maintenance' do
   EOH
   action :run
 end
-
-powershell_script 'Set service \'WinRM\' to \'Autostart (Delayed)\'' do
-  code 'sc.exe config winrm start= delayed-auto'
-  action :run
-end
