@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/6/5/D/65D18931-F626-4A35-AD5B-F5DA41FE6B76/16299.15.170928-1534.rs3_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "iso_url": "https://software-download.microsoft.com/download/pr/17134.1.180410-1804.rs4_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
     "iso_checksum_type": "sha1",
-    "iso_checksum": "3b5f9494d870726d6d8a833aaf6169a964b8a9be"
+    "iso_checksum": "a4ea45ec1282e85fc84af49acf7a8d649c31ac5c"
   }
 }
