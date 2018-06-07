@@ -2,7 +2,7 @@
   "variables": {
     "name": "",
     "description": "",
-    "version": "1803.0.0",
+    "version": "1806.0.0",
     "author": "gusztavvargadr",
     "output_directory": "output"
   },

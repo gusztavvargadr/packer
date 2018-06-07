@@ -1,6 +1,13 @@
 # Packer
 
 <!-- TODOs
+autologin for docker and download images
+windows network config ask off
+wsl for dotnet-workstation with jetbrains
+
+packer user throughout build
+add vagrant user when packaging only
+
 restore / build / test / package / publish / deploy ? with customizations
 vagrant box add with tags like docker
 versioning updates (e.g. w10-1703)
