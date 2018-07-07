@@ -1,0 +1,55 @@
+---
+defaults:
+  machines:
+    core: &machine_core
+      providers:
+        virtualbox:
+        hyperv:
+      synced_folders:
+        ../../../..: /vagrant-repo
+
+environment: client.packer
+
+machines:
+  hyperv:
+    <<: *machine_core
+    box: gusztavvargadr/w10e-dc
+    provisioners:
+      chef_zero:
+        run_list: recipe[gusztavvargadr_windows::chocolatey_packages]
+        json:
+          gusztavvargadr_windows:
+            environment_variables:
+              VAGRANT_PREFERRED_PROVIDERS:
+                value: hyperv
+              VAGRANT_PROVIDER_HYPERV_DIFFERENCING_DISK:
+                value: 'true'
+              VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE:
+                value: Default Switch
+              VAGRANT_PROVIDER_HYPERV_SMB_USERNAME:
+                value: vagrant
+              VAGRANT_PROVIDER_HYPERV_SMB_PASSWORD:
+                value: vagrant
+            chocolatey_packages:
+              # Workstation default
+              # chocolatey:
+              # chef-client:
+              conemu:
+              totalcommander:
+              treesizefree:
+              visualstudiocode:
+              beyondcompare:
+              googlechrome:
+              git:
+                install:
+                  params: "'/GitAndUnixToolsOnPath /NoAutoCrlf'"
+              poshgit:
+              vagrant:
+                install:
+                  ignorepackagecodes:
+              # Chef
+              chef-workstation:
+              # Packer
+              packer:
+              checksum:
+              # hyperv:

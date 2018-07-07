@@ -8,12 +8,12 @@ packerTemplates = new List<PackerTemplate>();
 
 var w10e = PackerTemplates_CreateWindows("w10e");
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
-var w10e_vs17c = PackerTemplates_CreateWindows("w10e-vs17c", parents: w10e_dc);
+var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
 
 packerTemplates = packerTemplates.
   Concat(w10e).
   Concat(w10e_dc).
-  Concat(w10e_vs17c).
+  Concat(w10e_dc_vs17c).
   ToList();
 
 var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);

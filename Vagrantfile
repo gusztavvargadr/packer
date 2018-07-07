@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/lib/gusztavvargadr/infrastructure/src/compone
 Environment.new(name: 'packer.local') do |environment|
   create_packer_windows_vms(environment, 'w10e')
   create_packer_windows_vms(environment, 'w10e-dc')
-  create_packer_windows_vms(environment, 'w10e-vs17c')
+  create_packer_windows_vms(environment, 'w10e-dc-vs17c')
 
   create_packer_windows_vms(environment, 'w16s')
   create_packer_windows_vms(environment, 'w16s-de')
