@@ -1,10 +1,29 @@
 # Packer
 
 <!-- TODOs
+win update group policy notify only
+hyperv gen2
+
+terraform / yaml for templates
+cake for stages
+
+berkshelf before packer
+
+vs17p as well
+ws conemu, etc
+dotnet tools (jetbrains, docker images)
+PACKER_HYPERV_NETWORK_BRDIGE
+
 autologin for docker and download images
 windows network config ask off
 wsl for dotnet-workstation with jetbrains
 
+windows openssh
+http server for windows
+hyperv headless?
+friendly aliases for common scenarios (visual studio, mssql)
+
+chef policyfile / chef-run
 packer user throughout build
 add vagrant user when packaging only
 

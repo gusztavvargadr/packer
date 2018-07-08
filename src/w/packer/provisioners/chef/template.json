@@ -14,7 +14,8 @@
   "provisioners": [
     {
       "type": "shell-local",
-      "command": "berks package -b {{user `chef_source`}}/Berksfile {{user `chef_source`}}/upload/cookbooks.tar.gz"
+      "tempfile_extension": ".cmd",
+      "script": "{{user `chef_source`}}/scripts/berkshelf.cmd"
     },
     {
       "type": "file",

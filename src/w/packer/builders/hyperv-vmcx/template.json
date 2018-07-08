@@ -15,6 +15,7 @@
       "floppy_files": "{{user `hyperv_floppy_files`}}",
       "switch_name": "{{user `hyperv_switch_name`}}",
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
+      "differencing_disk": "{{user `hyperv_differencing_disk`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
       "communicator": "{{user `hyperv_communicator`}}",
       "winrm_username": "{{user `hyperv_winrm_username`}}",

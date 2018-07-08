@@ -16,7 +16,7 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
 net stop winrm
-sc.exe config winrm start= auto
+sc.exe config winrm start= delayed-auto
 
 Write-Host "Set password to never expire"
 wmic useraccount where "name='Administrator'" set PasswordExpires=FALSE

@@ -16,7 +16,7 @@ machines:
     box: gusztavvargadr/w10e-dc
     provisioners:
       chef_zero:
-        run_list: recipe[gusztavvargadr_windows::chocolatey_packages]
+        run_list: recipe[gusztavvargadr_windows::environment_variables],recipe[gusztavvargadr_windows::chocolatey_packages]
         json:
           gusztavvargadr_windows:
             environment_variables:
@@ -30,6 +30,8 @@ machines:
                 value: vagrant
               VAGRANT_PROVIDER_HYPERV_SMB_PASSWORD:
                 value: vagrant
+              PACKER_CACHE_DIR:
+                value: 'C:\\Users\\vagrant\\.packer\\cache'
             chocolatey_packages:
               # Workstation default
               # chocolatey:
@@ -47,6 +49,7 @@ machines:
               vagrant:
                 install:
                   ignorepackagecodes:
+              # vagrant-berkshelf
               # Chef
               chef-workstation:
               # Packer

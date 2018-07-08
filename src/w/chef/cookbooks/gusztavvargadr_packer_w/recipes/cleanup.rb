@@ -1,9 +1,9 @@
-powershell_script 'Execute NGen' do
-  code <<-EOH
-    Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
-  EOH
-  action :run
-end
+# powershell_script 'Execute NGen' do
+#   code <<-EOH
+#     Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
+#   EOH
+#   action :run
+# end
 
 gusztavvargadr_windows_updates '' do
   action [:cleanup]
@@ -72,4 +72,9 @@ end
 
 gusztavvargadr_windows_pagefile '' do
   action :enable
+end
+
+powershell_script 'Set service \'WinRM\' to \'Autostart (Delayed)\'' do
+  code 'sc.exe config winrm start= auto'
+  action :run
 end
