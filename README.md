@@ -1,11 +1,15 @@
 # Packer
 
 <!-- TODOs
+firewall vs winrm sysprep
+
 win update group policy notify only
 hyperv gen2
 
 terraform / yaml for templates
 cake for stages
+
+chef 14
 
 berkshelf before packer
 

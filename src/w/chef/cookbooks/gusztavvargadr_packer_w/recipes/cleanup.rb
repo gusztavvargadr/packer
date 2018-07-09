@@ -9,17 +9,17 @@ gusztavvargadr_windows_updates '' do
   action [:cleanup]
 end
 
-gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
+powershell_script 'Clearing temporary files' do
   code <<-EOH
     @(
-        "$env:localappdata\\Nuget",
-        "$env:localappdata\\temp\\chocolatey",
+        "$env:localappdata\\temp\\*",
+        "$env:windir\\temp\\*",
         "$env:windir\\logs",
         "$env:windir\\panther",
-        "$env:windir\\temp\\*",
         "$env:windir\\winsxs\\manifestcache",
-        "$env:windir\\SoftwareDistribution\\Download\\*"
-    ) | % {
+        "$env:windir\\SoftwareDistribution\\Download\\*",
+        "$env:programdata\\Microsoft\\Windows Defender\\Scans\\*"
+        ) | % {
           Write-Host "Removing $_"
           try {
             Takeown /d Y /R /f $_
@@ -74,7 +74,7 @@ gusztavvargadr_windows_pagefile '' do
   action :enable
 end
 
-powershell_script 'Set service \'WinRM\' to \'Autostart (Delayed)\'' do
+powershell_script 'Set service \'WinRM\' to \'Autostart\'' do
   code 'sc.exe config winrm start= auto'
   action :run
 end
