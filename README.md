@@ -1,7 +1,8 @@
 # Packer
 
 <!-- TODOs
-firewall vs winrm sysprep
+https://www.packer.io/docs/templates/index.html#min_packer_version
+navtive / vagrant vs core / sysprep?
 
 win update group policy notify only
 hyperv gen2
@@ -9,7 +10,13 @@ hyperv gen2
 terraform / yaml for templates
 cake for stages
 
+https://www.vagrantup.com/docs/boxes/base.html#base-windows-configuration
+bginfo
 chef 14
+
+options default to packer defaults (e.g. headless, etc)
+pagefile, further cleanups
+win app updates back
 
 berkshelf before packer
 

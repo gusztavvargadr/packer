@@ -57,7 +57,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string type, bool amaz
     "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
     new [] { PackerProvisioner_Create("chef") },
-    new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
+    new PackerPostProcessor[] {},
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
   var virtualBoxSysprep = PackerTemplate_Create(
@@ -76,7 +76,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string type, bool amaz
     "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
     new [] { PackerProvisioner_Create("chef") },
-    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
+    new PackerPostProcessor[] {},
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
   var hyperVSysprep = PackerTemplate_Create(

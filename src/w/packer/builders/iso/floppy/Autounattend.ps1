@@ -1,8 +1,5 @@
 Set-ExecutionPolicy RemoteSigned -Force
 
-Write-Host "Wait for first logon welcome"
-Start-Sleep 120
-
 Write-Host "Configure network profiles"
 Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
 

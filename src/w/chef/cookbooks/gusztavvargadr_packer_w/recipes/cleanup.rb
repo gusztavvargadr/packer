@@ -6,7 +6,7 @@
 # end
 
 gusztavvargadr_windows_updates '' do
-  action [:cleanup]
+  action :cleanup
 end
 
 powershell_script 'Clearing temporary files' do
@@ -17,7 +17,6 @@ powershell_script 'Clearing temporary files' do
         "$env:windir\\logs",
         "$env:windir\\panther",
         "$env:windir\\winsxs\\manifestcache",
-        "$env:windir\\SoftwareDistribution\\Download\\*",
         "$env:programdata\\Microsoft\\Windows Defender\\Scans\\*"
         ) | % {
           Write-Host "Removing $_"
@@ -63,18 +62,5 @@ powershell_script 'Zeroing volume' do
     }
     Del $FilePath
   EOH
-  action :run
-end
-
-gusztavvargadr_windows_updates '' do
-  action [:disable]
-end
-
-gusztavvargadr_windows_pagefile '' do
-  action :enable
-end
-
-powershell_script 'Set service \'WinRM\' to \'Autostart\'' do
-  code 'sc.exe config winrm start= auto'
   action :run
 end

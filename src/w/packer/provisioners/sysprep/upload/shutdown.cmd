@@ -1,4 +1,3 @@
-net stop winrm
 sc.exe config winrm start= disabled
 
 mkdir C:\Windows\Setup\Scripts

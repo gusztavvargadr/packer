@@ -31,7 +31,7 @@ machines:
               VAGRANT_PROVIDER_HYPERV_SMB_PASSWORD:
                 value: vagrant
               PACKER_CACHE_DIR:
-                value: 'C:\\Users\\vagrant\\.packer\\cache'
+                value: 'C:\Users\vagrant\.packer\cache'
             chocolatey_packages:
               # Workstation default
               # chocolatey:
