@@ -1,0 +1,19 @@
+{
+  "description": "<description>",
+  "short_description": "<description>",
+  "name": "gusztavvargadr/<name>",
+  "versions": [
+    {
+      "version": "1807.0.0-local",
+      "status": "active",
+      "description_html": null,
+      "description_markdown": "",
+      "providers": [
+        {
+          "name": "hyperv",
+          "url": "file://<repo>/build/<name>/hyperv-sysprep/output/vagrant.box"
+        }
+      ]
+    }
+  ]
+}

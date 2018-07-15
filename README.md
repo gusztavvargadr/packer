@@ -7,6 +7,9 @@ navtive / vagrant vs core / sysprep?
 win update group policy notify only
 hyperv gen2
 
+msu.msu
+autounattend chef on first logon or after install
+
 terraform / yaml for templates
 cake for stages
 
@@ -19,6 +22,7 @@ pagefile, further cleanups
 win app updates back
 
 berkshelf before packer
+box readme / link
 
 vs17p as well
 ws conemu, etc
