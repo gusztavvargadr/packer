@@ -35,15 +35,6 @@
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
-            <AutoLogon>
-                <Password>
-                    <Value>vagrant</Value>
-                    <PlainText>true</PlainText>
-                </Password>
-                <Enabled>true</Enabled>
-                <Username>vagrant</Username>
-                <LogonCount>1</LogonCount>
-            </AutoLogon>
             <RegisteredOwner/>
         </component>
     </settings>
