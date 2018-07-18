@@ -1,103 +1,30 @@
 # Packer
 
-<!-- TODOs
-https://www.packer.io/docs/templates/index.html#min_packer_version
-navtive / vagrant vs core / sysprep?
-
-win update group policy notify only
-hyperv gen2
-
-msu.msu
-autounattend chef on first logon or after install
-
-terraform / yaml for templates
-cake for stages
-
-https://www.vagrantup.com/docs/boxes/base.html#base-windows-configuration
-bginfo
-chef 14
-
-options default to packer defaults (e.g. headless, etc)
-pagefile, further cleanups
-win app updates back
-
-berkshelf before packer
-box readme / link
-
-vs17p as well
-ws conemu, etc
-dotnet tools (jetbrains, docker images)
-PACKER_HYPERV_NETWORK_BRDIGE
-
-autologin for docker and download images
-windows network config ask off
-wsl for dotnet-workstation with jetbrains
-
-windows openssh
-http server for windows
-hyperv headless?
-friendly aliases for common scenarios (visual studio, mssql)
-
-chef policyfile / chef-run
-packer user throughout build
-add vagrant user when packaging only
-
-restore / build / test / package / publish / deploy ? with customizations
-vagrant box add with tags like docker
-versioning updates (e.g. w10-1703)
-facade images for latest versions
-build from vagrant box
-
-to chef zero / policyfile
-split windows / linux chef
-
-dc with hello-world
-vs with .net core images
-
-.net 3.5 back for all
-windows update other producs (sql, docker?)
-jetbrains rider also besides vs17c
-image size check (ngen, tmp, drive cleanup)
-description of autounattend gen
-
-linux base provisioning only at iso
-dc with docker-compose and docker-machine
-shutdown timeout
--->
-
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains Packer templates for Visual Studio, Docker, SQL Server and IIS on Windows, building virtual machine images and Vagrant boxes for VirtualBox, Hyper-V and AWS provisioned with Chef, focusing on .NET development.
+This repository contains common [Packer] helper tools and sample templates of [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
+- [Vagrant boxes] ready to use for virtualizing the development and hosting scenarios.
 - [Blog] with an overview of the why, how and what of Packer.
-- [Vagrant boxes] ready to use for virtualizing the most common components for .NET development.
 - [Virtual workstations] for automating the configuration of your development environment.
-- [Infrastructure components] under the hood.
 
 [TL;DR]: #tldr
 
-[Blog]: https://bit.ly/wdywttt5
-[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr/
-[Virtual workstations]: https://github.com/gusztavvargadr/workstations/
-[Infrastructure components]: https://github.com/gusztavvargadr/infrastructure/
-
 ## Overview
 
-**Contents** [Operating systems] | [.NET development] | [.NET hosting]  
+**Contents** [Operating systems] | [Development] | [Hosting]  
 
-**Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images and Vagrant boxes.  
+> **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [this blog][Blog] for more background and motivation and [virtual workstations] for samples of automating the configuration of your development environment.  
 
-This repository contains [Packer] templates for the following scenarios:
+This repository contains [Packer] sample template for the following virtualization scenarios:
 
-- Core [operating systems] for generic experiments with Windows and Docker.
-- [.NET development] using Visual Studio.
-- [.NET hosting] using SQL Server and IIS.
+- [Operating systems] for generic experiments with Windows and Ubuntu.
+- [Development] using Visual Studio.
+- [Hosting] using Docker, IIS and SQL Server.
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
-
-See [this blog][Blog] for more background and motivation.
 
 All the components, including the core operating systems, share the following characteristics:
 
@@ -106,6 +33,10 @@ All the components, including the core operating systems, share the following ch
 * Unless noted otherwise, they are installed using the default configuration options.
 
 [Overview]: #overview
+
+[Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr/
+[Blog]: https://bit.ly/wdywttt5
+[Virtual workstations]: https://github.com/gusztavvargadr/workstations/
 
 [Packer]: https://www.packer.io/
 [Vagrant]: https://www.vagrantup.com/
@@ -123,79 +54,87 @@ They contain the core operating system with the minimum configuration required t
 
 [Operating systems]: #operating-systems
 
-#### Windows 10
+#### Windows
 
 - [**Windows 10 Enterpise**][w10e]
-- [Windows 10 Enterpise, **Docker Community**][w10e-dc]
+- [**Windows Server 2016 Standard**][w16s]
+- [**Windows Server 2016 Standard Core**][w16sc]
+
+[Windows]: #windows
 
 [w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
-[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
-
-#### Windows Server 2016
-
-- [**Windows Server 2016 Standard**][w16s]
-- [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
-- [**Windows Server 2016 Standard Core**][w16sc]
-- [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
-
 [w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s/
-[w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
 [w16sc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc/
-[w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
 
-#### Ubuntu 16
+#### Ubuntu
 
 - [**Ubuntu 16 Server**][u16s]
-- [Ubuntu 16 Server, **Docker Community**][u16s-dc]
+
+[Ubuntu]: #ubuntu
 
 [u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
-[u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
 
-### .NET development
+### Development
 
-The following Vagrant boxes can be used for setting up [virtual workstations] for .NET development .
+The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations].
 
-They contain the respective Visual Studio version with the commonly used options and are based on the core [operating systems].
+They contain the respective development tools with the common configuration and are based on the core [operating systems].
 
-[.NET development]: #net-development
+[Development]: #development
 
-#### Visual Studio 2017
+#### Visual Studio
 
 - [Windows 10 Enterpise, **Visual Studio 2017 Community**][w10e-vs17c]
 
+[Visual Studio]: #visual-studio
+
 [w10e-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-vs17c/
 
-### .NET hosting
+### Hosting
 
-The following Vagrant boxes can be used for .NET hosting scenarios.
+The following Vagrant boxes can be used for hosting scenarios.
 
 They contain the respective hosting tools with the default configuration are based on the core [operating systems].
 
-[.NET hosting]: #net-hosting
+[Hosting]: #hosting
 
-#### SQL Server 2014
+#### Docker
 
-- [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
+- [Windows 10 Enterpise, **Docker Community**][w10e-dc]
+- [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
+- [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
+- [Ubuntu 16 Server, **Docker Community**][u16s-dc]
 
-[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
+[Docker]: #docker
 
-#### SQL Server 2017
+[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
+[w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
+[w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
+[u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
 
-- [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
-
-[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
-
-#### IIS 10
+#### IIS
 
 - [Windows Server 2016 Standard, **IIS 10**][w16s-iis]
 
+[IIS]: #iis
+
 [w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis/
+
+#### SQL Server
+
+- [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
+- [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
+
+[SQL Server]: #sql-server
+
+[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
+[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
 
 ## Getting started
 
-**Note** The rest of this document covers the details of building virtual machine images and Vagrant boxes, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
+> **Note** The rest of this document covers the details of building virtual machine images and Vagrant boxes, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
 
-**Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
+> **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
 Follow the steps below to install the required tools:
 
@@ -208,7 +147,7 @@ Follow the steps below to install the required tools:
 
 You are now ready to build a virtual machine image and a Vagrant box.
 
-**Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
+> **Note** It is recommended to set up [caching for Packer][PackerCaching], so you can reuse the downloaded resources (e.g. OS ISOs) across different builds. Make sure you have a bunch of free disk space for the cache and the build artifacts.  
 
 [Getting started]: #getting-started
 
@@ -280,7 +219,7 @@ You can filter this further to list only the templates for a given virtual machi
 $ .\ci.ps1 info w16s
 ```
 
-**Note** You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `w16s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
+You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `w16s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
 
 The output will contain only the matching templates:
 
@@ -375,19 +314,13 @@ Similarly, this will in turn build the `w16s-hyperv-core` and `w16s-iis-hyperv-c
 
 To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs.
 
-For example, to test the `core` `w16s` configurations, from the root of your clone you can type the following command to use the box files in the `build\w16s` folder:
+For example, to test the `w16s` configuration, from the root of your clone you can type the following command to use the box files in the `build\w16s` folder:
 
 ```powershell
-$ vagrant up w16s-core
+$ vagrant up w16s-local
 ```
 
-This will import the locally built Vagrant box with the name `local/w16s-core` and will use that to spin up a new virtual machine for testing.
-
-Similarly, you can test the `sysprep` ones as well before publishing:
-
-```powershell
-$ vagrant up w16s-sysprep
-```
+This will import the locally built Vagrant box with the name `w16s-local` and will use that to spin up a new virtual machine for testing.
 
 When working with multiple virtualization providers, you can specify which one to use for each test machine [using the command line][VagrantCLIUpProvider], or [define your preferences globally][VagrantPreferredProviders].
 
@@ -420,7 +353,7 @@ Omitting this parameter will apply the command to all the templates, so the foll
 $ .\ci.ps1 clean
 ```
 
-**Note** The `clean` command removes only the Packer build templates and artifacts, the eventually imported Vagrant boxes and virtual machines need to be removed manually.  
+> **Note** The `clean` command removes only the Packer build templates and artifacts, the eventually imported Vagrant boxes and virtual machines need to be removed manually.  
 
 [Cleaning up]: #cleaning-up
 
@@ -433,12 +366,12 @@ Take a look at the repository of [virtual workstations] to easily automate and s
 ## Contributing
 
 <!--
-**Note** This section assumes you are familiar with the basics of [Chef]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][ChefGettingStarted].
+> **Note** This section assumes you are familiar with the basics of [Chef]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][ChefGettingStarted].
 
 TODO: custom template and build
 -->
 
-Any feedback, [issues] or [pull requests] are welcome and greatly appreciated. Chek out the [milestones] for the list of planned releases.
+Feedback, please - [issues] or [pull requests] are welcome and are greatly appreciated. Chek out the [milestones] for the list of planned releases.
 
 [Contributing]: #contributing
 

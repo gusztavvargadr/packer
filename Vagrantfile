@@ -19,22 +19,19 @@ Environment.new(name: 'packer.local') do |environment|
 end
 
 def create_packer_windows_vms(environment, name)
-  create_local_packer_vm(environment, name, 'core')
   create_local_packer_vm(environment, name, 'sysprep')
-
-  create_atlas_packer_vm(environment, name)
+  create_cloud_packer_vm(environment, name)
 end
 
 def create_packer_linux_vms(environment, name)
   create_local_packer_vm(environment, name)
-
-  create_atlas_packer_vm(environment, name)
+  create_cloud_packer_vm(environment, name)
 end
 
 def create_local_packer_vm(environment, name, type = '')
   type_suffix = type.to_s.empty? ? '' : "-#{type}"
 
-  PackerVM.new(environment, name: "#{name}-local#{type_suffix}", box: "gusztavvargadr/#{name}-local#{type_suffix}") do |vm|
+  PackerVM.new(environment, name: "#{name}-local", box: "gusztavvargadr/#{name}-local") do |vm|
     VirtualBoxProvider.new(vm) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox#{type_suffix}/output/vagrant.box"
     end
@@ -50,8 +47,8 @@ def create_local_packer_vm(environment, name, type = '')
   end
 end
 
-def create_atlas_packer_vm(environment, name)
-  PackerVM.new(environment, name: name, box: "gusztavvargadr/#{name}") do |vm|
+def create_cloud_packer_vm(environment, name)
+  PackerVM.new(environment, name: "#{name}-cloud", box: "gusztavvargadr/#{name}") do |vm|
     VirtualBoxProvider.new(vm)
 
     HyperVProvider.new(vm) do |provider|
