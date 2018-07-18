@@ -20,17 +20,17 @@ This repository contains common [Packer] helper tools and sample templates of [V
 
 This repository contains [Packer] sample template for the following virtualization scenarios:
 
-- [Operating systems] for generic experiments with Windows and Ubuntu.
-- [Development] using Visual Studio.
-- [Hosting] using Docker, IIS and SQL Server.
+- [Operating systems] for generic experiments with [Windows] and [Ubuntu].
+- [Development] using [Visual Studio].
+- [Hosting] using [Docker], [IIS] and [SQL Server].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
 
-All the components, including the core operating systems, share the following characteristics:
-
-* They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
-* They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
-* Unless noted otherwise, they are installed using the default configuration options.
+> **Note** All the components, including the core operating systems, share the following characteristics:
+> 
+> * They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
+> * They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
+> * Unless noted otherwise, they are installed using the default configuration options.
 
 [Overview]: #overview
 
@@ -114,7 +114,7 @@ They contain the respective hosting tools with the default configuration are bas
 
 #### IIS
 
-- [Windows Server 2016 Standard, **IIS 10**][w16s-iis]
+- [Windows Server 2016 Standard, **IIS**][w16s-iis]
 
 [IIS]: #iis
 
