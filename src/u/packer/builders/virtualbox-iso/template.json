@@ -26,7 +26,6 @@
         ]
       ],
       "disk_size": "{{user `virtualbox_disk_size`}}",
-      "headless": "{{user `virtualbox_headless`}}",
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "boot_command": [
         "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",

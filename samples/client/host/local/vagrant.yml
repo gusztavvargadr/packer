@@ -36,23 +36,22 @@ machines:
               # Workstation default
               # chocolatey:
               # chef-client:
+              git:
+                install:
+                  params: "'/GitAndUnixToolsOnPath /NoAutoCrlf'"
+              poshgit:
               conemu:
               totalcommander:
               treesizefree:
               visualstudiocode:
               beyondcompare:
               googlechrome:
-              git:
-                install:
-                  params: "'/GitAndUnixToolsOnPath /NoAutoCrlf'"
-              poshgit:
-              vagrant:
-                install:
-                  ignorepackagecodes:
-              # vagrant-berkshelf
-              # Chef
-              chef-workstation:
               # Packer
               packer:
               checksum:
               # hyperv:
+              chef-workstation:
+              vagrant:
+                install:
+                  ignorepackagecodes:
+              # vagrant-berkshelf

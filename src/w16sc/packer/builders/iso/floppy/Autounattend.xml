@@ -117,10 +117,10 @@
             </UserAccounts>
             <RegisteredOwner/>
             <AutoLogon>
-                        <Password>
-                            <Value>vagrant</Value>
-                            <PlainText>true</PlainText>
-                        </Password>
+                <Password>
+                    <Value>vagrant</Value>
+                    <PlainText>true</PlainText>
+                </Password>
                 <Enabled>true</Enabled>
                 <Username>Administrator</Username>
                 <LogonCount>1</LogonCount>

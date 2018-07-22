@@ -21,7 +21,6 @@
           "{{user `virtualbox_cpus`}}"
         ]
       ],
-      "headless": "{{user `virtualbox_headless`}}",
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
