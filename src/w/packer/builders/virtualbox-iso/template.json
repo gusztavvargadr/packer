@@ -28,7 +28,6 @@
       ],
       "disk_size": "{{user `virtualbox_disk_size`}}",
       "floppy_files": "{{user `virtualbox_floppy_files`}}",
-      "headless": "{{user `virtualbox_headless`}}",
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "communicator": "{{user `virtualbox_communicator`}}",
       "winrm_username": "{{user `virtualbox_winrm_username`}}",

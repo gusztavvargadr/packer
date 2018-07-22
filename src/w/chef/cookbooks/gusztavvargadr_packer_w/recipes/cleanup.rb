@@ -1,25 +1,24 @@
-powershell_script 'Execute NGen' do
-  code <<-EOH
-    Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
-  EOH
-  action :run
-end
+# powershell_script 'Execute NGen' do
+#   code <<-EOH
+#     Get-ChildItem $env:SystemRoot\\Microsoft.net\\NGen.exe -recurse | %{ & $_ executeQueuedItems }
+#   EOH
+#   action :run
+# end
 
 gusztavvargadr_windows_updates '' do
-  action [:cleanup]
+  action :cleanup
 end
 
-gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
+powershell_script 'Clearing temporary files' do
   code <<-EOH
     @(
-        "$env:localappdata\\Nuget",
-        "$env:localappdata\\temp\\chocolatey",
+        "$env:localappdata\\temp\\*",
+        "$env:windir\\temp\\*",
         "$env:windir\\logs",
         "$env:windir\\panther",
-        "$env:windir\\temp\\*",
         "$env:windir\\winsxs\\manifestcache",
-        "$env:windir\\SoftwareDistribution\\Download\\*"
-    ) | % {
+        "$env:programdata\\Microsoft\\Windows Defender\\Scans\\*"
+        ) | % {
           Write-Host "Removing $_"
           try {
             Takeown /d Y /R /f $_
@@ -64,12 +63,4 @@ powershell_script 'Zeroing volume' do
     Del $FilePath
   EOH
   action :run
-end
-
-gusztavvargadr_windows_updates '' do
-  action [:disable]
-end
-
-gusztavvargadr_windows_pagefile '' do
-  action :enable
 end

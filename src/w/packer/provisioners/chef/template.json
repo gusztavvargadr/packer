@@ -1,10 +1,10 @@
 {
   "variables": {
     "chef_source": "provisioners/chef",
-    "chef_destination": "C:/packer-chef",
+    "chef_destination": "C:/tmp/packer/chef-upload",
     "chef_guest_os_type": "windows",
     "chef_skip_install": "true",
-    "chef_staging_directory": "/tmp/packer-chef-solo",
+    "chef_staging_directory": "/tmp/packer/chef-solo",
     "chef_run_list_prepare": "",
     "chef_run_list_install": "",
     "chef_run_list_patch": "",
@@ -14,7 +14,8 @@
   "provisioners": [
     {
       "type": "shell-local",
-      "command": "berks package -b {{user `chef_source`}}/Berksfile {{user `chef_source`}}/upload/cookbooks.tar.gz"
+      "tempfile_extension": ".cmd",
+      "script": "{{user `chef_source`}}/scripts/berkshelf.cmd"
     },
     {
       "type": "file",

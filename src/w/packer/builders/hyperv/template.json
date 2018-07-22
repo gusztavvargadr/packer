@@ -8,7 +8,7 @@
     "hyperv_enable_mac_spoofing": "true",
     "hyperv_boot_wait": "10s",
     "hyperv_communicator": "winrm",
-    "hyperv_winrm_username": "vagrant",
+    "hyperv_winrm_username": "Administrator",
     "hyperv_winrm_password": "vagrant",
     "hyperv_winrm_timeout": "1h",
     "hyperv_guest_additions_mode": "disable",
