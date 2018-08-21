@@ -1,2 +1,2 @@
 include_recipe 'gusztavvargadr_packer_w::prepare'
-include_recipe 'gusztavvargadr_vs::2017_requirements'
+include_recipe 'gusztavvargadr_visualstudio::2017_requirements'

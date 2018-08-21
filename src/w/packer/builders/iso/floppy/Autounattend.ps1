@@ -2,6 +2,7 @@ Set-ExecutionPolicy RemoteSigned -Force
 
 Write-Host "Disable Windows Updates"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /d 1 /t REG_DWORD /f /reg:64
+sc.exe config wuauserv start= disabled
 
 Write-Host "Disable Windows Store Updates"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore" /v AutoDownload /d 2 /t REG_DWORD /f /reg:64
@@ -45,10 +46,10 @@ $env:chocolateyVersion = '0.10.11'
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 Write-Host "Install Chef Client"
-choco install chef-client -y --version 13.8.5
+choco install chef-client -y --version 14.3.37
 
 Write-Host "Install 7zip"
-choco install 7zip.portable -y
+choco install 7zip.portable -y --version 18.5
 
 Write-Host "Shut down"
 shutdown /r /t 10

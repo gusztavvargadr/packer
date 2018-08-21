@@ -1,0 +1,4 @@
+environment: cli.packer
+
+machines:
+  hyperv:

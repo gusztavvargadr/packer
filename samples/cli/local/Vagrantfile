@@ -1,0 +1,20 @@
+directory = File.dirname(__FILE__)
+
+require "#{directory}/../../vagrant"
+
+VagrantMachine.defaults_include(
+  'box' => VagrantWindowsDesktopMachine.defaults['box'],
+  'synced_folders' => {
+    "#{directory}/../../.." => '/src/gusztavvargadr/packer',
+  },
+  'provisioners' => {
+    'chef_policyfile' => {},
+  }
+)
+
+VagrantProvider.defaults_include(
+  'memory' => 8192,
+  'cpus' => 4
+)
+
+VagrantDeployment.configure(directory)

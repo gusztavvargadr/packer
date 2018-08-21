@@ -1,7 +1,0 @@
-name 'gusztavvargadr_packer_hyperv_vmcx'
-maintainer 'Gusztáv Varga'
-maintainer_email 'me@gusztavvargadr.me'
-license 'MIT'
-description 'Installs/Configures Packer Hyper-V VMCX'
-long_description 'Installs/Configures Packer Hyper-V VMCX'
-version '0.0.0'

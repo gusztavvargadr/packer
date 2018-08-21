@@ -7,5 +7,4 @@ long_description 'Installs/Configures Packer SQL Server 2014 Developer'
 version '0.0.0'
 
 depends 'gusztavvargadr_packer_w'
-depends 'gusztavvargadr_sql'
-depends 'gusztavvargadr_windows'
+depends 'gusztavvargadr_mssql'

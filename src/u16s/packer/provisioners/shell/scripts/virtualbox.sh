@@ -4,7 +4,7 @@
 HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 case "$PACKER_BUILDER_TYPE" in
-virtualbox-iso|virtualbox-ovf)
+virtualbox-iso)
     VER="`cat $HOME_DIR/.vbox_version`";
     ISO="VBoxGuestAdditions_$VER.iso";
     wget http://download.virtualbox.org/virtualbox/$VER/$ISO

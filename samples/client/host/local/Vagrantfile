@@ -1,9 +1,0 @@
-require "#{File.dirname(__FILE__)}/../../../../src/vagrant"
-
-VagrantProvider.defaults(
-  'memory' => 8192,
-  'cpus' => 4
-)
-
-deployment = VagrantDeployment.new(File.dirname(__FILE__))
-deployment.configure
