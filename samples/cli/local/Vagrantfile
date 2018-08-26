@@ -4,10 +4,12 @@ require "#{directory}/../../vagrant"
 
 VagrantMachine.defaults_include(
   'box' => VagrantWindowsDesktopMachine.defaults['box'],
-  'synced_folders' => {
-    "#{directory}/../../.." => '/src/gusztavvargadr/packer',
-  },
   'provisioners' => {
+    'chef_policyfile_tools' => {},
+    'reload' => {},
+    'chef_policyfile_extensions' => {
+      'path' => "#{directory}/../../../lib/gusztavvargadr/chef/lib/gusztavvargadr/vagrant/samples/deployments/vagrant/Policyfile.extensions.rb",
+    },
     'chef_policyfile' => {},
   }
 )

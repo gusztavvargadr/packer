@@ -37,7 +37,7 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 net stop winrm
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
-sc.exe config winrm start= delayed-auto
+sc.exe config winrm start= auto
 
 Write-Host "Enable Remote Desktop"
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f

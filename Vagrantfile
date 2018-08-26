@@ -12,7 +12,7 @@ VagrantMachine.defaults_include(
 
 VagrantProvider.defaults_include(
   'memory' => 4096,
-  'cpus' => 4
+  'cpus' => 2
 )
 
 def version

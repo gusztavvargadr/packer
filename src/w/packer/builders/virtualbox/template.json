@@ -1,6 +1,6 @@
 {
   "variables": {
-    "virtualbox_memory": "4096",
+    "virtualbox_memory": "8192",
     "virtualbox_cpus": "4",
     "virtualbox_boot_wait": "10s",
     "virtualbox_communicator": "winrm",

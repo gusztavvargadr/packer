@@ -34,7 +34,7 @@
       "skip_install": "{{user `chef_skip_install`}}",
       "staging_directory": "{{user `chef_staging_directory`}}",
       "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_prepare`}}",
+      "run_list": "{{user `chef_run_list_prepare`}}"
     },
     {
       "type": "windows-restart",
