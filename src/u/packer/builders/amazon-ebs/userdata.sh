@@ -1,3 +1,5 @@
+<powershell>
+
 Set-ExecutionPolicy RemoteSigned -Force
 
 Write-Host "Disable Windows Updates"
@@ -35,7 +37,7 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 net stop winrm
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 
-sc.exe config winrm start= auto
+sc.exe config winrm start= delayed-auto
 
 Write-Host "Enable Remote Desktop"
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
@@ -53,3 +55,5 @@ choco install 7zip.portable -y --version 18.5
 
 Write-Host "Shut down"
 shutdown /r /t 10
+
+</powershell>

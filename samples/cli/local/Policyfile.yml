@@ -1,0 +1,9 @@
+gusztavvargadr_windows:
+  environment_variables:
+    PACKER_CACHE_DIR:
+      value: C:\Users\vagrant\.packer\cache
+  chocolatey_packages:
+    packer:
+      version: 1.2.5
+    checksum:
+      version: 0.2.0

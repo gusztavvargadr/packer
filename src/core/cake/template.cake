@@ -258,15 +258,13 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
     }
   }
 
-  runList.AddRange(template.Builders.Select(item => item.Name));
-
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 
   jsonTemplateVariables["chef_run_list_prepare"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::prepare]"));
   jsonTemplateVariables["chef_run_list_install"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::install]"));
   jsonTemplateVariables["chef_run_list_patch"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::patch]"));
   jsonTemplateVariables["chef_run_list_cleanup"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::cleanup]"));
-  
+
   var jsonTemplate = new JObject();
   jsonTemplate["variables"] = jsonTemplateVariables;
   json.Merge(jsonTemplate);

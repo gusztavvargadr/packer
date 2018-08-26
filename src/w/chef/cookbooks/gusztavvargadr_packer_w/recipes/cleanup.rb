@@ -6,7 +6,7 @@
 # end
 
 gusztavvargadr_windows_updates '' do
-  action :cleanup
+  action [:cleanup, :stop, :disable]
 end
 
 powershell_script 'Clearing temporary files' do
@@ -37,30 +37,14 @@ powershell_script 'Optimizing volume' do
   action :run
 end
 
+chocolatey_package 'sdelete' do
+  version '2.01'
+  action :install
+end
+
 powershell_script 'Zeroing volume' do
   code <<-EOH
-    Write-Host "Wiping empty space on disk..."
-    $FilePath="c:\\zero.tmp"
-    $Volume = Get-WmiObject win32_logicaldisk -filter "DeviceID='C:'"
-    $ArraySize= 64kb
-    $SpaceToLeave= $Volume.Size * 0.001
-    $FileSize= $Volume.FreeSpace - $SpacetoLeave
-    $ZeroArray= new-object byte[]($ArraySize)
-
-    $Stream= [io.File]::OpenWrite($FilePath)
-    try {
-      $CurFileSize = 0
-        while($CurFileSize -lt $FileSize) {
-            $Stream.Write($ZeroArray,0, $ZeroArray.Length)
-            $CurFileSize +=$ZeroArray.Length
-        }
-    }
-    finally {
-        if($Stream) {
-            $Stream.Close()
-        }
-    }
-    Del $FilePath
+    sdelete -z C:
   EOH
   action :run
 end

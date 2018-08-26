@@ -1,3 +1,6 @@
 #!/bin/sh -eux
 
-curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 13.8.5
+case "$PACKER_BUILDER_TYPE" in
+virtualbox-iso|hyperv-iso)
+    curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 14.3.37
+esac

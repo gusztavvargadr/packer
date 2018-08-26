@@ -1,1 +1,0 @@
-include_recipe 'gusztavvargadr_virtualbox::guest_additions'

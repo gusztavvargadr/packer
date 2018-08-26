@@ -2,11 +2,10 @@
   "variables": {
     "amazon_region": "eu-west-1",
     "amazon_source_ami_filter_name": "",
-    "amazon_instance_type": "t2.xlarge",
-    "amazon_volume_size": "31",
-    "amazon_user_data_file": "builders/amazon-ebs/userdata.ps1",
-    "amazon_communicator": "winrm",
-    "amazon_winrm_username": "Administrator"
+    "amazon_instance_type": "t2.medium",
+    "amazon_volume_size": "15",
+    "amazon_user_data_file": "builders/amazon-ebs/userdata.sh",
+    "amazon_communicator": "ssh"
   },
   "builders": [
     {
@@ -22,7 +21,7 @@
       "ami_description": "{{user `description`}}",
       "instance_type": "{{user `amazon_instance_type`}}",
       "spot_price": "auto",
-      "spot_price_auto_product": "Windows (Amazon VPC)",
+      "spot_price_auto_product": "Linux (Amazon VPC)",
       "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
@@ -41,8 +40,6 @@
       },
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",
-      "winrm_username": "{{user `amazon_winrm_username`}}",
-      "winrm_use_ssl": false,
       "disable_stop_instance": true
     }
   ]

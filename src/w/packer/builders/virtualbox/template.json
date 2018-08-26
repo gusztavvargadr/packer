@@ -1,7 +1,7 @@
 {
   "variables": {
-    "virtualbox_memory": "4096",
-    "virtualbox_cpus": "2",
+    "virtualbox_memory": "8192",
+    "virtualbox_cpus": "4",
     "virtualbox_boot_wait": "10s",
     "virtualbox_communicator": "winrm",
     "virtualbox_winrm_username": "Administrator",

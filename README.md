@@ -44,7 +44,7 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
 [Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
 [AWS]: https://aws.amazon.com/
-[Chef]: https://chef.io/chef/
+[Chef]: https://www.chef.sh/
 
 ### Operating systems
 

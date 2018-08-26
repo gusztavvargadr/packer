@@ -2,7 +2,7 @@
   "variables": {
     "name": "",
     "description": "",
-    "version": "1807.0.0",
+    "version": "1808.0.0",
     "author": "gusztavvargadr",
     "output_directory": "output"
   },
@@ -10,6 +10,12 @@
   "builders": [
   ],
   "provisioners": [
+    {
+      "type": "powershell",
+      "inline": [
+        "[Environment]::SetEnvironmentVariable('PACKER_BUILDER', '{{build_type}}', 'User')"
+      ]
+    }
   ],
   "post-processors": [
     {
