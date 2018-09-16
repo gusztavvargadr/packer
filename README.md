@@ -48,7 +48,7 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 
 ### Operating systems
 
-The following Vagrant boxes can be used for generic expirments on the respective platforms.
+The following Vagrant boxes can be used for generic experiments on the respective platforms.
 
 They contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other Vagrant boxes below are based on these configurations as well.
 
