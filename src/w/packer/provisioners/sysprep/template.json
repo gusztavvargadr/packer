@@ -1,13 +1,12 @@
 {
   "variables": {
-    "sysprep_source": "provisioners/sysprep",
-    "sysprep_destination": "A:"
+    "sysprep_source": "provisioners/sysprep"
   },
   "provisioners": [
     {
       "type": "file",
       "source": "{{user `sysprep_source`}}/upload/",
-      "destination": "{{user `sysprep_destination`}}"
+      "destination": "{{user `builder_destination`}}"
     }
   ]
 }

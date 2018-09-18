@@ -1,7 +1,6 @@
 {
   "variables": {
-    "virtualbox_source_path": "",
-    "virtualbox_floppy_files": "builders/virtualbox-ovf/floppy"
+    "virtualbox_source_path": ""
   },
   "builders": [
     {
@@ -22,12 +21,11 @@
           "{{user `virtualbox_cpus`}}"
         ]
       ],
-      "floppy_files": "{{user `virtualbox_floppy_files`}}",
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "communicator": "{{user `virtualbox_communicator`}}",
-      "winrm_username": "{{user `virtualbox_winrm_username`}}",
-      "winrm_password": "{{user `virtualbox_winrm_password`}}",
-      "winrm_timeout": "{{user `virtualbox_winrm_timeout`}}",
+      "ssh_username": "{{user `virtualbox_ssh_username`}}",
+      "ssh_password": "{{user `virtualbox_ssh_password`}}",
+      "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",

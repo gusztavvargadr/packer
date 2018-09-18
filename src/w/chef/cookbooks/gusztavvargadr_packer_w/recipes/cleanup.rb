@@ -9,7 +9,7 @@ gusztavvargadr_windows_updates '' do
   action [:cleanup, :stop, :disable]
 end
 
-powershell_script 'Clearing temporary files' do
+gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
   code <<-EOH
     @(
         "$env:localappdata\\temp\\*",
@@ -30,21 +30,20 @@ powershell_script 'Clearing temporary files' do
   action :run
 end
 
-powershell_script 'Optimizing volume' do
+gusztavvargadr_windows_powershell_script_elevated 'Optimizing volume' do
   code <<-EOH
     Optimize-Volume -DriveLetter C
   EOH
   action :run
 end
 
-chocolatey_package 'sdelete' do
-  version '2.01'
-  action :install
-end
-
-powershell_script 'Zeroing volume' do
+gusztavvargadr_windows_powershell_script_elevated 'Zeroing volume' do
   code <<-EOH
     sdelete -z C:
   EOH
   action :run
+end
+
+gusztavvargadr_windows_pagefile '' do
+  action :enable
 end
