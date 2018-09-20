@@ -22,6 +22,8 @@
       "ami_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "ami_description": "{{user `description`}}",
       "instance_type": "{{user `amazon_instance_type`}}",
+      "spot_price": "auto",	
+      "spot_price_auto_product": "Windows (Amazon VPC)",
       "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
@@ -42,8 +44,7 @@
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",
       "ssh_username": "{{user `amazon_ssh_username`}}",
-      "ssh_timeout": "{{user `amazon_ssh_timeout`}}",
-      "disable_stop_instance": true
+      "ssh_timeout": "{{user `amazon_ssh_timeout`}}"
     }
   ]
 }
