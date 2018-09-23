@@ -22,7 +22,7 @@
       "ami_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "ami_description": "{{user `description`}}",
       "instance_type": "{{user `amazon_instance_type`}}",
-      "spot_price": "auto",	
+      "spot_price": "auto",
       "spot_price_auto_product": "Windows (Amazon VPC)",
       "launch_block_device_mappings": [
         {
