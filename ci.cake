@@ -40,10 +40,14 @@ packerTemplates = packerTemplates.
 
 var u16s = PackerTemplates_CreateLinux("u16s");
 var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
+var u16d = PackerTemplates_CreateLinux("u16d");
+var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
 
 packerTemplates = packerTemplates.
   Concat(u16s).
   Concat(u16s_dc).
+  Concat(u16d).
+  Concat(u16d_dc).
   ToList();
 
 packerTemplate = configuration;

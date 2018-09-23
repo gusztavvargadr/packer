@@ -4,6 +4,11 @@ require "#{directory}/src/vagrant"
 
 VagrantMachine.defaults_include(
   'autostart' => false,
+  'synced_folders' => {
+    '/vagrant' => {
+      'disabled' => true,
+    },
+  },
   'providers' => {
     'virtualbox' => {},
     'hyperv' => {},
@@ -16,7 +21,7 @@ VagrantProvider.defaults_include(
 )
 
 def version
-  '1808.0.0'
+  '1809.0.0'
 end
 
 VagrantDeployment.configure(directory, name: 'packer') do |deployment|
@@ -40,6 +45,9 @@ VagrantDeployment.configure(directory, name: 'packer') do |deployment|
   create_packer_linux_vms(deployment, 'u16s')
   create_packer_linux_vms(deployment, 'ubuntuserver16')
   create_packer_linux_vms(deployment, 'u16s-dc')
+  create_packer_linux_vms(deployment, 'u16d')
+  create_packer_linux_vms(deployment, 'ubuntudesktop16')
+  create_packer_linux_vms(deployment, 'u16d-dc')
 end
 
 def create_packer_windows_vms(deployment, name)
