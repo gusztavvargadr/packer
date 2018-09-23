@@ -69,10 +69,12 @@ They contain the core operating system with the minimum configuration required t
 #### Ubuntu
 
 - [**Ubuntu 16 Server**][u16s]
+- [**Ubuntu 16 Desktop**][u16d]
 
 [Ubuntu]: #ubuntu
 
 [u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
+[u16d]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d/
 
 ### Development
 
@@ -104,6 +106,7 @@ They contain the respective hosting tools with the default configuration are bas
 - [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
 - [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
 - [Ubuntu 16 Server, **Docker Community**][u16s-dc]
+- [Ubuntu 16 Desktop, **Docker Community**][u16d-dc]
 
 [Docker]: #docker
 
@@ -111,6 +114,7 @@ They contain the respective hosting tools with the default configuration are bas
 [w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
 [w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
 [u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
+[u16d-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d-dc/
 
 #### IIS
 
