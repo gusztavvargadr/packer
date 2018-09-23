@@ -1,6 +1,6 @@
-@REM This script is called during the last phase of the Sysprep Specialize operation.  
-@REM Re-enable RDP connections. 
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+mkdir -Force C:/Users/Administrator/.ssh
+rm -Force C:/Users/Administrator/.ssh/authorized_keys
+Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key -OutFile C:/Users/Administrator/.ssh/authorized_keys
 
-sc.exe config winrm start= auto
-net start winrm
+sc.exe config sshd start= auto
+net start sshd

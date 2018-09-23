@@ -1,14 +1,29 @@
 {
   "variables": {
-    "virtualbox_memory": "8192",
-    "virtualbox_cpus": "4",
+    "builder_source": "builders",
+    "builder_destination": "C:/Windows/Setup/packer",
+    "virtualbox_memory": "4096",
+    "virtualbox_cpus": "2",
     "virtualbox_boot_wait": "10s",
-    "virtualbox_communicator": "winrm",
-    "virtualbox_winrm_username": "Administrator",
-    "virtualbox_winrm_password": "vagrant",
-    "virtualbox_winrm_timeout": "1h",
+    "virtualbox_communicator": "ssh",
+    "virtualbox_ssh_username": "Administrator",
+    "virtualbox_ssh_password": "vagrant",
+    "virtualbox_ssh_timeout": "1h",
     "virtualbox_guest_additions_mode": "disable",
-    "virtualbox_shutdown_command": "A:/shutdown.cmd",
+    "virtualbox_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd",
     "virtualbox_post_shutdown_delay": "5s"
-  }
+  },
+  "provisioners": [
+    {
+      "type": "powershell",
+      "inline": [
+        "mkdir -Force {{user `builder_destination`}}"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "{{user `builder_source`}}/{{build_type}}/upload/",
+      "destination": "{{user `builder_destination`}}"
+    }
+  ]
 }

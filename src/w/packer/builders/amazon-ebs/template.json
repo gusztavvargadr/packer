@@ -2,11 +2,12 @@
   "variables": {
     "amazon_region": "eu-west-1",
     "amazon_source_ami_filter_name": "",
-    "amazon_instance_type": "t2.xlarge",
+    "amazon_instance_type": "t3.medium",
     "amazon_volume_size": "31",
     "amazon_user_data_file": "builders/amazon-ebs/userdata.ps1",
-    "amazon_communicator": "winrm",
-    "amazon_winrm_username": "Administrator"
+    "amazon_communicator": "ssh",
+    "amazon_ssh_username": "Administrator",
+    "amazon_ssh_timeout": "30m"
   },
   "builders": [
     {
@@ -31,6 +32,7 @@
           "delete_on_termination": true
         }
       ],
+      "ebs_optimized": "true",
       "tags": {
         "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
         "packer": ""
@@ -41,9 +43,8 @@
       },
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",
-      "winrm_username": "{{user `amazon_winrm_username`}}",
-      "winrm_use_ssl": false,
-      "disable_stop_instance": true
+      "ssh_username": "{{user `amazon_ssh_username`}}",
+      "ssh_timeout": "{{user `amazon_ssh_timeout`}}"
     }
   ]
 }

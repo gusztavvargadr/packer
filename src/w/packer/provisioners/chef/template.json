@@ -1,7 +1,7 @@
 {
   "variables": {
     "chef_source": "provisioners/chef",
-    "chef_destination": "C:/tmp/packer/chef-upload",
+    "chef_destination": "/tmp/packer/chef-upload",
     "chef_guest_os_type": "windows",
     "chef_skip_install": "true",
     "chef_staging_directory": "/tmp/packer/chef-solo",
@@ -16,6 +16,12 @@
       "type": "shell-local",
       "tempfile_extension": ".cmd",
       "script": "{{user `chef_source`}}/scripts/berkshelf.cmd"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "mkdir -Force {{user `chef_destination`}}"
+      ]
     },
     {
       "type": "file",
