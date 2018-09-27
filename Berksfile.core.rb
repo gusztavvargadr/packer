@@ -17,6 +17,7 @@ def gusztavvargadr_packer_sources
   gusztavvargadr_packer_cookbook 'dc'
   gusztavvargadr_packer_cookbook 'de'
   gusztavvargadr_packer_cookbook 'vs17c'
+  gusztavvargadr_packer_cookbook 'vs17p'
   gusztavvargadr_packer_cookbook 'iis'
   gusztavvargadr_packer_cookbook 'sql14d'
   gusztavvargadr_packer_cookbook 'sql17d'

@@ -9,14 +9,19 @@ packerTemplates = new List<PackerTemplate>();
 var w10e = PackerTemplates_CreateWindows("w10e");
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
 var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
+var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e_dc);
 
 packerTemplates = packerTemplates.
   Concat(w10e).
   Concat(w10e_dc).
   Concat(w10e_dc_vs17c).
+  Concat(w10e_dc_vs17p).
   ToList();
 
 var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);
+var w16s_dc = PackerTemplates_CreateWindows("w16s-dc", parents: w16s);
+var w16s_dc_vs17c = PackerTemplates_CreateWindows("w16s-dc-vs17c", parents: w16s_dc);
+var w16s_dc_vs17p = PackerTemplates_CreateWindows("w16s-dc-vs17p", parents: w16s_dc);
 var w16s_de = PackerTemplates_CreateWindows("w16s-de", parents: w16s);
 var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s);
 var w16s_sql14d = PackerTemplates_CreateWindows("w16s-sql14d", parents: w16s);
@@ -24,6 +29,9 @@ var w16s_sql17d = PackerTemplates_CreateWindows("w16s-sql17d", parents: w16s);
 
 packerTemplates = packerTemplates.
   Concat(w16s).
+  Concat(w16s_dc).
+  Concat(w16s_dc_vs17c).
+  Concat(w16s_dc_vs17p).
   Concat(w16s_de).
   Concat(w16s_iis).
   Concat(w16s_sql14d).

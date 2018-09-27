@@ -30,9 +30,13 @@ VagrantDeployment.configure(directory, name: 'packer') do |deployment|
   create_packer_windows_vms(deployment, 'w10e-dc')
   create_packer_windows_vms(deployment, 'w10e-dc-vs17c')
   create_packer_windows_vms(deployment, 'visualstudio2017')
+  create_packer_windows_vms(deployment, 'w10e-dc-vs17p')
 
   create_packer_windows_vms(deployment, 'w16s')
   create_packer_windows_vms(deployment, 'windowsserver2016')
+  create_packer_windows_vms(deployment, 'w16s-dc')
+  create_packer_windows_vms(deployment, 'w16s-dc-vs17c')
+  create_packer_windows_vms(deployment, 'w16s-dc-vs17p')
   create_packer_windows_vms(deployment, 'w16s-de')
   create_packer_windows_vms(deployment, 'w16s-iis')
   create_packer_windows_vms(deployment, 'w16s-sql14d')
