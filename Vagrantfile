@@ -24,7 +24,7 @@ def version
   '1809.0.0'
 end
 
-VagrantDeployment.configure(directory, name: 'packer') do |deployment|
+VagrantDeployment.configure(directory, 'environment' => 'packer') do |deployment|
   create_packer_windows_vms(deployment, 'w10e')
   create_packer_windows_vms(deployment, 'windows10')
   create_packer_windows_vms(deployment, 'w10e-dc')
