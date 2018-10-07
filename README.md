@@ -87,10 +87,16 @@ They contain the respective development tools with the common configuration and 
 #### Visual Studio
 
 - [Windows 10 Enterpise, Docker Community, **Visual Studio 2017 Community**][w10e-dc-vs17c]
+- [Windows 10 Enterpise, Docker Community, **Visual Studio 2017 Professional**][w10e-dc-vs17p]
+- [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Community**][w16s-dc-vs17c]
+- [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Professional**][w16s-dc-vs17p]
 
 [Visual Studio]: #visual-studio
 
 [w10e-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17c/
+[w10e-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17p/
+[w16s-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17c/
+[w16s-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17p/
 
 ### Hosting
 
@@ -103,6 +109,7 @@ They contain the respective hosting tools with the default configuration are bas
 #### Docker
 
 - [Windows 10 Enterpise, **Docker Community**][w10e-dc]
+- [Windows Server 2016 Standard, **Docker Community**][w16s-dc]
 - [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
 - [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
 - [Ubuntu 16 Server, **Docker Community**][u16s-dc]
@@ -111,6 +118,7 @@ They contain the respective hosting tools with the default configuration are bas
 [Docker]: #docker
 
 [w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
+[w16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc/
 [w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
 [w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
 [u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
