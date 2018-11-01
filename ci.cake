@@ -46,6 +46,22 @@ packerTemplates = packerTemplates.
   Concat(w16sc_de).
   ToList();
 
+var w19s = PackerTemplates_CreateWindows("w19s");
+var w19s_de = PackerTemplates_CreateWindows("w19s-de", parents: w19s);
+
+packerTemplates = packerTemplates.
+  Concat(w19s).
+  Concat(w19s_de).
+  ToList();
+
+var w19sc = PackerTemplates_CreateWindows("w19sc");
+var w19sc_de = PackerTemplates_CreateWindows("w19sc-de", parents: w19sc);
+
+packerTemplates = packerTemplates.
+  Concat(w19sc).
+  Concat(w19sc_de).
+  ToList();
+
 var u16s = PackerTemplates_CreateLinux("u16s");
 var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
 var u16d = PackerTemplates_CreateLinux("u16d");
