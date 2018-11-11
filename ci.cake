@@ -22,7 +22,6 @@ var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);
 var w16s_dc = PackerTemplates_CreateWindows("w16s-dc", parents: w16s);
 var w16s_dc_vs17c = PackerTemplates_CreateWindows("w16s-dc-vs17c", parents: w16s_dc);
 var w16s_dc_vs17p = PackerTemplates_CreateWindows("w16s-dc-vs17p", parents: w16s_dc);
-var w16s_de = PackerTemplates_CreateWindows("w16s-de", parents: w16s);
 var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s);
 var w16s_sql14d = PackerTemplates_CreateWindows("w16s-sql14d", parents: w16s);
 var w16s_sql17d = PackerTemplates_CreateWindows("w16s-sql17d", parents: w16s);
@@ -32,7 +31,6 @@ packerTemplates = packerTemplates.
   Concat(w16s_dc).
   Concat(w16s_dc_vs17c).
   Concat(w16s_dc_vs17p).
-  Concat(w16s_de).
   Concat(w16s_iis).
   Concat(w16s_sql14d).
   Concat(w16s_sql17d).
@@ -46,30 +44,50 @@ packerTemplates = packerTemplates.
   Concat(w16sc_de).
   ToList();
 
-var w19s = PackerTemplates_CreateWindows("w19s");
-var w19s_de = PackerTemplates_CreateWindows("w19s-de", parents: w19s);
+var w1809de = PackerTemplates_CreateWindows("w1809de");
+var w1809de_dc = PackerTemplates_CreateWindows("w1809de-dc", parents: w1809de);
+var w1809de_dc_vs17c = PackerTemplates_CreateWindows("w1809de-dc-vs17c", parents: w1809de_dc);
+var w1809de_dc_vs17p = PackerTemplates_CreateWindows("w1809de-dc-vs17p", parents: w1809de_dc);
 
 packerTemplates = packerTemplates.
-  Concat(w19s).
-  Concat(w19s_de).
+  Concat(w1809de).
+  Concat(w1809de_dc).
+  Concat(w1809de_dc_vs17c).
+  Concat(w1809de_dc_vs17p).
   ToList();
 
-var w19sc = PackerTemplates_CreateWindows("w19sc");
-var w19sc_de = PackerTemplates_CreateWindows("w19sc-de", parents: w19sc);
+var w1809ss = PackerTemplates_CreateWindows("w1809ss");
+var w1809ss_dc = PackerTemplates_CreateWindows("w1809ss-dc", parents: w1809ss);
+var w1809ss_dc_vs17c = PackerTemplates_CreateWindows("w1809ss-dc-vs17c", parents: w1809ss_dc);
+var w1809ss_dc_vs17p = PackerTemplates_CreateWindows("w1809ss-dc-vs17p", parents: w1809ss_dc);
 
 packerTemplates = packerTemplates.
-  Concat(w19sc).
-  Concat(w19sc_de).
+  Concat(w1809ss).
+  Concat(w1809ss_dc).
+  Concat(w1809ss_dc_vs17c).
+  Concat(w1809ss_dc_vs17p).
+  ToList();
+
+var w1809ssc = PackerTemplates_CreateWindows("w1809ssc");
+var w1809ssc_de = PackerTemplates_CreateWindows("w1809ssc-de", parents: w1809ssc);
+
+packerTemplates = packerTemplates.
+  Concat(w1809ssc).
+  Concat(w1809ssc_de).
   ToList();
 
 var u16s = PackerTemplates_CreateLinux("u16s");
 var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
-var u16d = PackerTemplates_CreateLinux("u16d");
-var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
 
 packerTemplates = packerTemplates.
   Concat(u16s).
   Concat(u16s_dc).
+  ToList();
+
+var u16d = PackerTemplates_CreateLinux("u16d");
+var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
+
+packerTemplates = packerTemplates.
   Concat(u16d).
   Concat(u16d_dc).
   ToList();
