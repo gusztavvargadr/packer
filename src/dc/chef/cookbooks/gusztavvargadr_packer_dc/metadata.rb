@@ -1,11 +1,12 @@
 name 'gusztavvargadr_packer_dc'
-maintainer 'Gusztáv Varga'
-maintainer_email 'me@gusztavvargadr.me'
-license 'MIT'
 description 'Installs/Configures Packer Docker Community'
 long_description 'Installs/Configures Packer Docker Community'
-version '0.0.0'
 
+license 'Unlicense'
+maintainer 'Gusztáv Varga'
+maintainer_email 'mail@gusztavvargadr.me'
+
+version '0.0.0'
 depends 'gusztavvargadr_packer_w'
 depends 'gusztavvargadr_docker'
 # depends 'gusztavvargadr_windows'
