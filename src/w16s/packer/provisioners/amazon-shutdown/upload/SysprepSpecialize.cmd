@@ -4,3 +4,6 @@ Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/public-keys/0/ope
 
 sc.exe config sshd start= auto
 net start sshd
+
+sc.exe config winrm start= auto
+net start winrm

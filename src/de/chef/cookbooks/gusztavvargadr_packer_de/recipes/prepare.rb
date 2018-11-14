@@ -10,3 +10,10 @@ powershell_script 'Set SSHD start to Delayed-Auto' do
   EOH
   action :run
 end
+
+powershell_script 'Set WinRM start to Delayed-Auto' do
+  code <<-EOH
+    sc.exe config winrm start= delayed-auto
+  EOH
+  action :run
+end

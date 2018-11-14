@@ -22,6 +22,25 @@ choco install openssh -y --version 7.7.2.1 -params '"/SSHServerFeature"'
 net stop sshd
 netsh advfirewall firewall delete rule name="Autounattend SSH"
 
+Write-Host "Configure network profiles"
+Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
+
+Write-Host "Configure WinRM"
+netsh advfirewall firewall add rule name="Autounattend WinRM-HTTP" dir=in localport=5985 protocol=TCP action=block
+
+winrm quickconfig -q
+winrm quickconfig -transport:http
+winrm set winrm/config '@{MaxTimeoutms="1800000"}'
+winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="800"}'
+winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+winrm set winrm/config/service/auth '@{Basic="true"}'
+winrm set winrm/config/client/auth '@{Basic="true"}'
+netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
+sc.exe config winrm start= auto
+
+net stop winrm
+netsh advfirewall firewall delete rule name="Autounattend WinRM-HTTP"
+
 Write-Host "Disable Windows Updates"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /d 1 /t REG_DWORD /f /reg:64
 sc.exe config wuauserv start= disabled
