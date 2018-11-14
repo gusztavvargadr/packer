@@ -4,6 +4,6 @@ gusztavvargadr_windows:
       value: C:\Users\vagrant\.packer\cache
   chocolatey_packages:
     packer:
-      version: 1.2.5
+      version: 1.3.2
     checksum:
       version: 0.2.0
