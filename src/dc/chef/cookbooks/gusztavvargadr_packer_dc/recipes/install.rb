@@ -10,3 +10,10 @@ powershell_script 'Set SSHD start to Auto' do
   EOH
   action :run
 end
+
+powershell_script 'Set WinRM start to Auto' do
+  code <<-EOH
+    sc.exe config winrm start= auto
+  EOH
+  action :run
+end

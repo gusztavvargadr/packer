@@ -4,14 +4,14 @@ require "#{directory}/src/vagrant"
 
 VagrantMachine.defaults_include(
   'autostart' => false,
-  'synced_folders' => {
-    '/vagrant' => {
-      'disabled' => true,
-    },
-  },
   'providers' => {
     'virtualbox' => {},
     'hyperv' => {},
+  },
+  'provisioners' => {
+    'shell' => {
+      'inline' => 'echo "Hello World!"',
+    },
   }
 )
 
