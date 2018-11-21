@@ -151,28 +151,58 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string type, bool amaz
   return items;
 }
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string type, IEnumerable<PackerTemplate> parents = null) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string type, bool amazon = false, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
-  var virtualBox = PackerTemplate_Create(
+  var virtualBoxCore = PackerTemplate_Create(
     type,
-    "virtualbox",
+    "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
     new [] { PackerProvisioner_Create("shell") },
-    new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
-    parents != null ? parents.First(item => item.IsMatching("virtualbox")) : null
+    new PackerPostProcessor[] {},
+    parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
-  items.Add(virtualBox);
-
-  var hyperV = PackerTemplate_Create(
+  var virtualBoxSysprep = PackerTemplate_Create(
     type,
-    "hyperv",
+    "virtualbox-sysprep",
+    new [] { PackerBuilder_Create("virtualbox-ovf") },
+    new PackerProvisioner[] {},
+    new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
+    virtualBoxCore
+  );
+  items.Add(virtualBoxCore);
+  items.Add(virtualBoxSysprep);
+
+  var hyperVCore = PackerTemplate_Create(
+    type,
+    "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
     new [] { PackerProvisioner_Create("shell") },
-    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-    parents != null ? parents.First(item => item.IsMatching("hyperv")) : null
+    new PackerPostProcessor[] {},
+    parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
-  items.Add(hyperV);
+  var hyperVSysprep = PackerTemplate_Create(
+    type,
+    "hyperv-sysprep",
+    new [] { PackerBuilder_Create("hyperv-vmcx") },
+    new PackerProvisioner[] {},
+    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
+    hyperVCore
+  );
+  items.Add(hyperVCore);
+  items.Add(hyperVSysprep);
+
+  if (amazon) {
+    var amazonSysprep = PackerTemplate_Create(
+      type,
+      "amazon-sysprep",
+      new [] { PackerBuilder_Create("amazon-ebs") },
+      new [] { PackerProvisioner_Create("shell") },
+      new [] { PackerPostProcessor_Create("vagrant-amazon") },
+      null
+    );
+    items.Add(amazonSysprep);
+  }
 
   return items;
 }

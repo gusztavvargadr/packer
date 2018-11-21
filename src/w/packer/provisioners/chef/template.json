@@ -88,6 +88,18 @@
       "skip_install": "{{user `chef_skip_install`}}",
       "staging_directory": "{{user `chef_staging_directory`}}",
       "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
+      "run_list": "{{user `chef_run_list_patch`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "chef-solo",
+      "guest_os_type": "{{user `chef_guest_os_type`}}",
+      "skip_install": "{{user `chef_skip_install`}}",
+      "staging_directory": "{{user `chef_staging_directory`}}",
+      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
       "run_list": "{{user `chef_run_list_cleanup`}}"
     },
     {

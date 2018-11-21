@@ -177,6 +177,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var json = new JObject();
 
   var jsonTemplateVariables = new JObject();
+  jsonTemplateVariables["type"] = template.Type;
   jsonTemplateVariables["name"] = template.FullName;
   var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
   var parent = template.Parent;
