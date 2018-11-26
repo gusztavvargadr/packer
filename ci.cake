@@ -45,27 +45,27 @@ packerTemplates = packerTemplates.
   ToList();
 
 var w1809de = PackerTemplates_CreateWindows("w1809de");
-var w1809de_dc = PackerTemplates_CreateWindows("w1809de-dc", parents: w1809de);
-var w1809de_dc_vs17c = PackerTemplates_CreateWindows("w1809de-dc-vs17c", parents: w1809de_dc);
-var w1809de_dc_vs17p = PackerTemplates_CreateWindows("w1809de-dc-vs17p", parents: w1809de_dc);
+// var w1809de_dc = PackerTemplates_CreateWindows("w1809de-dc", parents: w1809de);
+// var w1809de_dc_vs17c = PackerTemplates_CreateWindows("w1809de-dc-vs17c", parents: w1809de_dc);
+// var w1809de_dc_vs17p = PackerTemplates_CreateWindows("w1809de-dc-vs17p", parents: w1809de_dc);
 
 packerTemplates = packerTemplates.
   Concat(w1809de).
-  Concat(w1809de_dc).
-  Concat(w1809de_dc_vs17c).
-  Concat(w1809de_dc_vs17p).
+  // Concat(w1809de_dc).
+  // Concat(w1809de_dc_vs17c).
+  // Concat(w1809de_dc_vs17p).
   ToList();
 
 var w1809ss = PackerTemplates_CreateWindows("w1809ss");
-var w1809ss_dc = PackerTemplates_CreateWindows("w1809ss-dc", parents: w1809ss);
-var w1809ss_dc_vs17c = PackerTemplates_CreateWindows("w1809ss-dc-vs17c", parents: w1809ss_dc);
-var w1809ss_dc_vs17p = PackerTemplates_CreateWindows("w1809ss-dc-vs17p", parents: w1809ss_dc);
+// var w1809ss_dc = PackerTemplates_CreateWindows("w1809ss-dc", parents: w1809ss);
+// var w1809ss_dc_vs17c = PackerTemplates_CreateWindows("w1809ss-dc-vs17c", parents: w1809ss_dc);
+// var w1809ss_dc_vs17p = PackerTemplates_CreateWindows("w1809ss-dc-vs17p", parents: w1809ss_dc);
 
 packerTemplates = packerTemplates.
   Concat(w1809ss).
-  Concat(w1809ss_dc).
-  Concat(w1809ss_dc_vs17c).
-  Concat(w1809ss_dc_vs17p).
+  // Concat(w1809ss_dc).
+  // Concat(w1809ss_dc_vs17c).
+  // Concat(w1809ss_dc_vs17p).
   ToList();
 
 var w1809ssc = PackerTemplates_CreateWindows("w1809ssc");
