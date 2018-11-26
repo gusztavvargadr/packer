@@ -29,7 +29,6 @@ VagrantDeployment.configure(directory, 'environment' => 'packer') do |deployment
   create_packer_windows_vms(deployment, 'w10e-dc')
   create_packer_windows_vms(deployment, 'w10e-dc-vs17c')
   create_packer_windows_vms(deployment, 'w10e-dc-vs17p')
-
   # create_packer_windows_vms(deployment, 'windows10')
   # create_packer_windows_vms(deployment, 'visualstudio2017')
 
@@ -40,38 +39,32 @@ VagrantDeployment.configure(directory, 'environment' => 'packer') do |deployment
   create_packer_windows_vms(deployment, 'w16s-iis')
   create_packer_windows_vms(deployment, 'w16s-sql14d')
   create_packer_windows_vms(deployment, 'w16s-sql17d')
-
   # create_packer_windows_vms(deployment, 'windowsserver2016')
-
-  # create_packer_windows_vms(deployment, 'w16s-vs17c')
-  # create_packer_windows_vms(deployment, 'w16s-vs17p')
   # create_packer_windows_vms(deployment, 'w16s-de')
 
   create_packer_windows_vms(deployment, 'w16sc')
   create_packer_windows_vms(deployment, 'w16sc-de')
-
   # create_packer_windows_vms(deployment, 'windowsservercore2016')
 
   create_packer_windows_vms(deployment, 'w1809de')
-  create_packer_windows_vms(deployment, 'w1809de-dc')
-  create_packer_windows_vms(deployment, 'w1809de-dc-vs17c')
-  create_packer_windows_vms(deployment, 'w1809de-dc-vs17p')
+  # create_packer_windows_vms(deployment, 'w1809de-dc')
+  # create_packer_windows_vms(deployment, 'w1809de-dc-vs17c')
+  # create_packer_windows_vms(deployment, 'w1809de-dc-vs17p')
 
   create_packer_windows_vms(deployment, 'w1809ss')
-  create_packer_windows_vms(deployment, 'w1809ss-dc')
-  create_packer_windows_vms(deployment, 'w1809ss-dc-vs17c')
-  create_packer_windows_vms(deployment, 'w1809ss-dc-vs17p')
+  # create_packer_windows_vms(deployment, 'w1809ss-dc')
+  # create_packer_windows_vms(deployment, 'w1809ss-dc-vs17c')
+  # create_packer_windows_vms(deployment, 'w1809ss-dc-vs17p')
 
   create_packer_windows_vms(deployment, 'w1809ssc')
   create_packer_windows_vms(deployment, 'w1809ssc-de')
 
   create_packer_linux_vms(deployment, 'u16s')
   create_packer_linux_vms(deployment, 'u16s-dc')
+  # create_packer_linux_vms(deployment, 'ubuntuserver16')
 
   create_packer_linux_vms(deployment, 'u16d')
   create_packer_linux_vms(deployment, 'u16d-dc')
-
-  # create_packer_linux_vms(deployment, 'ubuntuserver16')
   # create_packer_linux_vms(deployment, 'ubuntudesktop16')
 end
 

@@ -39,7 +39,7 @@ end
 
 gusztavvargadr_windows_powershell_script_elevated 'Zeroing volume' do
   code <<-EOH
-    sdelete -z C:
+    sdelete -nobanner -z C:
   EOH
   action :run
 end
