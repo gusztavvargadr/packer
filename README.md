@@ -2,13 +2,13 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates of [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
 - [Vagrant boxes] ready to use for virtualizing the development and hosting scenarios.
-- [Blog] with an overview of the why, how and what of Packer.
 - [Virtual workstations] for automating the configuration of your development environment.
+- [Blog] with an overview of the why, how and what of Packer.
 
 [TL;DR]: #tldr
 
@@ -16,7 +16,7 @@ This repository contains common [Packer] helper tools and sample templates of [V
 
 **Contents** [Operating systems] | [Development] | [Hosting]  
 
-> **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [this blog][Blog] for more background and motivation and [virtual workstations] for samples of automating the configuration of your development environment.  
+> **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environment using them and [this blog][Blog] for more background and motivation.  
 
 This repository contains [Packer] sample template for the following virtualization scenarios:
 
@@ -35,8 +35,8 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [Overview]: #overview
 
 [Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr/
-[Blog]: https://bit.ly/wdywttt5
 [Virtual workstations]: https://github.com/gusztavvargadr/workstations/
+[Blog]: https://bit.ly/wdywttt5
 
 [Packer]: https://www.packer.io/
 [Vagrant]: https://www.vagrantup.com/
@@ -56,24 +56,36 @@ They contain the core operating system with the minimum configuration required t
 
 #### Windows
 
-- [**Windows 10 Enterpise**][w10e]
-- [**Windows Server 2016 Standard**][w16s]
-- [**Windows Server 2016 Standard Core**][w16sc]
+- **Windows Server**
+  - [**Windows Server 2019 Standard**][w1809ss]
+  - [**Windows Server 2019 Standard Core**][w1809ssc]
+  - [**Windows Server 2016 Standard**][w16s]
+  - [**Windows Server 2016 Standard Core**][w16sc]
+- **Windows 10**
+  - [**Windows 10 1809 Enterpise**][w1809de]
+  - [**Windows 10 1803 Enterpise**][w10e]
 
 [Windows]: #windows
 
-[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
+[w1809ss]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ss/
+[w1809ssc]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ssc/
 [w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s/
 [w16sc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc/
 
+[w1809de]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809de/
+[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
+
 #### Ubuntu
 
-- [**Ubuntu 16 Server**][u16s]
-- [**Ubuntu 16 Desktop**][u16d]
+- **Ubuntu Server**
+  - [**Ubuntu 16.04 Server**][u16s]
+- **Ubuntu Desktop**
+  - [**Ubuntu 16.04 Desktop**][u16d]
 
 [Ubuntu]: #ubuntu
 
 [u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
+
 [u16d]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d/
 
 ### Development
@@ -86,17 +98,20 @@ They contain the respective development tools with the common configuration and 
 
 #### Visual Studio
 
-- [Windows 10 Enterpise, Docker Community, **Visual Studio 2017 Community**][w10e-dc-vs17c]
-- [Windows 10 Enterpise, Docker Community, **Visual Studio 2017 Professional**][w10e-dc-vs17p]
-- [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Community**][w16s-dc-vs17c]
-- [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Professional**][w16s-dc-vs17p]
+- **Windows Server**
+  - [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Community**][w16s-dc-vs17c]
+  - [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Professional**][w16s-dc-vs17p]
+- **Windows 10**
+  - [Windows 10 1803 Enterpise, Docker Community, **Visual Studio 2017 Community**][w10e-dc-vs17c]
+  - [Windows 10 1803 Enterpise, Docker Community, **Visual Studio 2017 Professional**][w10e-dc-vs17p]
 
 [Visual Studio]: #visual-studio
 
-[w10e-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17c/
-[w10e-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17p/
 [w16s-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17c/
 [w16s-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17p/
+
+[w10e-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17c/
+[w10e-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17p/
 
 ### Hosting
 
@@ -108,25 +123,33 @@ They contain the respective hosting tools with the default configuration are bas
 
 #### Docker
 
-- [Windows 10 Enterpise, **Docker Community**][w10e-dc]
-- [Windows Server 2016 Standard, **Docker Community**][w16s-dc]
-- [Windows Server 2016 Standard, **Docker Enterprise**][w16s-de]
-- [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
-- [Ubuntu 16 Server, **Docker Community**][u16s-dc]
-- [Ubuntu 16 Desktop, **Docker Community**][u16d-dc]
+- **Windows Server**
+  - [Windows Server 2019 Standard Core, **Docker Enterprise**][w1809ssc-de]
+  - [Windows Server 2016 Standard, **Docker Community**][w16s-dc]
+  - [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
+- **Windows 10**
+  - [Windows 10 1803 Enterpise, **Docker Community**][w10e-dc]
+- **Ubuntu Server**
+  - [Ubuntu 16.04 Server, **Docker Community**][u16s-dc]
+- **Ubuntu Desktop**
+  - [Ubuntu 16.04 Desktop, **Docker Community**][u16d-dc]
 
 [Docker]: #docker
 
-[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
+[w1809ssc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ssc-de/
 [w16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc/
-[w16s-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-de/
 [w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
+
+[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
+
 [u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
+
 [u16d-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d-dc/
 
 #### IIS
 
-- [Windows Server 2016 Standard, **IIS**][w16s-iis]
+- **Windows Server**
+  - [Windows Server 2016 Standard, **IIS**][w16s-iis]
 
 [IIS]: #iis
 
@@ -134,13 +157,14 @@ They contain the respective hosting tools with the default configuration are bas
 
 #### SQL Server
 
-- [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
-- [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
+- **Windows Server**
+  - [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
+  - [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
 
 [SQL Server]: #sql-server
 
-[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
 [w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
+[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
 
 ## Getting started
 
