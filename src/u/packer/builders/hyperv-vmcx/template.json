@@ -1,12 +1,12 @@
 {
   "variables": {
-    "hyperv_clone_from_vmxc_path": "",
+    "hyperv_clone_from_vmcx_path": "",
   },
   "builders": [
     {
       "type": "hyperv-vmcx",
       "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-      "clone_from_vmxc_path": "{{user `hyperv_clone_from_vmxc_path`}}",
+      "clone_from_vmcx_path": "{{user `hyperv_clone_from_vmcx_path`}}",
       "ram_size": "{{user `hyperv_ram_size`}}",
       "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
       "cpu": "{{user `hyperv_cpu`}}",
