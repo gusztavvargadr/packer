@@ -1,0 +1,36 @@
+{
+  "variables": {
+    "azure_client_id": "{{env `ARM_CLIENT_ID`}}",
+    "azure_client_secret": "{{env `ARM_CLIENT_SECRET`}}",
+    "azure_tenant_id": "{{env `ARM_TENANT_ID`}}",
+    "azure_subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
+
+    "azure_resource_group": "packer",
+    "azure_location": "West Europe",
+
+    "azure_image_name": ""
+  },
+  "builders": [
+    {
+      "type": "azure-arm",
+
+      "client_id": "{{user `azure_client_id`}}",
+      "client_secret": "{{user `azure_client_secret`}}",
+      "tenant_id": "{{user `azure_tenant_id`}}",
+      "subscription_id": "{{user `azure_subscription_id`}}",
+
+      "location": "{{user `azure_location`}}",
+
+      "os_type": "Linux",
+      "custom_managed_image_resource_group_name": "{{user `azure_resource_group`}}",
+      "custom_managed_image_name": "{{user `azure_image_name`}}",
+
+      "vm_size": "Standard_B2s",
+
+      "communicator": "ssh",
+
+      "managed_image_resource_group_name": "{{user `azure_resource_group`}}",
+      "managed_image_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+    }
+  ]
+}

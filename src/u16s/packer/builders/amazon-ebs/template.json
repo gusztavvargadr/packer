@@ -1,5 +1,0 @@
-{
-  "variables": {
-    "amazon_source_ami_filter_name": "Ubuntu-*"
-  }
-}

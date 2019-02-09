@@ -7,9 +7,9 @@
 #addin "Cake.Json&version=1.0.2.13"
 
 class PackerTemplate {
-  public string Type { get; set; }
   public string Name { get; set; }
-  public string FullName { get { return Type + "-" + Name; } }
+  public string Type { get; set; }
+  public string FullName { get { return Name + "-" + Type; } }
   public IEnumerable<Component> Components { get; set; }
   public IEnumerable<PackerBuilder> Builders { get; set; }
   public IEnumerable<PackerProvisioner> Provisioners { get; set; }
@@ -25,23 +25,23 @@ class PackerTemplate {
   }
 
   public string GetBuildDirectory() {
-    return "build/" + Type + "/" + Name;
+    return "build/" + Name + "/" + Type;
   }
 }
 
 PackerTemplate PackerTemplate_Create(
-  string type,
   string name,
+  string type,
   IEnumerable<PackerBuilder> builders,
   IEnumerable<PackerProvisioner> provisioners,
   IEnumerable<PackerPostProcessor> postprocessors,
   PackerTemplate parent
 ) {
-  var components = type.Split('-').Select(component => Component_Create(component)).ToList();
+  var components = name.Split('-').Select(component => Component_Create(component)).ToList();
 
   return new PackerTemplate {
-    Type = type,
     Name = name,
+    Type = type,
     Components = components,
     Builders = builders,
     Provisioners = provisioners,
@@ -177,8 +177,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var json = new JObject();
 
   var jsonTemplateVariables = new JObject();
-  jsonTemplateVariables["type"] = template.Type;
-  jsonTemplateVariables["name"] = template.FullName;
+  jsonTemplateVariables["name"] = template.Name;
   var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
   var parent = template.Parent;
   if (parent != null) {
