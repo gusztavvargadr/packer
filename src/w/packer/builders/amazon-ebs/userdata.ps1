@@ -10,10 +10,10 @@ Write-Host "Install Chef Client"
 choco install chef-client -y --version 14.3.37
 
 Write-Host "Install 7zip"
-choco install 7zip.portable -y --version 18.5
+choco install 7zip.portable -y --version 18.6
 
 Write-Host "Install sdelete"
-choco install sdelete -y --version 2.01
+choco install sdelete -y --version 2.01 --ignorechecksum
 
 Write-Host "Configure network profiles"
 Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
@@ -36,8 +36,7 @@ netsh advfirewall firewall delete rule name="Autounattend WinRM-HTTP"
 
 Write-Host "Install OpenSSH"
 netsh advfirewall firewall add rule name="Autounattend SSH" dir=in localport=22 protocol=TCP action=block
-# choco install openssh -y --version 7.7.2.1 -params '"/SSHServerFeature /PathSpecsToProbeForShellEXEString:$env:windir\system32\windowspowershell\v1.0\powershell.exe"'
-choco install openssh -y --version 7.7.2.1 -params '"/SSHServerFeature"'
+choco install openssh -y --version 7.9.0.1 -params '"/SSHServerFeature"' # /PathSpecsToProbeForShellEXEString:$env:windir\system32\windowspowershell\v1.0\powershell.exe"'
 sc.exe config sshd start= auto
 net stop sshd
 netsh advfirewall firewall delete rule name="Autounattend SSH"
