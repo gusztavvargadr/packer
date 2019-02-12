@@ -13,4 +13,8 @@ if ENV['PACKER_BUILDER'].to_s.include?('virtualbox')
     guest_additions_options node['gusztavvargadr_packer_w']['virtualbox_guest_additions']
     action :install
   end
+
+  gusztavvargadr_windows_chocolatey_package 'virtio-drivers' do
+    action :install
+  end
 end

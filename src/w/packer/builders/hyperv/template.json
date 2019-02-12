@@ -1,4 +1,5 @@
 {
+  "min_packer_version": "1.3.0",
   "variables": {
     "builder_source": "builders",
     "builder_destination": "C:/Windows/Setup/packer",

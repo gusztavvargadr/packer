@@ -191,7 +191,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
       if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
         var parentBuildOutputDirectory = parentBuildDirectory + "/output";
-        jsonTemplateVariables["hyperv_clone_from_vmxc_path"] = parentBuildOutputDirectory;
+        jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
       }
     }
   }
