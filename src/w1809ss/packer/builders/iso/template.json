@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url": "https://software-download.microsoft.com/download/pr/17763.1.180914-1434.rs5_release_SERVER_EVAL_x64FRE_en-us.iso",
+    "iso_url": "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
     "iso_checksum_type": "sha1",
-    "iso_checksum": "c4834f538a90bb41f625144c9a2e0edf8bb9b9b5"
+    "iso_checksum": "91e3a2f1acc39af21353c7cc105c799494d7539f"
   }
 }
