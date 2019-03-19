@@ -11,11 +11,8 @@ def gusztavvargadr_packer_sources
 
   gusztavvargadr_packer_cookbook 'w'
   gusztavvargadr_packer_cookbook 'w10e'
-  gusztavvargadr_packer_cookbook 'w16s'
-  gusztavvargadr_packer_cookbook 'w16sc'
-  gusztavvargadr_packer_cookbook 'w1809de'
-  gusztavvargadr_packer_cookbook 'w1809ss'
-  gusztavvargadr_packer_cookbook 'w1809ssc'
+  gusztavvargadr_packer_cookbook 'ws2019s'
+  gusztavvargadr_packer_cookbook 'ws2019sc'
 
   gusztavvargadr_packer_cookbook 'dc'
   gusztavvargadr_packer_cookbook 'de'
