@@ -197,7 +197,7 @@ ws2019s-iis-hyperv-sysprep: Info
 You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2019 Standard` image, invoke the `info` command with the `ws2019s` argument:
 
 ```powershell
-PS> .\ci.ps1 info ws2012s
+PS> .\ci.ps1 info ws2019s
 ```
 
 You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `ws2019s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
