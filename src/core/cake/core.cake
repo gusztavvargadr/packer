@@ -1,6 +1,6 @@
 #load "./template.cake"
 
-IEnumerable<PackerTemplate> packerTemplates = new PackerTemplate[] {};
+var packerTemplates = new List<PackerTemplate>();
 var packerTemplate = string.Empty;
 var packerRecursive = false;
 

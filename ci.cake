@@ -4,93 +4,39 @@ var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
 
-packerTemplates = new List<PackerTemplate>();
-
+//  windows-10
 var w10e = PackerTemplates_CreateWindows("w10e");
+
+// windows-server
+var ws2019s = PackerTemplates_CreateWindows("ws2019s");
+var ws2019sc = PackerTemplates_CreateWindows("ws2019sc");
+
+// ubuntu-desktop
+var u16d = PackerTemplates_CreateLinux("u16d");
+
+// ubuntu-server
+var u16s = PackerTemplates_CreateLinux("u16s");
+
+// docker windows
+var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc);
+
+// docker-linux
+var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
+
+// iis
+var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
+
+// sql-server
+var ws2019s_sql17d = PackerTemplates_CreateWindows("ws2019s-sql17d", parents: ws2019s);
+
+// visual-studio
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
 var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
 var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e_dc);
 
-packerTemplates = packerTemplates.
-  Concat(w10e).
-  Concat(w10e_dc).
-  Concat(w10e_dc_vs17c).
-  Concat(w10e_dc_vs17p).
-  ToList();
-
-var w16s = PackerTemplates_CreateWindows("w16s", amazon: true);
-var w16s_dc = PackerTemplates_CreateWindows("w16s-dc", parents: w16s);
-var w16s_dc_vs17c = PackerTemplates_CreateWindows("w16s-dc-vs17c", parents: w16s_dc);
-var w16s_dc_vs17p = PackerTemplates_CreateWindows("w16s-dc-vs17p", parents: w16s_dc);
-var w16s_iis = PackerTemplates_CreateWindows("w16s-iis", parents: w16s);
-var w16s_sql14d = PackerTemplates_CreateWindows("w16s-sql14d", parents: w16s);
-var w16s_sql17d = PackerTemplates_CreateWindows("w16s-sql17d", parents: w16s);
-
-packerTemplates = packerTemplates.
-  Concat(w16s).
-  Concat(w16s_dc).
-  Concat(w16s_dc_vs17c).
-  Concat(w16s_dc_vs17p).
-  Concat(w16s_iis).
-  Concat(w16s_sql14d).
-  Concat(w16s_sql17d).
-  ToList();
-
-var w16sc = PackerTemplates_CreateWindows("w16sc");
-var w16sc_de = PackerTemplates_CreateWindows("w16sc-de", parents: w16sc);
-
-packerTemplates = packerTemplates.
-  Concat(w16sc).
-  Concat(w16sc_de).
-  ToList();
-
-var w1809de = PackerTemplates_CreateWindows("w1809de");
-// var w1809de_dc = PackerTemplates_CreateWindows("w1809de-dc", parents: w1809de);
-// var w1809de_dc_vs17c = PackerTemplates_CreateWindows("w1809de-dc-vs17c", parents: w1809de_dc);
-// var w1809de_dc_vs17p = PackerTemplates_CreateWindows("w1809de-dc-vs17p", parents: w1809de_dc);
-
-packerTemplates = packerTemplates.
-  Concat(w1809de).
-  // Concat(w1809de_dc).
-  // Concat(w1809de_dc_vs17c).
-  // Concat(w1809de_dc_vs17p).
-  ToList();
-
-var w1809ss = PackerTemplates_CreateWindows("w1809ss");
-// var w1809ss_dc = PackerTemplates_CreateWindows("w1809ss-dc", parents: w1809ss);
-// var w1809ss_dc_vs17c = PackerTemplates_CreateWindows("w1809ss-dc-vs17c", parents: w1809ss_dc);
-// var w1809ss_dc_vs17p = PackerTemplates_CreateWindows("w1809ss-dc-vs17p", parents: w1809ss_dc);
-
-packerTemplates = packerTemplates.
-  Concat(w1809ss).
-  // Concat(w1809ss_dc).
-  // Concat(w1809ss_dc_vs17c).
-  // Concat(w1809ss_dc_vs17p).
-  ToList();
-
-var w1809ssc = PackerTemplates_CreateWindows("w1809ssc");
-var w1809ssc_de = PackerTemplates_CreateWindows("w1809ssc-de", parents: w1809ssc);
-
-packerTemplates = packerTemplates.
-  Concat(w1809ssc).
-  Concat(w1809ssc_de).
-  ToList();
-
-var u16s = PackerTemplates_CreateLinux("u16s");
-var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
-
-packerTemplates = packerTemplates.
-  Concat(u16s).
-  Concat(u16s_dc).
-  ToList();
-
-var u16d = PackerTemplates_CreateLinux("u16d");
-var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
-
-packerTemplates = packerTemplates.
-  Concat(u16d).
-  Concat(u16d_dc).
-  ToList();
+var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
+var ws2019s_dc_vs17c = PackerTemplates_CreateWindows("ws2019s-dc-vs17c", parents: ws2019s_dc);
+var ws2019s_dc_vs17p = PackerTemplates_CreateWindows("ws2019s-dc-vs17p", parents: ws2019s_dc);
 
 packerTemplate = configuration;
 packerRecursive = recursive;
@@ -147,6 +93,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, bool amaz
     );
     items.Add(amazonSysprep);
   }
+
+  packerTemplates.AddRange(items);
 
   return items;
 }
@@ -216,6 +164,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
 
     items.Add(azureSysprep);
   }
+
+  packerTemplates.AddRange(items);
 
   return items;
 }
