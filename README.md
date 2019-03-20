@@ -2,13 +2,13 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
-- [Vagrant boxes] ready to use for virtualizing the development and hosting scenarios.
-- [Virtual workstations] for automating the configuration of your development environment.
-- [Blog] with an overview of the why, how and what of Packer.
+- [Vagrant boxes] ready to use for virtualizing hosting and development scenarios.
+- [Virtual workstations] for automating the configuration of your development environments.
+- Blogs with an overview of the [why][BlogWhy], [how][BlogHow] and what of Packer.
 
 [TL;DR]: #tldr
 
@@ -16,13 +16,13 @@ This repository contains common [Packer] helper tools and sample templates for [
 
 **Contents** [Operating systems] | [Development] | [Hosting]  
 
-> **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environment using them and [this blog][Blog] for more background and motivation.  
+> **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environments using them and [these][BlogWhy] [blogs][BlogHow] for more background and motivation.  
 
 This repository contains [Packer] sample template for the following virtualization scenarios:
 
 - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
-- [Development] using [Visual Studio].
 - [Hosting] using [Docker], [IIS] and [SQL Server].
+- [Development] using [Visual Studio].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
 
@@ -36,7 +36,8 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 
 [Vagrant boxes]: https://app.vagrantup.com/gusztavvargadr/
 [Virtual workstations]: https://github.com/gusztavvargadr/workstations/
-[Blog]: https://bit.ly/wdywttt5
+[BlogWhy]: https://bit.ly/wdywttt5
+[BlogHow]: https://bit.ly/wdywttt7
 
 [Packer]: https://www.packer.io/
 [Vagrant]: https://www.vagrantup.com/
@@ -48,123 +49,75 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 
 ### Operating systems
 
-The following Vagrant boxes can be used for generic experiments on the respective platforms.
-
-They contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other Vagrant boxes below are based on these configurations as well.
+The following Vagrant boxes can be used for generic experiments on the respective platforms. They contain the core operating system with the minimum configuration required to make Vagrant work, and some of the commonly used tools installed and options configured for easier provisioning. All the other Vagrant boxes below are based on these configurations as well.
 
 [Operating systems]: #operating-systems
 
 #### Windows
 
-- **Windows Server**
-  - [**Windows Server 2019 Standard**][w1809ss]
-  - [**Windows Server 2019 Standard Core**][w1809ssc]
-  - [**Windows Server 2016 Standard**][w16s]
-  - [**Windows Server 2016 Standard Core**][w16sc]
-- **Windows 10**
-  - [**Windows 10 1809 Enterpise**][w1809de]
-  - [**Windows 10 1803 Enterpise**][w10e]
+- [**Windows 10 Version 1809 Enterpise**][windows-10]
+- [**Windows Server 2019 Standard and Standard Core**][windows-server]
 
 [Windows]: #windows
 
-[w1809ss]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ss/
-[w1809ssc]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ssc/
-[w16s]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s/
-[w16sc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc/
-
-[w1809de]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809de/
-[w10e]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e/
+[windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 
 #### Ubuntu
 
-- **Ubuntu Server**
-  - [**Ubuntu 16.04 Server**][u16s]
-- **Ubuntu Desktop**
-  - [**Ubuntu 16.04 Desktop**][u16d]
+- [**Ubuntu Desktop 1604**][ubuntu-desktop]
+- [**Ubuntu Server 1604**][ubuntu-server]
 
 [Ubuntu]: #ubuntu
 
-[u16s]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s/
-
-[u16d]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d/
-
-### Development
-
-The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations].
-
-They contain the respective development tools with the common configuration and are based on the core [operating systems].
-
-[Development]: #development
-
-#### Visual Studio
-
-- **Windows Server**
-  - [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Community**][w16s-dc-vs17c]
-  - [Windows Server 2016 Standard, Docker Community, **Visual Studio 2017 Professional**][w16s-dc-vs17p]
-- **Windows 10**
-  - [Windows 10 1803 Enterpise, Docker Community, **Visual Studio 2017 Community**][w10e-dc-vs17c]
-  - [Windows 10 1803 Enterpise, Docker Community, **Visual Studio 2017 Professional**][w10e-dc-vs17p]
-
-[Visual Studio]: #visual-studio
-
-[w16s-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17c/
-[w16s-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc-vs17p/
-
-[w10e-dc-vs17c]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17c/
-[w10e-dc-vs17p]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc-vs17p/
+[ubuntu-desktop]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-server]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 
 ### Hosting
 
-The following Vagrant boxes can be used for hosting scenarios.
-
-They contain the respective hosting tools with the default configuration are based on the core [operating systems].
+The following Vagrant boxes can be used for hosting scenarios. They contain the respective hosting tools with the default configuration are based on the core [operating systems].
 
 [Hosting]: #hosting
 
 #### Docker
 
-- **Windows Server**
-  - [Windows Server 2019 Standard Core, **Docker Enterprise**][w1809ssc-de]
-  - [Windows Server 2016 Standard, **Docker Community**][w16s-dc]
-  - [Windows Server 2016 Standard Core, **Docker Enterprise**][w16sc-de]
-- **Windows 10**
-  - [Windows 10 1803 Enterpise, **Docker Community**][w10e-dc]
-- **Ubuntu Server**
-  - [Ubuntu 16.04 Server, **Docker Community**][u16s-dc]
-- **Ubuntu Desktop**
-  - [Ubuntu 16.04 Desktop, **Docker Community**][u16d-dc]
+- [**Docker 1809 Enterprise** on Windows Server 2019 Standard Core][docker-windows]
+- [**Docker 1809 Community** on Ubuntu Server 1604][docker-linux]
 
 [Docker]: #docker
 
-[w1809ssc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w1809ssc-de/
-[w16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-dc/
-[w16sc-de]: https://app.vagrantup.com/gusztavvargadr/boxes/w16sc-de/
-
-[w10e-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/w10e-dc/
-
-[u16s-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16s-dc/
-
-[u16d-dc]: https://app.vagrantup.com/gusztavvargadr/boxes/u16d-dc/
+[docker-windows]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+[docker-linux]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 
 #### IIS
 
-- **Windows Server**
-  - [Windows Server 2016 Standard, **IIS**][w16s-iis]
+- [**IIS 10** on Windows Server 2019 Standard][box-iis]
 
 [IIS]: #iis
 
-[w16s-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-iis/
+[box-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 
 #### SQL Server
 
-- **Windows Server**
-  - [Windows Server 2016 Standard, **SQL Server 2017 Developer**][w16s-sql17d]
-  - [Windows Server 2016 Standard, **SQL Server 2014 Developer**][w16s-sql14d]
+- [**SQL Server 2017 Developer** on Windows Server 2019 Standard][box-sql-server]
 
 [SQL Server]: #sql-server
 
-[w16s-sql17d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql17d/
-[w16s-sql14d]: https://app.vagrantup.com/gusztavvargadr/boxes/w16s-sql14d/
+[box-sql-server]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+
+### Development
+
+The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
+
+[Development]: #development
+
+#### Visual Studio
+
+- [**Visual Studio 2017 Community and Professional** on Windows Server 2019 Standard and Windows 10 Version 1809 Enterprise][box-visual-studio]
+
+[Visual Studio]: #visual-studio
+
+[box-visual-studio]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 
 ## Getting started
 
@@ -228,34 +181,26 @@ w10e-virtualbox-core: Info
 w10e-virtualbox-sysprep: Info
 w10e-hyperv-core: Info
 w10e-hyperv-sysprep: Info
-w10e-dc-virtualbox-core: Info
-w10e-dc-virtualbox-sysprep: Info
-w10e-dc-hyperv-core: Info
-w10e-dc-hyperv-sysprep: Info
 ...
-w16s-virtualbox-core: Info
-w16s-virtualbox-sysprep: Info
-w16s-hyperv-core: Info
-w16s-hyperv-sysprep: Info
-w16s-amazon-sysprep: Info
-w16s-dc-virtualbox-core: Info
-w16s-dc-virtualbox-sysprep: Info
-w16s-dc-hyperv-core: Info
-w16s-dc-hyperv-sysprep: Info
-w16s-iis-virtualbox-core: Info
-w16s-iis-virtualbox-sysprep: Info
-w16s-iis-hyperv-core: Info
-w16s-iis-hyperv-sysprep: Info
+ws2019s-virtualbox-core: Info
+ws2019s-virtualbox-sysprep: Info
+ws2019s-hyperv-core: Info
+ws2019s-hyperv-sysprep: Info
+...
+ws2019s-iis-virtualbox-core: Info
+ws2019s-iis-virtualbox-sysprep: Info
+ws2019s-iis-hyperv-core: Info
+ws2019s-iis-hyperv-sysprep: Info
 ...
 ```
 
-You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2016 Standard` image, invoke the `info` command with the `w16s` argument:
+You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2019 Standard` image, invoke the `info` command with the `ws2019s` argument:
 
 ```powershell
-PS> .\ci.ps1 info w16s
+PS> .\ci.ps1 info ws2012s
 ```
 
-You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `w16s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
+You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `ws2019s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
 
 The output will contain only the matching templates:
 
@@ -265,10 +210,10 @@ The output will contain only the matching templates:
 packer-info
 ========================================
 Executing task: packer-info
-w16s-virtualbox-core: Info
-w16s-virtualbox-sysprep: Info
-w16s-hyperv-core: Info
-w16s-hyperv-sysprep: Info
+ws2019s-virtualbox-core: Info
+ws2019s-virtualbox-sysprep: Info
+ws2019s-hyperv-core: Info
+ws2019s-hyperv-sysprep: Info
 ...
 ```
 
@@ -277,16 +222,16 @@ This means that this configuration supports building some base images (`virtualb
 Now, invoke the `restore` command with the name of the template you want to build to create the resources required by Packer. For example, for VirtualBox, type the following command:
 
 ```powershell
-PS> .\ci.ps1 restore w16s-virtualbox-core
+PS> .\ci.ps1 restore ws2019s-virtualbox-core
 ``` 
 
-This will create the folder `build/w16s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
+This will create the folder `build/ws2019s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
 
 ```powershell
-PS> .\ci.ps1 build w16s-virtualbox-core
+PS> .\ci.ps1 build ws2019s-virtualbox-core
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/w16s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider or Vagrant on the host machine.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2019s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider or Vagrant on the host machine.
 
 [Building base images]: #building-base-images
 
@@ -297,19 +242,19 @@ This will trigger the Packer build process, which usually requires only patience
 As mentioned above, based on Packer's support for starting builds from some virtualization providers' native image format, builds can reuse the output of a previous build. To build and image which can be distributed (e.g. after applying [Sysprep] as well), type the following command:
 
 ```powershell
-PS> .\ci.ps1 build w16s-virtualbox-sysprep
+PS> .\ci.ps1 build ws2019s-virtualbox-sysprep
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `w16s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the native image and the Vagrant box will be available in the `build/w16s/virtualbox-sysprep/output` folder.
+Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2019s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the native image and the Vagrant box will be available in the `build/ws2019s/virtualbox-sysprep/output` folder.
 
 The same approach works for Hyper-V as well:
 
 ```powershell
-PS> .\ci.ps1 build w16s-hyperv-core
-PS> .\ci.ps1 build w16s-hyperv-sysprep
+PS> .\ci.ps1 build ws2019s-hyperv-core
+PS> .\ci.ps1 build ws2019s-hyperv-sysprep
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `builds/w16s` folder as well, this time under the `hyperv-sysprep/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `builds/ws2019s` folder as well, this time under the `hyperv-sysprep/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [Building images for distribution]: #building-images-for-distribution
 
@@ -318,31 +263,31 @@ As you can expect, for these samples the build artifacts will be created in the 
 
 ### Chaining builds further
 
-Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2016 Standard` with `IIS` can be built like this:
+Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2019 Standard` with `IIS` can be built like this:
 
 ```powershell
-PS> .\ci.ps1 build w16s-virtualbox-core
-PS> .\ci.ps1 build w16s-iis-virtualbox-core
-PS> .\ci.ps1 build w16s-iis-virtualbox-sysprep
+PS> .\ci.ps1 build ws2019s-virtualbox-core
+PS> .\ci.ps1 build ws2019s-iis-virtualbox-core
+PS> .\ci.ps1 build ws2019s-iis-virtualbox-sysprep
 ```
 
-As in the previous `w16s` sample, for this configuration the `w16s-iis-virtualbox-core` build will start from the output of `w16s-virtualbox-core` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build images with any number of components very effectively.
+As in the previous `ws2019s` sample, for this configuration the `ws2019s-iis-virtualbox-core` build will start from the output of `ws2019s-virtualbox-core` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build images with any number of components very effectively.
 
 Note that the script can invoke the build of the dependencies automatically, so for the previous example you can simply type:
 
 ```powershell
-PS> .\ci.ps1 build w16s-iis-virtualbox-sysprep --recursive=true
+PS> .\ci.ps1 build ws2019s-iis-virtualbox-sysprep --recursive=true
 ```
 
-This will in turn invoke the `restore` and `build` stages for the `w16s-virtualbox-core` and `w16s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
+This will in turn invoke the `restore` and `build` stages for the `ws2019s-virtualbox-core` and `ws2019s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
 
 Again, this works for Hyper-V as well:
 
 ```powershell
-PS> .\ci.ps1 build w16s-iis-hyperv-sysprep --recursive=true
+PS> .\ci.ps1 build ws2019s-iis-hyperv-sysprep --recursive=true
 ```
 
-Similarly, this will in turn build the `w16s-hyperv-core` and `w16s-iis-hyperv-core` images first if they are missing.
+Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hyperv-core` images first if they are missing.
 
 [Chaining builds further]: #chaining-builds-further
 
@@ -350,13 +295,13 @@ Similarly, this will in turn build the `w16s-hyperv-core` and `w16s-iis-hyperv-c
 
 To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs.
 
-For example, to test the `w16s` configuration, from the root of your clone you can type the following command to use the box files in the `build\w16s` folder:
+For example, to test the `ws2019s` configuration, from the root of your clone you can type the following command to use the box files in the `build\ws2019s` folder:
 
 ```powershell
-PS> vagrant up w16s-local
+PS> vagrant up ws2019s-local
 ```
 
-This will import the locally built Vagrant box with the name `w16s-local` and will use that to spin up a new virtual machine for testing.
+This will import the locally built Vagrant box with the name `ws2019s-local` and will use that to spin up a new virtual machine for testing.
 
 When working with multiple virtualization providers, you can specify which one to use for each test machine [using the command line][VagrantCLIUpProvider], or [define your preferences globally][VagrantPreferredProviders].
 
@@ -374,7 +319,7 @@ You can use the standard Vagrant commands to [clean up the boxes][VagrantCLIBox]
 Though the `build` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
 
 ```
-PS> .\ci.ps1 clean w16s-iis-virtualbox-sysprep
+PS> .\ci.ps1 clean ws2019s-iis-virtualbox-sysprep
 ```
 
 Using the filtering, to clean up the artifacts of all the VirtualBox builds, you can type:
