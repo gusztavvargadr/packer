@@ -10,6 +10,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
+      "headless": "{{user `hyperv_headless`}}",
       "ram_size": "{{user `hyperv_ram_size`}}",
       "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
       "cpu": "{{user `hyperv_cpu`}}",

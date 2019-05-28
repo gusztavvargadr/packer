@@ -193,6 +193,10 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
         var parentBuildOutputDirectory = parentBuildDirectory + "/output";
         jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
       }
+      if (template.Builders.Any(item => item.IsMatching("azure"))) {
+        var artifactId = manifest["builds"][0]["artifact_id"].ToString();
+        jsonTemplateVariables["azure_image_name"] = artifactId.Split('/').Last();
+      }
     }
   }
   var descriptions = new List<string>();

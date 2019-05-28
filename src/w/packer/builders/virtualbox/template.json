@@ -2,6 +2,7 @@
   "variables": {
     "builder_source": "builders",
     "builder_destination": "C:/Windows/Setup/packer",
+    "virtualbox_headless": "true",
     "virtualbox_memory": "4096",
     "virtualbox_cpus": "2",
     "virtualbox_boot_wait": "10s",

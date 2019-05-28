@@ -3,7 +3,7 @@
 Set-ExecutionPolicy RemoteSigned -Force
 
 Write-Host "Install Chocolatey"
-$env:chocolateyVersion = '0.10.11'
+$env:chocolateyVersion = '0.10.13'
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 Write-Host "Install Chef Client"

@@ -1,3 +1,3 @@
 #!/bin/sh -eux
 
-usermod -aG docker vagrant
+usermod -aG docker $SUDO_USER
