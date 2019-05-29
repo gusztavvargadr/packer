@@ -77,12 +77,15 @@ end
 
 def create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
   VagrantMachine.configure(deployment, 'name' => "#{name}-cloud", 'box' => "gusztavvargadr/#{name}-cloud") do |machine|
-    VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
-    end
+    machine.vagrant.vm.box = "gusztavvargadr/#{cloud_name}"
+    machine.vagrant.vm.box_version = cloud_version
 
-    VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
-    end
+    # VagrantVirtualBoxProvider.configure(machine) do |provider|
+    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
+    # end
+
+    # VagrantHyperVProvider.configure(machine) do |provider|
+    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
+    # end
   end
 end
