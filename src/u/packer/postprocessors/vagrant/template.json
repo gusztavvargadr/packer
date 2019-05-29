@@ -11,7 +11,7 @@
       },
       {
         "type": "vagrant-cloud",
-        "box_tag": "{{user `author`}}/{{user `type`}}",
+        "box_tag": "{{user `author`}}/{{user `name`}}",
         "version": "{{user `version`}}",
         "version_description": "{{user `description`}}",
         "no_release": true

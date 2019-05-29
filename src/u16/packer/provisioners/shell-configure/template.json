@@ -1,0 +1,13 @@
+{
+  "provisioners": [
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "scripts": [
+        "provisioners/shell-configure/scripts/sshd.sh",
+        "provisioners/shell-configure/scripts/networking.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}

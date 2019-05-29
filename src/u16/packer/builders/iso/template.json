@@ -1,0 +1,7 @@
+{
+  "variables": {
+    "iso_url": "http://releases.ubuntu.com/16.04.6/ubuntu-16.04.6-server-amd64.iso",
+    "iso_checksum_type": "sha1",
+    "iso_checksum": "056b7c15efc15bbbf40bf1a9ff1a3531fcbf70a2"
+  }
+}

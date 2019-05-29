@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V] and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], Azure and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
@@ -21,10 +21,10 @@ This repository contains common [Packer] helper tools and sample templates for [
 This repository contains [Packer] sample template for the following virtualization scenarios:
 
 - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
-- [Hosting] using [Docker], [IIS] and [SQL Server].
 - [Development] using [Visual Studio].
+- [Hosting] using [Docker], [IIS] and [SQL Server].
 
-The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] - and [AWS], and are provisioned using [Chef].
+The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] -, Azure and [AWS], and are provisioned using [Chef].
 
 > **Note** All the components, including the core operating systems, share the following characteristics:
 > 
@@ -65,13 +65,27 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 #### Ubuntu
 
-- [**Ubuntu Desktop 1604**][ubuntu-desktop]
-- [**Ubuntu Server 1604**][ubuntu-server]
+- [**Ubuntu Desktop 1604 LTS**][ubuntu-desktop]
+- [**Ubuntu Server 1604 LTS**][ubuntu-server]
 
 [Ubuntu]: #ubuntu
 
 [ubuntu-desktop]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-server]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+
+### Development
+
+The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
+
+[Development]: #development
+
+#### Visual Studio
+
+- [**Visual Studio 2019 and 2017 Community** on Windows 10 Version 1809 Enterprise and Windows Server 2019 Standard][box-visual-studio]
+
+[Visual Studio]: #visual-studio
+
+[box-visual-studio]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 
 ### Hosting
 
@@ -82,7 +96,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 #### Docker
 
 - [**Docker 1809 Enterprise** on Windows Server 2019 Standard Core][docker-windows]
-- [**Docker 1809 Community** on Ubuntu Server 1604][docker-linux]
+- [**Docker 1809 Community** on Ubuntu Server 1604 LTS][docker-linux]
 
 [Docker]: #docker
 
@@ -104,20 +118,6 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 [SQL Server]: #sql-server
 
 [box-sql-server]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
-
-### Development
-
-The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
-
-[Development]: #development
-
-#### Visual Studio
-
-- [**Visual Studio 2017 Community and Professional** on Windows Server 2019 Standard and Windows 10 Version 1809 Enterprise][box-visual-studio]
-
-[Visual Studio]: #visual-studio
-
-[box-visual-studio]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 
 ## Getting started
 

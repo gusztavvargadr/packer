@@ -15,81 +15,77 @@ VagrantMachine.defaults_include(
   }
 )
 
-VagrantProvider.defaults_include(
+VagrantVirtualBoxProvider.defaults_include(
+  'memory' => 4096,
+  'cpus' => 2
+)
+
+VagrantHyperVProvider.defaults_include(
   'memory' => 4096,
   'cpus' => 2
 )
 
 def version
-  '1901.0.0'
+  '1905'
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  # windows-10
-  create_packer_windows_vms(deployment, 'w10e')
+  create_packer_vms(deployment, 'w10e', 'windows-10', "1809.0.#{version}-enterprise")
 
-  # windows-server
-  create_packer_windows_vms(deployment, 'ws2019s')
-  create_packer_windows_vms(deployment, 'ws2019sc')
+  create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
+  create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
 
-  # ubuntu-desktop
-  create_packer_linux_vms(deployment, 'u16d')
+  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts")
 
-  # ubuntu-server
-  create_packer_linux_vms(deployment, 'u16s')
+  create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts")
 
-  # docker-windows
-  create_packer_windows_vms(deployment, 'ws2019sc-de')
+  create_packer_vms(deployment, 'ws2019sc-de', 'docker-windows', "1809.0.#{version}-enterprise-windows-server-1809-standard-core")
 
-  # docker-linux
-  create_packer_linux_vms(deployment, 'u16s-dc')
+  create_packer_vms(deployment, 'u16s-dc', 'docker-linux', "1809.0.#{version}-community-ubuntu-server-1604-lts")
 
-  # iis
-  create_packer_windows_vms(deployment, 'ws2019s-iis')
+  create_packer_vms(deployment, 'ws2019s-iis', 'iis', "10.0.#{version}-windows-server-1809-standard")
 
-  # sql-server
-  create_packer_windows_vms(deployment, 'ws2019s-sql17d')
+  create_packer_vms(deployment, 'ws2019s-sql17d', 'sql-server', "2017.0.#{version}-developer-windows-server-1809-standard")
 
-  # visual-studio
-  create_packer_windows_vms(deployment, 'w10e-dc-vs17c')
-  create_packer_windows_vms(deployment, 'w10e-dc-vs17p')
+  create_packer_vms(deployment, 'w10e-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-10-1809-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-10-1809-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-10-1809-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-10-1809-enterprise")
 
-  create_packer_windows_vms(deployment, 'ws2019s-dc-vs17c')
-  create_packer_windows_vms(deployment, 'ws2019s-dc-vs17p')
+  create_packer_vms(deployment, 'ws2019s-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-server-1809-standard")
 end
 
-def create_packer_windows_vms(deployment, name)
+def create_packer_vms(deployment, name, cloud_name, cloud_version)
   create_local_packer_vm(deployment, name, 'sysprep')
-  create_cloud_packer_vm(deployment, name)
+  create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
 end
 
-def create_packer_linux_vms(deployment, name)
-  create_local_packer_vm(deployment, name, 'sysprep')
-  create_cloud_packer_vm(deployment, name)
-end
-
-def create_local_packer_vm(deployment, name, type = '')
-  type_suffix = type.to_s.empty? ? '' : "-#{type}"
-
+def create_local_packer_vm(deployment, name, type)
   VagrantMachine.configure(deployment, 'name' => "#{name}-local", 'box' => "gusztavvargadr/#{name}-local") do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox#{type_suffix}/output/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/vagrant.box"
     end
 
     VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv#{type_suffix}/output/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-#{type}/output/vagrant.box"
     end
   end
 end
 
-def create_cloud_packer_vm(deployment, name)
+def create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
   VagrantMachine.configure(deployment, 'name' => "#{name}-cloud", 'box' => "gusztavvargadr/#{name}-cloud") do |machine|
-    VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{name}/versions/#{version}/providers/virtualbox.box"
-    end
+    machine.vagrant.vm.box = "gusztavvargadr/#{cloud_name}"
+    machine.vagrant.vm.box_version = cloud_version
 
-    VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{name}/versions/#{version}/providers/hyperv.box"
-    end
+    # VagrantVirtualBoxProvider.configure(machine) do |provider|
+    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
+    # end
+
+    # VagrantHyperVProvider.configure(machine) do |provider|
+    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
+    # end
   end
 end

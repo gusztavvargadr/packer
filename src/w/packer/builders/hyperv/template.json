@@ -3,6 +3,7 @@
   "variables": {
     "builder_source": "builders",
     "builder_destination": "C:/Windows/Setup/packer",
+    "hyperv_headless": "true",
     "hyperv_ram_size": "4096",
     "hyperv_enable_dynamic_memory": "false",
     "hyperv_cpu": "2",
