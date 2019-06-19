@@ -21,6 +21,9 @@ stages:
       clean: all
 
     steps:
+    - checkout: self
+      submodules: recursive
+
     # - powershell: |
     #     .\ci.ps1 build u16s-hyperv-core
     #   displayName: Build u16s-hyperv-core
@@ -33,6 +36,7 @@ stages:
     # - powershell: |
     #     .\ci.ps1 build u16s-dc-hyperv-sysprep
     #   displayName: Build u16s-dc-hyperv-sysprep
+
     - powershell: |
         .\ci.ps1 build w10e-hyperv-core
       displayName: Build w10e-hyperv-core
