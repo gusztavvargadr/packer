@@ -10,8 +10,6 @@ jobs:
     name: Default
     demands:
     - PACKER_CACHE_DIR
-  workspace:
-    clean: all
   timeoutInMinutes: 120
 
   steps:
@@ -19,5 +17,5 @@ jobs:
     submodules: recursive
 
   - powershell: |
-      .\ci.ps1 build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
+      .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
     displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
