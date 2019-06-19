@@ -4,8 +4,7 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobs }}:
   - ${{ each pair in job }}:
-      ${{ if ne(pair.key, 'dependsOn') }}:
-        ${{ pair.key }}: ${{ pair.value }}
+    ${{ pair.key }}: ${{ pair.value }}
     pool:
       name: Default
       demands:
