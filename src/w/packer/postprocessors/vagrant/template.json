@@ -8,13 +8,6 @@
         "type": "vagrant",
         "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
         "output": "{{user `output_directory`}}/vagrant.box"
-      },
-      {
-        "type": "vagrant-cloud",
-        "box_tag": "{{user `author`}}/{{user `name`}}",
-        "version": "{{user `version`}}",
-        "version_description": "{{user `description`}}",
-        "no_release": true
       }
     ]
   ]
