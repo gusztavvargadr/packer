@@ -22,7 +22,7 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 restore ${{ image.displayName }}-${{ provider }}-core
+          .\ci.ps1 rebuild ${{ image.displayName }}-${{ provider }}-core
         displayName: Build ${{ image.displayName }}-${{ provider }}-core
 
     - job: build_${{ image.name }}_${{ provider }}_sysprep
@@ -41,5 +41,5 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 restore ${{ image.displayName }}-${{ provider }}-sysprep
+          .\ci.ps1 rebuild ${{ image.displayName }}-${{ provider }}-sysprep
         displayName: Build ${{ image.displayName }}-${{ provider }}-sysprep
