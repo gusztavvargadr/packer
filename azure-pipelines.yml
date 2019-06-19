@@ -17,8 +17,6 @@ stages:
       name: Default
       demands:
       - PACKER_CACHE_DIR
-    workspace:
-      clean: all
 
     steps:
     - powershell: |
@@ -31,7 +29,7 @@ stages:
         .\ci.ps1 rebuild u16s-hyperv-sysprep
       displayName: Build 1 Sysprep
     - powershell: |
-        .\ci.ps1 build u16s-dc-hyperv-core
+        .\ci.ps1 rebuild u16s-dc-hyperv-core
       displayName: Build 2 Core
     - powershell: |
         .\ci.ps1 rebuild u16s-dc-hyperv-sysprep
