@@ -15,11 +15,16 @@ stages:
     displayName: Build
     pool:
       name: Default
+      demands:
+      - PACKER_CACHE_DIR
 
     steps:
     - powershell: |
         .\ci.ps1 info
-      displayName: Diagnostics
+      displayName: Info
     - powershell: |
         .\ci.ps1 restore u16s-hyperv-core
       displayName: Restore
+    - powershell: |
+        .\ci.ps1 build u16s-hyperv-core
+      displayName: Build
