@@ -14,9 +14,12 @@ stages:
   - job: build
     displayName: Build
     pool:
-      name: default
+      name: Default
 
     steps:
     - powershell: |
-        ci.ps1 info
+        .\ci.ps1 info
       displayName: Diagnostics
+    - powershell: |
+        .\ci.ps1 restore u16s-hyperv-core
+      displayName: Restore
