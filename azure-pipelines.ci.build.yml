@@ -1,10 +1,11 @@
 parameters:
   name: ''
-  configuration: ''
+  provider: ''
+  variant: ''
 
 jobs:
-- job: build_${{ parameters.name }}
-  displayName: Build ${{ parameters.configuration }}
+- job: build_${{ parameters.name }}_${{ parameters.provider }}_${{ parameters.variant }}
+  displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
   pool:
     name: Default
     demands:
@@ -18,5 +19,5 @@ jobs:
     submodules: recursive
 
   - powershell: |
-      .\ci.ps1 build ${{ parameters.configuration }}
-    displayName: Build ${{ parameters.configuration }}
+      .\ci.ps1 build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
+    displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}

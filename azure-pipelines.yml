@@ -13,11 +13,24 @@ stages:
   jobs:
   - template: azure-pipelines.ci.build.yml
     parameters:
-      name: u16s_hyperv_core
-      configuration: u16s_hyperv_core
+      name: u16s
+      provider: hyperv
+      variant: core
 
   - template: azure-pipelines.ci.build.yml
     parameters:
-      name: u16s_hyperv_sysprep
-      configuration: u16s_hyperv_sysprep
-    dependsOn: build_u16s_hyperv_core
+      name: u16s
+      provider: hyperv
+      variant: sysprep
+
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      name: ws2019sc
+      provider: hyperv
+      variant: core
+
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      name: ws2019sc
+      provider: hyperv
+      variant: sysprep
