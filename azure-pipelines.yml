@@ -11,42 +11,13 @@ stages:
   displayName: CI
 
   jobs:
-  - job: build
-    displayName: Build
-    pool:
-      name: Default
-      demands:
-      - PACKER_CACHE_DIR
-    workspace:
-      clean: all
-    timeoutInMinutes: 120
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      name: u16s_hyperv_core
+      configuration: u16s_hyperv_core
 
-    steps:
-    - checkout: self
-      submodules: recursive
-
-    # - powershell: |
-    #     .\ci.ps1 build u16s-hyperv-core
-    #   displayName: Build u16s-hyperv-core
-    # - powershell: |
-    #     .\ci.ps1 build u16s-hyperv-sysprep
-    #   displayName: Build u16s-hyperv-sysprep
-    # - powershell: |
-    #     .\ci.ps1 build u16s-dc-hyperv-core
-    #   displayName: Build u16s-dc-hyperv-core
-    # - powershell: |
-    #     .\ci.ps1 build u16s-dc-hyperv-sysprep
-    #   displayName: Build u16s-dc-hyperv-sysprep
-
-    - powershell: |
-        .\ci.ps1 build ws2019sc-hyperv-core
-      displayName: Build ws2019sc-hyperv-core
-    - powershell: |
-        .\ci.ps1 build ws2019sc-hyperv-sysprep
-      displayName: Build ws2019sc-hyperv-sysprep
-    - powershell: |
-        .\ci.ps1 build ws2019sc-hyperv-core
-      displayName: Build ws2019sc-de-hyperv-core
-    - powershell: |
-        .\ci.ps1 build ws2019sc-hyperv-sysprep
-      displayName: Build ws2019sc-de-hyperv-sysprep
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      name: u16s_hyperv_sysprep
+      configuration: u16s_hyperv_sysprep
+    dependsOn: build_u16s_hyperv_core

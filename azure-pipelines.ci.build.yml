@@ -1,0 +1,22 @@
+parameters:
+  name: ''
+  configuration: ''
+
+jobs:
+- job: build_${{ parameters.name }}
+  displayName: Build ${{ parameters.configuration }}
+  pool:
+    name: Default
+    demands:
+    - PACKER_CACHE_DIR
+  workspace:
+    clean: all
+  timeoutInMinutes: 120
+
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - powershell: |
+      .\ci.ps1 build ${{ parameters.configuration }}
+    displayName: Build ${{ parameters.configuration }}
