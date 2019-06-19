@@ -16,11 +16,18 @@ stages:
       images:
       - name: u16s
         displayName: u16s
-      - name: u16s_dc
-        displayName: u16s-dc
-        parent: u16s
-      - name: u16d
-        displayName: u16d
+      # - name: u16s_dc
+      #   displayName: u16s-dc
+      #   parent: u16s
+      # - name: u16d
+      #   displayName: u16d
+      - name: ws2019sc
+        displayName: ws2019sc
+      # - name: ws2019sc_de
+      #   displayName: ws2019sc-de
+      #   parent: ws2019sc
+      # - name: w10e
+      #   displayName: w10e
       providers:
       - virtualbox
       - hyperv
