@@ -19,8 +19,8 @@ stages:
       - name: u16s_dc
         displayName: u16s-dc
         parent: u16s
-      # - name: u16d
-      #   displayName: u16d
+      - name: u16d
+        displayName: u16d
       providers:
       - virtualbox
       - hyperv
