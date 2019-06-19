@@ -16,7 +16,7 @@ stages:
       jobs:
       - job: u16s
         displayName: u16s
-      - job: u16s-dc
+      - job: u16s_dc
         displayName: u16s-dc
         dependsOn:
         - u16s
