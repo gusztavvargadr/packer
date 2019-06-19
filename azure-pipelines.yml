@@ -29,4 +29,7 @@ stages:
       displayName: Restore
     - powershell: |
         .\ci.ps1 build u16s-hyperv-sysprep --recursive=true
-      displayName: Build
+      displayName: Build 1
+    - powershell: |
+        .\ci.ps1 build u16s-dc-hyperv-sysprep --recursive=true
+      displayName: Build 2

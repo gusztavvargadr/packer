@@ -82,7 +82,7 @@ void PackerTemplate_Build(PackerTemplate template) {
 
   PackerTemplate_Log(template, "Build");
 
-  if (FileExists(template.GetBuildDirectory() + "/manifest.json")) {
+  if (FileExists(template.GetBuildDirectory() + "/output/manifest.json")) {
     return;
   }
 
@@ -182,7 +182,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   var parent = template.Parent;
   if (parent != null) {
     var parentBuildDirectory = MakeAbsolute(Directory(parent.GetBuildDirectory()));
-    var manifestFile = parentBuildDirectory + "/manifest.json";
+    var manifestFile = parentBuildDirectory + "/output/manifest.json";
     if (FileExists(manifestFile)) {
       var manifest = ParseJsonFromFile(manifestFile);
       if (template.Builders.Any(item => item.IsMatching("virtualbox"))) {
@@ -190,7 +190,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
         jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
       }
       if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
-        var parentBuildOutputDirectory = parentBuildDirectory + "/output";
+        var parentBuildOutputDirectory = parentBuildDirectory + "/output/" + manifest["builds"][0]["builder_type"].ToString();
         jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
       }
       if (template.Builders.Any(item => item.IsMatching("azure"))) {
