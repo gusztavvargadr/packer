@@ -15,7 +15,7 @@ jobs:
       timeoutInMinutes: 120
       dependsOn:
       - ${{ if image.parent }}:
-        - ${{ image.parent }}_${{ provider }}_core
+        - build_${{ image.parent }}_${{ provider }}_core
 
       steps:
       - checkout: self
