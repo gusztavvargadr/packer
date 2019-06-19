@@ -25,11 +25,14 @@ stages:
         .\ci.ps1 info
       displayName: Info
     - powershell: |
-        .\ci.ps1 restore u16s-hyperv-core
-      displayName: Restore
+        .\ci.ps1 build u16s-hyperv-core
+      displayName: Build 1 Core
     - powershell: |
-        .\ci.ps1 build u16s-hyperv-sysprep --recursive=true
-      displayName: Build 1
+        .\ci.ps1 rebuild u16s-hyperv-sysprep
+      displayName: Build 1 Sysprep
     - powershell: |
-        .\ci.ps1 build u16s-dc-hyperv-sysprep --recursive=true
-      displayName: Build 2
+        .\ci.ps1 build u16s-dc-hyperv-core
+      displayName: Build 2 Core
+    - powershell: |
+        .\ci.ps1 rebuild u16s-dc-hyperv-sysprep
+      displayName: Build 2 Sysprep

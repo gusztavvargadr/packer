@@ -14,7 +14,7 @@
   "post-processors": [
     {
       "type": "manifest",
-      "output": "{{user `output_directory`}}/manifest.json"
+      "output": "{{user `output_directory`}}/build/manifest.json"
     }
   ]
 }
