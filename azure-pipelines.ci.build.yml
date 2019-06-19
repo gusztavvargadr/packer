@@ -1,21 +1,24 @@
 parameters:
-  name: ''
-  provider: ''
-  variant: ''
+  jobs: []
 
 jobs:
-- job: build_${{ parameters.name }}_${{ parameters.provider }}_${{ parameters.variant }}
-  displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
+- ${{ each job in parameters.jobs }}:
   pool:
     name: Default
     demands:
     - PACKER_CACHE_DIR
   timeoutInMinutes: 120
+  dependsOn:
+  - ${{ if job.dependsOn }}:
+    - ${{ job.dependsOn }}
 
   steps:
   - checkout: self
     submodules: recursive
 
   - powershell: |
-      .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
-    displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
+      .\ci.ps1 info
+
+#   - powershell: |
+#       .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
+#     displayName: Build ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
