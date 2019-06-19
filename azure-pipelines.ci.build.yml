@@ -3,21 +3,20 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobs }}:
-  pool:
+  - ${{ each pair in job }}:
+      ${{ if ne(pair.key, 'dependsOn') }}:
+        ${{ pair.key }}: ${{ pair.value }}  pool:
     name: Default
     demands:
     - PACKER_CACHE_DIR
-  timeoutInMinutes: 120
-  dependsOn:
-  - ${{ if job.dependsOn }}:
-    - ${{ job.dependsOn }}
+    timeoutInMinutes: 120
 
-  steps:
-  - checkout: self
-    submodules: recursive
+    steps:
+    - checkout: self
+      submodules: recursive
 
-  - powershell: |
-      .\ci.ps1 info
+    - powershell: |
+        .\ci.ps1 info
 
 #   - powershell: |
 #       .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
