@@ -11,10 +11,11 @@ jobs:
         name: Default
         demands:
         - PACKER_CACHE_DIR
+        - PACKER_${{ provider }}
       timeoutInMinutes: 120
       dependsOn:
-      - ${{ if job.parent }}:
-        - ${{ job.parent }}_${{ provider }}_core
+      - ${{ if image.parent }}:
+        - ${{ image.parent }}_${{ provider }}_core
 
       steps:
       - checkout: self
@@ -30,6 +31,7 @@ jobs:
         name: Default
         demands:
         - PACKER_CACHE_DIR
+        - PACKER_${{ provider }}
       timeoutInMinutes: 120
       dependsOn:
       - build_${{ image.name }}_${{ provider }}_core
