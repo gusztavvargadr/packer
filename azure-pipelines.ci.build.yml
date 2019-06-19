@@ -1,24 +1,25 @@
 parameters:
-  configurations: []
-  platforms: []
+  images: []
+  providers: []
 
 jobs:
-- ${{ each configuration in parameters.configurations }}:
-  - ${{ each platform in parameters.platforms }}:
-  - job: build_${{ configuration.name }}_${{ platform.name }}
-    displayName: Build ${{ configuration.displayName }} ${{ platform.name }}
-    pool:
-      name: Default
-      demands:
-      - PACKER_CACHE_DIR
-    timeoutInMinutes: 120
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - job: build_${{ image.name }}_${{ provider.name }}
+      displayName: Build ${{ image.displayName }}-${{ provider.name }}
+      pool:
+        name: Default
+        demands:
+        - PACKER_CACHE_DIR
+      timeoutInMinutes: 120
 
-    steps:
-    - checkout: self
-      submodules: recursive
+      steps:
+      - checkout: self
+        submodules: recursive
 
-    - powershell: |
-        .\ci.ps1 info ${{ configuration.name }}-${{ platform.name }}
+      - powershell: |
+          .\ci.ps1 restore ${{ image.displayName }}-${{ provider.name }}
+        displayName: Build ${{ image.displayName }}-${{ provider.name }}
 
 #   - powershell: |
 #       .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
