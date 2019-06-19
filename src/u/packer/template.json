@@ -1,4 +1,5 @@
 {
+  "min_packer_version": "1.4.0",
   "variables": {
     "name": "",
     "description": "",
@@ -12,9 +13,5 @@
   "provisioners": [
   ],
   "post-processors": [
-    {
-      "type": "manifest",
-      "output": "{{user `output_directory`}}/build/manifest.json"
-    }
   ]
 }

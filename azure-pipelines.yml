@@ -17,20 +17,19 @@ stages:
       name: Default
       demands:
       - PACKER_CACHE_DIR
+    workspace:
+      clean: all
 
     steps:
     - powershell: |
-        .\ci.ps1 info
-      displayName: Info
-    - powershell: |
         .\ci.ps1 build u16s-hyperv-core
-      displayName: Build 1 Core
+      displayName: Build u16s-hyperv-core
     - powershell: |
-        .\ci.ps1 rebuild u16s-hyperv-sysprep
-      displayName: Build 1 Sysprep
+        .\ci.ps1 build u16s-hyperv-sysprep
+      displayName: Build u16s-hyperv-sysprep
     - powershell: |
-        .\ci.ps1 rebuild u16s-dc-hyperv-core
-      displayName: Build 2 Core
+        .\ci.ps1 build u16s-dc-hyperv-core
+      displayName: Build u16s-dc-hyperv-core
     - powershell: |
-        .\ci.ps1 rebuild u16s-dc-hyperv-sysprep
-      displayName: Build 2 Sysprep
+        .\ci.ps1 build u16s-dc-hyperv-sysprep
+      displayName: Build u16s-dc-hyperv-sysprep

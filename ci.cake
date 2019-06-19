@@ -53,7 +53,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
     "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
     new [] { PackerProvisioner_Create("chef") },
-    new PackerPostProcessor[] {},
+    new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
   var virtualBoxSysprep = PackerTemplate_Create(
@@ -72,7 +72,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
     "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
     new [] { PackerProvisioner_Create("chef") },
-    new PackerPostProcessor[] {},
+    new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
   var hyperVSysprep = PackerTemplate_Create(
@@ -99,7 +99,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
     new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
-    new PackerPostProcessor[] {},
+    new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
   var virtualBoxSysprep = PackerTemplate_Create(
@@ -118,7 +118,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
     new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
-    new PackerPostProcessor[] {},
+    new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
   var hyperVSysprep = PackerTemplate_Create(
@@ -138,7 +138,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       "amazon",
       new [] { PackerBuilder_Create("amazon") },
       new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
-      new PackerPostProcessor[] {},
+      new [] { PackerPostProcessor_Create("manifest") },
       // new [] { PackerPostProcessor_Create("vagrant-amazon") },
       parents != null ? parents.First(item => item.IsMatching("amazon")) : null
     );
@@ -151,7 +151,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       "azure",
       new [] { PackerBuilder_Create(parents == null ? "azure-marketplace" : "azure-custom") },
       new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
-      new PackerPostProcessor[] {},
+      new [] { PackerPostProcessor_Create("manifest") },
       parents != null ? parents.First(item => item.IsMatching("azure")) : null
     );
 

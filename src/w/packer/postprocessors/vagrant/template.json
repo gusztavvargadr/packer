@@ -3,12 +3,10 @@
     "vagrant_vagrantfile_template": ""
   },
   "post-processors": [
-    [
-      {
-        "type": "vagrant",
-        "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
-        "output": "{{user `output_directory`}}/vagrant.box"
-      }
-    ]
+    {
+      "type": "vagrant",
+      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
+      "output": "{{user `output_directory`}}/vagrant.box"
+    }
   ]
 }
