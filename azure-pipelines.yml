@@ -19,6 +19,7 @@ stages:
       - PACKER_CACHE_DIR
     workspace:
       clean: all
+    timeoutInMinutes: 120
 
     steps:
     - checkout: self
@@ -38,8 +39,14 @@ stages:
     #   displayName: Build u16s-dc-hyperv-sysprep
 
     - powershell: |
-        .\ci.ps1 build w10e-hyperv-core
-      displayName: Build w10e-hyperv-core
+        .\ci.ps1 build ws2019sc-hyperv-core
+      displayName: Build ws2019sc-hyperv-core
     - powershell: |
-        .\ci.ps1 build w10e-hyperv-sysprep
-      displayName: Build w10e-hyperv-sysprep
+        .\ci.ps1 build ws2019sc-hyperv-sysprep
+      displayName: Build ws2019sc-hyperv-sysprep
+    - powershell: |
+        .\ci.ps1 build ws2019sc-hyperv-core
+      displayName: Build ws2019sc-de-hyperv-core
+    - powershell: |
+        .\ci.ps1 build ws2019sc-hyperv-sysprep
+      displayName: Build ws2019sc-de-hyperv-sysprep
