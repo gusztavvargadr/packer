@@ -1,10 +1,12 @@
 parameters:
-  jobs: []
+  configurations: []
+  platforms: []
 
 jobs:
-- ${{ each job in parameters.jobs }}:
-  - ${{ each pair in job }}:
-      ${{ pair.key }}: ${{ pair.value }}
+- ${{ each configuration in parameters.configurations }}:
+  - ${{ each platform in parameters.platforms }}:
+  - job: build_${{ configuration.name }}_${{ platform.name }}
+    displayName: Build ${{ configuration.displayName }} ${{ platform.name }}
     pool:
       name: Default
       demands:
@@ -16,7 +18,7 @@ jobs:
       submodules: recursive
 
     - powershell: |
-        .\ci.ps1 info
+        .\ci.ps1 info ${{ configuration.name }}-${{ platform.name }}
 
 #   - powershell: |
 #       .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}

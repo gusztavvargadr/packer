@@ -13,10 +13,11 @@ stages:
   jobs:
   - template: azure-pipelines.ci.build.yml
     parameters:
-      jobs:
-      - job: u16s
+      configurations:
+      - name: u16s
         displayName: u16s
-      - job: u16s_dc
+      - name: u16s_dc
         displayName: u16s-dc
-        dependsOn:
-        - u16s
+        parent: u16s
+      platforms:
+      - hyperv
