@@ -17,6 +17,8 @@ stages:
       name: Default
       demands:
       - PACKER_CACHE_DIR
+    workspace:
+      clean: all
 
     steps:
     - powershell: |
@@ -26,5 +28,5 @@ stages:
         .\ci.ps1 restore u16s-hyperv-core
       displayName: Restore
     - powershell: |
-        .\ci.ps1 build u16s-hyperv-core
+        .\ci.ps1 build u16s-hyperv-sysprep --recursive=true
       displayName: Build

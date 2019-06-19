@@ -22,7 +22,7 @@
       "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
       "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
-      "output_directory": "{{user `output_directory`}}"
+      "output_directory": "{{user `output_directory`}}/{{build_type}}"
     }
   ]
 }
