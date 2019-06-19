@@ -21,15 +21,21 @@ stages:
       clean: all
 
     steps:
+    # - powershell: |
+    #     .\ci.ps1 build u16s-hyperv-core
+    #   displayName: Build u16s-hyperv-core
+    # - powershell: |
+    #     .\ci.ps1 build u16s-hyperv-sysprep
+    #   displayName: Build u16s-hyperv-sysprep
+    # - powershell: |
+    #     .\ci.ps1 build u16s-dc-hyperv-core
+    #   displayName: Build u16s-dc-hyperv-core
+    # - powershell: |
+    #     .\ci.ps1 build u16s-dc-hyperv-sysprep
+    #   displayName: Build u16s-dc-hyperv-sysprep
     - powershell: |
-        .\ci.ps1 build u16s-hyperv-core
-      displayName: Build u16s-hyperv-core
+        .\ci.ps1 build w10e-hyperv-core
+      displayName: Build w10e-hyperv-core
     - powershell: |
-        .\ci.ps1 build u16s-hyperv-sysprep
-      displayName: Build u16s-hyperv-sysprep
-    - powershell: |
-        .\ci.ps1 build u16s-dc-hyperv-core
-      displayName: Build u16s-dc-hyperv-core
-    - powershell: |
-        .\ci.ps1 build u16s-dc-hyperv-sysprep
-      displayName: Build u16s-dc-hyperv-sysprep
+        .\ci.ps1 build w10e-hyperv-sysprep
+      displayName: Build w10e-hyperv-sysprep
