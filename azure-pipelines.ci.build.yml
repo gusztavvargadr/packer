@@ -5,18 +5,18 @@ jobs:
 - ${{ each job in parameters.jobs }}:
   - ${{ each pair in job }}:
       ${{ pair.key }}: ${{ pair.value }}
-      pool:
-        name: Default
-        demands:
-        - PACKER_CACHE_DIR
-      timeoutInMinutes: 120
+    pool:
+      name: Default
+      demands:
+      - PACKER_CACHE_DIR
+    timeoutInMinutes: 120
 
-      steps:
-      - checkout: self
-        submodules: recursive
+    steps:
+    - checkout: self
+      submodules: recursive
 
-      - powershell: |
-          .\ci.ps1 info
+    - powershell: |
+        .\ci.ps1 info
 
 #   - powershell: |
 #       .\ci.ps1 rebuild ${{ parameters.name }}-${{ parameters.provider }}-${{ parameters.variant }}
