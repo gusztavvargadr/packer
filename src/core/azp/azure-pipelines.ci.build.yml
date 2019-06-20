@@ -26,8 +26,8 @@ jobs:
             buildType: specific
             project: packer
             pipeline: ${{ image.parentDisplayName }}
-            specificBuildWithTriggering: true
             buildVersionToDownload: latest
+            downloadType: single
 
       - ${{ if image.parentName }}:
         - task: ExtractFiles@1
@@ -79,6 +79,8 @@ jobs:
       - task: DownloadBuildArtifacts@0
         inputs:
           artifactName: build_${{ image.name }}_${{ provider }}_core
+          buildVersionToDownload: latest
+          downloadType: single
 
       - task: ExtractFiles@1
         inputs:
