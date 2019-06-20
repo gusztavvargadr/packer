@@ -28,7 +28,8 @@ jobs:
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: build
+          rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-core
+          includeRootFolder: false
           archiveType: tar
           tarCompression: none
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
@@ -64,7 +65,7 @@ jobs:
       - task: ExtractFiles@1
         inputs:
           archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
-          cleanDestinationFolder: false
+          destinationFolder: build/${{ image.displayName }}/${{ provider }}-core
 
       - powershell: |
           .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
@@ -72,7 +73,8 @@ jobs:
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: build
+          rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-sysprep
+          includeRootFolder: false
           archiveType: tar
           tarCompression: none
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
