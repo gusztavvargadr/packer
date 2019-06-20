@@ -27,7 +27,7 @@ jobs:
           inputs:
             buildType: specific
             project: packer
-            pipeline: ${{ image.parentName }}
+            pipeline: ${{ image.parentDisplayName }}
             artifactName: build_${{ image.parentName }}_${{ provider }}_core
 
       - ${{ if image.parentName }}:
