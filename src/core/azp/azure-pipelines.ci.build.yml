@@ -37,7 +37,7 @@ jobs:
         displayName: Publish - Artifacts
         inputs:
           artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
@@ -75,12 +75,12 @@ jobs:
           rootFolderOrFile: build
           archiveType: tar
           tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar.gz
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
         inputs:
           artifactName: ci-build-${{ image.displayName }}-${{ provider }}-sysprep
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)

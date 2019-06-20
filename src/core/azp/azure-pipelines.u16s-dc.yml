@@ -1,0 +1,19 @@
+trigger: none
+pr: none
+
+stages:
+- stage: ci
+  displayName: CI
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      images:
+      - name: u16s_dc
+        displayName: u16s-dc
+        parent: u16s
+      providers:
+      - virtualbox
+      - hyperv
