@@ -30,14 +30,14 @@ jobs:
         inputs:
           rootFolderOrFile: build
           archiveType: tar
-          tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
         inputs:
-          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
+          artifactName: build_${{ image.displayName }}_${{ provider }}_core
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
@@ -59,11 +59,11 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
+          artifactName: build_${{ image.displayName }}_${{ provider }}_core
 
       - task: ExtractFiles@1
         inputs:
-          archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar.gz
+          archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
           cleanDestinationFolder: false
 
       - powershell: |
@@ -74,13 +74,13 @@ jobs:
         inputs:
           rootFolderOrFile: build
           archiveType: tar
-          tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
         inputs:
-          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-sysprep
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
+          artifactName: build_${{ image.displayName }}_${{ provider }}_sysprep
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
