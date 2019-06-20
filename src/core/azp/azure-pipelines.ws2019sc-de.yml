@@ -13,7 +13,8 @@ stages:
       images:
       - name: ws2019sc_de
         displayName: ws2019sc-de
-        parent: ws2019sc
+        parentName: ws2019sc
+        parentDisplayName: ws2019sc
       providers:
       - virtualbox
       - hyperv

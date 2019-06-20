@@ -15,16 +15,35 @@ jobs:
         clean: all
       timeoutInMinutes: 120
       dependsOn:
-      - ${{ if image.parent }}:
-        - build_${{ image.parent }}_${{ provider }}_core
+      - ${{ if image.parentName }}:
+        - build_${{ image.parentName }}_${{ provider }}_core
 
       steps:
       - checkout: self
         submodules: recursive
 
+      - ${{ if image.parentName }}:
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: specific
+            project: packer
+            pipeline: ${{ image.parentName }}
+            artifactName: build_${{ image.parentName }}_${{ provider }}_core
+
+      - ${{ if image.parentName }}:
+        - task: ExtractFiles@1
+          inputs:
+            archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
+            destinationFolder: build/${{ image.parentDisplayName }}/${{ provider }}-core
+
       - powershell: |
           .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-core
         displayName: Build
+
+      - task: DeleteFiles@1
+        inputs:
+          sourceFolder: $(Build.ArtifactStagingDirectory)
+          contents: '**'
 
       - task: ArchiveFiles@2
         inputs:
@@ -37,8 +56,8 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
         inputs:
-          artifactName: build_${{ image.displayName }}_${{ provider }}_core
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
+          artifactName: build_${{ image.name }}_${{ provider }}_core
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
@@ -60,7 +79,7 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          artifactName: build_${{ image.displayName }}_${{ provider }}_core
+          artifactName: build_${{ image.name }}_${{ provider }}_core
 
       - task: ExtractFiles@1
         inputs:
@@ -70,6 +89,11 @@ jobs:
       - powershell: |
           .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
         displayName: Build
+
+      - task: DeleteFiles@1
+        inputs:
+          sourceFolder: $(Build.ArtifactStagingDirectory)
+          contents: '**'
 
       - task: ArchiveFiles@2
         inputs:
@@ -82,7 +106,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
         inputs:
-          artifactName: build_${{ image.displayName }}_${{ provider }}_sysprep
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
+          artifactName: build_${{ image.name }}_${{ provider }}_sysprep
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)

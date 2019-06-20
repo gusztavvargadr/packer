@@ -13,7 +13,8 @@ stages:
       images:
       - name: u16s_dc
         displayName: u16s-dc
-        parent: u16s
+        parentName: u16s
+        parentDisplayName: u16s
       providers:
       - virtualbox
       - hyperv
