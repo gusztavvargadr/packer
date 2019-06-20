@@ -12,6 +12,8 @@ jobs:
         demands:
         - PACKER_CACHE_DIR
         - PACKER_${{ provider }}
+      workspace:
+        clean: all
       timeoutInMinutes: 120
       dependsOn:
       - ${{ if image.parent }}:
@@ -22,8 +24,23 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 rebuild ${{ image.displayName }}-${{ provider }}-core
-        displayName: Build ${{ image.displayName }}-${{ provider }}-core
+          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-core
+        displayName: Build
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: $(Build.SourcesDirectory)/build
+          archiveType: tar
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar
+
+      - task: PublishBuildArtifacts@1
+        displayName: Publish - Artifacts
+        inputs:
+          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
+          targetPath: $(Build.ArtifactStagingDirectory)
+          publishLocation: filePath
+          targetPath: $(artifacts-targetpath)
 
     - job: build_${{ image.name }}_${{ provider }}_sysprep
       displayName: Build ${{ image.displayName }}-${{ provider }}-sysprep
@@ -32,6 +49,8 @@ jobs:
         demands:
         - PACKER_CACHE_DIR
         - PACKER_${{ provider }}
+      workspace:
+        clean: all
       timeoutInMinutes: 120
       dependsOn:
       - build_${{ image.name }}_${{ provider }}_core
@@ -40,6 +59,27 @@ jobs:
       - checkout: self
         submodules: recursive
 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: current
+          downloadType: single
+          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
+
       - powershell: |
-          .\ci.ps1 rebuild ${{ image.displayName }}-${{ provider }}-sysprep
-        displayName: Build ${{ image.displayName }}-${{ provider }}-sysprep
+          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
+        displayName: Build
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: $(Build.SourcesDirectory)/build
+          archiveType: tar
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar
+
+      - task: PublishBuildArtifacts@1
+        displayName: Publish - Artifacts
+        inputs:
+          artifactName: ci-build-${{ image.displayName }}-${{ provider }}-sysprep
+          targetPath: $(Build.ArtifactStagingDirectory)
+          publishLocation: filePath
+          targetPath: $(artifacts-targetpath)
