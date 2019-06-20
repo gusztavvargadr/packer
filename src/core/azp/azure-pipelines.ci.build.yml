@@ -22,43 +22,39 @@ jobs:
       - ${{ if image.parentName }}:
         - task: DownloadBuildArtifacts@0
           inputs:
-            artifactName: build_${{ image.parentName }}_${{ provider }}_core
             buildType: specific
             project: packer
             pipeline: ${{ image.parentDisplayName }}
-            buildVersionToDownload: latest
             downloadType: single
+            artifactName: build_${{ image.parentName }}_${{ provider }}_core
 
-      - ${{ if image.parentName }}:
         - task: ExtractFiles@1
           inputs:
             archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
-            destinationFolder: build/${{ image.parentDisplayName }}/${{ provider }}-core
+            destinationFolder: build/${{ image.parentDisplayName }}
+
+        - task: DeleteFiles@1
+          inputs:
+            sourceFolder: $(Build.ArtifactStagingDirectory)
+            contents: '**'
 
       - powershell: |
           .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-core
         displayName: Build
 
-      - task: DeleteFiles@1
-        inputs:
-          sourceFolder: $(Build.ArtifactStagingDirectory)
-          contents: '**'
-
       - task: ArchiveFiles@2
         inputs:
           rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-core
-          includeRootFolder: false
           archiveType: tar
           tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
 
       - task: PublishBuildArtifacts@1
-        displayName: Publish - Artifacts
         inputs:
           artifactName: build_${{ image.name }}_${{ provider }}_core
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)
+          targetPath: $(artifacts-targetpath)\$(Build.BuildId)
 
     - job: build_${{ image.name }}_${{ provider }}_sysprep
       displayName: Build ${{ image.displayName }}-${{ provider }}-sysprep
@@ -78,36 +74,34 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          artifactName: build_${{ image.name }}_${{ provider }}_core
-          buildVersionToDownload: latest
+          buildType: current
           downloadType: single
+          artifactName: build_${{ image.parentName }}_${{ provider }}_core
 
       - task: ExtractFiles@1
         inputs:
           archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
-          destinationFolder: build/${{ image.displayName }}/${{ provider }}-core
-
-      - powershell: |
-          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
-        displayName: Build
+          destinationFolder: build/${{ image.displayName }}
 
       - task: DeleteFiles@1
         inputs:
           sourceFolder: $(Build.ArtifactStagingDirectory)
           contents: '**'
 
+      - powershell: |
+          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
+        displayName: Build
+
       - task: ArchiveFiles@2
         inputs:
           rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-sysprep
-          includeRootFolder: false
           archiveType: tar
           tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
 
       - task: PublishBuildArtifacts@1
-        displayName: Publish - Artifacts
         inputs:
           artifactName: build_${{ image.name }}_${{ provider }}_sysprep
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)
+          targetPath: $(artifacts-targetpath)\$(Build.BuildId)
