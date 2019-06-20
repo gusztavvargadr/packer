@@ -10,7 +10,6 @@ jobs:
       pool:
         name: Default
         demands:
-        - PACKER_CACHE_DIR
         - PACKER_${{ provider }}
       workspace:
         clean: all
@@ -47,7 +46,6 @@ jobs:
       pool:
         name: Default
         demands:
-        - PACKER_CACHE_DIR
         - PACKER_${{ provider }}
       workspace:
         clean: all
