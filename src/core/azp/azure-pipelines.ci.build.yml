@@ -22,10 +22,11 @@ jobs:
       - ${{ if image.parentName }}:
         - task: DownloadBuildArtifacts@0
           inputs:
+            artifactName: build_${{ image.parentName }}_${{ provider }}_core
             buildType: specific
             project: packer
             pipeline: ${{ image.parentDisplayName }}
-            artifactName: build_${{ image.parentName }}_${{ provider }}_core
+            buildVersionToDownload: latest
 
       - ${{ if image.parentName }}:
         - task: ExtractFiles@1
@@ -77,6 +78,7 @@ jobs:
       - task: DownloadBuildArtifacts@0
         inputs:
           artifactName: build_${{ image.name }}_${{ provider }}_core
+          buildVersionToDownload: latest
 
       - task: ExtractFiles@1
         inputs:
