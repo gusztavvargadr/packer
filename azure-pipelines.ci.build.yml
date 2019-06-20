@@ -12,8 +12,8 @@ jobs:
         demands:
         - PACKER_CACHE_DIR
         - PACKER_${{ provider }}
-      workspace:
-        clean: all
+      # workspace:
+      #   clean: all
       timeoutInMinutes: 120
       dependsOn:
       - ${{ if image.parent }}:
@@ -31,8 +31,8 @@ jobs:
         inputs:
           rootFolderOrFile: $(Build.SourcesDirectory)/build
           archiveType: tar
-          tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar
+          tarCompression: gz
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar.gz
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
@@ -73,8 +73,8 @@ jobs:
         inputs:
           rootFolderOrFile: $(Build.SourcesDirectory)/build
           archiveType: tar
-          tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar
+          tarCompression: gz
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar.gz
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
