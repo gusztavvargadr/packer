@@ -14,9 +14,6 @@ jobs:
       workspace:
         clean: all
       timeoutInMinutes: 120
-      dependsOn:
-      - ${{ if image.parentName }}:
-        - build_${{ image.parentName }}_${{ provider }}_core
 
       steps:
       - checkout: self
