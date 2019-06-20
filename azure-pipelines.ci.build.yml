@@ -38,7 +38,7 @@ jobs:
         displayName: Publish - Artifacts
         inputs:
           artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
-          targetPath: $(Build.ArtifactStagingDirectory)
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
@@ -80,6 +80,6 @@ jobs:
         displayName: Publish - Artifacts
         inputs:
           artifactName: ci-build-${{ image.displayName }}-${{ provider }}-sysprep
-          targetPath: $(Build.ArtifactStagingDirectory)
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
