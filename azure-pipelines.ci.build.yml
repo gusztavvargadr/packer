@@ -32,7 +32,7 @@ jobs:
           rootFolderOrFile: build
           archiveType: tar
           tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.$(Build.BuildId).tar.gz
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).build.tar.gz
 
       - task: PublishBuildArtifacts@1
         displayName: Publish - Artifacts
@@ -62,6 +62,11 @@ jobs:
       - task: DownloadBuildArtifacts@0
         inputs:
           artifactName: ci-build-${{ image.displayName }}-${{ provider }}-core
+
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar.gz
+          cleanDestinationFolder: false
 
       - powershell: |
           .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
