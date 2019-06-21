@@ -56,6 +56,10 @@ jobs:
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
 
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean
+
     - job: build_${{ image.name }}_${{ provider }}_sysprep
       displayName: Build ${{ image.displayName }}-${{ provider }}-sysprep
       pool:
@@ -105,3 +109,7 @@ jobs:
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
+
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean
