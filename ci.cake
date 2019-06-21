@@ -25,6 +25,7 @@ var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
 
 // iis
 var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
+var ws2019sc_iis = PackerTemplates_CreateWindows("ws2019sc-iis", parents: ws2019sc);
 
 // sql-server
 var ws2019s_sql17d = PackerTemplates_CreateWindows("ws2019s-sql17d", parents: ws2019s);
