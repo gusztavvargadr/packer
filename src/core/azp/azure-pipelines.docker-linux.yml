@@ -11,10 +11,14 @@ stages:
   - template: azure-pipelines.ci.build.yml
     parameters:
       images:
-      - name: ws2019sc_de
-        displayName: ws2019sc-de
-        parentName: ws2019sc
-        parentDisplayName: ws2019sc
+      - name: u16d_dc
+        displayName: u16d-dc
+        parentName: u16d
+        parentDisplayName: u16d
+      - name: u16s_dc
+        displayName: u16s-dc
+        parentName: u16s
+        parentDisplayName: u16s
       providers:
       - virtualbox
       - hyperv

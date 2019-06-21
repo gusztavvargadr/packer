@@ -18,9 +18,11 @@ var u16d = PackerTemplates_CreateLinux("u16d");
 var u16s = PackerTemplates_CreateLinux("u16s");
 
 // docker windows
+var ws2019s_de = PackerTemplates_CreateWindows("ws2019s-de", parents: ws2019s);
 var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc);
 
 // docker-linux
+var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
 var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
 
 // iis

@@ -1,0 +1,24 @@
+trigger: none
+pr: none
+
+stages:
+- stage: ci
+  displayName: CI
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      images:
+      - name: ws2019s_de
+        displayName: ws2019s-de
+        parentName: ws2019s
+        parentDisplayName: ws2019s
+      - name: ws2019sc_de
+        displayName: ws2019sc-de
+        parentName: ws2019sc
+        parentDisplayName: ws2019sc
+      providers:
+      - virtualbox
+      - hyperv
