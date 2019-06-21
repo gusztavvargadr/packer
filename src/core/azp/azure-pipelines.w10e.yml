@@ -1,0 +1,18 @@
+trigger: none
+pr: none
+
+stages:
+- stage: ci
+  displayName: CI
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: azure-pipelines.ci.build.yml
+    parameters:
+      images:
+      - name: w10e
+        displayName: w10e
+      providers:
+      - virtualbox
+      - hyperv
