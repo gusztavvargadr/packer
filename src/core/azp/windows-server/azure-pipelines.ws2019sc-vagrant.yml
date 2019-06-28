@@ -8,7 +8,7 @@ stages:
   - group: artifacts-localnetwork
 
   jobs:
-  - template: ../azure-pipelines.core-build.yml
+  - template: ../azure-pipelines.vagrant-build.yml
     parameters:
       images:
       - name: ws2019sc
