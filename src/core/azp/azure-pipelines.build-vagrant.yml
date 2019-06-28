@@ -25,7 +25,7 @@ jobs:
           project: packer
           pipeline: ${{ image.name }}-core
           downloadType: single
-          artifactName: build_${{ image.parentName }}_${{ provider }}_core
+          artifactName: build_${{ image.name }}_${{ provider }}_core
 
       - task: ExtractFiles@1
         inputs:
