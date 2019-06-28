@@ -5,7 +5,7 @@ parameters:
 jobs:
 - ${{ each image in parameters.images }}:
   - ${{ each provider in parameters.providers }}:
-    - job: build_${{ join('_', image.name) }}_${{ provider }}_vagrant
+    - job: ${{ join('_', image.name) }}_${{ provider }}_vagrant_build
       displayName: Build ${{ join('-', image.name) }}-${{ provider }}-vagrant
       pool:
         name: Default
@@ -30,7 +30,7 @@ jobs:
       - task: ExtractFiles@1
         inputs:
           archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
-          destinationFolder: build/${{ image.displayName }}
+          destinationFolder: build/${{ join('-', image.name) }}
 
       - task: DeleteFiles@1
         inputs:
@@ -38,12 +38,12 @@ jobs:
           contents: '**'
 
       - powershell: |
-          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-sysprep
+          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-sysprep
         displayName: Build
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-sysprep
+          rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-sysprep
           archiveType: tar
           tarCompression: none
           archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
