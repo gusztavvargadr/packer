@@ -1,0 +1,20 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: ../azure-pipelines.core-build.yml
+    parameters:
+      images:
+      - name:
+        - u16d
+        - dc
+        parent: u16d
+      providers:
+      - virtualbox
+      - hyperv
