@@ -8,10 +8,12 @@ stages:
   - group: artifacts-localnetwork
 
   jobs:
-  - template: ../azure-pipelines.build-core.yml
+  - template: azure-pipelines.vagrant-build.yml
     parameters:
       images:
-      - name: u16d
+      - name:
+        - u16s
+        - dc
       providers:
       - virtualbox
       - hyperv

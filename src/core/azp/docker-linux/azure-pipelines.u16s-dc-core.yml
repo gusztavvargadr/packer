@@ -8,7 +8,7 @@ stages:
   - group: artifacts-localnetwork
 
   jobs:
-  - template: ../azure-pipelines.build-core.yml
+  - template: ../azure-pipelines.core-build.yml
     parameters:
       images:
       - name:
