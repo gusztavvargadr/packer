@@ -1,0 +1,18 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: ../azure-pipelines.build.vagrant.yml
+    parameters:
+      images:
+      - name: u16s
+        displayName: u16s
+      providers:
+      - virtualbox
+      - hyperv

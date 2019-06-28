@@ -1,0 +1,61 @@
+parameters:
+  images: []
+  providers: []
+
+jobs:
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - job: build_${{ image.name }}_${{ provider }}_core
+      displayName: Build ${{ image.displayName }}-${{ provider }}-core
+      pool:
+        name: Default
+        demands:
+        - PACKER_${{ provider }}
+      workspace:
+        clean: all
+      timeoutInMinutes: 120
+
+      steps:
+      - checkout: self
+        submodules: recursive
+
+      - ${{ if image.parentName }}:
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: specific
+            project: packer
+            pipeline: ${{ image.parentDisplayName }}.core
+            downloadType: single
+            artifactName: build_${{ image.parentName }}_${{ provider }}_core
+
+        - task: ExtractFiles@1
+          inputs:
+            archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
+            destinationFolder: build/${{ image.parentDisplayName }}
+
+        - task: DeleteFiles@1
+          inputs:
+            sourceFolder: $(Build.ArtifactStagingDirectory)
+            contents: '**'
+
+      - powershell: |
+          .\ci.ps1 build ${{ image.displayName }}-${{ provider }}-core
+        displayName: Build
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: build/${{ image.displayName }}/${{ provider }}-core
+          archiveType: tar
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          artifactName: build_${{ image.name }}_${{ provider }}_core
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          publishLocation: filePath
+          targetPath: $(artifacts-targetpath)\$(Build.BuildId)
+
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean
