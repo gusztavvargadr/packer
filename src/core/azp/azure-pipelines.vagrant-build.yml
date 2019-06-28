@@ -5,8 +5,8 @@ parameters:
 jobs:
 - ${{ each image in parameters.images }}:
   - ${{ each provider in parameters.providers }}:
-    - job: build_${{ image.name }}_${{ provider }}_vagrant
-      displayName: Build ${{ image.displayName }}-${{ provider }}-vagrant
+    - job: build_${{ join('_', image.name) }}_${{ provider }}_vagrant
+      displayName: Build ${{ join('-', image.name) }}-${{ provider }}-vagrant
       pool:
         name: Default
         demands:
@@ -23,7 +23,7 @@ jobs:
         inputs:
           buildType: specific
           project: packer
-          pipeline: ${{ image.name }}-core
+          pipeline: ${{ join('-', image.name) }}-core-build
           downloadType: single
           artifactName: build_${{ image.name }}_${{ provider }}_core
 

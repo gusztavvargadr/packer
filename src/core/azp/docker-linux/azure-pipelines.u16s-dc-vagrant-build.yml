@@ -11,14 +11,9 @@ stages:
   - template: azure-pipelines.build-vagrant.yml
     parameters:
       images:
-      - name: u16d_dc
-        displayName: u16d-dc
-        parentName: u16d
-        parentDisplayName: u16d
-      - name: u16s_dc
-        displayName: u16s-dc
-        parentName: u16s
-        parentDisplayName: u16s
+      - name:
+        - u16s
+        - dc
       providers:
       - virtualbox
       - hyperv

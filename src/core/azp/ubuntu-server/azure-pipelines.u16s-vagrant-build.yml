@@ -12,7 +12,6 @@ stages:
     parameters:
       images:
       - name: u16s
-        displayName: u16s
       providers:
       - virtualbox
       - hyperv
