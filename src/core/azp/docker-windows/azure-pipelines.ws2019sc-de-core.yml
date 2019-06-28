@@ -1,0 +1,20 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: ../azure-pipelines.core-build.yml
+    parameters:
+      images:
+      - name:
+        - ws2019sc
+        - de
+        parent: ws2019sc
+      providers:
+      - virtualbox
+      - hyperv

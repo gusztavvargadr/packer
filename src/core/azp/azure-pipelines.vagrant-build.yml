@@ -50,7 +50,7 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          artifactName: ${{ join('-', image.name) }}-${{ provider }}-sysprep-build
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-vagrant-build
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
