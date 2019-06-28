@@ -23,7 +23,7 @@ jobs:
         inputs:
           buildType: specific
           project: packer
-          pipeline: ${{ image.name }}.core
+          pipeline: ${{ image.name }}-core
           downloadType: single
           artifactName: build_${{ image.parentName }}_${{ provider }}_core
 
