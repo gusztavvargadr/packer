@@ -23,9 +23,9 @@ jobs:
         inputs:
           buildType: specific
           project: packer
-          pipeline: ${{ join('-', image.parent) }}-core
+          pipeline: ${{ join('-', image.name) }}-core
           downloadType: single
-          artifactName: ${{ join('-', image.parent) }}-${{ provider }}-core-build
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
 
       - task: ExtractFiles@1
         inputs:
