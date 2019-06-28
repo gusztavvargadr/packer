@@ -23,9 +23,9 @@ jobs:
         inputs:
           buildType: specific
           project: packer
-          pipeline: ${{ join('-', image.name) }}-core-build
+          pipeline: ${{ join('-', image.parent) }}-core
           downloadType: single
-          artifactName: build_${{ image.name }}_${{ provider }}_core
+          artifactName: ${{ join('-', image.parent) }}-${{ provider }}-core-build
 
       - task: ExtractFiles@1
         inputs:
@@ -50,7 +50,7 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          artifactName: build_${{ image.name }}_${{ provider }}_vagrant
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-sysprep-build
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
