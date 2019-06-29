@@ -18,6 +18,8 @@ var u16d = PackerTemplates_CreateLinux("u16d");
 var u16s = PackerTemplates_CreateLinux("u16s");
 
 // docker windows
+var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
+var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
 var ws2019s_de = PackerTemplates_CreateWindows("ws2019s-de", parents: ws2019s);
 var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc);
 
@@ -33,13 +35,11 @@ var ws2019sc_iis = PackerTemplates_CreateWindows("ws2019sc-iis", parents: ws2019
 var ws2019s_sql17d = PackerTemplates_CreateWindows("ws2019s-sql17d", parents: ws2019s);
 
 // visual-studio
-var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
 var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
 var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e_dc);
 var w10e_dc_vs19c = PackerTemplates_CreateWindows("w10e-dc-vs19c", parents: w10e_dc);
 var w10e_dc_vs19p = PackerTemplates_CreateWindows("w10e-dc-vs19p", parents: w10e_dc);
 
-var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
 var ws2019s_dc_vs17c = PackerTemplates_CreateWindows("ws2019s-dc-vs17c", parents: ws2019s_dc);
 var ws2019s_dc_vs17p = PackerTemplates_CreateWindows("ws2019s-dc-vs17p", parents: ws2019s_dc);
 var ws2019s_dc_vs19c = PackerTemplates_CreateWindows("ws2019s-dc-vs19c", parents: ws2019s_dc);
