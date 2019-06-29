@@ -30,7 +30,7 @@ jobs:
 
         - task: ExtractFiles@1
           inputs:
-            archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/*.tar
+            archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/build.*
             destinationFolder: build/${{ join('-', image.parent) }}
 
         - task: DeleteFiles@1
@@ -46,8 +46,7 @@ jobs:
         inputs:
           rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-core
           archiveType: tar
-          tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar.gz
 
       - task: PublishBuildArtifacts@1
         inputs:
@@ -59,3 +58,8 @@ jobs:
       - powershell: |
           .\ci.ps1 clean
         displayName: Clean
+
+      - task: DeleteFiles@1
+        inputs:
+          sourceFolder: $(Build.ArtifactStagingDirectory)
+          contents: '**'
