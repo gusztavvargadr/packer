@@ -39,11 +39,16 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
 
   create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts")
 
+  create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1809.0.#{version}-community-windows-10-1809-enterprise")
+  create_packer_vms(deployment, 'ws2019s-dc', 'docker-windows', "1809.0.#{version}-community-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-de', 'docker-windows', "1809.0.#{version}-enterprise-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019sc-de', 'docker-windows', "1809.0.#{version}-enterprise-windows-server-1809-standard-core")
 
+  create_packer_vms(deployment, 'u16d-dc', 'docker-linux', "1809.0.#{version}-community-ubuntu-desktop-1604-lts")
   create_packer_vms(deployment, 'u16s-dc', 'docker-linux', "1809.0.#{version}-community-ubuntu-server-1604-lts")
 
   create_packer_vms(deployment, 'ws2019s-iis', 'iis', "10.0.#{version}-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019sc-iis', 'iis', "10.0.#{version}-windows-server-1809-standard-core")
 
   create_packer_vms(deployment, 'ws2019s-sql17d', 'sql-server', "2017.0.#{version}-developer-windows-server-1809-standard")
 
@@ -66,11 +71,11 @@ end
 def create_local_packer_vm(deployment, name, type)
   VagrantMachine.configure(deployment, 'name' => "#{name}-local", 'box' => "gusztavvargadr/#{name}-local") do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/package/vagrant.box"
     end
 
     VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-#{type}/output/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-#{type}/output/package/vagrant.box"
     end
   end
 end
