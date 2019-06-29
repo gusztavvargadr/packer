@@ -2,17 +2,16 @@ trigger: none
 pr: none
 
 stages:
-- stage: ci
-  displayName: CI
+- stage: build
+  displayName: Build
   variables:
   - group: artifacts-localnetwork
 
   jobs:
-  - template: azure-pipelines.ci.build.yml
+  - template: ../azure-pipelines.vagrant-build.yml
     parameters:
       images:
       - name: w10e
-        displayName: w10e
       providers:
       - virtualbox
       - hyperv

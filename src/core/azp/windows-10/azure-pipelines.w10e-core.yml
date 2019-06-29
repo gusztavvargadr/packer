@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: ../azure-pipelines.core-build.yml
+    parameters:
+      images:
+      - name: w10e
+      providers:
+      - virtualbox
+      - hyperv
