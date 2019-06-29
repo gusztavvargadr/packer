@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+stages:
+- stage: deploy
+  displayName: Deploy
+  variables:
+  - group: artifacts-localnetwork
+
+  jobs:
+  - template: ../azure-pipelines.vagrant-deploy.yml
+    parameters:
+      images:
+      - name: u16s
+      providers:
+      - virtualbox
+      - hyperv
