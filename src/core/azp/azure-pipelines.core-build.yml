@@ -46,7 +46,8 @@ jobs:
         inputs:
           rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-core
           archiveType: tar
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar.gz
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
 
       - task: PublishBuildArtifacts@1
         inputs:
