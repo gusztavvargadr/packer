@@ -37,6 +37,7 @@ jobs:
           inputs:
             sourceFolder: $(Build.ArtifactStagingDirectory)
             contents: '**'
+          condition: always()
 
       - powershell: |
           .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-core
@@ -59,8 +60,10 @@ jobs:
       - powershell: |
           .\ci.ps1 clean
         displayName: Clean
+        condition: always()
 
       - task: DeleteFiles@1
         inputs:
           sourceFolder: $(Build.ArtifactStagingDirectory)
           contents: '**'
+        condition: always()
