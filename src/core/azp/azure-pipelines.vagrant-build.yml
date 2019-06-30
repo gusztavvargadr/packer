@@ -42,6 +42,11 @@ jobs:
           .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-sysprep
         displayName: Build
 
+      - powershell: |
+          $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
+          vagrant up ${{ join('-', image.name) }}-local
+        displayName: Test
+
       - task: ArchiveFiles@2
         inputs:
           rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-sysprep
@@ -57,8 +62,18 @@ jobs:
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
 
       - powershell: |
+          vagrant destroy -f ${{ join('-', image.name) }}-local
+        displayName: Clean Test Machine
+        condition: always()
+
+      - powershell: |
+          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local --provider '${{ provider }}'
+        displayName: Clean Test Box
+        condition: always()
+
+      - powershell: |
           .\ci.ps1 clean
-        displayName: Clean
+        displayName: Clean Build
         condition: always()
 
       - task: DeleteFiles@1
