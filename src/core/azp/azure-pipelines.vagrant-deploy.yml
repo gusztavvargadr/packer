@@ -49,6 +49,11 @@ jobs:
         condition: always()
 
       - powershell: |
-          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local
+          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local --provider '${{ provider }}'
         displayName: Clean Box
+        condition: always()
+
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean Build
         condition: always()
