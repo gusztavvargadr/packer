@@ -1,0 +1,16 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../azure-pipelines.empty-build.yml
+    parameters:
+      images:
+      - name: u16s
+      - name: ws2019s
+      providers:
+      - virtualbox
+      - hyperv

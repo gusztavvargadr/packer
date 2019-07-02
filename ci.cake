@@ -51,6 +51,17 @@ packerRecursive = recursive;
 IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
+  if (parents == null) {
+    var virtualBoxEmpty = PackerTemplate_Create(
+      name,
+      "virtualbox-empty",
+      new [] { PackerBuilder_Create("virtualbox-iso") },
+      new PackerProvisioner[] {},
+      new PackerPostProcessor[] {},
+      null
+    );
+    items.Add(virtualBoxEmpty);
+  }
   var virtualBoxCore = PackerTemplate_Create(
     name,
     "virtualbox-core",
@@ -70,6 +81,17 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
   items.Add(virtualBoxCore);
   items.Add(virtualBoxSysprep);
 
+  if (parents == null) {
+    var hyperVEmpty = PackerTemplate_Create(
+      name,
+      "hyperv-empty",
+      new [] { PackerBuilder_Create("hyperv-iso") },
+      new PackerProvisioner[] {},
+      new PackerPostProcessor[] {},
+      null
+    );
+    items.Add(hyperVEmpty);
+  }
   var hyperVCore = PackerTemplate_Create(
     name,
     "hyperv-core",
@@ -97,6 +119,17 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
 IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon = true, bool azure = true, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
+  if (parents == null) {
+    var virtualBoxEmpty = PackerTemplate_Create(
+      name,
+      "virtualbox-empty",
+      new [] { PackerBuilder_Create("virtualbox-iso") },
+      new PackerProvisioner[] {},
+      new PackerPostProcessor[] {},
+      null
+    );
+    items.Add(virtualBoxEmpty);
+  }
   var virtualBoxCore = PackerTemplate_Create(
     name,
     "virtualbox-core",
@@ -116,6 +149,17 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
   items.Add(virtualBoxCore);
   items.Add(virtualBoxSysprep);
 
+  if (parents == null) {
+    var hyperVEmpty = PackerTemplate_Create(
+      name,
+      "hyperv-empty",
+      new [] { PackerBuilder_Create("hyperv-iso") },
+      new PackerProvisioner[] {},
+      new PackerPostProcessor[] {},
+      null
+    );
+    items.Add(hyperVEmpty);
+  }
   var hyperVCore = PackerTemplate_Create(
     name,
     "hyperv-core",

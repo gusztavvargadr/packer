@@ -1,0 +1,29 @@
+parameters:
+  images: []
+  providers: []
+
+jobs:
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - job: ${{ join('_', image.name) }}_${{ provider }}_empty_build
+      displayName: Build ${{ join('-', image.name) }}-${{ provider }}-empty
+      pool:
+        name: Default
+        demands:
+        - PACKER_${{ provider }}
+      workspace:
+        clean: all
+      timeoutInMinutes: 120
+
+      steps:
+      - checkout: self
+        submodules: recursive
+
+      - powershell: |
+          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-core
+        displayName: Build
+
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean
+        condition: always()
