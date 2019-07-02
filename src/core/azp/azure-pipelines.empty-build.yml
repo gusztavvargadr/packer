@@ -20,7 +20,7 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-core
+          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-empty
         displayName: Build
 
       - powershell: |
