@@ -4,6 +4,25 @@ Write-Host "Install Chocolatey"
 $env:chocolateyVersion = '0.10.15'
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
+Write-Host "Configure WinRM"
+netsh advfirewall firewall add rule name="Autounattend WinRM-HTTP" dir=in localport=5985 protocol=TCP action=block
+
+Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
+
+winrm quickconfig -q
+winrm quickconfig -transport:http
+winrm set winrm/config '@{MaxTimeoutms="1800000"}'
+winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="800"}'
+winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+winrm set winrm/config/service/auth '@{Basic="true"}'
+winrm set winrm/config/client/auth '@{Basic="true"}'
+netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
+
+net stop winrm
+
+netsh advfirewall firewall delete rule name="Autounattend WinRM-HTTP"
+sc.exe config winrm start= auto
+
 Write-Host "Install OpenSSH"
 netsh advfirewall firewall add rule name="Autounattend SSH" dir=in localport=22 protocol=TCP action=block
 
@@ -16,7 +35,6 @@ $sshd_config = "$($env:ProgramData)\ssh\sshd_config"
 net stop sshd
 
 netsh advfirewall firewall delete rule name="Autounattend SSH"
-
 sc.exe config sshd start= auto
 
 Write-Host "Shut down"
