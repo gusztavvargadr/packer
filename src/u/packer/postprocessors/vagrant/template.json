@@ -5,7 +5,6 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "keep_input_artifact": true,
       "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
       "output": "{{user `output_directory`}}/package/vagrant.box"
     }
