@@ -26,6 +26,21 @@ jobs:
         displayName: Build
 
       - powershell: |
+          $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
+          vagrant up ${{ join('-', image.name) }}-local-empty
+        displayName: Test
+
+      - powershell: |
+          vagrant destroy -f ${{ join('-', image.name) }}-local-empty
+        displayName: Clean Test Machine
+        condition: always()
+
+      - powershell: |
+          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local-empty --provider '${{ provider }}'
+        displayName: Clean Test Box
+        condition: always()
+
+      - powershell: |
           .\ci.ps1 clean
-        displayName: Clean
+        displayName: Clean Build
         condition: always()

@@ -30,14 +30,14 @@ def version
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  create_packer_vms(deployment, 'w10e', 'windows-10', "1809.0.#{version}-enterprise")
+  create_packer_vms(deployment, 'w10e', 'windows-10', "1809.0.#{version}-enterprise", true)
 
-  create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
-  create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
+  create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard", true)
+  create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core", true)
 
-  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts")
+  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts", true)
 
-  create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts")
+  create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts", true)
 
   create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1809.0.#{version}-community-windows-10-1809-enterprise")
   create_packer_vms(deployment, 'ws2019s-dc', 'docker-windows', "1809.0.#{version}-community-windows-server-1809-standard")
@@ -63,13 +63,14 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'ws2019s-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-server-1809-standard")
 end
 
-def create_packer_vms(deployment, name, cloud_name, cloud_version)
+def create_packer_vms(deployment, name, cloud_name, cloud_version, empty = false)
+  create_local_packer_vm(deployment, name, 'empty') if empty  
   create_local_packer_vm(deployment, name, 'sysprep')
   create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
 end
 
 def create_local_packer_vm(deployment, name, type)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-local", 'box' => "gusztavvargadr/#{name}-local") do |machine|
+  VagrantMachine.configure(deployment, 'name' => "#{name}-local-#{type}", 'box' => "gusztavvargadr/#{name}-local-#{type}") do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/package/vagrant.box"
     end

@@ -56,8 +56,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
       name,
       "virtualbox-empty",
       new [] { PackerBuilder_Create("virtualbox-iso") },
-      new PackerProvisioner[] {},
-      new PackerPostProcessor[] {},
+      new [] { PackerProvisioner_Create("sysprep") },
+      new [] { PackerPostProcessor_Create("manifest"), PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
     items.Add(virtualBoxEmpty);
@@ -86,8 +86,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
       name,
       "hyperv-empty",
       new [] { PackerBuilder_Create("hyperv-iso") },
-      new PackerProvisioner[] {},
-      new PackerPostProcessor[] {},
+      new [] { PackerProvisioner_Create("sysprep") },
+      new [] { PackerPostProcessor_Create("manifest"), PackerPostProcessor_Create("vagrant-hyperv") },
       null
     );
     items.Add(hyperVEmpty);
@@ -124,8 +124,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       name,
       "virtualbox-empty",
       new [] { PackerBuilder_Create("virtualbox-iso") },
-      new PackerProvisioner[] {},
-      new PackerPostProcessor[] {},
+      new [] { PackerProvisioner_Create("shell-vagrant") },
+      new [] { PackerPostProcessor_Create("manifest"), PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
     items.Add(virtualBoxEmpty);
@@ -154,8 +154,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       name,
       "hyperv-empty",
       new [] { PackerBuilder_Create("hyperv-iso") },
-      new PackerProvisioner[] {},
-      new PackerPostProcessor[] {},
+      new [] { PackerProvisioner_Create("shell-vagrant") },
+      new [] { PackerPostProcessor_Create("manifest"), PackerPostProcessor_Create("vagrant-hyperv") },
       null
     );
     items.Add(hyperVEmpty);
