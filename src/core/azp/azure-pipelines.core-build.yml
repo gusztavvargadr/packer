@@ -11,6 +11,8 @@ jobs:
         name: Default
         demands:
         - PACKER_${{ provider }}
+      variables:
+      - group: artifacts
       workspace:
         clean: all
       timeoutInMinutes: 120
