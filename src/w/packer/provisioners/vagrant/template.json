@@ -1,0 +1,12 @@
+{
+  "variables": {
+    "vagrant_source": "provisioners/vagrant"
+  },
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `vagrant_source`}}/upload/",
+      "destination": "{{user `builder_destination`}}"
+    }
+  ]
+}

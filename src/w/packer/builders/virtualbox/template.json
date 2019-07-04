@@ -8,7 +8,7 @@
     "virtualbox_boot_wait": "10s",
     "virtualbox_communicator": "ssh",
     "virtualbox_ssh_username": "Administrator",
-    "virtualbox_ssh_password": "vagrant",
+    "virtualbox_ssh_password": "Packer42-",
     "virtualbox_ssh_timeout": "1h",
     "virtualbox_guest_additions_mode": "disable",
     "virtualbox_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd",

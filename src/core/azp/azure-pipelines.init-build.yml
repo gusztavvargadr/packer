@@ -5,8 +5,8 @@ parameters:
 jobs:
 - ${{ each image in parameters.images }}:
   - ${{ each provider in parameters.providers }}:
-    - job: ${{ join('_', image.name) }}_${{ provider }}_empty_build
-      displayName: Build ${{ join('-', image.name) }}-${{ provider }}-empty
+    - job: ${{ join('_', image.name) }}_${{ provider }}_init_build
+      displayName: Build ${{ join('-', image.name) }}-${{ provider }}-init
       pool:
         name: Default
         demands:
@@ -22,21 +22,21 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-empty
+          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-init
         displayName: Build
 
       - powershell: |
           $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
-          vagrant up ${{ join('-', image.name) }}-local-empty
+          vagrant up ${{ join('-', image.name) }}-init
         displayName: Test
 
       - powershell: |
-          vagrant destroy -f ${{ join('-', image.name) }}-local-empty
+          vagrant destroy -f ${{ join('-', image.name) }}-init
         displayName: Clean Test Machine
         condition: always()
 
       - powershell: |
-          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local-empty --provider '${{ provider }}'
+          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-init --provider '${{ provider }}'
         displayName: Clean Test Box
         condition: always()
 

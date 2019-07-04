@@ -63,26 +63,38 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'ws2019s-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-server-1809-standard")
 end
 
-def create_packer_vms(deployment, name, cloud_name, cloud_version, empty = false)
-  create_local_packer_vm(deployment, name, 'empty') if empty  
-  create_local_packer_vm(deployment, name, 'sysprep')
-  create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
+def create_packer_vms(deployment, name, cloud_name, cloud_version, init = false)
+  create_init_packer_vm(deployment, name) if init
+  create_build_packer_vm(deployment, name)
+  create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
 end
 
-def create_local_packer_vm(deployment, name, type)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-local-#{type}", 'box' => "gusztavvargadr/#{name}-local-#{type}") do |machine|
+def create_init_packer_vm(deployment, name)
+  VagrantMachine.configure(deployment, 'name' => "#{name}-init", 'box' => "local/gusztavvargadr/#{name}-init") do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-#{type}/output/package/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-init/output/package/vagrant.box"
     end
 
     VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-#{type}/output/package/vagrant.box"
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-init/output/package/vagrant.box"
     end
   end
 end
 
-def create_cloud_packer_vm(deployment, name, cloud_name, cloud_version)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-cloud", 'box' => "gusztavvargadr/#{name}-cloud") do |machine|
+def create_build_packer_vm(deployment, name)
+  VagrantMachine.configure(deployment, 'name' => "#{name}-build", 'box' => "local/gusztavvargadr/#{name}-build") do |machine|
+    VagrantVirtualBoxProvider.configure(machine) do |provider|
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-vagrant/output/package/vagrant.box"
+    end
+
+    VagrantHyperVProvider.configure(machine) do |provider|
+      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-vagrant/output/package/vagrant.box"
+    end
+  end
+end
+
+def create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
+  VagrantMachine.configure(deployment, 'name' => "#{name}-deploy", 'box' => "gusztavvargadr/#{name}-cloud") do |machine|
     machine.vagrant.vm.box = "gusztavvargadr/#{cloud_name}"
     machine.vagrant.vm.box_version = cloud_version
 

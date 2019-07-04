@@ -52,64 +52,64 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
   var items = new List<PackerTemplate>();
 
   if (parents == null) {
-    var virtualBoxEmpty = PackerTemplate_Create(
+    var virtualBoxInit = PackerTemplate_Create(
       name,
-      "virtualbox-empty",
+      "virtualbox-init",
       new [] { PackerBuilder_Create("virtualbox-iso") },
-      new [] { PackerProvisioner_Create("sysprep") },
+      new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
-    items.Add(virtualBoxEmpty);
+    items.Add(virtualBoxInit);
   }
   var virtualBoxCore = PackerTemplate_Create(
     name,
     "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
-    new [] { PackerProvisioner_Create("chef") },
+    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("chef") },
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
-  var virtualBoxSysprep = PackerTemplate_Create(
+  var virtualBoxVagrant = PackerTemplate_Create(
     name,
-    "virtualbox-sysprep",
+    "virtualbox-vagrant",
     new [] { PackerBuilder_Create("virtualbox-ovf") },
-    new [] { PackerProvisioner_Create("sysprep") },
+    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
     virtualBoxCore
   );
   items.Add(virtualBoxCore);
-  items.Add(virtualBoxSysprep);
+  items.Add(virtualBoxVagrant);
 
   if (parents == null) {
-    var hyperVEmpty = PackerTemplate_Create(
+    var hyperVInit = PackerTemplate_Create(
       name,
-      "hyperv-empty",
+      "hyperv-init",
       new [] { PackerBuilder_Create("hyperv-iso") },
-      new [] { PackerProvisioner_Create("sysprep") },
+      new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-hyperv") },
       null
     );
-    items.Add(hyperVEmpty);
+    items.Add(hyperVInit);
   }
   var hyperVCore = PackerTemplate_Create(
     name,
     "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("chef") },
+    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("chef") },
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
-  var hyperVSysprep = PackerTemplate_Create(
+  var hyperVVagrant = PackerTemplate_Create(
     name,
-    "hyperv-sysprep",
+    "hyperv-vagrant",
     new [] { PackerBuilder_Create("hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("sysprep") },
+    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
     hyperVCore
   );
   items.Add(hyperVCore);
-  items.Add(hyperVSysprep);
+  items.Add(hyperVVagrant);
 
   packerTemplates.AddRange(items);
 
@@ -120,15 +120,15 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
   var items = new List<PackerTemplate>();
 
   if (parents == null) {
-    var virtualBoxEmpty = PackerTemplate_Create(
+    var virtualBoxInit = PackerTemplate_Create(
       name,
-      "virtualbox-empty",
+      "virtualbox-init",
       new [] { PackerBuilder_Create("virtualbox-iso") },
       new [] { PackerProvisioner_Create("shell-vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
-    items.Add(virtualBoxEmpty);
+    items.Add(virtualBoxInit);
   }
   var virtualBoxCore = PackerTemplate_Create(
     name,
@@ -138,27 +138,27 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
-  var virtualBoxSysprep = PackerTemplate_Create(
+  var virtualBoxVagrant = PackerTemplate_Create(
     name,
-    "virtualbox-sysprep",
+    "virtualbox-vagrant",
     new [] { PackerBuilder_Create("virtualbox-ovf") },
     new [] { PackerProvisioner_Create("shell-vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
     virtualBoxCore
   );
   items.Add(virtualBoxCore);
-  items.Add(virtualBoxSysprep);
+  items.Add(virtualBoxVagrant);
 
   if (parents == null) {
-    var hyperVEmpty = PackerTemplate_Create(
+    var hyperVInit = PackerTemplate_Create(
       name,
-      "hyperv-empty",
+      "hyperv-init",
       new [] { PackerBuilder_Create("hyperv-iso") },
       new [] { PackerProvisioner_Create("shell-vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-hyperv") },
       null
     );
-    items.Add(hyperVEmpty);
+    items.Add(hyperVInit);
   }
   var hyperVCore = PackerTemplate_Create(
     name,
@@ -168,19 +168,19 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
-  var hyperVSysprep = PackerTemplate_Create(
+  var hyperVVagrant = PackerTemplate_Create(
     name,
-    "hyperv-sysprep",
+    "hyperv-vagrant",
     new [] { PackerBuilder_Create("hyperv-vmcx") },
     new [] { PackerProvisioner_Create("shell-vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
     hyperVCore
   );
   items.Add(hyperVCore);
-  items.Add(hyperVSysprep);
+  items.Add(hyperVVagrant);
 
   if (amazon) {
-    var amazonSysprep = PackerTemplate_Create(
+    var amazonCore = PackerTemplate_Create(
       name,
       "amazon",
       new [] { PackerBuilder_Create("amazon") },
@@ -189,11 +189,11 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       // new [] { PackerPostProcessor_Create("vagrant-amazon") },
       parents != null ? parents.First(item => item.IsMatching("amazon")) : null
     );
-    items.Add(amazonSysprep);
+    items.Add(amazonCore);
   }
 
   if (azure) {
-    var azureSysprep = PackerTemplate_Create(
+    var azureCore = PackerTemplate_Create(
       name,
       "azure",
       new [] { PackerBuilder_Create(parents == null ? "azure-marketplace" : "azure-custom") },
@@ -202,7 +202,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       parents != null ? parents.First(item => item.IsMatching("azure")) : null
     );
 
-    items.Add(azureSysprep);
+    items.Add(azureCore);
   }
 
   packerTemplates.AddRange(items);
