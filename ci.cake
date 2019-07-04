@@ -124,7 +124,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
       name,
       "virtualbox-init",
       new [] { PackerBuilder_Create("virtualbox-iso") },
-      new [] { PackerProvisioner_Create("shell-vagrant") },
+      new [] { PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
