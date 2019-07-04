@@ -28,18 +28,12 @@ jobs:
             project: packer
             pipeline: ${{ join('-', image.parent) }}-core
             downloadType: single
-            artifactName: ${{ join('-', image.parent) }}-${{ provider }}-core-build
+            artifactName: build
 
         - task: ExtractFiles@1
           inputs:
             archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/build.*
             destinationFolder: build/${{ join('-', image.parent) }}
-
-        - task: DeleteFiles@1
-          inputs:
-            sourceFolder: $(Build.ArtifactStagingDirectory)
-            contents: '**'
-          condition: always()
 
       - powershell: |
           .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-core
@@ -54,10 +48,10 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: build
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)\$(Build.BuildId)
+          targetPath: $(artifacts-targetpath)/${{ join('-', image.name) }}/${{ provider }}/$(Build.BuildId)
 
       - powershell: |
           .\ci.ps1 clean
