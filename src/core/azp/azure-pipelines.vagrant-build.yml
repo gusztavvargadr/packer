@@ -46,7 +46,7 @@ jobs:
 
       - powershell: |
           $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
-          vagrant up ${{ join('-', image.name) }}-local
+          vagrant up ${{ join('-', image.name) }}-build
         displayName: Test
 
       - task: ArchiveFiles@2
@@ -64,12 +64,12 @@ jobs:
           targetPath: $(artifacts-targetpath)\$(Build.BuildId)
 
       - powershell: |
-          vagrant destroy -f ${{ join('-', image.name) }}-local
+          vagrant destroy -f ${{ join('-', image.name) }}-build
         displayName: Clean Test Machine
         condition: always()
 
       - powershell: |
-          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local --provider '${{ provider }}'
+          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-build --provider '${{ provider }}'
         displayName: Clean Test Box
         condition: always()
 
