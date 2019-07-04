@@ -51,7 +51,7 @@ jobs:
           artifactName: build
           pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)/${{ join('-', image.name) }}/${{ provider }}/$(Build.BuildId)
+          targetPath: $(artifacts-targetpath)/${{ join('-', image.name) }}/${{ provider }}/core/$(Build.BuildId)
 
       - powershell: |
           .\ci.ps1 clean
