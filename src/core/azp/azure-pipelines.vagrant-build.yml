@@ -41,7 +41,7 @@ jobs:
         condition: always()
 
       - powershell: |
-          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-sysprep
+          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
 
       - powershell: |
@@ -51,7 +51,7 @@ jobs:
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-sysprep
+          rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-vagrant
           archiveType: tar
           tarCompression: none
           archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
