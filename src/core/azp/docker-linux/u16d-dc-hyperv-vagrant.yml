@@ -6,10 +6,11 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.core-build.yml
+  - template: ../vagrant-build.yml
     parameters:
       images:
-      - name: u16d
+      - name:
+        - u16d
+        - dc
       providers:
-      - virtualbox
       - hyperv

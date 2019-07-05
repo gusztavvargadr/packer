@@ -6,13 +6,9 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.core-build.yml
+  - template: ../core-build.yml
     parameters:
       images:
-      - name:
-        - u16d
-        - dc
-        parent: u16d
+      - name: u16d
       providers:
       - virtualbox
-      - hyperv
