@@ -58,13 +58,13 @@ jobs:
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
-      - powershell: |
-          .\ci.ps1 clean
-        displayName: Clean
-        condition: always()
-
       - task: DeleteFiles@1
         inputs:
           sourceFolder: $(Build.ArtifactStagingDirectory)
           contents: '**'
+        condition: always()
+
+      - powershell: |
+          .\ci.ps1 clean
+        displayName: Clean
         condition: always()
