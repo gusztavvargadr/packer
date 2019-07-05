@@ -34,10 +34,10 @@ jobs:
           archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/build.*
           destinationFolder: build/${{ join('-', image.name) }}
 
-        - task: DeleteFiles@1
-          inputs:
-            sourceFolder: $(Build.ArtifactStagingDirectory)
-            contents: '**'
+      - task: DeleteFiles@1
+        inputs:
+          sourceFolder: $(Build.ArtifactStagingDirectory)
+          contents: '**'
 
       - powershell: |
           .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-vagrant
