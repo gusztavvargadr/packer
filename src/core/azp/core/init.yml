@@ -6,7 +6,7 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.init-build.yml
+  - template: ../init-build.yml
     parameters:
       images:
       - name: w10e

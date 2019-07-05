@@ -26,7 +26,7 @@ jobs:
           inputs:
             buildType: specific
             project: packer
-            pipeline: ${{ join('-', image.parent) }}-core
+            pipeline: ${{ join('-', image.parent) }}-${{ provider }}-core
             downloadType: single
             artifactName: ${{ join('-', image.parent) }}-${{ provider }}-core-build
 

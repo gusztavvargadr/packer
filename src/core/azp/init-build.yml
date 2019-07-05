@@ -36,7 +36,7 @@ jobs:
         condition: always()
 
       - powershell: |
-          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-init --provider '${{ provider }}'
+          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-init
         displayName: Clean Test Box
         condition: always()
 

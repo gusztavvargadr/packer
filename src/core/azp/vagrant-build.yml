@@ -25,7 +25,7 @@ jobs:
         inputs:
           buildType: specific
           project: packer
-          pipeline: ${{ join('-', image.name) }}-core
+          pipeline: ${{ join('-', image.name) }}}-${{ provider }}-core
           downloadType: single
           artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
 
@@ -63,7 +63,7 @@ jobs:
         condition: always()
 
       - powershell: |
-          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-build --provider '${{ provider }}'
+          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-build
         displayName: Clean Test Box
         condition: always()
 
