@@ -27,7 +27,7 @@ jobs:
           project: packer
           pipeline: ${{ join('-', image.name) }}-core
           downloadType: single
-          artifactName: build
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
 
       - task: ExtractFiles@1
         inputs:
@@ -52,10 +52,10 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          artifactName: build
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-vagrant-build
           pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)/${{ join('-', image.name) }}/${{ provider }}/vagrant/$(Build.BuildId)
+          targetPath: $(artifacts-targetpath)
 
       - powershell: |
           vagrant destroy -f ${{ join('-', image.name) }}-build

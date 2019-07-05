@@ -28,7 +28,7 @@ jobs:
             project: packer
             pipeline: ${{ join('-', image.parent) }}-core
             downloadType: single
-            artifactName: build
+            artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
 
         - task: ExtractFiles@1
           inputs:
@@ -48,10 +48,10 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          artifactName: build
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
           pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
           publishLocation: filePath
-          targetPath: $(artifacts-targetpath)/${{ join('-', image.name) }}/${{ provider }}/core/$(Build.BuildId)
+          targetPath: $(artifacts-targetpath)
 
       - powershell: |
           .\ci.ps1 clean
