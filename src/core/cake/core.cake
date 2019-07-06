@@ -12,12 +12,12 @@ var w10e = PackerTemplates_CreateWindows(
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server",
-  sting.Format("1809.0.{0}-standard", version)
+  string.Format("1809.0.{0}-standard", version)
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
   "windows-server",
-  sting.Format("1809.0.{0}-standard-core", version)
+  string.Format("1809.0.{0}-standard-core", version)
 );
 
 var u16d = PackerTemplates_CreateLinux(
