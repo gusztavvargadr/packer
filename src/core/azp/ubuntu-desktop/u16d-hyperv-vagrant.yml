@@ -13,7 +13,6 @@ stages:
       providers:
       - hyperv
 
-stages:
 - stage: deploy
   displayName: Deploy
 

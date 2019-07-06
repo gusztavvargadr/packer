@@ -13,7 +13,6 @@ stages:
       providers:
       - virtualbox
 
-stages:
 - stage: deploy
   displayName: Deploy
 
