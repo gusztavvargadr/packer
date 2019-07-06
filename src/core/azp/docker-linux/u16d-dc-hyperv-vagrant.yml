@@ -14,3 +14,17 @@ stages:
         - dc
       providers:
       - hyperv
+
+stages:
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
+    parameters:
+      images:
+      - name:
+        - u16d
+        - dc
+      providers:
+      - hyperv

@@ -2,7 +2,6 @@
 
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
-var version = "1906";
 
 Task("default")
   .IsDependentOn("info");
@@ -47,7 +46,6 @@ Task("test")
   });
 
 Task("package")
-  .IsDependentOn("test")
   .Does(() => {
     PackerTemplates_ForEach(configuration, PackerTemplate_Package);
   });

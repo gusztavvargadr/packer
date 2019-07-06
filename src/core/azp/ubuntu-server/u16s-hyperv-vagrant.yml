@@ -12,3 +12,14 @@ stages:
       - name: u16s
       providers:
       - hyperv
+
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
+    parameters:
+      images:
+      - name: u16s
+      providers:
+      - hyperv

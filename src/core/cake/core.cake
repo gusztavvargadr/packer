@@ -1,5 +1,6 @@
 #load "./template.cake"
 
+var version = "1906";
 var packerTemplates = new List<PackerTemplate>();
 
 //  windows-10
@@ -13,7 +14,7 @@ var ws2019sc = PackerTemplates_CreateWindows("ws2019sc");
 var u16d = PackerTemplates_CreateLinux("u16d");
 
 // ubuntu-server
-var u16s = PackerTemplates_CreateLinux("u16s");
+var u16s = PackerTemplates_CreateLinux("u16s", "ubuntu-server", string.Format("1604.0.{0}-lts", version));
 
 // docker windows
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
@@ -23,7 +24,7 @@ var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc
 
 // docker-linux
 var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
-var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", parents: u16s);
+var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", "docker-linux", string.Format("1809.0.{0}-community-ubuntu-server-1604-lts", version), parents: u16s);
 
 // iis
 var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
@@ -43,7 +44,7 @@ var ws2019s_dc_vs17p = PackerTemplates_CreateWindows("ws2019s-dc-vs17p", parents
 var ws2019s_dc_vs19c = PackerTemplates_CreateWindows("ws2019s-dc-vs19c", parents: ws2019s_dc);
 var ws2019s_dc_vs19p = PackerTemplates_CreateWindows("ws2019s-dc-vs19p", parents: ws2019s_dc);
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerable<PackerTemplate> parents = null) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
   if (parents == null) {
@@ -71,7 +72,9 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
     new [] { PackerBuilder_Create("virtualbox-ovf") },
     new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
-    virtualBoxCore
+    virtualBoxCore,
+    groupName,
+    groupVersion
   );
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
@@ -101,7 +104,9 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
     new [] { PackerBuilder_Create("hyperv-vmcx") },
     new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-    hyperVCore
+    hyperVCore,
+    groupName,
+    groupVersion
   );
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);
@@ -111,7 +116,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, IEnumerab
   return items;
 }
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon = true, bool azure = true, IEnumerable<PackerTemplate> parents = null) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = true, bool azure = true) {
   var items = new List<PackerTemplate>();
 
   if (parents == null) {
@@ -139,7 +144,9 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     new [] { PackerBuilder_Create("virtualbox-ovf") },
     new [] { PackerProvisioner_Create("shell-vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
-    virtualBoxCore
+    virtualBoxCore,
+    groupName,
+    groupVersion
   );
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
@@ -169,7 +176,9 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, bool amazon
     new [] { PackerBuilder_Create("hyperv-vmcx") },
     new [] { PackerProvisioner_Create("shell-vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-    hyperVCore
+    hyperVCore,
+    groupName,
+    groupVersion
   );
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);

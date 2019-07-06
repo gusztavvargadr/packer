@@ -15,6 +15,8 @@ class PackerTemplate {
   public IEnumerable<PackerProvisioner> Provisioners { get; set; }
   public IEnumerable<PackerPostProcessor> PostProcessors { get; set; }
   public PackerTemplate Parent { get; set; }
+  public string GroupName { get; set; }
+  public string GroupVersion { get; set; }
 
   public bool IsMatching(string name) {
     return string.IsNullOrEmpty(name) || FullName.Contains(name);
@@ -35,7 +37,9 @@ PackerTemplate PackerTemplate_Create(
   IEnumerable<PackerBuilder> builders,
   IEnumerable<PackerProvisioner> provisioners,
   IEnumerable<PackerPostProcessor> postprocessors,
-  PackerTemplate parent
+  PackerTemplate parent,
+  string groupName = null,
+  string groupVersion = null
 ) {
   var components = name.Split('-').Select(component => Component_Create(component)).ToList();
 
@@ -46,7 +50,9 @@ PackerTemplate PackerTemplate_Create(
     Builders = builders,
     Provisioners = provisioners,
     PostProcessors = postprocessors,
-    Parent = parent
+    Parent = parent,
+    GroupName = groupName,
+    GroupVersion = groupVersion
   };
 }
 
@@ -118,6 +124,23 @@ void PackerTemplate_Package(PackerTemplate template) {
 
 void PackerTemplate_Publish(PackerTemplate template) {
   PackerTemplate_Log(template, "Publish");
+
+  if (!template.Type.Contains("vagrant")) {
+    return;
+  }
+
+  try {
+    PackerTemplate_Vagrant(template, "cloud publish --force"
+      + " " + "gusztavvargadr/" + template.GroupName
+      + " " + template.GroupVersion
+      + " " + template.Type.Split('-')[0]
+      + " " + template.GetBuildDirectory() + "/output/package/vagrant.box"
+    );
+    PackerTemplate_Vagrant(template, "up " + template.Name + "-deploy");
+  } finally {
+    PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-deploy");
+    PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-deploy");
+  }
 }
 
 void PackerTemplate_Log(PackerTemplate template, string message) {

@@ -23,9 +23,6 @@ jobs:
 
       - task: DownloadBuildArtifacts@0
         inputs:
-          buildType: specific
-          project: packer
-          pipeline: ${{ join('-', image.name) }}-vagrant
           downloadType: single
           artifactName: ${{ join('-', image.name) }}-${{ provider }}-vagrant-build
 
@@ -38,22 +35,10 @@ jobs:
         inputs:
           sourceFolder: $(Build.ArtifactStagingDirectory)
           contents: '**'
-        condition: always()
 
       - powershell: |
-          $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
-          vagrant up ${{ join('-', image.name) }}-local
+          .\ci.ps1 publish ${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
-
-      - powershell: |
-          vagrant destroy -f ${{ join('-', image.name) }}-local
-        displayName: Clean Machine
-        condition: always()
-
-      - powershell: |
-          vagrant box remove gusztavvargadr/${{ join('-', image.name) }}-local --provider '${{ provider }}'
-        displayName: Clean Box
-        condition: always()
 
       - powershell: |
           .\ci.ps1 clean
