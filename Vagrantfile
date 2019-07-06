@@ -13,10 +13,10 @@ VagrantMachine.defaults_include(
 class VagrantWindowsMachine < VagrantMachine
   @defaults = {
     'provisioners' => {
-      'shell-version' => {
+      'shell-os' => {
         'inline' => 'cmd /c ver',
       },
-      'shell-version' => {
+      'shell-system' => {
         'inline' => 'systeminfo',
       },
       'shell-packages' => {
@@ -29,7 +29,7 @@ end
 class VagrantLinuxMachine < VagrantMachine
   @defaults = {
     'provisioners' => {
-      'shell-version' => {
+      'shell-os' => {
         'inline' => 'uname -a',
       },
       'shell-packages' => {
