@@ -13,6 +13,7 @@ jobs:
         - PACKER_${{ provider }}
       variables:
       - group: artifacts
+      - group: environment-vagrantcloud
       workspace:
         clean: all
       timeoutInMinutes: 120
@@ -39,6 +40,8 @@ jobs:
       - powershell: |
           .\ci.ps1 publish ${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
+        env:
+          VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
       - powershell: |
           .\ci.ps1 clean
