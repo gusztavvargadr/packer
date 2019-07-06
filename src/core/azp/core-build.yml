@@ -41,7 +41,7 @@ jobs:
             contents: '**'
 
       - powershell: |
-          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-core
+          .\ci.ps1 test ${{ join('-', image.name) }}-${{ provider }}-core
         displayName: Build
 
       - task: ArchiveFiles@2

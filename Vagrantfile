@@ -9,8 +9,11 @@ VagrantMachine.defaults_include(
     'hyperv' => {},
   },
   'provisioners' => {
-    'shell' => {
-      'inline' => 'echo "Hello World!"',
+    'shell-uname' => {
+      'inline' => 'uname -a',
+    },
+    'shell-apt' => {
+      'inline' => 'apt list --installed',
     },
   }
 )
@@ -94,16 +97,13 @@ def create_build_packer_vm(deployment, name)
 end
 
 def create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-deploy", 'box' => "gusztavvargadr/#{name}-cloud") do |machine|
-    machine.vagrant.vm.box = "gusztavvargadr/#{cloud_name}"
-    machine.vagrant.vm.box_version = cloud_version
+  VagrantMachine.configure(deployment, 'name' => "#{name}-deploy", 'box' => "local/gusztavvargadr/#{name}-deploy") do |machine|
+    VagrantVirtualBoxProvider.configure(machine) do |provider|
+      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
+    end
 
-    # VagrantVirtualBoxProvider.configure(machine) do |provider|
-    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
-    # end
-
-    # VagrantHyperVProvider.configure(machine) do |provider|
-    #   provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
-    # end
+    VagrantHyperVProvider.configure(machine) do |provider|
+      provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
+    end
   end
 end

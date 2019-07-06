@@ -40,13 +40,8 @@ jobs:
           contents: '**'
 
       - powershell: |
-          .\ci.ps1 build ${{ join('-', image.name) }}-${{ provider }}-vagrant
+          .\ci.ps1 test ${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
-
-      - powershell: |
-          $env:VAGRANT_DEFAULT_PROVIDER='${{ provider }}'
-          vagrant up ${{ join('-', image.name) }}-build
-        displayName: Test
 
       - task: ArchiveFiles@2
         inputs:
@@ -66,16 +61,6 @@ jobs:
         inputs:
           sourceFolder: $(Build.ArtifactStagingDirectory)
           contents: '**'
-        condition: always()
-
-      - powershell: |
-          vagrant destroy -f ${{ join('-', image.name) }}-build
-        displayName: Clean Test Machine
-        condition: always()
-
-      - powershell: |
-          vagrant box remove local/gusztavvargadr/${{ join('-', image.name) }}-build
-        displayName: Clean Test Box
         condition: always()
 
       - powershell: |

@@ -72,46 +72,56 @@ void PackerTemplate_Restore(PackerTemplate template) {
     return;
   }
 
+  if (template.Parent != null) {
+    PackerTemplate_Restore(template.Parent);
+    PackerTemplate_Build(template.Parent);
+  }
+
   PackerTemplate_MergeDirectories(template);
   PackerTemplate_MergeJson(template);
+
+  PackerTemplate_Packer(template, "validate template.json");
 }
 
 void PackerTemplate_Build(PackerTemplate template) {
-  PackerTemplate_Version(template);
-  PackerTemplate_Restore(template);
-
   PackerTemplate_Log(template, "Build");
 
   if (FileExists(template.GetBuildDirectory() + "/output/build/manifest.json")) {
     return;
   }
 
+  if (FileExists(template.GetBuildDirectory() + "/output/package/vagrant.box")) {
+    return;
+  }
+
   PackerTemplate_Packer(template, "build template.json");
 }
 
-void PackerTemplate_Rebuild(PackerTemplate template) {
-  PackerTemplate_Clean(template);
-  PackerTemplate_Build(template);
-
-  PackerTemplate_Log(template, "Rebuild");
-}
-
 void PackerTemplate_Test(PackerTemplate template) {
-  PackerTemplate_Build(template);
-
   PackerTemplate_Log(template, "Test");
+
+  if (!template.Type.Contains("vagrant")) {
+    return;
+  }
+
+  try {
+    PackerTemplate_Vagrant(template, "up " + template.Name + "-build");
+  } finally {
+    PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
+    PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
+  }
 }
 
 void PackerTemplate_Package(PackerTemplate template) {
-  PackerTemplate_Test(template);
-
   PackerTemplate_Log(template, "Package");
 }
 
 void PackerTemplate_Publish(PackerTemplate template) {
-  PackerTemplate_Package(template);
-
   PackerTemplate_Log(template, "Publish");
+}
+
+void PackerTemplate_Log(PackerTemplate template, string message) {
+  Information(template.GetLogMessage(message));
 }
 
 void PackerTemplate_MergeDirectories(PackerTemplate template) {
@@ -183,20 +193,22 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   if (parent != null) {
     var parentBuildDirectory = MakeAbsolute(Directory(parent.GetBuildDirectory()));
     var manifestFile = parentBuildDirectory + "/output/build/manifest.json";
-    if (FileExists(manifestFile)) {
-      var manifest = ParseJsonFromFile(manifestFile);
-      if (template.Builders.Any(item => item.IsMatching("virtualbox"))) {
-        var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][1]["name"].ToString());
-        jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
-      }
-      if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
-        var parentBuildOutputDirectory = parentBuildDirectory + "/output/build";
-        jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
-      }
-      if (template.Builders.Any(item => item.IsMatching("azure"))) {
-        var artifactId = manifest["builds"][0]["artifact_id"].ToString();
-        jsonTemplateVariables["azure_image_name"] = artifactId.Split('/').Last();
-      }
+    if (!FileExists(manifestFile)) {
+      throw new Exception("Manifest missing at '" + manifestFile + "'.");
+    }
+
+    var manifest = ParseJsonFromFile(manifestFile);
+    if (template.Builders.Any(item => item.IsMatching("virtualbox"))) {
+      var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][1]["name"].ToString());
+      jsonTemplateVariables["virtualbox_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
+    }
+    if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
+      var parentBuildOutputDirectory = parentBuildDirectory + "/output/build";
+      jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
+    }
+    if (template.Builders.Any(item => item.IsMatching("azure"))) {
+      var artifactId = manifest["builds"][0]["artifact_id"].ToString();
+      jsonTemplateVariables["azure_image_name"] = artifactId.Split('/').Last();
     }
   }
   var descriptions = new List<string>();
@@ -262,6 +274,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
     }
   }
 
+  jsonTemplateVariables["version"] = version + ".0.0";
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 
   jsonTemplateVariables["chef_run_list_prepare"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::prepare]"));
@@ -289,6 +302,14 @@ void PackerTemplate_Packer(PackerTemplate template, string arguments) {
   }
 }
 
-void PackerTemplate_Log(PackerTemplate template, string message) {
-  Information(template.GetLogMessage(message));
+void PackerTemplate_Vagrant(PackerTemplate template, string arguments) {
+  PackerTemplate_Log(template, "Vagrant " + arguments);
+
+  var result = StartProcess("vagrant", new ProcessSettings {
+    Arguments = arguments
+  });
+  
+  if (result != 0) {
+    throw new Exception("Process exited with code " + result + ".");
+  }
 }
