@@ -106,15 +106,22 @@ void PackerTemplate_Build(PackerTemplate template) {
 void PackerTemplate_Test(PackerTemplate template) {
   PackerTemplate_Log(template, "Test");
 
-  if (!template.Type.Contains("vagrant")) {
-    return;
+  if (template.Type.Contains("init")) {
+    try {
+      PackerTemplate_Vagrant(template, "up " + template.Name + "-init");
+    } finally {
+      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-init");
+      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-init");
+    }
   }
-
-  try {
-    PackerTemplate_Vagrant(template, "up " + template.Name + "-build");
-  } finally {
-    PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
-    PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
+  
+  if (template.Type.Contains("vagrant")) {
+    try {
+      PackerTemplate_Vagrant(template, "up " + template.Name + "-build");
+    } finally {
+      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
+      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
+    }
   }
 }
 
