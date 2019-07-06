@@ -10,7 +10,7 @@ jobs:
       pool:
         name: Default
         demands:
-        - PACKER_${{ provider }}
+        - VAGRANT_${{ provider }}
       variables:
       - group: artifacts
       - group: environment-vagrantcloud

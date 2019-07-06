@@ -10,11 +10,17 @@ var w10e = PackerTemplates_CreateWindows("w10e");
 var ws2019s = PackerTemplates_CreateWindows("ws2019s");
 var ws2019sc = PackerTemplates_CreateWindows("ws2019sc");
 
-// ubuntu-desktop
-var u16d = PackerTemplates_CreateLinux("u16d");
+var u16d = PackerTemplates_CreateLinux(
+  "u16d",
+  "ubuntu-desktop",
+  string.Format("1604.0.{0}-lts", version)
+);
 
-// ubuntu-server
-var u16s = PackerTemplates_CreateLinux("u16s", "ubuntu-server", string.Format("1604.0.{0}-lts", version));
+var u16s = PackerTemplates_CreateLinux(
+  "u16s",
+  "ubuntu-server",
+  string.Format("1604.0.{0}-lts", version)
+);
 
 // docker windows
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
@@ -22,9 +28,18 @@ var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
 var ws2019s_de = PackerTemplates_CreateWindows("ws2019s-de", parents: ws2019s);
 var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc);
 
-// docker-linux
-var u16d_dc = PackerTemplates_CreateLinux("u16d-dc", parents: u16d);
-var u16s_dc = PackerTemplates_CreateLinux("u16s-dc", "docker-linux", string.Format("1809.0.{0}-community-ubuntu-server-1604-lts", version), parents: u16s);
+var u16d_dc = PackerTemplates_CreateLinux(
+  "u16d-dc",
+  "docker-linux",
+  string.Format("1809.0.{0}-community-ubuntu-desktop-1604-lts", version),
+  u16d
+);
+var u16s_dc = PackerTemplates_CreateLinux(
+  "u16s-dc",
+  "docker-linux",
+  string.Format("1809.0.{0}-community-ubuntu-server-1604-lts", version),
+  u16s
+);
 
 // iis
 var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
