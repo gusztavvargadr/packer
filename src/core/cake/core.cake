@@ -3,12 +3,22 @@
 var version = "1906";
 var packerTemplates = new List<PackerTemplate>();
 
-//  windows-10
-var w10e = PackerTemplates_CreateWindows("w10e");
+var w10e = PackerTemplates_CreateWindows(
+  "w10e",
+  "windows-10",
+  string.Format("1903.0.{0}-enterprise", version)
+);
 
-// windows-server
-var ws2019s = PackerTemplates_CreateWindows("ws2019s");
-var ws2019sc = PackerTemplates_CreateWindows("ws2019sc");
+var ws2019s = PackerTemplates_CreateWindows(
+  "ws2019s",
+  "windows-server",
+  sting.Format("1809.0.{0}-standard", version)
+);
+var ws2019sc = PackerTemplates_CreateWindows(
+  "ws2019sc",
+  "windows-server",
+  sting.Format("1809.0.{0}-standard-core", version)
+);
 
 var u16d = PackerTemplates_CreateLinux(
   "u16d",
@@ -22,7 +32,6 @@ var u16s = PackerTemplates_CreateLinux(
   string.Format("1604.0.{0}-lts", version)
 );
 
-// docker windows
 var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
 var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
 var ws2019s_de = PackerTemplates_CreateWindows("ws2019s-de", parents: ws2019s);

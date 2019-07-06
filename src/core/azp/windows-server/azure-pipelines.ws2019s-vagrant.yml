@@ -6,7 +6,19 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.vagrant-build.yml
+  - template: ../vagrant-build.yml
+    parameters:
+      images:
+      - name: ws2019s
+      providers:
+      - virtualbox
+      - hyperv
+
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
     parameters:
       images:
       - name: ws2019s

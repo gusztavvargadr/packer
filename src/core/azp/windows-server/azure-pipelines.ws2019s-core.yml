@@ -6,7 +6,7 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.core-build.yml
+  - template: ../core-build.yml
     parameters:
       images:
       - name: ws2019s
