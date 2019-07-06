@@ -12,3 +12,14 @@ stages:
       - name: w10e
       providers:
       - hyperv
+
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
+    parameters:
+      images:
+      - name: w10e
+      providers:
+      - hyperv

@@ -7,16 +7,34 @@ VagrantMachine.defaults_include(
   'providers' => {
     'virtualbox' => {},
     'hyperv' => {},
-  },
-  'provisioners' => {
-    'shell-uname' => {
-      'inline' => 'uname -a',
-    },
-    'shell-apt' => {
-      'inline' => 'apt list --installed',
-    },
   }
 )
+
+class VagrantWindowsMachine < VagrantMachine
+  @defaults = {
+    'provisioners' => {
+      'shell-version' => {
+        'inline' => 'ver',
+      },
+      'shell-packages' => {
+        'inline' => 'choco list -li',
+      },
+    }
+  }
+end
+
+class VagrantLinuxMachine < VagrantMachine
+  @defaults = {
+    'provisioners' => {
+      'shell-version' => {
+        'inline' => 'uname -a',
+      },
+      'shell-packages' => {
+        'inline' => 'apt list --installed',
+      },
+    }
+  }
+end
 
 VagrantVirtualBoxProvider.defaults_include(
   'memory' => 4096,
@@ -73,7 +91,7 @@ def create_packer_vms(deployment, name, cloud_name, cloud_version, init = false)
 end
 
 def create_init_packer_vm(deployment, name)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-init", 'box' => "local/gusztavvargadr/#{name}-init") do |machine|
+  VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-init", 'box' => "local/gusztavvargadr/#{name}-init")) do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-init/output/package/vagrant.box"
     end
@@ -85,7 +103,7 @@ def create_init_packer_vm(deployment, name)
 end
 
 def create_build_packer_vm(deployment, name)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-build", 'box' => "local/gusztavvargadr/#{name}-build") do |machine|
+  VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-build", 'box' => "local/gusztavvargadr/#{name}-build")) do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
       provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-vagrant/output/package/vagrant.box"
     end
@@ -97,7 +115,7 @@ def create_build_packer_vm(deployment, name)
 end
 
 def create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
-  VagrantMachine.configure(deployment, 'name' => "#{name}-deploy", 'box' => "local/gusztavvargadr/#{name}-deploy") do |machine|
+  VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-deploy", 'box' => "local/gusztavvargadr/#{name}-deploy")) do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
       provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
     end
@@ -106,4 +124,9 @@ def create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
       provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
     end
   end
+end
+
+def create_machine_class(name)
+  class_name = name.include?('u16') ? 'VagrantLinuxMachine' : 'VagrantWindowsMachine'
+  Object.const_get(class_name)
 end
