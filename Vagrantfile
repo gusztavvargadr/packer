@@ -14,7 +14,10 @@ class VagrantWindowsMachine < VagrantMachine
   @defaults = {
     'provisioners' => {
       'shell-version' => {
-        'inline' => 'ver',
+        'inline' => 'cmd /c ver',
+      },
+      'shell-version' => {
+        'inline' => 'systeminfo',
       },
       'shell-packages' => {
         'inline' => 'choco list -li',
