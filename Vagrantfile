@@ -32,6 +32,9 @@ class VagrantLinuxMachine < VagrantMachine
       'shell-os' => {
         'inline' => 'uname -a',
       },
+      'shell-system' => {
+        'inline' => 'lshw',
+      },
       'shell-packages' => {
         'inline' => 'apt list --installed',
       },
