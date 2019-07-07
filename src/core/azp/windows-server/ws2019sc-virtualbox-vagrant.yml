@@ -12,4 +12,14 @@ stages:
       - name: ws2019sc
       providers:
       - virtualbox
-      - hyperv
+
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
+    parameters:
+      images:
+      - name: ws2019sc
+      providers:
+      - virtualbox

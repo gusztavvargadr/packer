@@ -12,4 +12,3 @@ stages:
       - name: ws2019sc
       providers:
       - virtualbox
-      - hyperv

@@ -9,7 +9,6 @@ stages:
   - template: ../core-build.yml
     parameters:
       images:
-      - name: ws2019s
+      - name: ws2019sc
       providers:
-      - virtualbox
       - hyperv

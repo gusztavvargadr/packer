@@ -12,7 +12,6 @@ stages:
       - name: ws2019s
       providers:
       - virtualbox
-      - hyperv
 
 - stage: deploy
   displayName: Deploy
@@ -24,4 +23,3 @@ stages:
       - name: ws2019s
       providers:
       - virtualbox
-      - hyperv
