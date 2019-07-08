@@ -106,9 +106,11 @@ void PackerTemplate_Build(PackerTemplate template) {
 void PackerTemplate_Test(PackerTemplate template) {
   PackerTemplate_Log(template, "Test");
 
+  var provider = template.Type.Split('-')[0];
+
   if (template.Type.Contains("init")) {
     try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-init");
+      PackerTemplate_Vagrant(template, "up " + template.Name + "-init --provider " + provider);
     } finally {
       PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-init");
       PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-init");
@@ -117,7 +119,7 @@ void PackerTemplate_Test(PackerTemplate template) {
   
   if (template.Type.Contains("vagrant")) {
     try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-build");
+      PackerTemplate_Vagrant(template, "up " + template.Name + "-build --provider " + provider);
     } finally {
       PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
       PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
@@ -137,13 +139,15 @@ void PackerTemplate_Publish(PackerTemplate template) {
   }
 
   try {
+    var provider = template.Type.Split('-')[0];
+
     PackerTemplate_Vagrant(template, "cloud publish --force"
       + " " + "gusztavvargadr/" + template.GroupName
       + " " + template.GroupVersion
-      + " " + template.Type.Split('-')[0]
+      + " " + provider
       + " " + template.GetBuildDirectory() + "/output/package/vagrant.box"
     );
-    PackerTemplate_Vagrant(template, "up " + template.Name + "-deploy");
+    PackerTemplate_Vagrant(template, "up " + template.Name + "-deploy --provider " + provider);
   } finally {
     PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-deploy");
     PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-deploy");
