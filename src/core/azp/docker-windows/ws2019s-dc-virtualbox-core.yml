@@ -6,13 +6,12 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../azure-pipelines.core-build.yml
+  - template: ../core-build.yml
     parameters:
       images:
       - name:
-        - w10e
+        - ws2019s
         - dc
-        parent: w10e
+        parent: ws2019s
       providers:
       - virtualbox
-      - hyperv

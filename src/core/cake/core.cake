@@ -32,10 +32,30 @@ var u16s = PackerTemplates_CreateLinux(
   string.Format("1604.0.{0}-lts", version)
 );
 
-var w10e_dc = PackerTemplates_CreateWindows("w10e-dc", parents: w10e);
-var ws2019s_dc = PackerTemplates_CreateWindows("ws2019s-dc", parents: ws2019s);
-var ws2019s_de = PackerTemplates_CreateWindows("ws2019s-de", parents: ws2019s);
-var ws2019sc_de = PackerTemplates_CreateWindows("ws2019sc-de", parents: ws2019sc);
+var w10e_dc = PackerTemplates_CreateWindows(
+  "w10e-dc",
+  "docker-windows",
+  string.Format("1809.0.{0}-community-windows-10-1903-enterprise", version),
+  w10e
+);
+var ws2019s_dc = PackerTemplates_CreateWindows(
+  "ws2019s-dc",
+  "docker-windows",
+  string.Format("1809.0.{0}-community-windows-server-1809-standard", version),
+  ws2019s
+);
+var ws2019s_de = PackerTemplates_CreateWindows(
+  "ws2019s-de",
+  "docker-windows",
+  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard", version),
+  ws2019s
+);
+var ws2019sc_de = PackerTemplates_CreateWindows(
+  "ws2019sc-de",
+  "docker-windows",
+  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard-core", version),
+  ws2019sc
+);
 
 var u16d_dc = PackerTemplates_CreateLinux(
   "u16d-dc",

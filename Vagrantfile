@@ -57,7 +57,7 @@ def version
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  create_packer_vms(deployment, 'w10e', 'windows-10', "1809.0.#{version}-enterprise", true)
+  create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise", true)
 
   create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard", true)
   create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core", true)
@@ -66,7 +66,7 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
 
   create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts", true)
 
-  create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1809.0.#{version}-community-windows-10-1809-enterprise")
+  create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1809.0.#{version}-community-windows-10-1903-enterprise")
   create_packer_vms(deployment, 'ws2019s-dc', 'docker-windows', "1809.0.#{version}-community-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019s-de', 'docker-windows', "1809.0.#{version}-enterprise-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019sc-de', 'docker-windows', "1809.0.#{version}-enterprise-windows-server-1809-standard-core")
