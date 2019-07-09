@@ -15,7 +15,8 @@
       "type": "powershell",
       "inline": [
         "[Environment]::SetEnvironmentVariable('PACKER_BUILDER', '{{build_type}}', 'User')"
-      ]
+      ],
+      "pause_before": "2m"
     },
     {
       "type": "windows-restart"
