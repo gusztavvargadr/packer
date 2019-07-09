@@ -41,7 +41,7 @@ jobs:
             contents: '**'
 
       - powershell: |
-          .\ci.ps1 test ${{ join('-', image.name) }}-${{ provider }}-core
+          dotnet cake ci.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-core
         displayName: Build
 
       - task: ArchiveFiles@2
@@ -65,6 +65,6 @@ jobs:
         condition: always()
 
       - powershell: |
-          .\ci.ps1 clean
+          dotnet cake ci.cake --target=clean
         displayName: Clean
         condition: always()

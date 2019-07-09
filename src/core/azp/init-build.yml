@@ -22,10 +22,10 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          .\ci.ps1 test ${{ join('-', image.name) }}-${{ provider }}-init
+          dotnet cake ci.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-init
         displayName: Build
 
       - powershell: |
-          .\ci.ps1 clean
+          dotnet cake ci.cake --target=clean
         displayName: Clean Build
         condition: always()
