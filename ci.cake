@@ -72,12 +72,25 @@ var u16s_dc = PackerTemplates_CreateLinux(
   u16s
 );
 
-// iis
-var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
-var ws2019sc_iis = PackerTemplates_CreateWindows("ws2019sc-iis", parents: ws2019sc);
+var ws2019s_iis = PackerTemplates_CreateWindows(
+  "ws2019s-iis",
+  "iis",
+  string.Format("10.0.{0}-windows-server-1809-standard", version),
+  ws2019s
+);
+var ws2019sc_iis = PackerTemplates_CreateWindows(
+  "ws2019sc-iis",
+  "iis",
+  string.Format("10.0.{0}-windows-server-1809-standard-core", version),
+  ws2019sc
+);
 
-// sql-server
-var ws2019s_sql17d = PackerTemplates_CreateWindows("ws2019s-sql17d", parents: ws2019s);
+var ws2019s_sql17d = PackerTemplates_CreateWindows(
+  "ws2019s-sql17d",
+  "sql-server",
+  string.Format("2017.0.{0}-developer-windows-server-1809-standard", version),
+  ws2019s
+);
 
 // visual-studio
 var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
