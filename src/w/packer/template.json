@@ -16,9 +16,6 @@
       "inline": [
         "[Environment]::SetEnvironmentVariable('PACKER_BUILDER', '{{build_type}}', 'User')"
       ]
-    },
-    {
-      "type": "windows-restart"
     }
   ],
   "post-processors": [

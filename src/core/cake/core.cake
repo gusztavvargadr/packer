@@ -1,92 +1,10 @@
+#addin "nuget:?package=Cake.FileHelpers&version=3.2.0"
+#addin "nuget:?package=Cake.Json&version=3.0.1"
+#addin "nuget:?package=Newtonsoft.Json&version=11.0.2"
+
 #load "./template.cake"
 
-var version = "1906";
 var packerTemplates = new List<PackerTemplate>();
-
-var w10e = PackerTemplates_CreateWindows(
-  "w10e",
-  "windows-10",
-  string.Format("1903.0.{0}-enterprise", version)
-);
-
-var ws2019s = PackerTemplates_CreateWindows(
-  "ws2019s",
-  "windows-server",
-  string.Format("1809.0.{0}-standard", version)
-);
-var ws2019sc = PackerTemplates_CreateWindows(
-  "ws2019sc",
-  "windows-server",
-  string.Format("1809.0.{0}-standard-core", version)
-);
-
-var u16d = PackerTemplates_CreateLinux(
-  "u16d",
-  "ubuntu-desktop",
-  string.Format("1604.0.{0}-lts", version)
-);
-
-var u16s = PackerTemplates_CreateLinux(
-  "u16s",
-  "ubuntu-server",
-  string.Format("1604.0.{0}-lts", version)
-);
-
-var w10e_dc = PackerTemplates_CreateWindows(
-  "w10e-dc",
-  "docker-windows",
-  string.Format("1809.0.{0}-community-windows-10-1903-enterprise", version),
-  w10e
-);
-var ws2019s_dc = PackerTemplates_CreateWindows(
-  "ws2019s-dc",
-  "docker-windows",
-  string.Format("1809.0.{0}-community-windows-server-1809-standard", version),
-  ws2019s
-);
-var ws2019s_de = PackerTemplates_CreateWindows(
-  "ws2019s-de",
-  "docker-windows",
-  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard", version),
-  ws2019s
-);
-var ws2019sc_de = PackerTemplates_CreateWindows(
-  "ws2019sc-de",
-  "docker-windows",
-  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard-core", version),
-  ws2019sc
-);
-
-var u16d_dc = PackerTemplates_CreateLinux(
-  "u16d-dc",
-  "docker-linux",
-  string.Format("1809.0.{0}-community-ubuntu-desktop-1604-lts", version),
-  u16d
-);
-var u16s_dc = PackerTemplates_CreateLinux(
-  "u16s-dc",
-  "docker-linux",
-  string.Format("1809.0.{0}-community-ubuntu-server-1604-lts", version),
-  u16s
-);
-
-// iis
-var ws2019s_iis = PackerTemplates_CreateWindows("ws2019s-iis", parents: ws2019s);
-var ws2019sc_iis = PackerTemplates_CreateWindows("ws2019sc-iis", parents: ws2019sc);
-
-// sql-server
-var ws2019s_sql17d = PackerTemplates_CreateWindows("ws2019s-sql17d", parents: ws2019s);
-
-// visual-studio
-var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
-var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e_dc);
-var w10e_dc_vs19c = PackerTemplates_CreateWindows("w10e-dc-vs19c", parents: w10e_dc);
-var w10e_dc_vs19p = PackerTemplates_CreateWindows("w10e-dc-vs19p", parents: w10e_dc);
-
-var ws2019s_dc_vs17c = PackerTemplates_CreateWindows("ws2019s-dc-vs17c", parents: ws2019s_dc);
-var ws2019s_dc_vs17p = PackerTemplates_CreateWindows("ws2019s-dc-vs17p", parents: ws2019s_dc);
-var ws2019s_dc_vs19c = PackerTemplates_CreateWindows("ws2019s-dc-vs19c", parents: ws2019s_dc);
-var ws2019s_dc_vs19p = PackerTemplates_CreateWindows("ws2019s-dc-vs19p", parents: ws2019s_dc);
 
 IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
@@ -96,7 +14,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
       name,
       "virtualbox-init",
       new [] { PackerBuilder_Create("virtualbox-iso") },
-      new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
+      new [] { PackerProvisioner_Create("vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
       null
     );
@@ -106,7 +24,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     name,
     "virtualbox-core",
     new [] { PackerBuilder_Create(parents == null ? "virtualbox-iso" : "virtualbox-ovf") },
-    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("chef") },
+    new [] { PackerProvisioner_Create("chef") },
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("virtualbox-core")) : null
   );
@@ -114,7 +32,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     name,
     "virtualbox-vagrant",
     new [] { PackerBuilder_Create("virtualbox-ovf") },
-    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
+    new [] { PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
     virtualBoxCore,
     groupName,
@@ -128,7 +46,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
       name,
       "hyperv-init",
       new [] { PackerBuilder_Create("hyperv-iso") },
-      new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
+      new [] { PackerProvisioner_Create("vagrant") },
       new [] { PackerPostProcessor_Create("vagrant-hyperv") },
       null
     );
@@ -138,7 +56,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     name,
     "hyperv-core",
     new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("chef") },
+    new [] { PackerProvisioner_Create("chef") },
     new [] { PackerPostProcessor_Create("manifest") },
     parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
   );
@@ -146,7 +64,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     name,
     "hyperv-vagrant",
     new [] { PackerBuilder_Create("hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("sysprep"), PackerProvisioner_Create("vagrant") },
+    new [] { PackerProvisioner_Create("vagrant") },
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
     hyperVCore,
     groupName,
