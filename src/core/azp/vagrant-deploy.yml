@@ -16,7 +16,7 @@ jobs:
       - group: environment-vagrantcloud
       workspace:
         clean: all
-      timeoutInMinutes: 120
+      timeoutInMinutes: 90
 
       steps:
       - checkout: self
