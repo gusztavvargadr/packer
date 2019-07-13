@@ -48,13 +48,13 @@ jobs:
         inputs:
           rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-core
           archiveType: tar
-          tarCompression: none
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
+          tarCompression: gz
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar.gz
 
       - task: PublishBuildArtifacts@1
         inputs:
           artifactName: ${{ join('-', image.name) }}-${{ provider }}-core-build
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar.gz
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 
