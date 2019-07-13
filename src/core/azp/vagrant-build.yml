@@ -10,7 +10,7 @@ jobs:
       pool:
         name: Default
         demands:
-        - PACKER_${{ provider }}
+        - AZP_${{ provider }}
       variables:
       - group: artifacts
       workspace:
@@ -47,13 +47,13 @@ jobs:
         inputs:
           rootFolderOrFile: build/${{ join('-', image.name) }}/${{ provider }}-vagrant
           archiveType: tar
-          tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar.gz
+          tarCompression: none
+          archiveFile: $(Build.ArtifactStagingDirectory)/build.tar
 
       - task: PublishBuildArtifacts@1
         inputs:
           artifactName: ${{ join('-', image.name) }}-${{ provider }}-vagrant-build
-          pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar.gz
+          pathtoPublish: $(Build.ArtifactStagingDirectory)/build.tar
           publishLocation: filePath
           targetPath: $(artifacts-targetpath)
 

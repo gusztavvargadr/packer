@@ -10,7 +10,7 @@ jobs:
       pool:
         name: Default
         demands:
-        - VAGRANT_${{ provider }}
+        - AZP_${{ provider }}
       variables:
       - group: artifacts
       - group: environment-vagrantcloud

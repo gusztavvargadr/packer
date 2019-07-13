@@ -10,7 +10,7 @@ jobs:
       pool:
         name: Default
         demands:
-        - PACKER_${{ provider }}
+        - AZP_${{ provider }}
       variables:
       - group: artifacts
       workspace:
