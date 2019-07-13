@@ -98,10 +98,30 @@ var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e
 var w10e_dc_vs19c = PackerTemplates_CreateWindows("w10e-dc-vs19c", parents: w10e_dc);
 var w10e_dc_vs19p = PackerTemplates_CreateWindows("w10e-dc-vs19p", parents: w10e_dc);
 
-var ws2019s_dc_vs17c = PackerTemplates_CreateWindows("ws2019s-dc-vs17c", parents: ws2019s_dc);
-var ws2019s_dc_vs17p = PackerTemplates_CreateWindows("ws2019s-dc-vs17p", parents: ws2019s_dc);
-var ws2019s_dc_vs19c = PackerTemplates_CreateWindows("ws2019s-dc-vs19c", parents: ws2019s_dc);
-var ws2019s_dc_vs19p = PackerTemplates_CreateWindows("ws2019s-dc-vs19p", parents: ws2019s_dc);
+var ws2019s_dc_vs17c = PackerTemplates_CreateWindows(
+  "ws2019s-dc-vs17c",
+  "visual-studio",
+  string.Format("2017.0.{0}-community-windows-server-1809-standard", version),
+  ws2019s_dc
+);
+var ws2019s_dc_vs17p = PackerTemplates_CreateWindows(
+  "ws2019s-dc-vs17p",
+  "visual-studio",
+  string.Format("2017.0.{0}-professional-windows-server-1809-standard", version),
+  ws2019s_dc
+);
+var ws2019s_dc_vs19c = PackerTemplates_CreateWindows(
+  "ws2019s-dc-vs19c",
+  "visual-studio",
+  string.Format("2019.0.{0}-community-windows-server-1809-standard", version),
+  ws2019s_dc
+);
+var ws2019s_dc_vs19p = PackerTemplates_CreateWindows(
+  "ws2019s-dc-vs19p",
+  "visual-studio",
+  string.Format("2019.0.{0}-professional-windows-server-1809-standard", version),
+  ws2019s_dc
+);
 
 Task("default")
   .IsDependentOn("info");

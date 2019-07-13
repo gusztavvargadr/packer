@@ -1,0 +1,20 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../core-build.yml
+    parameters:
+      images:
+      - name:
+        - ws2019s
+        - dc
+        - vs19c
+        parent:
+        - ws2019s
+        - dc
+      providers:
+      - hyperv
