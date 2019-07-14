@@ -110,11 +110,11 @@ end
 def create_build_packer_vm(deployment, name)
   VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-build", 'box' => "local/gusztavvargadr/#{name}-build")) do |machine|
     VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-vagrant/output/package/vagrant.box"
+      provider.override.vm.box_url = "file://#{build_dir}/#{name}/virtualbox-vagrant/output/package/vagrant.box"
     end
 
     VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-vagrant/output/package/vagrant.box"
+      provider.override.vm.box_url = "file://#{build_dir}/build/#{name}/hyperv-vagrant/output/package/vagrant.box"
     end
   end
 end
@@ -134,4 +134,8 @@ end
 def create_machine_class(name)
   class_name = name.include?('u16') ? 'VagrantLinuxMachine' : 'VagrantWindowsMachine'
   Object.const_get(class_name)
+end
+
+def build_dir
+  ENV['PACKER_BUILD_DIR'] ? ENV['PACKER_BUILD_DIR'] : "#{File.dirname(__FILE__)}/build"
 end
