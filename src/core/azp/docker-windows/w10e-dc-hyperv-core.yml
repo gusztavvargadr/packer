@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../core-build.yml
+    parameters:
+      images:
+      - name:
+        - w10e
+        - dc
+        parent: w10e
+      providers:
+      - hyperv

@@ -1,11 +1,11 @@
 {
   "variables": {
-    "sysprep_source": "provisioners/sysprep"
+    "vagrant_source": "provisioners/vagrant"
   },
   "provisioners": [
     {
       "type": "file",
-      "source": "{{user `sysprep_source`}}/upload/",
+      "source": "{{user `vagrant_source`}}/upload/",
       "destination": "{{user `builder_destination`}}"
     }
   ]

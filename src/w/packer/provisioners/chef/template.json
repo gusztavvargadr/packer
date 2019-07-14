@@ -35,6 +35,9 @@
       ]
     },
     {
+      "type": "windows-restart"
+    },
+    {
       "type": "chef-solo",
       "guest_os_type": "{{user `chef_guest_os_type`}}",
       "skip_install": "{{user `chef_skip_install`}}",

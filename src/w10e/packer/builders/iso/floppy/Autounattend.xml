@@ -56,8 +56,8 @@
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
-                <FullName>Vagrant</FullName>
-                <Organization>Vagrant</Organization>
+                <FullName>Administrator</FullName>
+                <Organization>gusztavvargadr</Organization>
             </UserData>
         </component>
     </settings>
@@ -109,14 +109,14 @@
             </OOBE>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>vagrant</Value>
+                    <Value>Packer42-</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
             </UserAccounts>
             <RegisteredOwner/>
             <AutoLogon>
                 <Password>
-                    <Value>vagrant</Value>
+                    <Value>Packer42-</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>

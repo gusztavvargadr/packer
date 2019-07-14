@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../core-build.yml
+    parameters:
+      images:
+      - name:
+        - ws2019sc
+        - de
+        parent: ws2019sc
+      providers:
+      - virtualbox

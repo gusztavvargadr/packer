@@ -10,9 +10,9 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless": "{{user `hyperv_headless`}}",
-      "ram_size": "{{user `hyperv_ram_size`}}",
+      "memory": "{{user `hyperv_memory`}}",
       "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
-      "cpu": "{{user `hyperv_cpu`}}",
+      "cpus": "{{user `hyperv_cpus`}}",
       "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
       "disk_size": "{{user `hyperv_disk_size`}}",
       "switch_name": "{{user `hyperv_switch_name`}}",
@@ -52,7 +52,7 @@
       "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
       "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
-      "output_directory": "{{user `output_directory`}}"
+      "output_directory": "{{user `output_directory`}}/build"
     }
   ]
 }

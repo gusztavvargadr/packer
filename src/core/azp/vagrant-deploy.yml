@@ -1,0 +1,49 @@
+parameters:
+  images: []
+  providers: []
+
+jobs:
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - job: ${{ join('_', image.name) }}_${{ provider }}_vagrant_deploy
+      displayName: Deploy ${{ join('-', image.name) }}-${{ provider }}-vagrant
+      pool:
+        name: Default
+        demands:
+        - AZP_${{ provider }}
+      variables:
+      - group: artifacts
+      - group: environment-vagrantcloud
+      workspace:
+        clean: all
+      timeoutInMinutes: 90
+
+      steps:
+      - checkout: self
+        submodules: recursive
+
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          downloadType: single
+          artifactName: ${{ join('-', image.name) }}-${{ provider }}-vagrant-build
+
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: $(Build.ArtifactStagingDirectory)/**/build.*
+          destinationFolder: build/${{ join('-', image.name) }}
+
+      - task: DeleteFiles@1
+        inputs:
+          sourceFolder: $(Build.ArtifactStagingDirectory)
+          contents: '**'
+
+      - powershell: |
+          dotnet cake build.cake --target=publish --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
+        displayName: Build
+        env:
+          VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+
+      - powershell: |
+          dotnet cake build.cake --target=clean
+        displayName: Clean Build
+        condition: always()

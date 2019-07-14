@@ -1,0 +1,29 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../vagrant-build.yml
+    parameters:
+      images:
+      - name:
+        - ws2019s
+        - dc
+      providers:
+      - virtualbox
+
+- stage: deploy
+  displayName: Deploy
+
+  jobs:
+  - template: ../vagrant-deploy.yml
+    parameters:
+      images:
+      - name:
+        - ws2019s
+        - dc
+      providers:
+      - virtualbox

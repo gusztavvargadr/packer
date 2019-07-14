@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../core-build.yml
+    parameters:
+      images:
+      - name: u16s
+      providers:
+      - virtualbox

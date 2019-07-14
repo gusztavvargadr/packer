@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], Azure and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
@@ -24,7 +24,7 @@ This repository contains [Packer] sample template for the following virtualizati
 - [Development] using [Visual Studio].
 - [Hosting] using [Docker], [IIS] and [SQL Server].
 
-The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] -, Azure and [AWS], and are provisioned using [Chef].
+The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
 > **Note** All the components, including the core operating systems, share the following characteristics:
 > 
@@ -43,7 +43,7 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [Vagrant]: https://www.vagrantup.com/
 [VirtualBox]: https://www.virtualbox.org/
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
+[Azure]: https://azure.microsoft.com/
 [AWS]: https://aws.amazon.com/
 [Chef]: https://www.chef.sh/
 
@@ -55,7 +55,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 #### Windows
 
-- [**Windows 10 Version 1809 Enterpise**][windows-10]
+- [**Windows 10 Version 1903 Enterpise**][windows-10]
 - [**Windows Server 2019 Standard and Standard Core**][windows-server]
 
 [Windows]: #windows
@@ -95,8 +95,8 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### Docker
 
-- [**Docker 1809 Enterprise** on Windows Server 2019 Standard Core][docker-windows]
-- [**Docker 1809 Community** on Ubuntu Server 1604 LTS][docker-linux]
+- [**Docker 1809 Community and Enterprise** on Windows 10 Version 1903 Enterprise, Windows Server 2019 Standard and Standard Core][docker-windows]
+- [**Docker 1809 Community** on Ubuntu Server and Desktop 1604 LTS][docker-linux]
 
 [Docker]: #docker
 
@@ -105,7 +105,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### IIS
 
-- [**IIS 10** on Windows Server 2019 Standard][box-iis]
+- [**IIS 10** on Windows Server 2019 Standard and Standard Core][box-iis]
 
 [IIS]: #iis
 
@@ -121,18 +121,18 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ## Getting started
 
-> **Note** The rest of this document covers the details of building virtual machine images and Vagrant boxes, and assumes that you are familiar with the basics of [Packer]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][PackerGettingStarted].  
+> **Note** The rest of this document covers the details of building virtual machine images and Vagrant boxes, and assumes that you are familiar with the basics of [Packer] and [Vagrant]. If that's not the case, it's recommended that you take a quick look at the [getting][PackerGettingStarted] [started][VagrantGettingStarted] guides.  
 
 > **Note** Building the Packer templates have been tested on Windows hosts only, but they are supposed to run on any other platform as well, given that the actual virtualization provider (e.g. VirtualBox) supports it. [Let me know][Contributing] if you encounter any issues and I'm glad to help.  
 
 Follow the steps below to install the required tools:
 
-1. Install [Packer][PackerInstallation].
-1. Install the [Chef Development Kit][ChefDKInstallation].
+1. Install the [.NET Core SDK][NETCoreSDKInstallation] with [Cake Build][CakeBuildInstallation].
+1. Install [Packer][PackerInstallation] and [Vagrant][VagrantInstallation].
+1. Install [Chef Workstation][ChefWorkstationInstallation].
 1. Install the tools for the virtualization provider you want to use.
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
-    - **AWS** Install the [AWS Command Line Interface][AWSCLIInstallation] and [configure a profile][AWSCLIProfile].
 
 You are now ready to build a virtual machine image and a Vagrant box.
 
@@ -141,12 +141,16 @@ You are now ready to build a virtual machine image and a Vagrant box.
 [Getting started]: #getting-started
 
 [PackerGettingStarted]: https://www.packer.io/intro/getting-started/install.html
+[VagrantGettingStarted]: https://www.vagrantup.com/intro/getting-started/index.html
+
+[NETCoreSDKInstallation]: https://dotnet.microsoft.com/download
+[CakeBuildInstallation]: https://www.nuget.org/packages/Cake.Tool/
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
-[ChefDKInstallation]: https://downloads.chef.io/chefdk/
+[VagrantInstallation]: https://www.vagrantup.com/docs/installation/
+[ChefWorkstationInstallation]: https://downloads.chef.io/chef-workstation/
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads/
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
-[AWSCLIInstallation]: https://aws.amazon.com/cli/
-[AWSCLIProfile]: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+
 [PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
 
 ## Usage
@@ -165,73 +169,71 @@ related resources, and makes chaining builds and creating new configurations qui
 
 Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
 
-```powershell
-PS> .\ci.ps1 [info]
+```shell
+$ dotnet cake [--target=info]
 ```
 
-The output will be contain the section `packer-info` with the list of the templates:
+The output will be contain the section `info` with the list of the templates:
 
 ```
 ...
 ========================================
-packer-info
+info
 ========================================
-Executing task: packer-info
 w10e-virtualbox-core: Info
-w10e-virtualbox-sysprep: Info
+w10e-virtualbox-vagrant: Info
 w10e-hyperv-core: Info
-w10e-hyperv-sysprep: Info
+w10e-hyperv-vagrant: Info
 ...
 ws2019s-virtualbox-core: Info
-ws2019s-virtualbox-sysprep: Info
+ws2019s-virtualbox-vagrant: Info
 ws2019s-hyperv-core: Info
-ws2019s-hyperv-sysprep: Info
+ws2019s-hyperv-vagrant: Info
 ...
 ws2019s-iis-virtualbox-core: Info
-ws2019s-iis-virtualbox-sysprep: Info
+ws2019s-iis-virtualbox-vagrant: Info
 ws2019s-iis-hyperv-core: Info
-ws2019s-iis-hyperv-sysprep: Info
+ws2019s-iis-hyperv-vagrant: Info
 ...
 ```
 
 You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2019 Standard` image, invoke the `info` command with the `ws2019s` argument:
 
-```powershell
-PS> .\ci.ps1 info ws2019s
+```shell
+$ dotnet cake [--target=info] --configuration=ws2019s
 ```
 
-You can use this filtering with all the `ci.ps1` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `ws2019s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `amazon`) easily.  
+You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `ws2019s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `azure`, `amazon`) easily.  
 
 The output will contain only the matching templates:
 
 ```
 ...
 ========================================
-packer-info
+info
 ========================================
-Executing task: packer-info
 ws2019s-virtualbox-core: Info
-ws2019s-virtualbox-sysprep: Info
+ws2019s-virtualbox-vagrant: Info
 ws2019s-hyperv-core: Info
-ws2019s-hyperv-sysprep: Info
+ws2019s-hyperv-vagrant: Info
 ...
 ```
 
-This means that this configuration supports building some base images (`virtualbox-core`, `hyperv-core`) mainly for reusing them in other configurations, and also boxes for distribution (`virtualbox-sysprep`, `hyperv-sysprep`). Under the hood, the `sysprep` configurations will simply start from the output of the `core` ones, so build times can be reduced significantly.
+This means that this configuration supports building native base images (`virtualbox-core`, `hyperv-core`) mainly for reusing them in other configurations, and also, Vagrant boxes for distribution (`virtualbox-vagrant`, `hyperv-vagrant`). Under the hood, the `vagrant` configurations will simply start from the output of the `core` ones, so build times can be reduced significantly.
 
 Now, invoke the `restore` command with the name of the template you want to build to create the resources required by Packer. For example, for VirtualBox, type the following command:
 
-```powershell
-PS> .\ci.ps1 restore ws2019s-virtualbox-core
+```shell
+$ dotnet cake --target=restore --configuration=ws2019s-virtualbox-core
 ``` 
 
 This will create the folder `build/ws2019s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-virtualbox-core
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-virtualbox-core
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2019s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider or Vagrant on the host machine.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2019s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider on the host machine.
 
 [Building base images]: #building-base-images
 
@@ -241,20 +243,20 @@ This will trigger the Packer build process, which usually requires only patience
 
 As mentioned above, based on Packer's support for starting builds from some virtualization providers' native image format, builds can reuse the output of a previous build. To build and image which can be distributed (e.g. after applying [Sysprep] as well), type the following command:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-virtualbox-sysprep
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-virtualbox-vagrant
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2019s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the native image and the Vagrant box will be available in the `build/ws2019s/virtualbox-sysprep/output` folder.
+Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2019s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `build/ws2019s/virtualbox-vagrant/output` folder.
 
 The same approach works for Hyper-V as well:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-hyperv-core
-PS> .\ci.ps1 build ws2019s-hyperv-sysprep
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-hyperv-core
+$ dotnet cake --target=build --configuration=ws2019s-hyperv-vagrant
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `builds/ws2019s` folder as well, this time under the `hyperv-sysprep/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `builds/ws2019s` folder as well, this time under the `hyperv-vagrant/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [Building images for distribution]: #building-images-for-distribution
 
@@ -265,26 +267,26 @@ As you can expect, for these samples the build artifacts will be created in the 
 
 Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2019 Standard` with `IIS` can be built like this:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-virtualbox-core
-PS> .\ci.ps1 build ws2019s-iis-virtualbox-core
-PS> .\ci.ps1 build ws2019s-iis-virtualbox-sysprep
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-virtualbox-core
+$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-core
+$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant
 ```
 
 As in the previous `ws2019s` sample, for this configuration the `ws2019s-iis-virtualbox-core` build will start from the output of `ws2019s-virtualbox-core` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build images with any number of components very effectively.
 
 Note that the script can invoke the build of the dependencies automatically, so for the previous example you can simply type:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-iis-virtualbox-sysprep --recursive=true
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant
 ```
 
 This will in turn invoke the `restore` and `build` stages for the `ws2019s-virtualbox-core` and `ws2019s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
 
 Again, this works for Hyper-V as well:
 
-```powershell
-PS> .\ci.ps1 build ws2019s-iis-hyperv-sysprep --recursive=true
+```shell
+$ dotnet cake --target=build --configuration=ws2019s-iis-hyperv-vagrant
 ```
 
 Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hyperv-core` images first if they are missing.
@@ -293,48 +295,42 @@ Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hy
 
 ### Testing
 
-To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs.
+To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs. You can play around with the [Vagrant CLI][VagrantCLI] yourself, or let the build script manage it for you.
 
 For example, to test the `ws2019s` configuration, from the root of your clone you can type the following command to use the box files in the `build\ws2019s` folder:
 
-```powershell
-PS> vagrant up ws2019s-local
+```shell
+$ dotnet cake --target=test --configuration=ws2019s-virtualbox-vagrant
 ```
 
-This will import the locally built Vagrant box with the name `ws2019s-local` and will use that to spin up a new virtual machine for testing.
-
-When working with multiple virtualization providers, you can specify which one to use for each test machine [using the command line][VagrantCLIUpProvider], or [define your preferences globally][VagrantPreferredProviders].
-
-You can use the standard Vagrant commands to [clean up the boxes][VagrantCLIBox] after testing.
+This will import the locally built Vagrant box temporarily with the name `ws2019s-build` and will use that to spin up a new virtual machine. After outputting some basic diagnostics information, it destroys the newly created virtual machine and removes the temporary Vagrant box.
 
 [Testing]: #testing
 
 [Vagrantfile]: Vagrantfile
-[VagrantCLIUpProvider]: https://www.vagrantup.com/docs/cli/up.html#provider-x
-[VagrantPreferredProviders]: https://www.vagrantup.com/docs/other/environmental-variables.html#vagrant_preferred_providers
-[VagrantCLIBox]: https://www.vagrantup.com/docs/cli/box.html
+[VagrantCLI]: https://www.vagrantup.com/docs/cli/
 
 ### Cleaning up
 
 Though the `build` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
 
-```
-PS> .\ci.ps1 clean ws2019s-iis-virtualbox-sysprep
+```shell
+$ dotnet cake --target=clean --configuration=ws2019s-iis-virtualbox-vagrant
 ```
 
 Using the filtering, to clean up the artifacts of all the VirtualBox builds, you can type:
 
-```powershell
-PS> .\ci.ps1 clean virtualbox
+```shell
+$ dotnet cake --target=clean --configuration=virtualbox
 ```
 
 Omitting this parameter will apply the command to all the templates, so the following command will clean up everything:
 
-```powershell
-PS> .\ci.ps1 clean
+```shell
+$ dotnet cake --target=clean
 ```
 
-> **Note** The `clean` command removes only the Packer build templates and artifacts, the eventually imported Vagrant boxes and virtual machines need to be removed manually.  
+> **Note** The `clean` command removes only the Packer build templates and artifacts, the eventually imported Vagrant boxes and virtual machines are taken care of the `test` command.  
 
 [Cleaning up]: #cleaning-up
 
@@ -345,12 +341,6 @@ Take a look at the repository of [virtual workstations] to easily automate and s
 [Next steps]: #next-steps
 
 ## Contributing
-
-<!--
-> **Note** This section assumes you are familiar with the basics of [Chef]. If that's not the case, it's recommended that you take a quick look at its [getting started guide][ChefGettingStarted].
-
-TODO: custom template and build
--->
 
 Feedback, please - [issues] or [pull requests] are welcome and are greatly appreciated. Chek out the [milestones] for the list of planned releases.
 
@@ -368,6 +358,7 @@ This repository could not exist without the following great tools:
 - [Vagrant]
 - [VirtualBox]
 - [Hyper-V]
+- [Azure]
 - [AWS]
 - [Chef]
 

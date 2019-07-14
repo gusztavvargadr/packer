@@ -1,19 +1,18 @@
 {
-  "min_packer_version": "1.3.0",
   "variables": {
     "builder_source": "builders",
     "builder_destination": "C:/Windows/Setup/packer",
     "hyperv_headless": "true",
-    "hyperv_ram_size": "4096",
+    "hyperv_memory": "4096",
     "hyperv_enable_dynamic_memory": "false",
-    "hyperv_cpu": "2",
+    "hyperv_cpus": "2",
     "hyperv_enable_virtualization_extensions": "true",
     "hyperv_switch_name": "Default Switch",
     "hyperv_enable_mac_spoofing": "true",
     "hyperv_boot_wait": "10s",
     "hyperv_communicator": "ssh",
     "hyperv_ssh_username": "Administrator",
-    "hyperv_ssh_password": "vagrant",
+    "hyperv_ssh_password": "Packer42-",
     "hyperv_ssh_timeout": "1h",
     "hyperv_guest_additions_mode": "disable",
     "hyperv_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd"

@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 case "$PACKER_BUILDER_TYPE" in
-virtualbox-ovf|hyperv-vmcx)
+virtualbox-iso|virtualbox-ovf|hyperv-iso|hyperv-vmcx)
     pubkey_url="https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub";
     mkdir -p $HOME_DIR/.ssh;
     if command -v wget >/dev/null 2>&1; then

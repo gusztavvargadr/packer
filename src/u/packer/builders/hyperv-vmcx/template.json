@@ -8,9 +8,9 @@
       "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "clone_from_vmcx_path": "{{user `hyperv_clone_from_vmcx_path`}}",
       "headless": "{{user `hyperv_headless`}}",
-      "ram_size": "{{user `hyperv_ram_size`}}",
+      "memory": "{{user `hyperv_memory`}}",
       "enable_dynamic_memory": "{{user `hyperv_enable_dynamic_memory`}}",
-      "cpu": "{{user `hyperv_cpu`}}",
+      "cpus": "{{user `hyperv_cpus`}}",
       "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
       "switch_name": "{{user `hyperv_switch_name`}}",
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
@@ -22,7 +22,7 @@
       "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
       "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
-      "output_directory": "{{user `output_directory`}}"
+      "output_directory": "{{user `output_directory`}}/build"
     }
   ]
 }

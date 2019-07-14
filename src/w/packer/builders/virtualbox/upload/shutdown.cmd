@@ -1,1 +1,1 @@
-shutdown.exe /s /t 10
+shutdown /s /t 10
