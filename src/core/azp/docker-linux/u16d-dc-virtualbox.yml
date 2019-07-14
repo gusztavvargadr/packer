@@ -6,11 +6,11 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../vagrant-build.yml
+  - template: ../build.yml
     parameters:
       images:
       - name:
-        - u16s
+        - u16d
         - dc
       providers:
       - virtualbox
@@ -19,11 +19,11 @@ stages:
   displayName: Deploy
 
   jobs:
-  - template: ../vagrant-deploy.yml
+  - template: ../deploy.yml
     parameters:
       images:
       - name:
-        - u16s
+        - u16d
         - dc
       providers:
       - virtualbox
