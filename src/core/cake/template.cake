@@ -4,6 +4,8 @@
 #load "./postprocessor.cake"
 
 class PackerTemplate {
+  public static string BuildDirectory { get; set; }
+
   public string Name { get; set; }
   public string Type { get; set; }
   public string FullName { get { return Name + "-" + Type; } }
@@ -24,7 +26,7 @@ class PackerTemplate {
   }
 
   public string GetBuildDirectory() {
-    return "build/" + Name + "/" + Type;
+    return BuildDirectory + "/" + Name + "/" + Type;
   }
 }
 

@@ -1,8 +1,8 @@
+#load "./template.cake"
+
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.0"
 #addin "nuget:?package=Cake.Json&version=3.0.1"
 #addin "nuget:?package=Newtonsoft.Json&version=11.0.2"
-
-#load "./template.cake"
 
 var packerTemplates = new List<PackerTemplate>();
 

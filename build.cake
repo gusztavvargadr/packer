@@ -2,36 +2,38 @@
 
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
-
 var version = "1907";
+
+var buildDirectory = Argument("build-directory", EnvironmentVariable("PACKER_BUILD_DIR") ?? "./build");
+PackerTemplate.BuildDirectory = buildDirectory;
 
 var w10e = PackerTemplates_CreateWindows(
   "w10e",
   "windows-10",
-  string.Format("1903.0.{0}-enterprise", version)
+  $"1903.0.{version}-enterprise"
 );
 
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server",
-  string.Format("1809.0.{0}-standard", version)
+  $"1809.0.{version}-standard"
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
   "windows-server",
-  string.Format("1809.0.{0}-standard-core", version)
+  $"1809.0.{version}-standard-core"
 );
 
 var u16d = PackerTemplates_CreateLinux(
   "u16d",
   "ubuntu-desktop",
-  string.Format("1604.0.{0}-lts", version)
+  $"1604.0.{version}-lts"
 );
 
 var u16s = PackerTemplates_CreateLinux(
   "u16s",
   "ubuntu-server",
-  string.Format("1604.0.{0}-lts", version)
+  $"1604.0.{version}-lts"
 );
 
 var w10e_dc = PackerTemplates_CreateWindows(
