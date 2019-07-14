@@ -12,7 +12,7 @@ jobs:
         pool:
           name: Default
           demands:
-          - AZP_${{ provider }}
+          - AZP_PACKER_${{ provider }}_${{ configuration }}_deploy
         workspace:
           clean: all
 

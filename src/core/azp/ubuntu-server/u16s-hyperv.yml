@@ -5,6 +5,6 @@ stages:
 - template: ../stages.yml
   parameters:
     images:
-    - name: u16d
+    - name: u16s
     providers:
     - hyperv
