@@ -40,7 +40,7 @@ jobs:
           contents: '**'
 
       - powershell: |
-          dotnet cake ci.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
+          dotnet cake build.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
 
       - task: ArchiveFiles@2
@@ -64,6 +64,6 @@ jobs:
         condition: always()
 
       - powershell: |
-          dotnet cake ci.cake --target=clean
+          dotnet cake build.cake --target=clean
         displayName: Clean Build
         condition: always()

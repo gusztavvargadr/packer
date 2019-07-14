@@ -38,12 +38,12 @@ jobs:
           contents: '**'
 
       - powershell: |
-          dotnet cake ci.cake --target=publish --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
+          dotnet cake build.cake --target=publish --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
         displayName: Build
         env:
           VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
       - powershell: |
-          dotnet cake ci.cake --target=clean
+          dotnet cake build.cake --target=clean
         displayName: Clean Build
         condition: always()
