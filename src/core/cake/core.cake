@@ -9,17 +9,6 @@ var packerTemplates = new List<PackerTemplate>();
 IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null) {
   var items = new List<PackerTemplate>();
 
-  if (parents == null) {
-    var virtualBoxInit = PackerTemplate_Create(
-      name,
-      "virtualbox-init",
-      new [] { PackerBuilder_Create("virtualbox-iso") },
-      new [] { PackerProvisioner_Create("vagrant") },
-      new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
-      null
-    );
-    items.Add(virtualBoxInit);
-  }
   var virtualBoxCore = PackerTemplate_Create(
     name,
     "virtualbox-core",
@@ -41,17 +30,6 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
 
-  if (parents == null) {
-    var hyperVInit = PackerTemplate_Create(
-      name,
-      "hyperv-init",
-      new [] { PackerBuilder_Create("hyperv-iso") },
-      new [] { PackerProvisioner_Create("vagrant") },
-      new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-      null
-    );
-    items.Add(hyperVInit);
-  }
   var hyperVCore = PackerTemplate_Create(
     name,
     "hyperv-core",
@@ -81,17 +59,6 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
 IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = true, bool azure = true) {
   var items = new List<PackerTemplate>();
 
-  if (parents == null) {
-    var virtualBoxInit = PackerTemplate_Create(
-      name,
-      "virtualbox-init",
-      new [] { PackerBuilder_Create("virtualbox-iso") },
-      new [] { PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-vagrant") },
-      new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
-      null
-    );
-    items.Add(virtualBoxInit);
-  }
   var virtualBoxCore = PackerTemplate_Create(
     name,
     "virtualbox-core",
@@ -113,17 +80,6 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string grou
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
 
-  if (parents == null) {
-    var hyperVInit = PackerTemplate_Create(
-      name,
-      "hyperv-init",
-      new [] { PackerBuilder_Create("hyperv-iso") },
-      new [] { PackerProvisioner_Create("shell-vagrant") },
-      new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-      null
-    );
-    items.Add(hyperVInit);
-  }
   var hyperVCore = PackerTemplate_Create(
     name,
     "hyperv-core",
