@@ -2,6 +2,7 @@ parameters:
   images: []
   providers: []
 
+stages:
 - stage: core_build
   displayName: Core Build
 
