@@ -114,7 +114,7 @@ def create_build_packer_vm(deployment, name)
     end
 
     VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{build_dir}/build/#{name}/hyperv-vagrant/output/package/vagrant.box"
+      provider.override.vm.box_url = "file://#{build_dir}/#{name}/hyperv-vagrant/output/package/vagrant.box"
     end
   end
 end
