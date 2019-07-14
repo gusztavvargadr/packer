@@ -4,6 +4,7 @@ pr: none
 variables:
 - group: pipeline
 
+stages:
 - template: ../stages.yml
   parameters:
     images:
