@@ -53,7 +53,7 @@ VagrantHyperVProvider.defaults_include(
 )
 
 def version
-  '1907'
+  '1906'
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|

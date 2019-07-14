@@ -3,7 +3,7 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 
-var version = "1907";
+var version = "1906";
 
 var w10e = PackerTemplates_CreateWindows(
   "w10e",
