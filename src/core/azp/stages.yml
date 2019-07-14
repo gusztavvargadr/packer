@@ -11,7 +11,7 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: core
+      configurations: [ 'core' ]
 
 - stage: vagrant_build
   displayName: Vagrant Build
@@ -21,7 +21,7 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: vagrant
+      configurations: [ 'vagrant' ]
 
 - stage: vagrant_deploy
   displayName: Vagrant Deploy
@@ -34,4 +34,4 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: vagrant
+      configurations: [ 'vagrant' ]
