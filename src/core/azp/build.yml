@@ -1,0 +1,33 @@
+parameters:
+  images: []
+  providers: []
+  configurations: [ 'core', 'vagrant' ]
+
+jobs:
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - ${{ each configuration in parameters.configurations }}:
+      - job: ${{ join('_', image.name) }}_${{ provider }}_${{ configuration }}_build
+        displayName: Build ${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+        pool:
+          name: Default
+          demands:
+          - AZP_${{ provider }}
+        workspace:
+          clean: all
+
+        steps:
+        - checkout: self
+          submodules: recursive
+
+        - powershell: |
+            dotnet cake build.cake --target=restore --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+          displayName: Restore
+
+        - powershell: |
+            dotnet cake build.cake --target=build --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+          displayName: Build
+
+        - powershell: |
+            dotnet cake build.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+          displayName: Test

@@ -1,0 +1,29 @@
+parameters:
+  images: []
+  providers: []
+  configurations: [ 'vagrant' ]
+
+jobs:
+- ${{ each image in parameters.images }}:
+  - ${{ each provider in parameters.providers }}:
+    - ${{ each configuration in parameters.configurations }}:
+      - job: ${{ join('_', image.name) }}_${{ provider }}_${{ configuration }}_deploy
+        displayName: Deploy ${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+        pool:
+          name: Default
+          demands:
+          - AZP_${{ provider }}
+        workspace:
+          clean: all
+        variables:
+        - group: environment-vagrantcloud
+
+        steps:
+        - checkout: self
+          submodules: recursive
+
+        - powershell: |
+            dotnet cake build.cake --target=publish --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
+          displayName: Publish
+          env:
+            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)

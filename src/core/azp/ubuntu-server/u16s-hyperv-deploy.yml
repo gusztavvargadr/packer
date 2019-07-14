@@ -2,13 +2,13 @@ trigger: none
 pr: none
 
 stages:
-- stage: build
-  displayName: Build
+- stage: deploy
+  displayName: Deploy
 
   jobs:
-  - template: ../core-build.yml
+  - template: ../deploy.yml
     parameters:
       images:
       - name: u16s
       providers:
-      - virtualbox
+      - hyperv

@@ -6,7 +6,7 @@ stages:
   displayName: Build
 
   jobs:
-  - template: ../core-build.yml
+  - template: ../build.yml
     parameters:
       images:
       - name: u16s
