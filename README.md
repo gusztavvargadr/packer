@@ -81,7 +81,7 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [**Visual Studio 2019 and 2017 Community** on Windows 10 Version 1809 Enterprise and Windows Server 2019 Standard][box-visual-studio]
+- [**Visual Studio 2019 and 2017 Community** on Windows 10 Version 1903 Enterprise and Windows Server 2019 Standard][box-visual-studio]
 
 [Visual Studio]: #visual-studio
 

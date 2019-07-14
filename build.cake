@@ -92,12 +92,30 @@ var ws2019s_sql17d = PackerTemplates_CreateWindows(
   ws2019s
 );
 
-// visual-studio
-var w10e_dc_vs17c = PackerTemplates_CreateWindows("w10e-dc-vs17c", parents: w10e_dc);
-var w10e_dc_vs17p = PackerTemplates_CreateWindows("w10e-dc-vs17p", parents: w10e_dc);
-var w10e_dc_vs19c = PackerTemplates_CreateWindows("w10e-dc-vs19c", parents: w10e_dc);
-var w10e_dc_vs19p = PackerTemplates_CreateWindows("w10e-dc-vs19p", parents: w10e_dc);
-
+var w10e_dc_vs17c = PackerTemplates_CreateWindows(
+  "w10e-dc-vs17c",
+  "visual-studio",
+  string.Format("2017.0.{0}-community-windows-10-1903-enterprise", version),
+  w10e_dc
+);
+var w10e_dc_vs17p = PackerTemplates_CreateWindows(
+  "w10e-dc-vs17p",
+  "visual-studio",
+  string.Format("2017.0.{0}-professional-windows-10-1903-enterprise", version),
+  w10e_dc
+);
+var w10e_dc_vs19c = PackerTemplates_CreateWindows(
+  "w10e-dc-vs19c",
+  "visual-studio",
+  string.Format("2019.0.{0}-community-windows-10-1903-enterprise", version),
+  w10e_dc
+);
+var w10e_dc_vs19p = PackerTemplates_CreateWindows(
+  "w10e-dc-vs19p",
+  "visual-studio",
+  string.Format("2019.0.{0}-professional-windows-10-1903-enterprise", version),
+  w10e_dc
+);
 var ws2019s_dc_vs17c = PackerTemplates_CreateWindows(
   "ws2019s-dc-vs17c",
   "visual-studio",

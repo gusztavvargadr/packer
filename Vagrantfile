@@ -79,11 +79,10 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
 
   create_packer_vms(deployment, 'ws2019s-sql17d', 'sql-server', "2017.0.#{version}-developer-windows-server-1809-standard")
 
-  create_packer_vms(deployment, 'w10e-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-10-1809-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-10-1809-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-10-1809-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-10-1809-enterprise")
-
+  create_packer_vms(deployment, 'w10e-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-10-1903-enterprise")
   create_packer_vms(deployment, 'ws2019s-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019s-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019s-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-server-1809-standard")
