@@ -1,0 +1,36 @@
+parameters:
+  images: []
+  providers: []
+
+- stage: core_build
+  displayName: Core Build
+
+  jobs:
+  - template: ./jobs.build.yml
+    parameters:
+      images: ${{ parameters.images }}
+      providers: ${{ parameters.providers }}
+      configurations: core
+
+- stage: vagrant_build
+  displayName: Vagrant Build
+
+  jobs:
+  - template: ./jobs.build.yml
+    parameters:
+      images: ${{ parameters.images }}
+      providers: ${{ parameters.providers }}
+      configurations: vagrant
+
+- stage: vagrant_deploy
+  displayName: Vagrant Deploy
+
+  variables:
+  - group: environment-vagrantcloud
+
+  jobs:
+  - template: ./jobs.deploy.yml
+    parameters:
+      images: ${{ parameters.images }}
+      providers: ${{ parameters.providers }}
+      configurations: vagrant

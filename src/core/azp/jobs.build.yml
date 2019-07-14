@@ -1,7 +1,7 @@
 parameters:
   images: []
   providers: []
-  configurations: [ 'core', 'vagrant' ]
+  configurations: []
 
 jobs:
 - ${{ each image in parameters.images }}:
@@ -15,21 +15,19 @@ jobs:
           - AZP_${{ provider }}
         workspace:
           clean: all
-        ${{ if eq(configuration, 'vagrant') }}:
-          dependsOn: ${{ join('_', image.name) }}_${{ provider }}_core_build
 
         steps:
         - checkout: self
           submodules: recursive
 
-        - powershell: |
+        - script: |
             dotnet cake build.cake --target=restore --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
           displayName: Restore
 
-        - powershell: |
+        - script: |
             dotnet cake build.cake --target=build --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
           displayName: Build
 
-        - powershell: |
+        - script: |
             dotnet cake build.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
           displayName: Test

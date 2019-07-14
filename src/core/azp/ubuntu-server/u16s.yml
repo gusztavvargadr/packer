@@ -1,0 +1,12 @@
+trigger: none
+pr: none
+
+variables:
+- group: pipeline
+
+stages:
+- template: ../stages.yml
+  parameters:
+    images:
+    - name: u16s
+    providers: $(pipeline-providers)

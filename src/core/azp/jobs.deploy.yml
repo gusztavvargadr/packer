@@ -1,7 +1,7 @@
 parameters:
   images: []
   providers: []
-  configurations: [ 'vagrant' ]
+  configurations: []
 
 jobs:
 - ${{ each image in parameters.images }}:
@@ -15,14 +15,12 @@ jobs:
           - AZP_${{ provider }}
         workspace:
           clean: all
-        variables:
-        - group: environment-vagrantcloud
 
         steps:
         - checkout: self
           submodules: recursive
 
-        - powershell: |
+        - script: |
             dotnet cake build.cake --target=publish --configuration=${{ join('-', image.name) }}-${{ provider }}-vagrant
           displayName: Publish
           env:
