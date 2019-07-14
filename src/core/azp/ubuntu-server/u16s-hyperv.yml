@@ -2,6 +2,17 @@ trigger: none
 pr: none
 
 stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ../build.yml
+    parameters:
+      images:
+      - name: u16s
+      providers:
+      - hyperv
+
 - stage: deploy
   displayName: Deploy
 
