@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], Azure and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
@@ -24,7 +24,7 @@ This repository contains [Packer] sample template for the following virtualizati
 - [Development] using [Visual Studio].
 - [Hosting] using [Docker], [IIS] and [SQL Server].
 
-The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V] - supporting [nested virtualization] -, [Azure] and [AWS], and are provisioned using [Chef].
+The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
 > **Note** All the components, including the core operating systems, share the following characteristics:
 > 
@@ -43,7 +43,6 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [Vagrant]: https://www.vagrantup.com/
 [VirtualBox]: https://www.virtualbox.org/
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[Nested virtualization]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/nested-virtualization
 [Azure]: https://azure.microsoft.com/
 [AWS]: https://aws.amazon.com/
 [Chef]: https://www.chef.sh/
