@@ -1,6 +1,6 @@
 parameters:
   images: []
-  providers: [ 'hyperv' ]
+  providers: [ 'virtualbox', 'hyperv' ]
   configurations: [ 'core' ]
 
 stages:
