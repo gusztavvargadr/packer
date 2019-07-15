@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+- template: ../stages.yml
+  parameters:
+    images:
+    - name: w10e
+    providers:
+    - hyperv

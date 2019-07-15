@@ -12,7 +12,8 @@ jobs:
         pool:
           name: Default
           demands:
-          - AZP_PACKER_${{ provider }}_${{ configuration }}_build
+          - AZP_AGENT_PACKER -equals ${{ provider }}
+          - AZP_AGENT_VAGRANT -equals ${{ provider }}
         workspace:
           clean: all
 
