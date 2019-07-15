@@ -7,6 +7,8 @@ var version = "1907";
 var buildDirectory = Argument("build-directory", EnvironmentVariable("PACKER_BUILD_DIR") ?? "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
 
+Environment.SetEnvironmentVariable("PACKER_SOURCE_DIR", MakeAbsolute(Directory(".")));
+
 var w10e = PackerTemplates_CreateWindows(
   "w10e",
   "windows-10",
