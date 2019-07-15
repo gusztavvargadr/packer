@@ -9,4 +9,4 @@ stages:
   parameters:
     images:
     - name: ws2019s
-    providers: $(pipeline-providers)
+    providers: [ $(pipeline-providers) ]

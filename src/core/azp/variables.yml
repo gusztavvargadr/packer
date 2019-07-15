@@ -1,4 +1,4 @@
 parameters:
 
 variables:
-  pipeline-providers: [ 'hyperv' ]
+  pipeline-providers: 'hyperv'
