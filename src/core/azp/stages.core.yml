@@ -1,6 +1,7 @@
 parameters:
   images: []
-  providers: []
+  providers: [ 'hyperv' ]
+  configurations: [ 'core' ]
 
 stages:
 - stage: build
@@ -11,4 +12,4 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: [ 'core' ]
+      configurations: ${{ parameters.configurations }}

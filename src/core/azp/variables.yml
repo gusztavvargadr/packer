@@ -1,2 +1,0 @@
-variables:
-  pipeline-providers: 'hyperv'

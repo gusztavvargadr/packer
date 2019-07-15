@@ -1,6 +1,7 @@
 parameters:
   images: []
-  providers: []
+  providers: [ 'hyperv' ]
+  configurations: [ 'vagrant' ]
 
 stages:
 - stage: build
@@ -11,7 +12,7 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: [ 'vagrant' ]
+      configurations: ${{ parameters.configurations }}
 
 - stage: deploy
   displayName: Deploy
@@ -24,4 +25,4 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: [ 'vagrant' ]
+      configurations: ${{ parameters.configurations }}

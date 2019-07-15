@@ -1,12 +1,8 @@
 trigger: none
 pr: none
 
-variables:
-- template: ../variables.yml
-
 stages:
 - template: ../stages.vagrant.yml
   parameters:
     images:
     - name: ws2019s
-    providers: $(pipeline-providers)
