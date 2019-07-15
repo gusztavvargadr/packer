@@ -16,6 +16,7 @@ jobs:
           - AZP_AGENT_VAGRANT -equals ${{ provider }}
         workspace:
           clean: all
+        timeoutInMinutes: 60
 
         steps:
         - checkout: self
