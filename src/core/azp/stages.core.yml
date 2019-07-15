@@ -1,0 +1,14 @@
+parameters:
+  images: []
+  providers: []
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ./jobs.build.yml
+    parameters:
+      images: ${{ parameters.images }}
+      providers: ${{ parameters.providers }}
+      configurations: [ 'core' ]
