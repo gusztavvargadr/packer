@@ -2,11 +2,9 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.yml
+- template: ../stages.vagrant.yml
   parameters:
     images:
     - name:
-      - u16s
+      - u16d
       - dc
-    providers:
-    - hyperv
