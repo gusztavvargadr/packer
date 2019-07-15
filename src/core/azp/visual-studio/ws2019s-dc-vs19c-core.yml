@@ -2,12 +2,10 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.yml
+- template: ../stages.core.yml
   parameters:
     images:
     - name:
       - ws2019s
       - dc
       - vs19c
-    providers:
-    - virtualbox

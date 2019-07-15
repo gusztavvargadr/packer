@@ -2,12 +2,10 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.yml
+- template: ../stages.vagrant.yml
   parameters:
     images:
     - name:
       - ws2019s
       - dc
-      - vs17c
-    providers:
-    - hyperv
+      - vs19c
