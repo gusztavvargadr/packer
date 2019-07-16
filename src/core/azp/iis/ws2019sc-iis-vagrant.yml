@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+- template: ../stages.vagrant.yml
+  parameters:
+    images:
+    - name:
+      - ws2019sc
+      - iis
