@@ -22,7 +22,7 @@ reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v
 netsh advfirewall firewall add rule name="Remote Desktop" dir=in localport=3389 protocol=TCP action=allow
 
 Write-Host "Install Chef Client"
-choco install chef-client -y --version 15.0.300
+choco install chef-client -y --version 15.1.36
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install 7zip"

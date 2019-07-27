@@ -107,15 +107,6 @@ void PackerTemplate_Test(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  if (template.Type.Contains("init")) {
-    try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-init --provider " + provider);
-    } finally {
-      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-init");
-      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-init");
-    }
-  }
-  
   if (template.Type.Contains("vagrant")) {
     try {
       PackerTemplate_Vagrant(template, "up " + template.Name + "-build --provider " + provider);
