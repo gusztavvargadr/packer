@@ -22,6 +22,11 @@ class VagrantWindowsMachine < VagrantMachine
       'shell-packages' => {
         'inline' => 'choco list -li',
       },
+      'chef_policyfile' => {
+        'paths' => [
+          'Policyfile.rb',
+        ],
+      },  
     }
   }
 end
@@ -38,6 +43,11 @@ class VagrantLinuxMachine < VagrantMachine
       'shell-packages' => {
         'inline' => 'apt list --installed',
       },
+      'chef_policyfile' => {
+        'paths' => [
+          'Policyfile.rb',
+        ],
+      },  
     }
   }
 end
