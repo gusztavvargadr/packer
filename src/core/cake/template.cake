@@ -144,7 +144,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
     try {
       PackerTemplate_Vagrant(template, "box add"
         + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
-        + $" --name local/gusztavvargadr/{template.GroupName}-deploy"
+        + $" --name local/gusztavvargadr/{template.Name}-deploy"
         + $" --provider {provider}"
       );
     } catch (Exception ex) {
