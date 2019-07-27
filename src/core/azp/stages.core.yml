@@ -4,8 +4,8 @@ parameters:
   configurations: [ 'core' ]
 
 stages:
-- stage: build
-  displayName: Build
+- stage: default
+  displayName: Default
 
   jobs:
   - template: ./jobs.build.yml

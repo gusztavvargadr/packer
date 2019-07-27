@@ -16,6 +16,9 @@ jobs:
         workspace:
           clean: all
         timeoutInMinutes: 120
+        variables:
+        - group: environment-vagrantcloud
+        dependsOn: ${{ join('_', image.name) }}_${{ provider }}_${{ configuration }}_build
 
         steps:
         - checkout: self

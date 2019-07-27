@@ -4,8 +4,8 @@ parameters:
   configurations: [ 'vagrant' ]
 
 stages:
-- stage: build
-  displayName: Build
+- stage: default
+  displayName: Default
 
   jobs:
   - template: ./jobs.build.yml
@@ -14,13 +14,6 @@ stages:
       providers: ${{ parameters.providers }}
       configurations: ${{ parameters.configurations }}
 
-- stage: deploy
-  displayName: Deploy
-
-  variables:
-  - group: environment-vagrantcloud
-
-  jobs:
   - template: ./jobs.deploy.yml
     parameters:
       images: ${{ parameters.images }}
