@@ -105,15 +105,25 @@ void PackerTemplate_Build(PackerTemplate template) {
 void PackerTemplate_Test(PackerTemplate template) {
   PackerTemplate_Log(template, "Test");
 
+  if (!template.Type.Contains("vagrant")) {
+    return;
+  }
+
   var provider = template.Type.Split('-')[0];
 
-  if (template.Type.Contains("vagrant")) {
-    try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-build --provider " + provider);
-    } finally {
-      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
-      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
-    }
+  try {
+    PackerTemplate_Vagrant(template, "up"
+      + $" {template.Name}-build"
+      + $" --provider {provider}"
+    );
+  } finally {
+    PackerTemplate_Vagrant(template, "destroy --force"
+      + $" {template.Name}-build"
+    );
+    PackerTemplate_Vagrant(template, "box remove"
+      + $" local/gusztavvargadr/{template.Name}-build"
+      + $" --provider {provider}"
+    );
   }
 }
 
@@ -135,7 +145,6 @@ void PackerTemplate_Publish(PackerTemplate template) {
       PackerTemplate_Vagrant(template, "box add"
         + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
         + $" --name local/gusztavvargadr/{template.GroupName}-deploy"
-        + $" --box-version {template.GroupVersion}"
         + $" --provider {provider}"
       );
     } catch (Exception ex) {
@@ -155,10 +164,10 @@ void PackerTemplate_Publish(PackerTemplate template) {
     );
   } finally {
     PackerTemplate_Vagrant(template, "destroy --force"
-      + $"{template.Name}-deploy"
+      + $" {template.Name}-deploy"
     );
     PackerTemplate_Vagrant(template, "box remove"
-      + $"local/gusztavvargadr/{template.Name}-deploy"
+      + $" local/gusztavvargadr/{template.Name}-deploy"
       + $" --provider {provider}"
     );
   }
