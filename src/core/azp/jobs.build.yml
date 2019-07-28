@@ -30,6 +30,6 @@ jobs:
             dotnet cake build.cake --target=build --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
           displayName: Build
 
-        - script: |
-            dotnet cake build.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
-          displayName: Test
+        # - script: |
+        #     dotnet cake build.cake --target=test --configuration=${{ join('-', image.name) }}-${{ provider }}-${{ configuration }}
+        #   displayName: Test
