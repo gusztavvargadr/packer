@@ -2,9 +2,11 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.vagrant.yml
+- template: ../stages.yml
   parameters:
     images:
     - name:
       - ws2019s
       - de
+    providers:
+    - virtualbox
