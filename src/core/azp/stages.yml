@@ -11,7 +11,8 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: [ 'core' ]
+      configurations:
+      - core
 
 stages:
 - stage: vagrant
@@ -28,4 +29,5 @@ stages:
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: [ 'vagrant' ]
+      configurations:
+      - vagrant

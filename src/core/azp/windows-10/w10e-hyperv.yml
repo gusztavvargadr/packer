@@ -6,4 +6,5 @@ stages:
   parameters:
     images:
     - name: w10e
-    - providers: [ 'hyperv' ]
+    providers:
+    - hyperv

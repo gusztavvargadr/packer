@@ -6,4 +6,5 @@ stages:
   parameters:
     images:
     - name: ws2019sc
-    - providers: [ 'virtualbox' ]
+    providers:
+    - virtualbox
