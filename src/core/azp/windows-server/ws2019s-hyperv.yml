@@ -2,7 +2,8 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.core.yml
+- template: ../stages.yml
   parameters:
     images:
     - name: ws2019s
+    - providers: [ 'hyperv' ]

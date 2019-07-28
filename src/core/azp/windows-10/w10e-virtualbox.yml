@@ -2,7 +2,8 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.vagrant.yml
+- template: ../stages.yml
   parameters:
     images:
     - name: w10e
+    - providers: [ 'virtualbox' ]

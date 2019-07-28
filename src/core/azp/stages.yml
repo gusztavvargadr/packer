@@ -1,21 +1,31 @@
 parameters:
   images: []
   providers: [ 'virtualbox', 'hyperv' ]
-  configurations: [ 'vagrant' ]
 
 stages:
-- stage: default
-  displayName: Default
+- stage: core
+  displayName: Core
 
   jobs:
   - template: ./jobs.build.yml
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: ${{ parameters.configurations }}
+      configurations: [ 'core' ]
+
+stages:
+- stage: vagrant
+  displayName: Vagrant
+
+  jobs:
+  - template: ./jobs.build.yml
+    parameters:
+      images: ${{ parameters.images }}
+      providers: ${{ parameters.providers }}
+      configurations: [ 'vagrant' ]
 
   - template: ./jobs.deploy.yml
     parameters:
       images: ${{ parameters.images }}
       providers: ${{ parameters.providers }}
-      configurations: ${{ parameters.configurations }}
+      configurations: [ 'vagrant' ]
