@@ -14,7 +14,6 @@ stages:
       configurations:
       - core
 
-stages:
 - stage: vagrant
   displayName: Vagrant
 
