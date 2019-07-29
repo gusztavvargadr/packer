@@ -53,26 +53,26 @@ var ws2019s_dc = PackerTemplates_CreateWindows(
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
   "docker-windows",
-  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard", version),
+  string.Format("1903.0.{0}-enterprise-windows-server-1809-standard", version),
   ws2019s
 );
 var ws2019sc_de = PackerTemplates_CreateWindows(
   "ws2019sc-de",
   "docker-windows",
-  string.Format("1809.0.{0}-enterprise-windows-server-1809-standard-core", version),
+  string.Format("1903.0.{0}-enterprise-windows-server-1809-standard-core", version),
   ws2019sc
 );
 
 var u16d_dc = PackerTemplates_CreateLinux(
   "u16d-dc",
   "docker-linux",
-  string.Format("1809.0.{0}-community-ubuntu-desktop-1604-lts", version),
+  string.Format("1903.0.{0}-community-ubuntu-desktop-1604-lts", version),
   u16d
 );
 var u16s_dc = PackerTemplates_CreateLinux(
   "u16s-dc",
   "docker-linux",
-  string.Format("1809.0.{0}-community-ubuntu-server-1604-lts", version),
+  string.Format("1903.0.{0}-community-ubuntu-server-1604-lts", version),
   u16s
 );
 
