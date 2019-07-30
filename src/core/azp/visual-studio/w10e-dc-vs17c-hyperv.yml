@@ -2,10 +2,12 @@ trigger: none
 pr: none
 
 stages:
-- template: ../stages.core.yml
+- template: ../stages.yml
   parameters:
     images:
     - name:
       - w10e
       - dc
       - vs17c
+    providers:
+    - hyperv
