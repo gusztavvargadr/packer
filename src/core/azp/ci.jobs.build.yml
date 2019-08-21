@@ -27,5 +27,5 @@ jobs:
       dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
     displayName: Build
 
-  - publish: ($env:PACKER_BUILD_DIR)/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+  - publish: ~/.packer/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
     artifact: build
