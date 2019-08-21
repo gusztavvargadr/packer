@@ -4,8 +4,8 @@ parameters:
   provider: ''
 
 jobs:
-- job: build
-  displayName: Build
+- job: test
+  displayName: Test
   pool:
     name: Default
     demands:
@@ -18,6 +18,9 @@ jobs:
   steps:
   - checkout: self
     submodules: recursive
+
+  - download: current
+    artifact: build
 
   - script: |
       dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
