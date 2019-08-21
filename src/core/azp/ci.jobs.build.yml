@@ -9,8 +9,8 @@ jobs:
   pool:
     name: Default
     demands:
-    - AZP_AGENT_PACKER -equals ${{ provider }}
-    - AZP_AGENT_VAGRANT -equals ${{ provider }}
+    - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
+    - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
   workspace:
     clean: all
   timeoutInMinutes: 120
@@ -20,9 +20,9 @@ jobs:
     submodules: recursive
 
   - script: |
-      dotnet cake build.cake --target=restore --configuration=${{ image }}-${{ provider }}-${{ configuration }}
+      dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
     displayName: Restore
 
   - script: |
-      dotnet cake build.cake --target=build --configuration=${{ image }}-${{ provider }}-${{ configuration }}
+      dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
     displayName: Build
