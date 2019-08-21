@@ -1,0 +1,25 @@
+parameters:
+  image: ''
+  configuration: ''
+  provider: ''
+
+stages:
+- stage: build
+  displayName: Build
+
+  jobs:
+  - template: ./ci.jobs.build.yml
+    parameters:
+      image: ${{ parameters.image }}
+      configuration: ${{ parameters.configuration }}
+      provider: ${{ parameters.provider }}
+
+- stage: test
+  displayName: Test
+
+  jobs:
+  - template: ./ci.jobs.test.yml
+    parameters:
+      image: ${{ parameters.image }}
+      configuration: ${{ parameters.configuration }}
+      provider: ${{ parameters.provider }}

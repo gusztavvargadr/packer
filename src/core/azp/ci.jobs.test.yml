@@ -1,0 +1,24 @@
+parameters:
+  image: ''
+  configuration: ''
+  provider: ''
+
+jobs:
+- job: build
+  displayName: Build
+  pool:
+    name: Default
+    demands:
+    - AZP_AGENT_PACKER -equals ${{ provider }}
+    - AZP_AGENT_VAGRANT -equals ${{ provider }}
+  workspace:
+    clean: all
+  timeoutInMinutes: 120
+
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - script: |
+      dotnet cake build.cake --target=test --configuration=${{ image }}-${{ provider }}-${{ configuration }}
+    displayName: Test
