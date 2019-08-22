@@ -23,7 +23,7 @@ jobs:
       - ${{ if parameters.parent }}:
         - task: DownloadPipelineArtifact@2
           inputs:
-            source: specifc
+            source: specific
             project: packer
             pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
             artifact: build
