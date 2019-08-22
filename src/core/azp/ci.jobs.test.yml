@@ -19,9 +19,11 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - download: current
-        artifact: build
-        path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          source: current
+          artifact: build
+          path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
         displayName: Artifacts
 
       - script: |
