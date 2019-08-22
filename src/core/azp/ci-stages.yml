@@ -1,29 +1,29 @@
 parameters:
   image: ''
+  provider: ''
+  configuration: ''
   parent: ''
   parentDefinitionId: ''
-  configuration: ''
-  provider: ''
 
 stages:
   - stage: build
     displayName: Build
 
     jobs:
-      - template: ./ci.jobs.build.yml
+      - template: ./ci-jobs-build.yml
         parameters:
           image: ${{ parameters.image }}
+          provider: ${{ parameters.provider }}
+          configuration: ${{ parameters.configuration }}
           parent: ${{ parameters.parent }}
           parentDefinitionId: ${{ parameters.parentDefinitionId }}
-          configuration: ${{ parameters.configuration }}
-          provider: ${{ parameters.provider }}
 
   - stage: test
     displayName: Test
 
     jobs:
-      - template: ./ci.jobs.test.yml
+      - template: ./ci-jobs-test.yml
         parameters:
           image: ${{ parameters.image }}
-          configuration: ${{ parameters.configuration }}
           provider: ${{ parameters.provider }}
+          configuration: ${{ parameters.configuration }}

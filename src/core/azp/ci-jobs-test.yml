@@ -1,7 +1,7 @@
 parameters:
   image: ''
-  configuration: ''
   provider: ''
+  configuration: ''
 
 jobs:
   - job: test

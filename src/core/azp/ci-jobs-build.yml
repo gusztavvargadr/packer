@@ -1,9 +1,9 @@
 parameters:
   image: ''
+  provider: ''
+  configuration: ''
   parent: ''
   parentDefinitionId: ''
-  configuration: ''
-  provider: ''
 
 jobs:
   - job: build
@@ -27,9 +27,9 @@ jobs:
             source: specific
             project: $(System.TeamProjectId)
             pipeline: ${{ parameters.parentDefinitionId }}
-            # pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
+            # pipeline: ${{ parameters.parent }}-${{ parameters.provider }}-core-ci
             artifact: build
-            path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+            path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
           displayName: Artifacts - Download
 
       - script: |
