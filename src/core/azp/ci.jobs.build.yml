@@ -24,7 +24,7 @@ jobs:
         - task: DownloadPipelineArtifact@2
           inputs:
             source: specific
-            project: packer
+            project: $(System.TeamProjectId)
             pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
             artifact: build
             path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
