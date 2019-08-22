@@ -6,5 +6,6 @@ stages:
     parameters:
       image: u16s-dc
       parent: u16s
+      parentDefinitionId: 74
       configuration: core
       provider: hyperv

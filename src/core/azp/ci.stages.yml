@@ -1,6 +1,7 @@
 parameters:
   image: ''
   parent: ''
+  parentDefinitionId: ''
   configuration: ''
   provider: ''
 
@@ -13,6 +14,7 @@ stages:
         parameters:
           image: ${{ parameters.image }}
           parent: ${{ parameters.parent }}
+          parentDefinitionId: ${{ parameters.parentDefinitionId }}
           configuration: ${{ parameters.configuration }}
           provider: ${{ parameters.provider }}
 
@@ -23,6 +25,5 @@ stages:
       - template: ./ci.jobs.test.yml
         parameters:
           image: ${{ parameters.image }}
-          parent: ${{ parameters.parent }}
           configuration: ${{ parameters.configuration }}
           provider: ${{ parameters.provider }}

@@ -1,6 +1,7 @@
 parameters:
   image: ''
   parent: ''
+  parentDefinitionId: ''
   configuration: ''
   provider: ''
 
@@ -25,7 +26,8 @@ jobs:
           inputs:
             source: specific
             project: $(System.TeamProjectId)
-            pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
+            pipeline: ${{ parameters.parentDefinitionId }}
+            # pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
             artifact: build
             path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
           displayName: Artifacts - Download
