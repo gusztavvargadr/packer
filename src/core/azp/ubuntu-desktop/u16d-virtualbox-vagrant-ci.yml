@@ -4,8 +4,8 @@ pr: none
 stages:
   - template: ../ci-stages.yml
     parameters:
-      image: u16s
+      image: u16d
       provider: virtualbox
       configuration: vagrant
-      parent: u16s
-      parentDefinitionId: 17
+      parent: u16d
+      parentDefinitionId: 18
