@@ -1,5 +1,6 @@
 parameters:
   image: ''
+  parent: ''
   configuration: ''
   provider: ''
 
@@ -18,20 +19,30 @@ jobs:
     steps:
       - checkout: self
         submodules: recursive
+      
+      - ${{ if parameters.parent }}:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: specifc
+            project: packer
+            pipeline: ${{ parameters.parent }}-${{ parameters.configuration }}-${{ parameters.provider }}.ci
+            artifact: build
+            path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+          displayName: Artifacts - Download
 
       - script: |
           dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Restore
+        displayName: Build - Restore
 
       - script: |
           dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Build
+        displayName: Build - Run
 
       - publish: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
         artifact: build
-        displayName: Artifacts
+        displayName: Artifacts - Publish
 
       - script: |
           dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Clean
+        displayName: Build - Clean
         condition: always()

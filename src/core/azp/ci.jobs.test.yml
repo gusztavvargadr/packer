@@ -24,13 +24,13 @@ jobs:
           source: current
           artifact: build
           path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Artifacts
+        displayName: Artifacts - Download
 
       - script: |
           dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Test
+        displayName: Build - Test
 
       - script: |
           dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-        displayName: Clean
+        displayName: Build - Clean
         condition: always()

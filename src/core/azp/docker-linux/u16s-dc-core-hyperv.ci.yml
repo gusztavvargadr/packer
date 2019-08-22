@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../ci.stages.yml
+    parameters:
+      image: u16s-dc
+      parent: u16s
+      configuration: core
+      provider: hyperv
