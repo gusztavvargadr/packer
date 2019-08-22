@@ -2,8 +2,8 @@ trigger: none
 pr: none
 
 stages:
-- template: ../ci.stages.yml
-  parameters:
-    image: u16s
-    configuration: core
-    provider: hyperv
+  - template: ../ci.stages.yml
+    parameters:
+      image: u16s
+      configuration: core
+      provider: hyperv
