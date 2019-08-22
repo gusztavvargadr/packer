@@ -1,5 +1,6 @@
 parameters:
   image: ''
+  parent: ''
   configuration: ''
   provider: ''
 
@@ -11,6 +12,7 @@ stages:
       - template: ./ci.jobs.build.yml
         parameters:
           image: ${{ parameters.image }}
+          parent: ${{ parameters.parent }}
           configuration: ${{ parameters.configuration }}
           provider: ${{ parameters.provider }}
 
@@ -21,5 +23,6 @@ stages:
       - template: ./ci.jobs.test.yml
         parameters:
           image: ${{ parameters.image }}
+          parent: ${{ parameters.parent }}
           configuration: ${{ parameters.configuration }}
           provider: ${{ parameters.provider }}
