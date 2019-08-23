@@ -2,10 +2,10 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci.stages.yml
+  - template: ../ci-stages.yml
     parameters:
       image: u16d-dc
+      provider: hyperv
+      configuration: core
       parent: u16d
       parentDefinitionId: 39
-      configuration: core
-      provider: hyperv
