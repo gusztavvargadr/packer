@@ -32,9 +32,9 @@ stages:
               source: specific
               project: $(System.TeamProjectId)
               pipeline: ${{ parameters.parentDefinitionId }}
-              # pipeline: ${{ parameters.parent }}-${{ parameters.provider }}-core-ci
+              # pipeline: ${{ parameters.parent }}-${{ parameters.provider }}-vagrant-ci
               artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-vagrant
             displayName: Artifacts - Download
 
         - script: |
