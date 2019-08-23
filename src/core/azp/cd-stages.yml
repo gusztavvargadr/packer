@@ -6,20 +6,21 @@ parameters:
   parentDefinitionId: ''
 
 stages:
-  - stage: ci
-    displayName: CI
+  - stage: cd
+    displayName: CD
 
     jobs:
-    - job: ci
-      displayName: CI
+    - job: cd
+      displayName: CD
       pool:
         name: Default
         demands:
-          - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
           - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
       workspace:
         clean: all
       timeoutInMinutes: 120
+      variables:
+      - group: environment-vagrantcloud
 
       steps:
         - checkout: self
@@ -37,20 +38,10 @@ stages:
             displayName: Artifacts - Download
 
         - script: |
-            dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Restore
-
-        - script: |
-            dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Run
-
-        - script: |
-            dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Test
-
-        - publish: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-          artifact: build
-          displayName: Artifacts - Publish
+            dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+          displayName: Build - Publish
+          env:
+            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
         - script: |
             dotnet cake build.cake --target=clean
