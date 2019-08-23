@@ -1,0 +1,11 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../ci-stages.yml
+    parameters:
+      image: u16d-dc
+      provider: virtualbox
+      configuration: vagrant
+      parent: u16d
+      parentDefinitionId: 21
