@@ -7,5 +7,5 @@ stages:
       image: u16s-dc
       provider: virtualbox
       configuration: vagrant
-      parent: u16s
+      parent: u16s-dc
       parentDefinitionId: 20
