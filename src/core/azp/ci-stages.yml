@@ -3,7 +3,6 @@ parameters:
   provider: ''
   configuration: ''
   parent: ''
-  parentDefinitionId: ''
 
 stages:
   - stage: ci
@@ -20,6 +19,8 @@ stages:
       workspace:
         clean: all
       timeoutInMinutes: 120
+      variables:
+      - group: pipeline
 
       steps:
         - checkout: self
@@ -30,8 +31,7 @@ stages:
             inputs:
               source: specific
               project: $(System.TeamProjectId)
-              pipeline: ${{ parameters.parentDefinitionId }}
-              # pipeline: ${{ parameters.parent }}-${{ parameters.provider }}-core-ci
+              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
               artifact: build
               path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
             displayName: Artifacts - Download

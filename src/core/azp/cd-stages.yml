@@ -3,7 +3,6 @@ parameters:
   provider: ''
   configuration: ''
   parent: ''
-  parentDefinitionId: ''
 
 stages:
   - stage: cd
@@ -20,6 +19,7 @@ stages:
         clean: all
       timeoutInMinutes: 120
       variables:
+      - group: pipeline
       - group: environment-vagrantcloud
 
       steps:
@@ -31,10 +31,9 @@ stages:
             inputs:
               source: specific
               project: $(System.TeamProjectId)
-              pipeline: ${{ parameters.parentDefinitionId }}
-              # pipeline: ${{ parameters.parent }}-${{ parameters.provider }}-vagrant-ci
+              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
               artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-vagrant
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Artifacts - Download
 
         - script: |
