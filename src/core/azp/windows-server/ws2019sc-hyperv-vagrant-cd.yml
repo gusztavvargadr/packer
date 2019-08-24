@@ -1,0 +1,11 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../cd-stages.yml
+    parameters:
+      image: ws2019sc
+      provider: hyperv
+      configuration: vagrant
+      parent: ws2019sc
+      parentDefinitionId: 96
