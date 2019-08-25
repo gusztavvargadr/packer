@@ -8,4 +8,3 @@ stages:
       provider: hyperv
       configuration: vagrant
       parent: ws2019s
-      parentDefinitionId: 98

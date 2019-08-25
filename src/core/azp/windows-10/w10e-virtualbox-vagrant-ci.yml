@@ -8,4 +8,3 @@ stages:
       provider: virtualbox
       configuration: vagrant
       parent: w10e
-      parentDefinitionId: 29

@@ -8,4 +8,3 @@ stages:
       provider: hyperv
       configuration: vagrant
       parent: w10e
-      parentDefinitionId: 43
