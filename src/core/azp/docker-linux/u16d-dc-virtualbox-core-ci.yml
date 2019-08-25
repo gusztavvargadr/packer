@@ -8,4 +8,3 @@ stages:
       provider: virtualbox
       configuration: core
       parent: u16d
-      parentDefinitionId: 18
