@@ -5,6 +5,6 @@ stages:
   - template: ../ci-stages.yml
     parameters:
       image: ws2019s-dc
-      provider: virtualbox
+      provider: hyperv
       configuration: core
       parent: ws2019s

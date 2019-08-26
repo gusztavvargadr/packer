@@ -8,4 +8,3 @@ stages:
       provider: virtualbox
       configuration: core
       parent: ws2019sc
-      parentDefinitionId: 22
