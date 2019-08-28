@@ -41,107 +41,107 @@ var u16s = PackerTemplates_CreateLinux(
 var w10e_dc = PackerTemplates_CreateWindows(
   "w10e-dc",
   "docker-windows",
-  string.Format("1809.0.{0}-community-windows-10-1903-enterprise", version),
+  $"1809.0.{version}-community-windows-10-1903-enterprise",
   w10e
 );
 var ws2019s_dc = PackerTemplates_CreateWindows(
   "ws2019s-dc",
   "docker-windows",
-  string.Format("1809.0.{0}-community-windows-server-1809-standard", version),
+  $"1809.0.{version}-community-windows-server-1809-standard",
   ws2019s
 );
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
   "docker-windows",
-  string.Format("1903.0.{0}-enterprise-windows-server-1809-standard", version),
+  $"1903.0.{version}-enterprise-windows-server-1809-standard",
   ws2019s
 );
 var ws2019sc_de = PackerTemplates_CreateWindows(
   "ws2019sc-de",
   "docker-windows",
-  string.Format("1903.0.{0}-enterprise-windows-server-1809-standard-core", version),
+  $"1903.0.{version}-enterprise-windows-server-1809-standard-core",
   ws2019sc
 );
 
 var u16d_dc = PackerTemplates_CreateLinux(
   "u16d-dc",
   "docker-linux",
-  string.Format("1903.0.{0}-community-ubuntu-desktop-1604-lts", version),
+  $"1903.0.{version}-community-ubuntu-desktop-1604-lts",
   u16d
 );
 var u16s_dc = PackerTemplates_CreateLinux(
   "u16s-dc",
   "docker-linux",
-  string.Format("1903.0.{0}-community-ubuntu-server-1604-lts", version),
+  $"1903.0.{version}-community-ubuntu-server-1604-lts",
   u16s
 );
 
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
   "iis",
-  string.Format("10.0.{0}-windows-server-1809-standard", version),
+  $"10.0.{version}-windows-server-1809-standard",
   ws2019s
 );
 var ws2019sc_iis = PackerTemplates_CreateWindows(
   "ws2019sc-iis",
   "iis",
-  string.Format("10.0.{0}-windows-server-1809-standard-core", version),
+  $"10.0.{version}-windows-server-1809-standard-core",
   ws2019sc
 );
 
 var ws2019s_sql17d = PackerTemplates_CreateWindows(
   "ws2019s-sql17d",
   "sql-server",
-  string.Format("2017.0.{0}-developer-windows-server-1809-standard", version),
+  $"2017.0.{version}-developer-windows-server-1809-standard",
   ws2019s
 );
 
 var w10e_dc_vs17c = PackerTemplates_CreateWindows(
   "w10e-dc-vs17c",
   "visual-studio",
-  string.Format("2017.0.{0}-community-windows-10-1903-enterprise", version),
+  $"2017.0.{version}-community-windows-10-1903-enterprise",
   w10e_dc
 );
 var w10e_dc_vs17p = PackerTemplates_CreateWindows(
   "w10e-dc-vs17p",
   "visual-studio",
-  string.Format("2017.0.{0}-professional-windows-10-1903-enterprise", version),
+  $"2017.0.{version}-professional-windows-10-1903-enterprise",
   w10e_dc
 );
 var w10e_dc_vs19c = PackerTemplates_CreateWindows(
   "w10e-dc-vs19c",
   "visual-studio",
-  string.Format("2019.0.{0}-community-windows-10-1903-enterprise", version),
+  $"2019.0.{version}-community-windows-10-1903-enterprise",
   w10e_dc
 );
 var w10e_dc_vs19p = PackerTemplates_CreateWindows(
   "w10e-dc-vs19p",
   "visual-studio",
-  string.Format("2019.0.{0}-professional-windows-10-1903-enterprise", version),
+  $"2019.0.{version}-professional-windows-10-1903-enterprise",
   w10e_dc
 );
 var ws2019s_dc_vs17c = PackerTemplates_CreateWindows(
   "ws2019s-dc-vs17c",
   "visual-studio",
-  string.Format("2017.0.{0}-community-windows-server-1809-standard", version),
+  $"2017.0.{version}-community-windows-server-1809-standard",
   ws2019s_dc
 );
 var ws2019s_dc_vs17p = PackerTemplates_CreateWindows(
   "ws2019s-dc-vs17p",
   "visual-studio",
-  string.Format("2017.0.{0}-professional-windows-server-1809-standard", version),
+  $"2017.0.{version}-professional-windows-server-1809-standard",
   ws2019s_dc
 );
 var ws2019s_dc_vs19c = PackerTemplates_CreateWindows(
   "ws2019s-dc-vs19c",
   "visual-studio",
-  string.Format("2019.0.{0}-community-windows-server-1809-standard", version),
+  $"2019.0.{version}-community-windows-server-1809-standard",
   ws2019s_dc
 );
 var ws2019s_dc_vs19p = PackerTemplates_CreateWindows(
   "ws2019s-dc-vs19p",
   "visual-studio",
-  string.Format("2019.0.{0}-professional-windows-server-1809-standard", version),
+  $"2019.0.{version}-professional-windows-server-1809-standard",
   ws2019s_dc
 );
 
