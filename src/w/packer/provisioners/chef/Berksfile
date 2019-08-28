@@ -1,4 +1,3 @@
-directory = File.dirname(__FILE__)
-require "#{directory}/../../../../../Berksfile.core"
+require "#{ENV['PACKER_SOURCE_DIR']}/Berksfile.core"
 
 gusztavvargadr_packer_sources

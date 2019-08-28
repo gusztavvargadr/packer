@@ -1,9 +1,12 @@
 {
   "variables": {
     "amazon_region": "eu-west-1",
+    "amazon_ami_users": "",
     "amazon_source_ami_filter_name": "",
+
+    "amazon_source_ami_filter_owner": "",
+
     "amazon_instance_type": "t3.medium",
-    "amazon_volume_size": "31",
     "amazon_user_data_file": "builders/amazon-ebs/userdata.sh",
     "amazon_communicator": "ssh"
   },
@@ -11,36 +14,45 @@
     {
       "type": "amazon-ebs",
       "region": "{{user `amazon_region`}}",
+      "ami_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
+      "ami_description": "{{user `description`}}",
+      "ami_users": "{{user `amazon_ami_users`}}",
       "source_ami_filter": {
         "filters": {
           "name": "{{user `amazon_source_ami_filter_name`}}"
         },
-        "most_recent": true
+        "owners": [
+          "{{user `amazon_source_ami_filter_owner`}}"
+        ],
+        "most_recent": "{{user `amazon_source_ami_filter_most_recent`}}"
       },
-      "ami_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-      "ami_description": "{{user `description`}}",
       "instance_type": "{{user `amazon_instance_type`}}",
-      "spot_price": "auto",
-      "spot_price_auto_product": "Linux (Amazon VPC)",
-      "launch_block_device_mappings": [
-        {
-          "device_name": "/dev/sda1",
-          "volume_size": "{{user `amazon_volume_size`}}",
-          "volume_type": "gp2",
-          "delete_on_termination": true
-        }
-      ],
-      "tags": {
-        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-        "packer": ""
+      "spot_price": "{{user `amazon_spot_price`}}",
+      "spot_price_auto_product": "{{user `amazon_spot_price_auto_product`}}",
+      "ebs_optimized": "{{user `amazon_ebs_optimized`}}",
+      "subnet_filter": {
+        "filters": {
+          "tag:Name": "{{user `amazon_subnet_filter_name`}}"
+        },
+        "most_free": "{{user `amazon_subnet_filter_most_free`}}"
       },
-      "run_tags": {
-        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
-        "packer": ""
-      },
+      "associate_public_ip_address": "{{user `amazon_associate_public_ip_address`}}",
       "user_data_file": "{{user `amazon_user_data_file`}}",
       "communicator": "{{user `amazon_communicator`}}",
-      "disable_stop_instance": true
+      "ssh_username": "{{user `amazon_username`}}",
+      "ssh_timeout": "{{user `amazon_timeout`}}",
+      "tags": {
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+      },
+      "run_tags": {
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+      },
+      "run_volume_tags": {
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+      },
+      "spot_tags": {
+        "Name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}"
+      }
     }
   ]
 }

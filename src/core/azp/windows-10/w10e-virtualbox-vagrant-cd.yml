@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../cd-stages.yml
+    parameters:
+      image: w10e
+      provider: virtualbox
+      configuration: vagrant
+      parent: w10e

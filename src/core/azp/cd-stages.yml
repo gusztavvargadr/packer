@@ -1,0 +1,48 @@
+parameters:
+  image: ''
+  provider: ''
+  configuration: ''
+  parent: ''
+
+stages:
+  - stage: cd
+    displayName: CD
+
+    jobs:
+    - job: cd
+      displayName: CD
+      pool:
+        name: Default
+        demands:
+          - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+      workspace:
+        clean: all
+      timeoutInMinutes: 120
+      variables:
+      - group: pipeline
+      - group: environment-vagrantcloud
+
+      steps:
+        - checkout: self
+          submodules: recursive
+        
+        - ${{ if parameters.parent }}:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: specific
+              project: $(System.TeamProjectId)
+              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+              artifact: build
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Artifacts - Download
+
+        - script: |
+            dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+          displayName: Build - Publish
+          env:
+            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+
+        - script: |
+            dotnet cake build.cake --target=clean
+          displayName: Build - Clean
+          condition: always()

@@ -4,6 +4,8 @@
 #load "./postprocessor.cake"
 
 class PackerTemplate {
+  public static string BuildDirectory { get; set; }
+
   public string Name { get; set; }
   public string Type { get; set; }
   public string FullName { get { return Name + "-" + Type; } }
@@ -24,7 +26,7 @@ class PackerTemplate {
   }
 
   public string GetBuildDirectory() {
-    return "build/" + Name + "/" + Type;
+    return BuildDirectory + "/" + Name + "/" + Type;
   }
 }
 
@@ -61,7 +63,6 @@ void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
   CleanDirectory(template.GetBuildDirectory());
-  DeleteDirectory(template.GetBuildDirectory());
 }
 
 void PackerTemplate_Version(PackerTemplate template) {
@@ -103,24 +104,25 @@ void PackerTemplate_Build(PackerTemplate template) {
 void PackerTemplate_Test(PackerTemplate template) {
   PackerTemplate_Log(template, "Test");
 
+  if (!template.Type.Contains("vagrant")) {
+    return;
+  }
+
   var provider = template.Type.Split('-')[0];
 
-  if (template.Type.Contains("init")) {
-    try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-init --provider " + provider);
-    } finally {
-      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-init");
-      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-init");
-    }
-  }
-  
-  if (template.Type.Contains("vagrant")) {
-    try {
-      PackerTemplate_Vagrant(template, "up " + template.Name + "-build --provider " + provider);
-    } finally {
-      PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-build");
-      PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-build");
-    }
+  try {
+    PackerTemplate_Vagrant(template, "up"
+      + $" {template.Name}-build"
+      + $" --provider {provider}"
+    );
+  } finally {
+    PackerTemplate_Vagrant(template, "destroy --force"
+      + $" {template.Name}-build"
+    );
+    PackerTemplate_Vagrant(template, "box remove"
+      + $" local/gusztavvargadr/{template.Name}-build"
+      + $" --provider {provider}"
+    );
   }
 }
 
@@ -135,19 +137,38 @@ void PackerTemplate_Publish(PackerTemplate template) {
     return;
   }
 
-  try {
-    var provider = template.Type.Split('-')[0];
+  var provider = template.Type.Split('-')[0];
 
-    PackerTemplate_Vagrant(template, "cloud publish --force"
-      + " " + "gusztavvargadr/" + template.GroupName
-      + " " + template.GroupVersion
-      + " " + provider
-      + " " + template.GetBuildDirectory() + "/output/package/vagrant.box"
+  try {
+    try {
+      PackerTemplate_Vagrant(template, "box add"
+        + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
+        + $" --name local/gusztavvargadr/{template.Name}-deploy"
+        + $" --provider {provider}"
+      );
+    } catch (Exception ex) {
+      PackerTemplate_Log(template, $"Error downloading box, trying uploading: {ex.Message}");
+
+      PackerTemplate_Vagrant(template, "cloud publish --force"
+        + $" gusztavvargadr/{template.GroupName}"
+        + $" {template.GroupVersion}"
+        + $" {provider}"
+        + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
+      );
+    }
+
+    PackerTemplate_Vagrant(template, "up"
+      + $" {template.Name}-deploy"
+      + $" --provider {provider}"
     );
-    PackerTemplate_Vagrant(template, "up " + template.Name + "-deploy --provider " + provider);
   } finally {
-    PackerTemplate_Vagrant(template, "destroy -f " + template.Name + "-deploy");
-    PackerTemplate_Vagrant(template, "box remove local/gusztavvargadr/" + template.Name + "-deploy");
+    PackerTemplate_Vagrant(template, "destroy --force"
+      + $" {template.Name}-deploy"
+    );
+    PackerTemplate_Vagrant(template, "box remove"
+      + $" local/gusztavvargadr/{template.Name}-deploy"
+      + $" --provider {provider}"
+    );
   }
 }
 
@@ -312,6 +333,13 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   jsonTemplateVariables["chef_run_list_install"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::install]"));
   jsonTemplateVariables["chef_run_list_patch"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::patch]"));
   jsonTemplateVariables["chef_run_list_cleanup"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::cleanup]"));
+
+  var environentVariableKeyPrefix = "PACKER_VAR_";
+  foreach (var environmentVariable in EnvironmentVariables()) {
+    if (environmentVariable.Key.StartsWith(environentVariableKeyPrefix)) {
+      jsonTemplateVariables[environmentVariable.Key.Substring(environentVariableKeyPrefix.Length)] = environmentVariable.Value;
+    }
+  }
 
   var jsonTemplate = new JObject();
   jsonTemplate["variables"] = jsonTemplateVariables;
