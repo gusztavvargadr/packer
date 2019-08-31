@@ -35,6 +35,7 @@ stages:
               preferTriggeringPipeline: true
               project: $(System.TeamProjectId)
               pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
+              runVersion: latestFromBranch
               runBranch: $(Build.SourceBranch)
             displayName: Artifacts - Download
 
