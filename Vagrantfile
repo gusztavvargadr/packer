@@ -9,8 +9,14 @@ end
 VagrantMachine.defaults_include(
   'autostart' => false,
   'providers' => {
-    'virtualbox' => {},
-    'hyperv' => {},
+    'virtualbox' => {
+      'memory' => 4096,
+      'cpus' => 2,
+    },
+    'hyperv' => {
+      'memory' => 4096,
+      'cpus' => 2,
+    },
   }
 )
 
@@ -57,14 +63,14 @@ class VagrantLinuxMachine < VagrantMachine
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise", true)
+  create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise")
 
-  create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard", true)
-  create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core", true)
+  create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
+  create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
 
-  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts", true)
+  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts")
 
-  create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts", true)
+  create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts")
 
   create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1809.0.#{version}-community-windows-10-1903-enterprise")
   create_packer_vms(deployment, 'ws2019s-dc', 'docker-windows', "1809.0.#{version}-community-windows-server-1809-standard")
@@ -89,22 +95,9 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'ws2019s-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-server-1809-standard")
 end
 
-def create_packer_vms(deployment, name, cloud_name, cloud_version, init = false)
-  create_init_packer_vm(deployment, name) if init
+def create_packer_vms(deployment, name, cloud_name, cloud_version)
   create_build_packer_vm(deployment, name)
   create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
-end
-
-def create_init_packer_vm(deployment, name)
-  VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-init", 'box' => "local/gusztavvargadr/#{name}-init")) do |machine|
-    VagrantVirtualBoxProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/virtualbox-init/output/package/vagrant.box"
-    end
-
-    VagrantHyperVProvider.configure(machine) do |provider|
-      provider.override.vm.box_url = "file://#{File.dirname(__FILE__)}/build/#{name}/hyperv-init/output/package/vagrant.box"
-    end
-  end
 end
 
 def create_build_packer_vm(deployment, name)
