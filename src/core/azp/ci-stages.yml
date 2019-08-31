@@ -30,10 +30,13 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               source: specific
-              project: $(System.TeamProjectId)
-              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
               artifact: build
               path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+              preferTriggeringPipeline: true
+              project: $(System.TeamProjectId)
+              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
+              runVersion: latestFromBranch
+              runBranch: $(Build.SourceBranch)
             displayName: Artifacts - Download
 
         - script: |
