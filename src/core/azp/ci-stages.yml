@@ -9,53 +9,53 @@ stages:
     displayName: CI
 
     jobs:
-    - job: ci
-      displayName: CI
-      pool:
-        name: Default
-        demands:
-          - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
-          - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
-      workspace:
-        clean: all
-      timeoutInMinutes: 120
-      variables:
-      - group: pipeline
+      - job: ci
+        displayName: CI
+        pool:
+          name: Default
+          demands:
+            - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
+            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+        workspace:
+          clean: all
+        timeoutInMinutes: 120
+        variables:
+          - group: pipeline
 
-      steps:
-        - checkout: self
-          submodules: recursive
-        
-        - ${{ if parameters.parent }}:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: specific
-              artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
-              preferTriggeringPipeline: true
-              project: $(System.TeamProjectId)
-              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
-              runVersion: latestFromBranch
-              runBranch: $(Build.SourceBranch)
-            displayName: Artifacts - Download
+        steps:
+          - checkout: self
+            submodules: recursive
 
-        - script: |
-            dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Restore
+          - ${{ if parameters.parent }}:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                source: specific
+                artifact: build
+                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+                preferTriggeringPipeline: true
+                project: $(System.TeamProjectId)
+                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
+                runVersion: latestFromBranch
+                runBranch: $(Build.SourceBranch)
+              displayName: Artifacts - Download
 
-        - script: |
-            dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Run
+          - script: |
+              dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Restore
 
-        - script: |
-            dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Test
+          - script: |
+              dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Run
 
-        - publish: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-          artifact: build
-          displayName: Artifacts - Publish
+          - script: |
+              dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Test
 
-        - script: |
-            dotnet cake build.cake --target=clean
-          displayName: Build - Clean
-          condition: always()
+          - publish: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+            artifact: build
+            displayName: Artifacts - Publish
+
+          - script: |
+              dotnet cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()

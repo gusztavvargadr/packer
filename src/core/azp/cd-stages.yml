@@ -9,43 +9,75 @@ stages:
     displayName: CD
 
     jobs:
-    - job: cd
-      displayName: CD
-      pool:
-        name: Default
-        demands:
-          - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
-      workspace:
-        clean: all
-      timeoutInMinutes: 120
-      variables:
-      - group: pipeline
-      - group: environment-vagrantcloud
+      - job: cd_publish
+        displayName: CD - Publish
+        pool:
+          vmImage: ubuntu-16.04
+        workspace:
+          clean: all
+        timeoutInMinutes: 120
+        variables:
+          - group: pipeline
+          - group: environment-vagrantcloud
 
-      steps:
-        - checkout: self
-          submodules: recursive
-        
-        - ${{ if parameters.parent }}:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: specific
-              artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-              preferTriggeringPipeline: true
-              project: $(System.TeamProjectId)
-              pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
-              runVersion: latestFromBranch
-              runBranch: $(Build.SourceBranch)
-            displayName: Artifacts - Download
+        steps:
+          - checkout: self
+            submodules: recursive
+          
+          - script: |
+              dotnet tool install Cake.Tool --global --version 0.33.0
+            displayName: Init - .NET
 
-        - script: |
-            dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          displayName: Build - Publish
-          env:
-            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+          - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
+              sudo dpkg -i vagrant_2.2.5_x86_64.deb
+              vagrant --version
+            displayName: Init - Vagrant
 
-        - script: |
-            dotnet cake build.cake --target=clean
-          displayName: Build - Clean
-          condition: always()
+          - ${{ if parameters.parent }}:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                source: specific
+                artifact: build
+                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+                preferTriggeringPipeline: true
+                project: $(System.TeamProjectId)
+                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+                runVersion: latestFromBranch
+                runBranch: $(Build.SourceBranch)
+              displayName: Artifacts - Download
+
+          - script: |
+              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Publish
+            env:
+              VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+
+          - script: |
+              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()
+
+      - job: cd_download
+        displayName: CD - Download
+        pool:
+          name: Default
+          demands:
+            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+        workspace:
+          clean: all
+        timeoutInMinutes: 120
+        dependsOn: cd_publish
+
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - script: |
+              dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Download
+
+          - script: |
+              dotnet cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()
