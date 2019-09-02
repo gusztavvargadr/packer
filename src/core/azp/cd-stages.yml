@@ -58,24 +58,23 @@ stages:
             displayName: Build - Clean
             condition: always()
 
-    # jobs:
-    #   - job: cd_download
-    #     displayName: CD - Download
-    #     pool:
-    #       name: Default
-    #       demands:
-    #         - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
-    #     workspace:
-    #       clean: all
-    #     timeoutInMinutes: 120
-    #     dependsOn: cd_publish
+      - job: cd_download
+        displayName: CD - Download
+        pool:
+          name: Default
+          demands:
+            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+        workspace:
+          clean: all
+        timeoutInMinutes: 120
+        dependsOn: cd_publish
 
-    #     steps:
-    #       - script: |
-    #           dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-    #         displayName: Build - Download
+        steps:
+          - script: |
+              dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Download
 
-    #       - script: |
-    #           dotnet cake build.cake --target=clean
-    #         displayName: Build - Clean
-    #         condition: always()
+          - script: |
+              dotnet cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()

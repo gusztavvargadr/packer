@@ -198,4 +198,9 @@ Task("publish")
     PackerTemplates_ForEach(configuration, PackerTemplate_Publish);
   });
 
+Task("download")
+  .Does(() => {
+    PackerTemplates_ForEach(configuration, PackerTemplate_Download);
+  });
+
 RunTarget(target);
