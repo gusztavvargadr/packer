@@ -25,33 +25,38 @@ stages:
             submodules: recursive
           
           - script: |
+              dotnet tool install Cake.Tool --global --version 0.33.0
+            displayName: Init - .NET
+
+          - script: |
               wget -q https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
               sudo dpkg -i vagrant_2.2.5_x86_64.deb
               vagrant --version
             displayName: Init - Vagrant
 
-          - script: |
-              dotnet --version
-              dotnet tool list --global
-              dotnet tool install Cake.Tool --global --version 0.33.0
-            displayName: Init - .NET
+          - ${{ if parameters.parent }}:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                source: specific
+                artifact: build
+                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+                preferTriggeringPipeline: true
+                project: $(System.TeamProjectId)
+                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+                runVersion: latestFromBranch
+                runBranch: $(Build.SourceBranch)
+              displayName: Artifacts - Download
 
           - script: |
-              ~/.dotnet/tools/dotnet-cake
-            displayName: Init - Cake
+              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Publish
+            env:
+              VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
-          # - ${{ if parameters.parent }}:
-          #   - task: DownloadPipelineArtifact@2
-          #     inputs:
-          #       source: specific
-          #       artifact: build
-          #       path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-          #       preferTriggeringPipeline: true
-          #       project: $(System.TeamProjectId)
-          #       pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
-          #       runVersion: latestFromBranch
-          #       runBranch: $(Build.SourceBranch)
-          #     displayName: Artifacts - Download
+          - script: |
+              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()
 
     # jobs:
     #   - job: cd_download
@@ -66,10 +71,8 @@ stages:
 
     #     steps:
     #       - script: |
-    #           dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-    #         displayName: Build - Publish
-    #         env:
-    #           VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+    #           dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+    #         displayName: Build - Download
 
     #       - script: |
     #           dotnet cake build.cake --target=clean
