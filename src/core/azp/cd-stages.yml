@@ -70,6 +70,9 @@ stages:
         dependsOn: cd_publish
 
         steps:
+          - checkout: self
+            submodules: recursive
+
           - script: |
               dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Download
