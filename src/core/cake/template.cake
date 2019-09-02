@@ -157,10 +157,10 @@ void PackerTemplate_Publish(PackerTemplate template) {
       );
     }
 
-    PackerTemplate_Vagrant(template, "up"
-      + $" {template.Name}-deploy"
-      + $" --provider {provider}"
-    );
+    // PackerTemplate_Vagrant(template, "up"
+    //   + $" {template.Name}-deploy"
+    //   + $" --provider {provider}"
+    // );
   } finally {
     PackerTemplate_Vagrant(template, "destroy --force"
       + $" {template.Name}-deploy"
