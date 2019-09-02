@@ -24,19 +24,6 @@ stages:
           - checkout: self
             submodules: recursive
           
-          - ${{ if parameters.parent }}:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                source: specific
-                artifact: build
-                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-                preferTriggeringPipeline: true
-                project: $(System.TeamProjectId)
-                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
-                runVersion: latestFromBranch
-                runBranch: $(Build.SourceBranch)
-              displayName: Artifacts - Download
-
           - script: |
               wget https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
               dpkg -i vagrant_2.2.5_x86_64.deb
@@ -46,7 +33,21 @@ stages:
           - script: |
               dotnet --version
               dotnet tool list --global
+              dotnet tool install Cake.Tool --global --version 0.33.0
             displayName: Init - .NET
+
+          # - ${{ if parameters.parent }}:
+          #   - task: DownloadPipelineArtifact@2
+          #     inputs:
+          #       source: specific
+          #       artifact: build
+          #       path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+          #       preferTriggeringPipeline: true
+          #       project: $(System.TeamProjectId)
+          #       pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+          #       runVersion: latestFromBranch
+          #       runBranch: $(Build.SourceBranch)
+          #     displayName: Artifacts - Download
 
     # jobs:
     #   - job: cd_download
