@@ -102,11 +102,11 @@ end
 
 def create_build_packer_vm(deployment, name)
   VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-build", 'box' => "local/gusztavvargadr/#{name}-build")) do |machine|
-    VagrantVirtualBoxProvider.configure(machine) do |provider|
+    VagrantVirtualBoxProvider.configure(machine, machine.options.fetch('providers').fetch('virtualbox')) do |provider|
       provider.override.vm.box_url = "file://#{build_dir}/#{name}/virtualbox-vagrant/output/package/vagrant.box"
     end
 
-    VagrantHyperVProvider.configure(machine) do |provider|
+    VagrantHyperVProvider.configure(machine, machine.options.fetch('providers').fetch('hyperv')) do |provider|
       provider.override.vm.box_url = "file://#{build_dir}/#{name}/hyperv-vagrant/output/package/vagrant.box"
     end
   end
@@ -114,11 +114,11 @@ end
 
 def create_deploy_packer_vm(deployment, name, cloud_name, cloud_version)
   VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => "#{name}-deploy", 'box' => "local/gusztavvargadr/#{name}-deploy")) do |machine|
-    VagrantVirtualBoxProvider.configure(machine) do |provider|
+    VagrantVirtualBoxProvider.configure(machine, machine.options.fetch('providers').fetch('virtualbox')) do |provider|
       provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/virtualbox.box"
     end
 
-    VagrantHyperVProvider.configure(machine) do |provider|
+    VagrantHyperVProvider.configure(machine, machine.options.fetch('providers').fetch('hyperv')) do |provider|
       provider.override.vm.box_url = "https://vagrantcloud.com/gusztavvargadr/boxes/#{cloud_name}/versions/#{cloud_version}/providers/hyperv.box"
     end
   end
