@@ -34,6 +34,7 @@ stages:
               dotnet --version
               dotnet tool list --global
               dotnet tool install Cake.Tool --global --version 0.33.0
+              dotnet tool list --global
             displayName: Init - .NET
 
           - script: |
