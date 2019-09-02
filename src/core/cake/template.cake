@@ -162,9 +162,9 @@ void PackerTemplate_Publish(PackerTemplate template) {
     //   + $" --provider {provider}"
     // );
   } finally {
-    PackerTemplate_Vagrant(template, "destroy --force"
-      + $" {template.Name}-deploy"
-    );
+    // PackerTemplate_Vagrant(template, "destroy --force"
+    //   + $" {template.Name}-deploy"
+    // );
     PackerTemplate_Vagrant(template, "box remove"
       + $" local/gusztavvargadr/{template.Name}-deploy"
       + $" --provider {provider}"
