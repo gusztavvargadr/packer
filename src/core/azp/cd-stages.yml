@@ -15,7 +15,7 @@ stages:
           vmImage: ubuntu-16.04
         workspace:
           clean: all
-        timeoutInMinutes: 120
+        timeoutInMinutes: 60
         variables:
           - group: pipeline
           - group: environment-vagrantcloud

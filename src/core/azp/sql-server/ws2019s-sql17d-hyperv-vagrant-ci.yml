@@ -5,6 +5,6 @@ stages:
   - template: ../ci-stages.yml
     parameters:
       image: ws2019s-sql17d
-      provider: vagrant
-      configuration: core
+      provider: hyperv
+      configuration: vagrant
       parent: ws2019s-sql17d
