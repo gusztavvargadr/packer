@@ -41,13 +41,13 @@ var u16s = PackerTemplates_CreateLinux(
 var w10e_dc = PackerTemplates_CreateWindows(
   "w10e-dc",
   "docker-windows",
-  $"1809.0.{version}-community-windows-10-1903-enterprise",
+  $"1903.0.{version}-community-windows-10-1903-enterprise",
   w10e
 );
 var ws2019s_dc = PackerTemplates_CreateWindows(
   "ws2019s-dc",
   "docker-windows",
-  $"1809.0.{version}-community-windows-server-1809-standard",
+  $"1903.0.{version}-community-windows-server-1809-standard",
   ws2019s
 );
 var ws2019s_de = PackerTemplates_CreateWindows(

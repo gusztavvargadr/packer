@@ -2,9 +2,9 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../cd-stages.yml
     parameters:
-      image: ws2019s-sql17d
+      image: ws2019s-dc-vs17c
       provider: virtualbox
       configuration: vagrant
-      parent: ws2019s-sql17d
+      parent: ws2019s-dc-vs17c

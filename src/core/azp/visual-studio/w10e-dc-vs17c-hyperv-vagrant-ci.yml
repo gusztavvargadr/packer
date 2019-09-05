@@ -4,7 +4,7 @@ pr: none
 stages:
   - template: ../ci-stages.yml
     parameters:
-      image: ws2019s-iis
+      image: w10e-dc-vs17c
       provider: hyperv
       configuration: vagrant
-      parent: ws2019s-iis
+      parent: w10e-dc-vs17c

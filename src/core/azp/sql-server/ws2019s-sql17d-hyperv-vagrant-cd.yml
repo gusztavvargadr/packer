@@ -7,4 +7,4 @@ stages:
       image: ws2019s-sql17d
       provider: vagrant
       configuration: core
-      parent: ws2019s
+      parent: ws2019s-sql17d
