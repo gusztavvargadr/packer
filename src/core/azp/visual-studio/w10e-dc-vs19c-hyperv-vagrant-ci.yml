@@ -7,4 +7,4 @@ stages:
       image: w10e-dc-vs19c
       provider: hyperv
       configuration: vagrant
-      parent: w10e-dc-vs17c
+      parent: w10e-dc-vs19c
