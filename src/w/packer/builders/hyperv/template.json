@@ -13,7 +13,7 @@
     "hyperv_communicator": "ssh",
     "hyperv_ssh_username": "Administrator",
     "hyperv_ssh_password": "Packer42-",
-    "hyperv_ssh_timeout": "1h",
+    "hyperv_ssh_timeout": "30m",
     "hyperv_guest_additions_mode": "disable",
     "hyperv_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd"
   },

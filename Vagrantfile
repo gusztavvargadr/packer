@@ -65,6 +65,7 @@ end
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise")
 
+  create_packer_vms(deployment, 'ws2016s', 'windows-server', "1607.0.#{version}-standard")
   create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
   create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
 

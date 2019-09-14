@@ -9,7 +9,7 @@
     "virtualbox_communicator": "ssh",
     "virtualbox_ssh_username": "Administrator",
     "virtualbox_ssh_password": "Packer42-",
-    "virtualbox_ssh_timeout": "1h",
+    "virtualbox_ssh_timeout": "30m",
     "virtualbox_guest_additions_mode": "disable",
     "virtualbox_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd",
     "virtualbox_post_shutdown_delay": "5s"
