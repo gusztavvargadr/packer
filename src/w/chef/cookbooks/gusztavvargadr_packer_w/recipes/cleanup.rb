@@ -43,7 +43,3 @@ gusztavvargadr_windows_powershell_script_elevated 'Zeroing volume' do
   EOH
   action :run
 end
-
-gusztavvargadr_windows_pagefile '' do
-  action :enable
-end
