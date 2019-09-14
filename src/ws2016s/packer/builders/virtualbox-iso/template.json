@@ -1,5 +1,5 @@
 {
   "variables": {
-    "virtualbox_guest_os_type": "Windows10_64"
+    "virtualbox_guest_os_type": "Windows2016_64"
   }
 }
