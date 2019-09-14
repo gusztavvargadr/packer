@@ -8,20 +8,20 @@ end
 
 VagrantMachine.defaults_include(
   'autostart' => false,
-  'providers' => {
-    'virtualbox' => {
-      'memory' => 4096,
-      'cpus' => 2,
-    },
-    'hyperv' => {
-      'memory' => 4096,
-      'cpus' => 2,
-    },
-  }
 )
 
 class VagrantWindowsMachine < VagrantMachine
   @defaults = {
+    'providers' => {
+      'virtualbox' => {
+        'memory' => 8192,
+        'cpus' => 4,
+      },
+      'hyperv' => {
+        'memory' => 8192,
+        'cpus' => 4,
+      },
+    },
     'provisioners' => {
       'shell-os' => {
         'inline' => 'cmd /c ver',
@@ -36,13 +36,23 @@ class VagrantWindowsMachine < VagrantMachine
         'paths' => [
           'Policyfile.rb',
         ],
-      },  
+      },
     }
   }
 end
 
 class VagrantLinuxMachine < VagrantMachine
   @defaults = {
+    'providers' => {
+      'virtualbox' => {
+        'memory' => 4096,
+        'cpus' => 2,
+      },
+      'hyperv' => {
+        'memory' => 4096,
+        'cpus' => 2,
+      },
+    },
     'provisioners' => {
       'shell-os' => {
         'inline' => 'uname -a',
@@ -57,7 +67,7 @@ class VagrantLinuxMachine < VagrantMachine
         'paths' => [
           'Policyfile.rb',
         ],
-      },  
+      },
     }
   }
 end
