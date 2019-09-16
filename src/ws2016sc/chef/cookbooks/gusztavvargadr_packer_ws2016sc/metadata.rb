@@ -1,4 +1,4 @@
-name 'gusztavvargadr_packer_w2016sc'
+name 'gusztavvargadr_packer_ws2016sc'
 description 'Installs/Configures Packer Windows Server 2016 Standard Core'
 long_description 'Installs/Configures Packer Windows Server 2016 Standard Core'
 
