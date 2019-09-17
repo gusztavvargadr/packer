@@ -1,0 +1,5 @@
+{
+  "variables": {
+    "amazon_source_ami_filter_name": "Windows_Server-2016-English-Full-Base-2018.08.15"
+  }
+}

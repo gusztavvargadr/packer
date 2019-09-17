@@ -15,6 +15,16 @@ var w10e = PackerTemplates_CreateWindows(
   $"1903.0.{version}-enterprise"
 );
 
+var ws2016s = PackerTemplates_CreateWindows(
+  "ws2016s",
+  "windows-server",
+  $"1607.0.{version}-standard"
+);
+var ws2016sc = PackerTemplates_CreateWindows(
+  "ws2016sc",
+  "windows-server",
+  $"1607.0.{version}-standard-core"
+);
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server",

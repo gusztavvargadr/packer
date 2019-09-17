@@ -1,9 +1,3 @@
-# TODO: to boot and sysprep
-
-gusztavvargadr_windows_pagefile '' do
-  action :disable
-end
-
 gusztavvargadr_windows_updates '' do
   action [:enable, :start, :configure]
 end

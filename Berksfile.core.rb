@@ -11,6 +11,8 @@ def gusztavvargadr_packer_sources
 
   gusztavvargadr_packer_cookbook 'w'
   gusztavvargadr_packer_cookbook 'w10e'
+  gusztavvargadr_packer_cookbook 'ws2016s'
+  gusztavvargadr_packer_cookbook 'ws2016sc'
   gusztavvargadr_packer_cookbook 'ws2019s'
   gusztavvargadr_packer_cookbook 'ws2019sc'
 

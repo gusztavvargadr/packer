@@ -8,20 +8,20 @@ end
 
 VagrantMachine.defaults_include(
   'autostart' => false,
-  'providers' => {
-    'virtualbox' => {
-      'memory' => 4096,
-      'cpus' => 2,
-    },
-    'hyperv' => {
-      'memory' => 4096,
-      'cpus' => 2,
-    },
-  }
 )
 
 class VagrantWindowsMachine < VagrantMachine
   @defaults = {
+    'providers' => {
+      'virtualbox' => {
+        'memory' => 4096,
+        'cpus' => 2,
+      },
+      'hyperv' => {
+        'memory' => 4096,
+        'cpus' => 2,
+      },
+    },
     'provisioners' => {
       'shell-os' => {
         'inline' => 'cmd /c ver',
@@ -36,13 +36,23 @@ class VagrantWindowsMachine < VagrantMachine
         'paths' => [
           'Policyfile.rb',
         ],
-      },  
+      },
     }
   }
 end
 
 class VagrantLinuxMachine < VagrantMachine
   @defaults = {
+    'providers' => {
+      'virtualbox' => {
+        'memory' => 2048,
+        'cpus' => 1,
+      },
+      'hyperv' => {
+        'memory' => 2048,
+        'cpus' => 1,
+      },
+    },
     'provisioners' => {
       'shell-os' => {
         'inline' => 'uname -a',
@@ -57,7 +67,7 @@ class VagrantLinuxMachine < VagrantMachine
         'paths' => [
           'Policyfile.rb',
         ],
-      },  
+      },
     }
   }
 end
@@ -65,6 +75,8 @@ end
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise")
 
+  create_packer_vms(deployment, 'ws2016s', 'windows-server', "1607.0.#{version}-standard")
+  create_packer_vms(deployment, 'ws2016sc', 'windows-server', "1607.0.#{version}-standard-core")
   create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
   create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
 
