@@ -92,6 +92,8 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_packer_vms(deployment, 'u16d-dc', 'docker-linux', "1903.0.#{version}-community-ubuntu-desktop-1604-lts")
   create_packer_vms(deployment, 'u16s-dc', 'docker-linux', "1903.0.#{version}-community-ubuntu-server-1604-lts")
 
+  create_packer_vms(deployment, 'ws2016s-iis', 'iis', "10.0.#{version}-windows-server-1607-standard")
+  create_packer_vms(deployment, 'ws2016sc-iis', 'iis', "10.0.#{version}-windows-server-1607-standard-core")
   create_packer_vms(deployment, 'ws2019s-iis', 'iis', "10.0.#{version}-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019sc-iis', 'iis', "10.0.#{version}-windows-server-1809-standard-core")
 
