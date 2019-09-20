@@ -60,6 +60,18 @@ var ws2019s_dc = PackerTemplates_CreateWindows(
   $"1903.0.{version}-community-windows-server-1809-standard",
   ws2019s
 );
+var ws2016s_de = PackerTemplates_CreateWindows(
+  "ws2016s-de",
+  "docker-windows",
+  $"1903.0.{version}-enterprise-windows-server-1607-standard",
+  ws2016s
+);
+var ws2016sc_de = PackerTemplates_CreateWindows(
+  "ws2016sc-de",
+  "docker-windows",
+  $"1903.0.{version}-enterprise-windows-server-1607-standard-core",
+  ws2016sc
+);
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
   "docker-windows",
@@ -86,6 +98,18 @@ var u16s_dc = PackerTemplates_CreateLinux(
   u16s
 );
 
+var ws2016s_iis = PackerTemplates_CreateWindows(
+  "ws2016s-iis",
+  "iis",
+  $"10.0.{version}-windows-server-1607-standard",
+  ws2016s
+);
+var ws2016sc_iis = PackerTemplates_CreateWindows(
+  "ws2016sc-iis",
+  "iis",
+  $"10.0.{version}-windows-server-1607-standard-core",
+  ws2016sc
+);
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
   "iis",
