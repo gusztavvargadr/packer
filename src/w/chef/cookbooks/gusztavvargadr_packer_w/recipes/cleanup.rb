@@ -6,7 +6,7 @@
 # end
 
 gusztavvargadr_windows_updates '' do
-  action [:cleanup, :stop, :disable]
+  action :cleanup
 end
 
 gusztavvargadr_windows_powershell_script_elevated 'Clearing temporary files' do
