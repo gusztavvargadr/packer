@@ -12,7 +12,7 @@ Write-Host "Disable Maintenance"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance" /v MaintenanceDisabled /t REG_DWORD /d 1 /f
 
 Write-Host "Disable Windows Defender"
-Set-MpPreference -DisableRealtimeMonitoring $True
+Set-MpPreference -DisableRealtimeMonitoring $True -ExclusionPath "C:\"
 
 Write-Host "Enable Remote Desktop"
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
