@@ -73,42 +73,42 @@ class VagrantLinuxMachine < VagrantMachine
 end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise")
-
-  create_packer_vms(deployment, 'ws2016s', 'windows-server', "1607.0.#{version}-standard")
-  create_packer_vms(deployment, 'ws2016sc', 'windows-server', "1607.0.#{version}-standard-core")
   create_packer_vms(deployment, 'ws2019s', 'windows-server', "1809.0.#{version}-standard")
   create_packer_vms(deployment, 'ws2019sc', 'windows-server', "1809.0.#{version}-standard-core")
+  create_packer_vms(deployment, 'ws2016s', 'windows-server', "1607.0.#{version}-standard")
+  create_packer_vms(deployment, 'ws2016sc', 'windows-server', "1607.0.#{version}-standard-core")
 
-  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts")
+  create_packer_vms(deployment, 'w10e', 'windows-10', "1903.0.#{version}-enterprise")
 
   create_packer_vms(deployment, 'u16s', 'ubuntu-server', "1604.0.#{version}-lts")
 
-  create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1903.0.#{version}-community-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'u16d', 'ubuntu-desktop', "1604.0.#{version}-lts")
+
   create_packer_vms(deployment, 'ws2019s-dc', 'docker-windows', "1903.0.#{version}-community-windows-server-1809-standard")
-  create_packer_vms(deployment, 'ws2016s-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1607-standard")
-  create_packer_vms(deployment, 'ws2016sc-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1607-standard-core")
+  create_packer_vms(deployment, 'w10e-dc', 'docker-windows', "1903.0.#{version}-community-windows-10-1903-enterprise")
   create_packer_vms(deployment, 'ws2019s-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019sc-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1809-standard-core")
+  create_packer_vms(deployment, 'ws2016s-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1607-standard")
+  create_packer_vms(deployment, 'ws2016sc-de', 'docker-windows', "1903.0.#{version}-enterprise-windows-server-1607-standard-core")
 
-  create_packer_vms(deployment, 'u16d-dc', 'docker-linux', "1903.0.#{version}-community-ubuntu-desktop-1604-lts")
   create_packer_vms(deployment, 'u16s-dc', 'docker-linux', "1903.0.#{version}-community-ubuntu-server-1604-lts")
+  create_packer_vms(deployment, 'u16d-dc', 'docker-linux', "1903.0.#{version}-community-ubuntu-desktop-1604-lts")
 
-  create_packer_vms(deployment, 'ws2016s-iis', 'iis', "10.0.#{version}-windows-server-1607-standard")
-  create_packer_vms(deployment, 'ws2016sc-iis', 'iis', "10.0.#{version}-windows-server-1607-standard-core")
   create_packer_vms(deployment, 'ws2019s-iis', 'iis', "10.0.#{version}-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019sc-iis', 'iis', "10.0.#{version}-windows-server-1809-standard-core")
+  create_packer_vms(deployment, 'ws2016s-iis', 'iis', "10.0.#{version}-windows-server-1607-standard")
+  create_packer_vms(deployment, 'ws2016sc-iis', 'iis', "10.0.#{version}-windows-server-1607-standard-core")
 
   create_packer_vms(deployment, 'ws2019s-sql17d', 'sql-server', "2017.0.#{version}-developer-windows-server-1809-standard")
 
-  create_packer_vms(deployment, 'w10e-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-10-1903-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-10-1903-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-10-1903-enterprise")
-  create_packer_vms(deployment, 'w10e-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-10-1903-enterprise")
-  create_packer_vms(deployment, 'ws2019s-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-server-1809-standard")
-  create_packer_vms(deployment, 'ws2019s-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019s-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-server-1809-standard")
   create_packer_vms(deployment, 'ws2019s-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-server-1809-standard")
+  create_packer_vms(deployment, 'ws2019s-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-server-1809-standard")
+  create_packer_vms(deployment, 'w10e-dc-vs19c', 'visual-studio', "2019.0.#{version}-community-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs19p', 'visual-studio', "2019.0.#{version}-professional-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs17c', 'visual-studio', "2017.0.#{version}-community-windows-10-1903-enterprise")
+  create_packer_vms(deployment, 'w10e-dc-vs17p', 'visual-studio', "2017.0.#{version}-professional-windows-10-1903-enterprise")
 end
 
 def create_packer_vms(deployment, name, cloud_name, cloud_version)
