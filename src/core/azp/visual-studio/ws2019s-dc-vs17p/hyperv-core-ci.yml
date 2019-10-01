@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2019s-dc-vs17p
+      provider: hyperv
+      configuration: core
+      parent: ws2019s-dc
