@@ -145,6 +145,11 @@ void PackerTemplate_Publish(PackerTemplate template) {
       + $" --name local/gusztavvargadr/{template.Name}-deploy"
       + $" --provider {provider}"
     );
+
+    PackerTemplate_Vagrant(template, "box remove"
+      + $" --name local/gusztavvargadr/{template.Name}-deploy"
+      + $" --provider {provider}"
+    );
   } catch (Exception ex) {
     PackerTemplate_Log(template, $"Error downloading box, trying uploading: {ex.Message}");
 

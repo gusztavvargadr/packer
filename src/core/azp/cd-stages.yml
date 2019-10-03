@@ -11,8 +11,12 @@ stages:
     jobs:
       - job: cd_publish
         displayName: CD - Publish
+        # pool:
+        #   vmImage: ubuntu-16.04
         pool:
-          vmImage: ubuntu-16.04
+          name: Default
+          demands:
+            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
         workspace:
           clean: all
         timeoutInMinutes: 60
@@ -24,15 +28,15 @@ stages:
           - checkout: self
             submodules: recursive
           
-          - script: |
-              dotnet tool install Cake.Tool --global --version 0.33.0
-            displayName: Init - .NET
+          # - script: |
+          #     dotnet tool install Cake.Tool --global --version 0.33.0
+          #   displayName: Init - .NET
 
-          - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
-              sudo dpkg -i vagrant_2.2.5_x86_64.deb
-              vagrant --version
-            displayName: Init - Vagrant
+          # - script: |
+          #     wget -q https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
+          #     sudo dpkg -i vagrant_2.2.5_x86_64.deb
+          #     vagrant --version
+          #   displayName: Init - Vagrant
 
           - ${{ if parameters.parent }}:
             - task: DownloadPipelineArtifact@2
@@ -47,14 +51,25 @@ stages:
                 runBranch: $(Build.SourceBranch)
               displayName: Artifacts - Download
 
+          # - script: |
+          #     ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+          #   displayName: Build - Publish
+          #   env:
+          #     VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+
+          # - script: |
+          #     ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+          #   displayName: Build - Clean
+          #   condition: always()
+
           - script: |
-              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Publish
             env:
               VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
           - script: |
-              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+              dotnet cake build.cake --target=clean
             displayName: Build - Clean
             condition: always()
 
