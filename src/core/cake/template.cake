@@ -147,7 +147,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
     );
 
     PackerTemplate_Vagrant(template, "box remove"
-      + $" --name local/gusztavvargadr/{template.Name}-deploy"
+      + $" local/gusztavvargadr/{template.Name}-deploy"
       + $" --provider {provider}"
     );
   } catch (Exception ex) {
