@@ -18,7 +18,7 @@ stages:
             - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
         workspace:
           clean: all
-        timeoutInMinutes: 240
+        timeoutInMinutes: 360
         variables:
           - group: pipeline
 

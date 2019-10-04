@@ -19,7 +19,7 @@ stages:
             - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
         workspace:
           clean: all
-        timeoutInMinutes: 60
+        timeoutInMinutes: 120
         variables:
           - group: pipeline
           - group: environment-vagrantcloud
@@ -81,7 +81,7 @@ stages:
             - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
         workspace:
           clean: all
-        timeoutInMinutes: 60
+        timeoutInMinutes: 120
         dependsOn: cd_publish
 
         steps:
