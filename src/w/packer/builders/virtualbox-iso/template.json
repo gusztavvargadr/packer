@@ -36,6 +36,7 @@
       "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
+      "shutdown_timeout": "{{user `virtualbox_shutdown_timeout`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
       "output_directory": "{{user `output_directory`}}/build"
     }
