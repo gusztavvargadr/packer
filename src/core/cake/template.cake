@@ -139,27 +139,12 @@ void PackerTemplate_Publish(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  try {
-    PackerTemplate_Vagrant(template, "box add"
-      + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
-      + $" --name local/gusztavvargadr/{template.Name}-deploy"
-      + $" --provider {provider}"
-    );
-
-    PackerTemplate_Vagrant(template, "box remove"
-      + $" local/gusztavvargadr/{template.Name}-deploy"
-      + $" --provider {provider}"
-    );
-  } catch (Exception ex) {
-    PackerTemplate_Log(template, $"Error downloading box, trying uploading: {ex.Message}");
-
-    PackerTemplate_Vagrant(template, "cloud publish --force"
-      + $" gusztavvargadr/{template.GroupName}"
-      + $" {template.GroupVersion}"
-      + $" {provider}"
-      + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
-    );
-  }
+  PackerTemplate_Vagrant(template, "cloud publish --force"
+    + $" gusztavvargadr/{template.GroupName}"
+    + $" {template.GroupVersion}"
+    + $" {provider}"
+    + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
+  );
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
