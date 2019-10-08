@@ -21,8 +21,8 @@ This repository contains common [Packer] helper tools and sample templates for [
 This repository contains [Packer] sample template for the following virtualization scenarios:
 
 - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
-- [Development] using [Visual Studio].
 - [Hosting] using [Docker], [IIS] and [SQL Server].
+- [Development] using [Visual Studio].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
@@ -55,37 +55,51 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 #### Windows
 
-- [**Windows 10 Version 1903 Enterpise**][windows-10]
-- [**Windows Server 2019 Standard and Standard Core**][windows-server]
-
 [Windows]: #windows
 
-[windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
-[windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+##### Windows Server
+
+- [**2019 Standard**][windows-server-2019-standard] (latest)
+- [**2019 Standard Core**][windows-server-2019-standard-core]
+- [**2016 Standard**][windows-server-2016-standard]
+- [**2016 Standard Core**][windows-server-2016-standard-core]
+- [**All versions**][windows-server-all-versions]
+
+[windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard/
+[windows-server-2019-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard-core/
+[windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard/
+[windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard-core/
+[windows-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+
+##### Windows 10
+
+- [**Version 1903 Enterprise**][windows-10-version-1903-enterprise] (latest)
+- [**Version 1809 Enterprise**][windows-10-version-1809-enterprise]
+- [**All versions**][windows-10-all-versions]
+
+[windows-10-version-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1903-enterprise/
+[windows-10-version-1809-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1809-enterprise/
+[windows-10-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 
 #### Ubuntu
 
-- [**Ubuntu Desktop 1604 LTS**][ubuntu-desktop]
-- [**Ubuntu Server 1604 LTS**][ubuntu-server]
-
 [Ubuntu]: #ubuntu
 
-[ubuntu-desktop]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
-[ubuntu-server]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+##### Ubuntu Server
 
-### Development
+- [**1604 LTS**][ubuntu-server-1604-lts] (latest)
+- [**All versions**][ubuntu-server-all-versions]
 
-The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
+[ubuntu-server-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/versions/1604-lts/
+[ubuntu-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 
-[Development]: #development
+##### Ubuntu Desktop
 
-#### Visual Studio
+- [**1604 LTS**][ubuntu-desktop-1604-lts] (latest)
+- [**All versions**][ubuntu-desktop-all-versions]
 
-- [**Visual Studio 2019 and 2017 Community** on Windows 10 Version 1903 Enterprise and Windows Server 2019 Standard][box-visual-studio]
-
-[Visual Studio]: #visual-studio
-
-[box-visual-studio]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
+[ubuntu-desktop-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/versions/1604-lts/
+[ubuntu-desktop-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 
 ### Hosting
 
@@ -95,29 +109,75 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### Docker
 
-- [**Docker 1809 Community and Enterprise** on Windows 10 Version 1903 Enterprise, Windows Server 2019 Standard and Standard Core][docker-windows]
-- [**Docker 1809 Community** on Ubuntu Server and Desktop 1604 LTS][docker-linux]
-
 [Docker]: #docker
 
-[docker-windows]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
-[docker-linux]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+##### Docker on Windows
+
+- [**Docker 1903 Community** on Windows Server 2019 Standard][docker-windows-1903-community] (latest)
+- [**Docker 1903 Enterprise** on Windows Server 2019 Standard][docker-windows-1903-enterprise]
+- [**Docker 1809 Community** on Windows Server 2019 Standard][docker-windows-1809-community]
+- [**Docker 1809 Enterprise** on Windows Server 2019 Standard][docker-windows-1809-enterprise]
+- [**All versions**][docker-windows-all-versions]
+
+[docker-windows-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-community/
+[docker-windows-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-enterprise/
+[docker-windows-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-community/
+[docker-windows-1809-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-enterprise/
+[docker-windows-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+
+##### Docker on Linux
+
+- [**1903 Community** on Ubuntu Server 1604 LTS][docker-linux-1903-community] (latest)
+- [**1809 Community** on Ubuntu Server 1604 LTS][docker-linux-1809-community]
+- [**All versions**][docker-linux-all-versions]
+
+[docker-linux-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1903-community/
+[docker-linux-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1809-community/
+[docker-linux-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 
 #### IIS
 
-- [**IIS 10** on Windows Server 2019 Standard and Standard Core][box-iis]
+- [**10 Version 1809** on Windows Server 2019 Standard][iis-10-1809] (latest)
+- [**10 Version 1607** on Windows Server 2016 Standard][iis-10-1607]
+- [**All versions**][iis-all-versions]
 
 [IIS]: #iis
 
-[box-iis]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
+[iis-10-1809]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1809/
+[iis-10-1607]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1607/
+[iis-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 
 #### SQL Server
 
-- [**SQL Server 2017 Developer** on Windows Server 2019 Standard][box-sql-server]
+- [**2017 Developer** on Windows Server 2019 Standard][sql-server-2017-developer] (latest)
+- [**All versions**][sql-server-all-versions]
 
 [SQL Server]: #sql-server
 
-[box-sql-server]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+[sql-server-2017-developer]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/versions/2017-developer/
+[sql-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+
+### Development
+
+The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
+
+[Development]: #development
+
+#### Visual Studio
+
+- [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community]
+- [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
+- [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
+- [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
+- [**All versions**][visual-studio-all-versions]
+
+[Visual Studio]: #visual-studio
+
+[visual-studio-2019-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-community/
+[visual-studio-2019-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-professional/
+[visual-studio-2017-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-community/
+[visual-studio-2017-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-professional/
+[visual-studio-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 
 ## Getting started
 
@@ -180,15 +240,15 @@ The output will be contain the section `info` with the list of the templates:
 ========================================
 info
 ========================================
-w10e-virtualbox-core: Info
-w10e-virtualbox-vagrant: Info
-w10e-hyperv-core: Info
-w10e-hyperv-vagrant: Info
-...
 ws2019s-virtualbox-core: Info
 ws2019s-virtualbox-vagrant: Info
 ws2019s-hyperv-core: Info
 ws2019s-hyperv-vagrant: Info
+...
+w10e-virtualbox-core: Info
+w10e-virtualbox-vagrant: Info
+w10e-hyperv-core: Info
+w10e-hyperv-vagrant: Info
 ...
 ws2019s-iis-virtualbox-core: Info
 ws2019s-iis-virtualbox-vagrant: Info
@@ -342,7 +402,7 @@ Take a look at the repository of [virtual workstations] to easily automate and s
 
 ## Contributing
 
-Feedback, please - [issues] or [pull requests] are welcome and are greatly appreciated. Chek out the [milestones] for the list of planned releases.
+Feedback, please - [issues] or [pull requests] are welcome and are greatly appreciated. Check out the [milestones] for the list of planned releases.
 
 [Contributing]: #contributing
 
