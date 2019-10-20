@@ -165,7 +165,7 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community]
+- [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community] (latest)
 - [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
 - [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
 - [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
