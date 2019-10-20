@@ -2,7 +2,7 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../cd-stages.yml
     parameters:
       image: u16d-dc
       provider: virtualbox

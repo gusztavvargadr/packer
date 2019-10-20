@@ -2,9 +2,8 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../ci-stages.yml
     parameters:
-      image: u16s-dc
+      image: u16d
       provider: virtualbox
       configuration: core
-      parent: u16s

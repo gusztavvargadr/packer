@@ -2,9 +2,9 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../ci-stages.yml
     parameters:
       image: u16d
-      provider: virtualbox
+      provider: hyperv
       configuration: vagrant
       parent: u16d
