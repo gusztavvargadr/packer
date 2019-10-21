@@ -9,8 +9,8 @@ stages:
     displayName: CI
 
     jobs:
-      - job: ci
-        displayName: CI
+      - job: build
+        displayName: Build
         pool:
           name: Default
           demands:

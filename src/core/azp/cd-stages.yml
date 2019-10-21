@@ -9,8 +9,8 @@ stages:
     displayName: CD
 
     jobs:
-      - job: cd_publish
-        displayName: CD - Publish
+      - job: publish
+        displayName: Publish
         pool:
           vmImage: ubuntu-16.04
         workspace:
@@ -58,8 +58,8 @@ stages:
             displayName: Build - Clean
             condition: always()
 
-      - job: cd_download
-        displayName: CD - Download
+      - job: download
+        displayName: Download
         pool:
           name: Default
           demands:
@@ -67,7 +67,7 @@ stages:
         workspace:
           clean: all
         timeoutInMinutes: 120
-        dependsOn: cd_publish
+        dependsOn: publish
 
         steps:
           - checkout: self
