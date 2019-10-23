@@ -35,18 +35,13 @@ stages:
             displayName: Init - Vagrant
 
           - ${{ if parameters.parent }}:
-            # - download: Parent
-            #   artifact: build
-            #   path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-            #   displayName: Artifacts - Download
             - task: DownloadPipelineArtifact@2
               inputs:
                 source: specific
                 artifact: build
                 path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-                # preferTriggeringPipeline: true
                 project: $(System.TeamProjectId)
-                pipeline: Parent
+                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
                 runVersion: latestFromBranch
                 runBranch: $(Build.SourceBranch)
               displayName: Artifacts - Download

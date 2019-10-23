@@ -1,18 +1,6 @@
 trigger: none
 pr: none
 
-resources:
-  pipelines:
-    - pipeline: Parent
-      source: u16s-virtualbox-vagrant-ci
-      # trigger:     # Optional; Triggers are not enabled by default.
-      #   branches:  
-      #     include:  # branches to consider the trigger events, optional; defaults to all branches.
-      #       - master
-      #       - releases/*
-      #     exclude:   # branches to discard the trigger events, optional; defaults to none.
-      #       - users/*  
-
 stages:
   - template: ../../cd-stages.yml
     parameters:
