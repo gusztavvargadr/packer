@@ -45,12 +45,12 @@ class VagrantLinuxMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 2048,
-        'cpus' => 1,
+        'memory' => 4096,
+        'cpus' => 2,
       },
       'hyperv' => {
-        'memory' => 2048,
-        'cpus' => 1,
+        'memory' => 4096,
+        'cpus' => 2,
       },
     },
     'provisioners' => {

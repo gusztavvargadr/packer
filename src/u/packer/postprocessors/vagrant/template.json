@@ -3,10 +3,19 @@
     "vagrant_vagrantfile_template": ""
   },
   "post-processors": [
-    {
-      "type": "vagrant",
-      "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
-      "output": "{{user `output_directory`}}/package/vagrant.box"
-    }
+    [
+      {
+        "type": "vagrant",
+        "vagrantfile_template": "{{user `vagrant_vagrantfile_template`}}",
+        "output": "{{user `output_directory`}}/package/vagrant.box"
+      },
+      {
+        "type": "checksum",
+        "checksum_types": [
+          "sha256"
+        ],
+        "output": "{{user `output_directory`}}/package/vagrant.{{.ChecksumType}}.checksum"
+      }
+    ]
   ]
 }
