@@ -3,6 +3,13 @@
     {
       "type": "manifest",
       "output": "{{user `output_directory`}}/build/manifest.json"
+    },
+    {
+      "type": "checksum",
+      "checksum_types": [
+        "sha256"
+      ],
+      "output": "{{user `output_directory`}}/build/checksum.{{.ChecksumType}}"
     }
   ]
 }

@@ -137,9 +137,21 @@ void PackerTemplate_Publish(PackerTemplate template) {
     return;
   }
 
+  var boxChecksum = string.Empty;
+  var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
+  foreach (var checksumLine in FileReadLines(checksumFile)) {
+    var checksumParts = checksumLine.Split('\t');
+    if (checksumParts[1] == "vagrant.box") {
+      boxChecksum = checksumParts[0];
+      break;
+    }
+  }
+
   var provider = template.Type.Split('-')[0];
 
   PackerTemplate_Vagrant(template, "cloud publish --force"
+    + $" --checksum-type sha256"
+    + $" --checksum {boxChecksum}"
     + $" gusztavvargadr/{template.GroupName}"
     + $" {template.GroupVersion}"
     + $" {provider}"

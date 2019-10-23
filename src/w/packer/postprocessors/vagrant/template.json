@@ -14,7 +14,7 @@
         "checksum_types": [
           "sha256"
         ],
-        "output": "{{user `output_directory`}}/package/vagrant.{{.ChecksumType}}.checksum"
+        "output": "{{user `output_directory`}}/package/checksum.{{.ChecksumType}}"
       }
     ]
   ]
