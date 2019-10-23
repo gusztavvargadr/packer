@@ -37,6 +37,7 @@ stages:
           - ${{ if parameters.parent }}:
             - download: Parent
               artifact: build
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
               displayName: Artifacts - Download
             # - task: DownloadPipelineArtifact@2
             #   inputs:
