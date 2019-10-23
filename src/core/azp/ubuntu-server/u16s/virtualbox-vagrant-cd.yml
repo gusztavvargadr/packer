@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: Parent
-      source: '\ubuntu-server\u16s/virtualbox-vagrant-ci'
+      source: 'virtualbox-vagrant-ci'
       # trigger:     # Optional; Triggers are not enabled by default.
       #   branches:  
       #     include:  # branches to consider the trigger events, optional; defaults to all branches.
