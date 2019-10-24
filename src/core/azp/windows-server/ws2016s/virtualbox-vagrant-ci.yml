@@ -2,7 +2,7 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../ci-stages.yml
     parameters:
       image: ws2016s
       provider: virtualbox

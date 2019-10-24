@@ -2,9 +2,9 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../cd-stages.yml
     parameters:
-      image: ws2016s
+      image: ws2016sc
       provider: hyperv
       configuration: vagrant
-      parent: ws2016s
+      parent: ws2016sc

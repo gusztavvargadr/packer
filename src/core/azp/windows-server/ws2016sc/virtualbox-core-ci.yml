@@ -2,8 +2,8 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../ci-stages.yml
+  - template: ../../ci-stages.yml
     parameters:
-      image: ws2019s
+      image: ws2016sc
       provider: virtualbox
       configuration: core

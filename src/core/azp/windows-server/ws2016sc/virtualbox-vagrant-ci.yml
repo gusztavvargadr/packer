@@ -2,9 +2,9 @@ trigger: none
 pr: none
 
 stages:
-  - template: ../cd-stages.yml
+  - template: ../../ci-stages.yml
     parameters:
-      image: ws2016s
+      image: ws2016sc
       provider: virtualbox
       configuration: vagrant
-      parent: ws2016s
+      parent: ws2016sc
