@@ -151,7 +151,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
 
   PackerTemplate_Vagrant(template, "cloud publish --force"
     + $" --checksum-type sha256"
-    + $" --checksum {boxChecksum}-pending"
+    + $" --checksum {boxChecksum}-publish"
     + $" gusztavvargadr/{template.GroupName}"
     + $" {template.GroupVersion}"
     + $" {provider}"
@@ -164,7 +164,6 @@ void PackerTemplate_Publish(PackerTemplate template) {
     + $" gusztavvargadr/{template.GroupName}"
     + $" {provider}"
     + $" {template.GroupVersion}"
-    + $" ''"
   );
 }
 
