@@ -162,6 +162,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
     Information($"Error uploading: '{ex.Message}'.");
   } finally {
     var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10, 20 };
+    var success = false;
 
     foreach (var downloadWaitMinute in downloadWaitMinutes) {
       Information($"Waiting {downloadWaitMinute} minutes.");
@@ -177,10 +178,15 @@ void PackerTemplate_Publish(PackerTemplate template) {
         DeleteFile(downloadPath);
         Information($"Deleted '{downloadPath}'.");
 
+        success = true;
         break;
       } catch (Exception ex) {
         Information($"Error downloading: '{ex.Message}'.");
       }
+    }
+
+    if (!success) {
+      throw new Exception("Error publishing.");
     }
   }
 }
