@@ -159,23 +159,30 @@ void PackerTemplate_Publish(PackerTemplate template) {
       + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
     );
   } catch (Exception ex) {
-    Information($"Error uploading: {ex}");
+    Information($"Error uploading: '{ex.Message}'.");
   } finally {
-    var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
-    Information(downloadUrl);
-    
-    var downloadPath = DownloadFile(downloadUrl);
-    Information(downloadPath);
-    DeleteFile(downloadPath);
-  }
+    var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10, 20 };
 
-  // PackerTemplate_Vagrant(template, "cloud provider update"
-  //   + $" --checksum-type sha256"
-  //   + $" --checksum {boxChecksum}"
-  //   + $" gusztavvargadr/{template.GroupName}"
-  //   + $" {provider}"
-  //   + $" {template.GroupVersion}"
-  // );
+    foreach (var downloadWaitMinute in downloadWaitMinutes) {
+      Information($"Waiting {downloadWaitMinute} minutes.");
+      System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
+
+      var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
+      Information($"Downloading '{downloadUrl}'.");
+
+      try {
+        var downloadPath = DownloadFile(downloadUrl);
+        Information($"Downloaded '{downloadUrl}' to '{downloadPath}'.");
+
+        DeleteFile(downloadPath);
+        Information($"Deleted '{downloadPath}'.");
+
+        break;
+      } catch (Exception ex) {
+        Information($"Error downloading: '{ex.Message}'.");
+      }
+    }
+  }
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
