@@ -149,22 +149,33 @@ void PackerTemplate_Publish(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  PackerTemplate_Vagrant(template, "cloud publish --force"
-    + $" --checksum-type sha256"
-    + $" --checksum {boxChecksum}-publish"
-    + $" gusztavvargadr/{template.GroupName}"
-    + $" {template.GroupVersion}"
-    + $" {provider}"
-    + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
-  );
+  try {
+    PackerTemplate_Vagrant(template, "cloud publish --force"
+      + $" --checksum-type sha256"
+      + $" --checksum {boxChecksum}"
+      + $" gusztavvargadr/{template.GroupName}"
+      + $" {template.GroupVersion}"
+      + $" {provider}"
+      + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
+    );
+  } catch (Exception ex) {
+    Information($"Error uploading: {ex}");
+  } finally {
+    var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
+    Information(downloadUrl);
+    
+    var downloadPath = DownloadFile(downloadUrl);
+    Information(downloadPath);
+    DeleteFile(downloadPath);
+  }
 
-  PackerTemplate_Vagrant(template, "cloud provider update"
-    + $" --checksum-type sha256"
-    + $" --checksum {boxChecksum}"
-    + $" gusztavvargadr/{template.GroupName}"
-    + $" {provider}"
-    + $" {template.GroupVersion}"
-  );
+  // PackerTemplate_Vagrant(template, "cloud provider update"
+  //   + $" --checksum-type sha256"
+  //   + $" --checksum {boxChecksum}"
+  //   + $" gusztavvargadr/{template.GroupName}"
+  //   + $" {provider}"
+  //   + $" {template.GroupVersion}"
+  // );
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
