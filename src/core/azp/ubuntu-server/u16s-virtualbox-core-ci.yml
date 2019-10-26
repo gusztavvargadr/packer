@@ -1,9 +1,0 @@
-trigger: none
-pr: none
-
-stages:
-  - template: ../ci-stages.yml
-    parameters:
-      image: u16s
-      provider: virtualbox
-      configuration: core

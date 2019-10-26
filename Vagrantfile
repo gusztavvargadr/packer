@@ -3,7 +3,7 @@ directory = File.dirname(__FILE__)
 require "#{directory}/src/vagrant"
 
 def version
-  '1909'
+  '1910'
 end
 
 VagrantMachine.defaults_include(
@@ -45,12 +45,12 @@ class VagrantLinuxMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 2048,
-        'cpus' => 1,
+        'memory' => 4096,
+        'cpus' => 2,
       },
       'hyperv' => {
-        'memory' => 2048,
-        'cpus' => 1,
+        'memory' => 4096,
+        'cpus' => 2,
       },
     },
     'provisioners' => {

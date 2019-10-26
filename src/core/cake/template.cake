@@ -137,14 +137,58 @@ void PackerTemplate_Publish(PackerTemplate template) {
     return;
   }
 
+  var boxChecksum = string.Empty;
+  var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
+  foreach (var checksumLine in FileReadLines(checksumFile)) {
+    var checksumParts = checksumLine.Split('\t');
+    if (checksumParts[1] == "vagrant.box") {
+      boxChecksum = checksumParts[0];
+      break;
+    }
+  }
+
   var provider = template.Type.Split('-')[0];
 
-  PackerTemplate_Vagrant(template, "cloud publish --force"
-    + $" gusztavvargadr/{template.GroupName}"
-    + $" {template.GroupVersion}"
-    + $" {provider}"
-    + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
-  );
+  try {
+    PackerTemplate_Vagrant(template, "cloud publish --force"
+      + $" --checksum-type sha256"
+      + $" --checksum {boxChecksum}"
+      + $" gusztavvargadr/{template.GroupName}"
+      + $" {template.GroupVersion}"
+      + $" {provider}"
+      + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
+    );
+  } catch (Exception ex) {
+    Information($"Error uploading: '{ex.Message}'.");
+  } finally {
+    var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10, 20 };
+    var success = false;
+
+    foreach (var downloadWaitMinute in downloadWaitMinutes) {
+      Information($"Waiting {downloadWaitMinute} minutes.");
+      System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
+
+      var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
+      Information($"Downloading '{downloadUrl}'.");
+
+      try {
+        var downloadPath = DownloadFile(downloadUrl);
+        Information($"Downloaded '{downloadUrl}' to '{downloadPath}'.");
+
+        DeleteFile(downloadPath);
+        Information($"Deleted '{downloadPath}'.");
+
+        success = true;
+        break;
+      } catch (Exception ex) {
+        Information($"Error downloading: '{ex.Message}'.");
+      }
+    }
+
+    if (!success) {
+      throw new Exception("Error publishing.");
+    }
+  }
 }
 
 void PackerTemplate_Download(PackerTemplate template) {

@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u16s
+      provider: hyperv
+      configuration: vagrant
+      parent: u16s
