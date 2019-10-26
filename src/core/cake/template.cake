@@ -161,32 +161,29 @@ void PackerTemplate_Publish(PackerTemplate template) {
   } catch (Exception ex) {
     Information($"Error uploading: '{ex.Message}'.");
   } finally {
-    var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10, 20 };
-    var success = false;
+    var downloadWaitMinutes = new [] { 1, 2, 5, 10, 20 };
+    var downloadSucceeded = false;
 
     foreach (var downloadWaitMinute in downloadWaitMinutes) {
-      Information($"Waiting {downloadWaitMinute} minutes.");
-      System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
-
       var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
       Information($"Downloading '{downloadUrl}'.");
 
       try {
-        var downloadPath = DownloadFile(downloadUrl);
-        Information($"Downloaded '{downloadUrl}' to '{downloadPath}'.");
+        DownloadFile(downloadUrl, "/dev/null");
+        Information($"Downloaded '{downloadUrl}'.");
 
-        DeleteFile(downloadPath);
-        Information($"Deleted '{downloadPath}'.");
-
-        success = true;
+        downloadSucceeded = true;
         break;
       } catch (Exception ex) {
         Information($"Error downloading: '{ex.Message}'.");
       }
+
+      Information($"Waiting {downloadWaitMinute} minutes before retry.");
+      System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
     }
 
-    if (!success) {
-      throw new Exception("Error publishing.");
+    if (!downloadSucceeded) {
+      throw new Exception("Error downloading.");
     }
   }
 }
