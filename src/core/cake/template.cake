@@ -137,6 +137,8 @@ void PackerTemplate_Publish(PackerTemplate template) {
     return;
   }
 
+  var provider = template.Type.Split('-')[0];
+
   var boxChecksum = string.Empty;
   var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
   foreach (var checksumLine in FileReadLines(checksumFile)) {
@@ -146,8 +148,6 @@ void PackerTemplate_Publish(PackerTemplate template) {
       break;
     }
   }
-
-  var provider = template.Type.Split('-')[0];
 
   try {
     PackerTemplate_Vagrant(template, "cloud publish --force"
@@ -159,32 +159,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
       + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
     );
   } catch (Exception ex) {
-    Information($"Error uploading: '{ex.Message}'.");
-  } finally {
-    var downloadWaitMinutes = new [] { 1, 2, 5, 10, 20 };
-    var downloadSucceeded = false;
-
-    foreach (var downloadWaitMinute in downloadWaitMinutes) {
-      var downloadUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
-      Information($"Downloading '{downloadUrl}'.");
-
-      try {
-        DownloadFile(downloadUrl, "/dev/null");
-        Information($"Downloaded '{downloadUrl}'.");
-
-        downloadSucceeded = true;
-        break;
-      } catch (Exception ex) {
-        Information($"Error downloading: '{ex.Message}'.");
-      }
-
-      Information($"Waiting {downloadWaitMinute} minutes before retry.");
-      System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
-    }
-
-    if (!downloadSucceeded) {
-      throw new Exception("Error downloading.");
-    }
+    Information($"Error publishing: '{ex.Message}'.");
   }
 }
 
@@ -197,19 +172,34 @@ void PackerTemplate_Download(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  try {
-    PackerTemplate_Vagrant(template, "up"
-      + $" {template.Name}-deploy"
-      + $" --provider {provider}"
-    );
-  } finally {
-    PackerTemplate_Vagrant(template, "destroy --force"
-      + $" {template.Name}-deploy"
-    );
-    PackerTemplate_Vagrant(template, "box remove"
-      + $" local/gusztavvargadr/{template.Name}-deploy"
-      + $" --provider {provider}"
-    );
+  var downloadWaitMinutes = new [] { 1, 2, 5, 10, 20 };
+  var downloadSucceeded = false;
+
+  foreach (var downloadWaitMinute in downloadWaitMinutes) {
+    try {
+      PackerTemplate_Vagrant(template, "up"
+        + $" {template.Name}-deploy"
+        + $" --provider {provider}"
+      );
+
+      downloadSucceeded = true;
+      break;
+    } finally {
+      PackerTemplate_Vagrant(template, "destroy --force"
+        + $" {template.Name}-deploy"
+      );
+      PackerTemplate_Vagrant(template, "box remove"
+        + $" local/gusztavvargadr/{template.Name}-deploy"
+        + $" --provider {provider}"
+      );
+    }
+
+    Information($"Waiting {downloadWaitMinute} minutes before retry.");
+    System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
+  }
+
+  if (!downloadSucceeded) {
+    throw new Exception("Error downloading.");
   }
 }
 
