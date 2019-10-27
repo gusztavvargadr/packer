@@ -3,7 +3,6 @@
 #addin "nuget:?package=Cake.FileHelpers&version=3.2.0"
 #addin "nuget:?package=Cake.Json&version=3.0.1"
 #addin "nuget:?package=Newtonsoft.Json&version=11.0.2"
-#addin "nuget:?package=Cake.Http&version=0.7.0"
 
 var packerTemplates = new List<PackerTemplate>();
 
