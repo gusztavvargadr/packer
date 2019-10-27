@@ -187,13 +187,17 @@ void PackerTemplate_Download(PackerTemplate template) {
     } catch (Exception ex) {
       Information($"Error downloading: '{ex.Message}'.");
     } finally {
-      PackerTemplate_Vagrant(template, "destroy --force"
-        + $" {template.Name}-deploy"
-      );
-      PackerTemplate_Vagrant(template, "box remove"
-        + $" local/gusztavvargadr/{template.Name}-deploy"
-        + $" --provider {provider}"
-      );
+      try {
+        PackerTemplate_Vagrant(template, "destroy --force"
+          + $" {template.Name}-deploy"
+        );
+        PackerTemplate_Vagrant(template, "box remove"
+          + $" local/gusztavvargadr/{template.Name}-deploy"
+          + $" --provider {provider}"
+        );
+      } catch (Exception ex) {
+        Information($"Error cleaning up: '{ex.Message}'.");
+      }
     }
 
     Information($"Waiting {downloadWaitMinute} minutes before retry.");
