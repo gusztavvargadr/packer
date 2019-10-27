@@ -184,6 +184,8 @@ void PackerTemplate_Download(PackerTemplate template) {
 
       downloadSucceeded = true;
       break;
+    } catch (Exception ex) {
+      Information($"Error downloading: '{ex.Message}'.");
     } finally {
       PackerTemplate_Vagrant(template, "destroy --force"
         + $" {template.Name}-deploy"
