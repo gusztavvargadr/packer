@@ -7,3 +7,6 @@ vagrant.*override*.yml
 *.lock.json
 .chef
 Berksfile.lock
+
+**/.consul/
+**/.terraform/

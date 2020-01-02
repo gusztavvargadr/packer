@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  consul:
+    build:
+      context: ./
+      dockerfile: ./consul.Dockerfile
+
+    volumes:
+      - ${REPO_DIR}/.consul/data/:/consul/data/
+
+    ports:
+      - 8500:8500
+
+  azp-agent-host:
+    build:
+      context: ./
+      dockerfile: ./azp-agent-host.Dockerfile
+      args:
+        AZP_AGENT_HOST_OS: ${AZP_AGENT_HOST_OS}
+
+    volumes:
+      - ${REPO_DIR}/.terraform/:/opt/terraform/samples/device-${AZP_AGENT_HOST_OS}/.terraform/
+
+    environment:
+      CONSUL_HTTP_ADDR:
+      PACKET_AUTH_TOKEN:
+      TF_VAR_device_plan: t1.small.x86
+      TF_CLI_ARGS_plan:
+
+    command: azp-agent-host-${AZP_AGENT_HOST_NAME}
