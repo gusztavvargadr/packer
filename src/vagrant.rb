@@ -1,1 +1,1 @@
-require "#{File.dirname(__FILE__)}/../lib/gusztavvargadr/chef/src/vagrant"
+require "#{File.dirname(__FILE__)}/../lib/gusztavvargadr/chef/lib/gusztavvargadr/vagrant/src/vagrant"
