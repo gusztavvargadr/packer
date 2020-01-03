@@ -25,7 +25,7 @@ services:
     environment:
       CONSUL_HTTP_ADDR:
       PACKET_AUTH_TOKEN:
-      TF_VAR_device_plan: t1.small.x86
+      TF_VAR_device_plan:
       TF_CLI_ARGS_plan:
 
     command: azp-agent-host-${AZP_AGENT_HOST_NAME}

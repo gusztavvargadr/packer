@@ -164,7 +164,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
-  PackerTemplate_Log(template, "Publish");
+  PackerTemplate_Log(template, "Download");
 
   if (!template.Type.Contains("vagrant")) {
     return;
