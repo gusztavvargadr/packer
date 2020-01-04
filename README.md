@@ -59,27 +59,29 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [**2019 Standard**][windows-server-2019-standard] (latest)
-- [**2019 Standard Core**][windows-server-2019-standard-core]
-- [**2016 Standard**][windows-server-2016-standard]
-- [**2016 Standard Core**][windows-server-2016-standard-core]
-- [**All versions**][windows-server-all-versions]
+- [**Latest versions**][windows-server-latest-versions]
+- **Featured**
+  - [**2019 Standard**][windows-server-2019-standard]
+  - [**2019 Standard Core**][windows-server-2019-standard-core]
+  - [**2016 Standard**][windows-server-2016-standard]
+  - [**2016 Standard Core**][windows-server-2016-standard-core]
 
+[windows-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard/
 [windows-server-2019-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard-core/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard/
 [windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard-core/
-[windows-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 
 ##### Windows 10
 
-- [**Version 1903 Enterprise**][windows-10-version-1903-enterprise] (latest)
-- [**Version 1809 Enterprise**][windows-10-version-1809-enterprise]
-- [**All versions**][windows-10-all-versions]
+- [**Latest versions**][windows-10-latest-versions]
+- **Featured**
+  - [**Version 1909 Enterprise**][windows-10-version-1909-enterprise]
+  - [**Version 1903 Enterprise**][windows-10-version-1903-enterprise]
 
+[windows-10-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-version-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1909-enterprise/
 [windows-10-version-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1903-enterprise/
-[windows-10-version-1809-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1809-enterprise/
-[windows-10-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 
 #### Ubuntu
 
@@ -87,19 +89,21 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [**1604 LTS**][ubuntu-server-1604-lts] (latest)
-- [**All versions**][ubuntu-server-all-versions]
+- [**Latest versions**][ubuntu-server-latest-versions]
+- **Featured**
+  - [**1604 LTS**][ubuntu-server-1604-lts]
 
+[ubuntu-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/versions/1604-lts/
-[ubuntu-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 
 ##### Ubuntu Desktop
 
-- [**1604 LTS**][ubuntu-desktop-1604-lts] (latest)
-- [**All versions**][ubuntu-desktop-all-versions]
+- [**Latest versions**][ubuntu-desktop-latest-versions]
+- **Featured**
+  - [**1604 LTS**][ubuntu-desktop-1604-lts]
 
+[ubuntu-desktop-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/versions/1604-lts/
-[ubuntu-desktop-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 
 ### Hosting
 
@@ -113,49 +117,55 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker on Windows
 
-- [**Docker 1903 Community** on Windows Server 2019 Standard][docker-windows-1903-community] (latest)
-- [**Docker 1903 Enterprise** on Windows Server 2019 Standard][docker-windows-1903-enterprise]
-- [**Docker 1809 Community** on Windows Server 2019 Standard][docker-windows-1809-community]
-- [**Docker 1809 Enterprise** on Windows Server 2019 Standard][docker-windows-1809-enterprise]
-- [**All versions**][docker-windows-all-versions]
+- [**Latest versions**][docker-windows-latest-versions]
+- **Featured**
+  - [**1903 Community** on Windows Server 2019 Standard][docker-windows-1903-community]
+  - [**1903 Enterprise** on Windows Server 2019 Standard][docker-windows-1903-enterprise]
+  - [**1809 Community** on Windows Server 2019 Standard][docker-windows-1809-community]
+  - [**1809 Enterprise** on Windows Server 2019 Standard][docker-windows-1809-enterprise]
 
+[docker-windows-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-windows-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-community/
 [docker-windows-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-enterprise/
 [docker-windows-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-community/
 [docker-windows-1809-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-enterprise/
-[docker-windows-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 
 ##### Docker on Linux
 
-- [**1903 Community** on Ubuntu Server 1604 LTS][docker-linux-1903-community] (latest)
-- [**1809 Community** on Ubuntu Server 1604 LTS][docker-linux-1809-community]
-- [**All versions**][docker-linux-all-versions]
+- [**Latest versions**][docker-linux-latest-versions]
+- **Featured**
+  - [**1903 Community** on Ubuntu Server 1604 LTS][docker-linux-1903-community]
+  - [**1809 Community** on Ubuntu Server 1604 LTS][docker-linux-1809-community]
 
+[docker-linux-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-linux-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1903-community/
 [docker-linux-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1809-community/
-[docker-linux-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 
 #### IIS
 
-- [**10 Version 1809** on Windows Server 2019 Standard][iis-10-1809] (latest)
-- [**10 Version 1607** on Windows Server 2016 Standard][iis-10-1607]
-- [**All versions**][iis-all-versions]
+- [**Latest versions**][iis-latest-versions]
+- **Featured**
+  - [**10 Version 1809** on Windows Server 2019 Standard][iis-10-1809]
+  - [**10 Version 1607** on Windows Server 2016 Standard][iis-10-1607]
 
 [IIS]: #iis
 
+[iis-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 [iis-10-1809]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1809/
 [iis-10-1607]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1607/
-[iis-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 
 #### SQL Server
 
-- [**2017 Developer** on Windows Server 2019 Standard][sql-server-2017-developer] (latest)
-- [**All versions**][sql-server-all-versions]
+- [**Latest versions**][sql-server-latest-versions]
+- **Featured**
+  - [**2019 Developer** on Windows Server 2019 Standard][sql-server-2019-developer]
+  - [**2017 Developer** on Windows Server 2019 Standard][sql-server-2017-developer]
 
 [SQL Server]: #sql-server
 
+[sql-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+[sql-server-2019-developer]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/versions/2019-developer/
 [sql-server-2017-developer]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/versions/2017-developer/
-[sql-server-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
 
 ### Development
 
@@ -165,19 +175,20 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community] (latest)
-- [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
-- [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
-- [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
-- [**All versions**][visual-studio-all-versions]
+- [**Latest versions**][visual-studio-latest-versions]
+- **Featured**
+  - [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community] (latest)
+  - [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
+  - [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
+  - [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
 
 [Visual Studio]: #visual-studio
 
+[visual-studio-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 [visual-studio-2019-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-community/
 [visual-studio-2019-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-professional/
 [visual-studio-2017-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-community/
 [visual-studio-2017-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-professional/
-[visual-studio-all-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 
 ## Getting started
 
