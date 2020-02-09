@@ -18,6 +18,7 @@ services:
       dockerfile: ./azp-agent-host.Dockerfile
       args:
         AZP_AGENT_HOST_OS: ${AZP_AGENT_HOST_OS}
+        AZP_AGENT_HOST_VERSION: ${AZP_AGENT_HOST_VERSION}
 
     volumes:
       - ${REPO_DIR}/.terraform/:/opt/terraform/samples/device-${AZP_AGENT_HOST_OS}/.terraform/

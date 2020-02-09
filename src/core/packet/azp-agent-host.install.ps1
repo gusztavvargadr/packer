@@ -6,15 +6,16 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.163.1/vsts-agent-win-x64-2.163.1.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.164.7/vsts-agent-win-x64-2.164.7.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
 # TODO Configure agents
 
 # Chef Client
-choco install chef-client -y --version 15.5.17
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
+choco install chef-client -y --version 15.7.32
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "client", "User")
 
 choco install 7zip.portable -y --version 19.0
 
@@ -38,18 +39,19 @@ choco install -y beyondcompare
 # Development
 choco install -y git --package-parameters="'/GitAndUnixToolsOnPath /NoAutoCrlf /NoShellIntegration'"
 choco install -y poshgit
-choco install -y dotnetcore-sdk --version=2.1.607
-& 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global --version 0.33.0
+choco install -y dotnetcore-sdk --version=3.1.101
+& 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global --version 0.35.0
 
-choco install -y vagrant --version 2.2.6 --ignore-package-exit-codes
+choco install -y vagrant --version 2.2.7 --ignore-package-exit-codes
 [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "%VAGRANT_DEFAULT_PROVIDER%", "User")
 
-choco install -y chef-workstation
+choco install -y chef-workstation --version 0.15.6
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "workstation", "User")
 
 # choco install -y docker-desktop
 
-# choco install -y virtualbox --version 6.0.14
+# choco install -y virtualbox --version 6.1.2.20200116
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
 
 # Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
