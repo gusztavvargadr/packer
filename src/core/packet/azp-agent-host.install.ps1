@@ -6,14 +6,14 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.164.7/vsts-agent-win-x64-2.164.7.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.165.0/vsts-agent-win-x64-2.165.0.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
 # TODO Configure agents
 
 # Chef Client
-choco install chef-client -y --version 15.7.32
+choco install chef-client -y --version 15.8.23
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "client", "User")
 
@@ -29,7 +29,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedul
 # TODO Firewall notify
 
 # Workstation
-choco install -y firefox
+choco install -y googlechrome
 choco install -y conemu
 choco install -y far
 choco install -y treesizefree
@@ -39,8 +39,8 @@ choco install -y beyondcompare
 # Development
 choco install -y git --package-parameters="'/GitAndUnixToolsOnPath /NoAutoCrlf /NoShellIntegration'"
 choco install -y poshgit
-choco install -y dotnetcore-sdk --version=3.1.101
-& 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global --version 0.35.0
+choco install -y dotnetcore-sdk
+& 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global
 
 choco install -y vagrant --version 2.2.7 --ignore-package-exit-codes
 [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "%VAGRANT_DEFAULT_PROVIDER%", "User")
@@ -49,9 +49,9 @@ choco install -y chef-workstation --version 0.15.6
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "workstation", "User")
 
-# choco install -y docker-desktop
+# choco install -y docker-desktop --version 2.2.0.4
 
-# choco install -y virtualbox --version 6.1.2.20200116
+# choco install -y virtualbox --version 6.1.4
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
 
 # Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
@@ -70,6 +70,6 @@ choco install -y chef-workstation --version 0.15.6
 
 # Packer
 choco install -y packer --version 1.4.3
-[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "%AZP_AGENT_VAGRANT%", "User")
-[Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "%VAGRANT_DEFAULT_PROVIDER%", "User")
+# [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "%VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE%", "User")
