@@ -1,6 +1,6 @@
 
 Write-Host "Install Chef Client"
-choco install chef-client -y --version 15.5.17
+choco install chef-client -y --version 15.8.23
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install 7zip"

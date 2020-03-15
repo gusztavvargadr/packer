@@ -12,7 +12,7 @@
     "hyperv_ssh_username": "vagrant",
     "hyperv_ssh_password": "vagrant",
     "hyperv_ssh_port": "22",
-    "hyperv_ssh_timeout": "15m",
+    "hyperv_ssh_timeout": "30m",
     "hyperv_guest_additions_mode": "disable",
     "hyperv_shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
   }
