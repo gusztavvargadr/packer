@@ -31,8 +31,16 @@ stages:
             displayName: Init - .NET
 
           - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb
-              sudo dpkg -i vagrant_2.2.6_x86_64.deb
+              df -H
+
+              docker image prune --all --force
+
+              df -H
+            displayName: Init - Disk space
+
+          - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+              sudo dpkg -i vagrant_2.2.7_x86_64.deb
               vagrant --version
             displayName: Init - Vagrant
 
