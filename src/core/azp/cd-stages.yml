@@ -32,8 +32,13 @@ stages:
 
           - script: |
               df -H
-              docker image ls -a
-              docker image prune -f
+
+              docker image rm --force node:10
+              docker image rm --force node:12
+              docker image rm --force buildpack-deps:stretch
+              docker image rm --force jekyll/builder:latest
+
+              df -H
             displayName: Init - Disk space
 
           # - script: |
