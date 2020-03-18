@@ -38,56 +38,56 @@ stages:
               df -H
             displayName: Init - Disk space
 
-          # - script: |
-          #     wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
-          #     sudo dpkg -i vagrant_2.2.7_x86_64.deb
-          #     vagrant --version
-          #   displayName: Init - Vagrant
+          - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+              sudo dpkg -i vagrant_2.2.7_x86_64.deb
+              vagrant --version
+            displayName: Init - Vagrant
 
-          # - ${{ if parameters.parent }}:
-          #   - task: DownloadPipelineArtifact@2
-          #     inputs:
-          #       source: specific
-          #       artifact: build
-          #       path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-          #       project: $(System.TeamProjectId)
-          #       pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
-          #       runVersion: latestFromBranch
-          #       runBranch: $(Build.SourceBranch)
-          #     displayName: Artifacts - Download
+          - ${{ if parameters.parent }}:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                source: specific
+                artifact: build
+                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
+                project: $(System.TeamProjectId)
+                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+                runVersion: latestFromBranch
+                runBranch: $(Build.SourceBranch)
+              displayName: Artifacts - Download
 
-          # - script: |
-          #     ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          #   displayName: Build - Publish
-          #   env:
-          #     VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+          - script: |
+              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Publish
+            env:
+              VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
-          # - script: |
-          #     ~/.dotnet/tools/dotnet-cake build.cake --target=clean
-          #   displayName: Build - Clean
-          #   condition: always()
+          - script: |
+              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()
 
-      # - job: download
-      #   displayName: Download
-      #   pool:
-      #     name: Default
-      #     demands:
-      #       # - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
-      #       - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
-      #   workspace:
-      #     clean: all
-      #   timeoutInMinutes: 240
-      #   dependsOn: publish
+      - job: download
+        displayName: Download
+        pool:
+          name: Default
+          demands:
+            # - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
+            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+        workspace:
+          clean: all
+        timeoutInMinutes: 240
+        dependsOn: publish
 
-      #   steps:
-      #     - checkout: self
-      #       submodules: recursive
+        steps:
+          - checkout: self
+            submodules: recursive
 
-      #     - script: |
-      #         dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-      #       displayName: Build - Download
+          - script: |
+              dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Download
 
-      #     - script: |
-      #         dotnet cake build.cake --target=clean
-      #       displayName: Build - Clean
-      #       condition: always()
+          - script: |
+              dotnet cake build.cake --target=clean
+            displayName: Build - Clean
+            condition: always()
