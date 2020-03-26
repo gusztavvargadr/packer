@@ -26,9 +26,7 @@ stages:
 
           - script: |
               df -H
-
               rm -Rf /opt/ghc
-
               df -H
             displayName: Init - Disk space
 
