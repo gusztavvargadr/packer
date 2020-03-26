@@ -25,6 +25,14 @@ stages:
             submodules: recursive
 
           - script: |
+              df -H
+
+              rm -Rf /opt/ghc
+
+              df -H
+            displayName: Init - Disk space
+
+          - script: |
               dotnet tool install Cake.Tool --global --version 0.33.0
               dotnet --info
               dotnet tool list --global
@@ -36,16 +44,6 @@ stages:
               rm vagrant_2.2.7_x86_64.deb
               vagrant --version
             displayName: Init - Vagrant
-
-          - script: |
-              df -H
-              du -h -d 2 /
-
-              docker image prune --all --force
-
-              df -H
-              du -h -d 2 /
-            displayName: Init - Disk space
 
           - ${{ if parameters.parent }}:
             - task: DownloadPipelineArtifact@2
