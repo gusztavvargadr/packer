@@ -11,16 +11,11 @@ stages:
     jobs:
       - job: publish
         displayName: Publish
-        # pool:
-        #   vmImage: ubuntu-18.04
         pool:
-          name: Default
-          demands:
-            # - AZP_AGENT_PACKER -equals ${{ parameters.provider }}
-            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+          vmImage: ubuntu-16.04
         workspace:
           clean: all
-        timeoutInMinutes: 120
+        timeoutInMinutes: 240
         variables:
           - group: pipeline
           - group: environment-vagrantcloud
@@ -29,25 +24,28 @@ stages:
           - checkout: self
             submodules: recursive
 
-          # - script: |
-          #     dotnet tool install Cake.Tool --global --version 0.33.0
-          #     dotnet --info
-          #     dotnet tool list --global
-          #   displayName: Init - .NET
+          - script: |
+              dotnet tool install Cake.Tool --global --version 0.33.0
+              dotnet --info
+              dotnet tool list --global
+            displayName: Init - .NET
 
-          # - script: |
-          #     wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
-          #     sudo dpkg -i vagrant_2.2.7_x86_64.deb
-          #     vagrant --version
-          #   displayName: Init - Vagrant
+          - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+              sudo dpkg -i vagrant_2.2.7_x86_64.deb
+              rm vagrant_2.2.7_x86_64.deb
+              vagrant --version
+            displayName: Init - Vagrant
 
-          # - script: |
-          #     df -H
+          - script: |
+              df -H
+              du -h -d 2 /
 
-          #     docker image prune --all --force
+              docker image prune --all --force
 
-          #     df -H
-          #   displayName: Init - Disk space
+              df -H
+              du -h -d 2 /
+            displayName: Init - Disk space
 
           - ${{ if parameters.parent }}:
             - task: DownloadPipelineArtifact@2
@@ -61,25 +59,14 @@ stages:
                 runBranch: $(Build.SourceBranch)
               displayName: Artifacts - Download
 
-          # - script: |
-          #     ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-          #   displayName: Build - Publish
-          #   env:
-          #     VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
-
-          # - script: |
-          #     ~/.dotnet/tools/dotnet-cake build.cake --target=clean
-          #   displayName: Build - Clean
-          #   condition: always()
-
           - script: |
-              dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Publish
             env:
               VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
           - script: |
-              dotnet cake build.cake --target=clean
+              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
             displayName: Build - Clean
             condition: always()
 
