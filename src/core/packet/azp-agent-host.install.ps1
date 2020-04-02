@@ -1,6 +1,8 @@
 #ps1_sysnative
 
 # PowerShell
+$ErrorActionPreference = "Stop"
+
 Set-ExecutionPolicy RemoteSigned -Force
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -22,7 +24,7 @@ choco install chef-client -y --version 15.8.23
 choco install 7zip.portable -y --version 19.0
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.165.0/vsts-agent-win-x64-2.165.0.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.165.2/vsts-agent-win-x64-2.165.2.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")

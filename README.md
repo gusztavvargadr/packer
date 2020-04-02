@@ -121,25 +121,19 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 - **Featured**
   - [**1903 Community** on Windows Server 2019 Standard][docker-windows-1903-community]
   - [**1903 Enterprise** on Windows Server 2019 Standard][docker-windows-1903-enterprise]
-  - [**1809 Community** on Windows Server 2019 Standard][docker-windows-1809-community]
-  - [**1809 Enterprise** on Windows Server 2019 Standard][docker-windows-1809-enterprise]
 
 [docker-windows-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-windows-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-community/
 [docker-windows-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-enterprise/
-[docker-windows-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-community/
-[docker-windows-1809-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1809-enterprise/
 
 ##### Docker on Linux
 
 - [**Latest versions**][docker-linux-latest-versions]
 - **Featured**
   - [**1903 Community** on Ubuntu Server 1604 LTS][docker-linux-1903-community]
-  - [**1809 Community** on Ubuntu Server 1604 LTS][docker-linux-1809-community]
 
 [docker-linux-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-linux-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1903-community/
-[docker-linux-1809-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1809-community/
 
 #### IIS
 
@@ -177,7 +171,7 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 - [**Latest versions**][visual-studio-latest-versions]
 - **Featured**
-  - [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community] (latest)
+  - [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community]
   - [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
   - [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
   - [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
