@@ -71,7 +71,7 @@ choco install -y chef-workstation --version 0.17.5
 # [Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE", "HyperVNAT", "User")
 
 # Packer
-choco install -y packer --version 1.4.3
+choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "%VAGRANT_DEFAULT_PROVIDER%", "User")
 # [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "%VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE%", "User")
