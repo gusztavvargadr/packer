@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w10ipe
+      provider: hyperv
+      configuration: vagrant
+      parent: w10ipe
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w10ipe
+      provider: hyperv
+      configuration: vagrant
+      parent: w10ipe

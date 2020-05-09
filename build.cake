@@ -30,11 +30,22 @@ var ws2019sc = PackerTemplates_CreateWindows(
   $"1809.0.{version}-standard-core"
 );
 
-var w10e = PackerTemplates_CreateWindows(
-  "w10e",
-  "windows-10",
-  $"1909.0.{version}-enterprise"
+// var w10v1809eltsc = PackerTemplates_CreateWindows(
+//   "w10v1809eltsc",
+//   "windows-10-1809-enterprise-ltsc",
+//   $"{version}.0.0"
+// );
+var w101909e = PackerTemplates_CreateWindows(
+  "w101909e",
+  "windows-10-1909-enterprise",
+  $"{version}.0.0"
 );
+var w10ipe = PackerTemplates_CreateWindows(
+  "w10ipe",
+  "windows-10-insider-preview-enterprise",
+  $"{version}.0.0"
+);
+var w10e = w101909e;
 
 var u16s = PackerTemplates_CreateLinux(
   "u16s",
