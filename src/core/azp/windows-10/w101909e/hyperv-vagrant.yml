@@ -19,4 +19,3 @@ stages:
       image: w101909e
       provider: hyperv
       configuration: vagrant
-      parent: w101909e

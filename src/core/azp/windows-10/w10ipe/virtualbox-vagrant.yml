@@ -1,6 +1,11 @@
 trigger: none
 pr: none
 
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w10ipe-virtualbox-core
+
 stages:
   - template: ../../ci-stages.yml
     parameters:
@@ -14,4 +19,3 @@ stages:
       image: w10ipe
       provider: virtualbox
       configuration: vagrant
-      parent: w10ipe

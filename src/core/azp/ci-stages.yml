@@ -29,10 +29,9 @@ stages:
           - ${{ if parameters.parent }}:
             - task: DownloadPipelineArtifact@2
               inputs:
-                source: specific
                 artifact: build
                 path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
-                preferTriggeringPipeline: true
+                source: specific
                 project: $(System.TeamProjectId)
                 pipeline: $(resources.pipeline.parent.pipelineID)
                 runVersion: latestFromBranch

@@ -2,7 +2,6 @@ parameters:
   image: ''
   provider: ''
   configuration: ''
-  parent: ''
 
 stages:
   - stage: cd
@@ -43,17 +42,16 @@ stages:
               vagrant --version
             displayName: Init - Vagrant
 
-          - ${{ if parameters.parent }}:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                source: specific
-                artifact: build
-                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
-                project: $(System.TeamProjectId)
-                pipeline: $(resources.pipeline.parent.pipelineID)
-                runVersion: latestFromBranch
-                runBranch: $(Build.SourceBranch)
-              displayName: Artifacts - Download
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: build
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+              # source: specific
+              # project: $(System.TeamProjectId)
+              # pipeline: $(System.DefinitionId)
+              runVersion: latestFromBranch
+              runBranch: $(Build.SourceBranch)
+            displayName: Artifacts - Download
 
           - script: |
               ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
