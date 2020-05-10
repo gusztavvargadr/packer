@@ -30,11 +30,11 @@ var ws2019sc = PackerTemplates_CreateWindows(
   $"1809.0.{version}-standard-core"
 );
 
-// var w10v1809eltsc = PackerTemplates_CreateWindows(
-//   "w10v1809eltsc",
-//   "windows-10-1809-enterprise-ltsc",
-//   $"{version}.0.0"
-// );
+var w101809eltsc = PackerTemplates_CreateWindows(
+  "w101809eltsc",
+  "windows-10-1809-enterprise-ltsc",
+  $"{version}.0.0"
+);
 var w101909e = PackerTemplates_CreateWindows(
   "w101909e",
   "windows-10-1909-enterprise",
