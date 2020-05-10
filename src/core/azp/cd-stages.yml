@@ -50,7 +50,7 @@ stages:
                 artifact: build
                 path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-${{ parameters.configuration }}
                 project: $(System.TeamProjectId)
-                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-${{ parameters.configuration }}-ci-definition)
+                pipeline: $(resources.pipeline.parent.pipelineID)
                 runVersion: latestFromBranch
                 runBranch: $(Build.SourceBranch)
               displayName: Artifacts - Download

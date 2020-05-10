@@ -1,6 +1,11 @@
 trigger: none
 pr: none
 
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w101909e-hyperv-core
+
 stages:
   - template: ../../ci-stages.yml
     parameters:

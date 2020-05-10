@@ -34,7 +34,7 @@ stages:
                 path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
                 preferTriggeringPipeline: true
                 project: $(System.TeamProjectId)
-                pipeline: $(pipeline-${{ parameters.parent }}-${{ parameters.provider }}-core-ci-definition)
+                pipeline: $(resources.pipeline.parent.pipelineID)
                 runVersion: latestFromBranch
                 runBranch: $(Build.SourceBranch)
               displayName: Artifacts - Download
