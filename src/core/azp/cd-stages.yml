@@ -16,7 +16,6 @@ stages:
           clean: all
         timeoutInMinutes: 240
         variables:
-          - group: pipeline
           - group: environment-vagrantcloud
 
         steps:
@@ -46,9 +45,6 @@ stages:
             inputs:
               artifact: build
               path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-              # source: specific
-              # project: $(System.TeamProjectId)
-              # pipeline: $(System.DefinitionId)
               runVersion: latestFromBranch
               runBranch: $(Build.SourceBranch)
             displayName: Artifacts - Download
@@ -67,23 +63,48 @@ stages:
       - job: download
         displayName: Download
         pool:
-          name: Default
-          demands:
-            - AZP_AGENT_VAGRANT -equals ${{ parameters.provider }}
+          vmImage: ubuntu-16.04
         workspace:
           clean: all
         timeoutInMinutes: 240
-        dependsOn: publish
 
         steps:
           - checkout: self
             submodules: recursive
 
           - script: |
-              dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              df -H
+              rm -Rf /opt/ghc
+              df -H
+            displayName: Init - Disk space
+
+          - script: |
+              dotnet tool install Cake.Tool --global --version 0.33.0
+              dotnet --info
+              dotnet tool list --global
+            displayName: Init - .NET
+
+          - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+              sudo dpkg -i vagrant_2.2.7_x86_64.deb
+              rm vagrant_2.2.7_x86_64.deb
+              vagrant --version
+            displayName: Init - Vagrant
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: build
+              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+              runVersion: latestFromBranch
+              runBranch: $(Build.SourceBranch)
+              patterns: '**/checksum.*'
+            displayName: Artifacts - Download
+
+          - script: |
+              ~/.dotnet/tools/dotnet-cake cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Download
 
           - script: |
-              dotnet cake build.cake --target=clean
+              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
             displayName: Build - Clean
             condition: always()

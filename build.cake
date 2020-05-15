@@ -45,7 +45,6 @@ var w10ipe = PackerTemplates_CreateWindows(
   "windows-10-insider-preview-enterprise",
   $"{version}.0.0"
 );
-var w10e = w101909e;
 
 var u16s = PackerTemplates_CreateLinux(
   "u16s",
@@ -59,12 +58,13 @@ var u16d = PackerTemplates_CreateLinux(
   $"1604.0.{version}-lts"
 );
 
-var w10e_dc = PackerTemplates_CreateWindows(
-  "w10e-dc",
+var w101909e_dc = PackerTemplates_CreateWindows(
+  "w101909e-dc",
   "docker-windows",
   $"1903.0.{version}-community-windows-10-1909-enterprise",
-  w10e
+  w101909e
 );
+var w10e_dc = w101909e_dc;
 var ws2019s_dc = PackerTemplates_CreateWindows(
   "ws2019s-dc",
   "docker-windows",

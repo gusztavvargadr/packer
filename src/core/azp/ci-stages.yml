@@ -19,8 +19,6 @@ stages:
         workspace:
           clean: all
         timeoutInMinutes: 240
-        variables:
-          - group: pipeline
 
         steps:
           - checkout: self
