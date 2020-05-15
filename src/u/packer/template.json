@@ -5,13 +5,11 @@
     "description": "",
     "version": "",
     "author": "gusztavvargadr",
-    "output_directory": "output"
+    "output_directory": "output",
+    "download_directory": "{{env `HOME`}}/downloads"
   },
   "description": "{{user `description`}}",
-  "builders": [
-  ],
-  "provisioners": [
-  ],
-  "post-processors": [
-  ]
+  "builders": [],
+  "provisioners": [],
+  "post-processors": []
 }
