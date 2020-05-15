@@ -67,6 +67,7 @@ stages:
         workspace:
           clean: all
         timeoutInMinutes: 240
+        dependsOn: publish
 
         steps:
           - checkout: self

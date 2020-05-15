@@ -112,15 +112,15 @@ void PackerTemplate_Test(PackerTemplate template) {
 
   try {
     PackerTemplate_Vagrant(template, "up"
-      + $" {template.Name}-build"
+      + $" {template.Name}"
       + $" --provider {provider}"
     );
   } finally {
     PackerTemplate_Vagrant(template, "destroy --force"
-      + $" {template.Name}-build"
+      + $" {template.Name}"
     );
     PackerTemplate_Vagrant(template, "box remove"
-      + $" local/gusztavvargadr/{template.Name}-build"
+      + $" gusztavvargadr/{template.Name}-build"
       + $" --provider {provider}"
     );
   }
@@ -189,7 +189,7 @@ void PackerTemplate_Download(PackerTemplate template) {
     try {
       PackerTemplate_Vagrant(template, "box add"
         + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
-        + $" --name local/gusztavvargadr/{template.Name}-deploy"
+        + $" --name gusztavvargadr/{template.Name}-publish"
         + $" --checksum-type sha256"
         + $" --checksum {boxChecksum}"
       );
@@ -201,7 +201,7 @@ void PackerTemplate_Download(PackerTemplate template) {
     } finally {
       try {
         PackerTemplate_Vagrant(template, "box remove"
-          + $" local/gusztavvargadr/{template.Name}-deploy"
+          + $" gusztavvargadr/{template.Name}-publish"
           + $" --provider {provider}"
         );
       } catch (Exception ex) {
