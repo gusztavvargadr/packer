@@ -101,7 +101,7 @@ stages:
             displayName: Artifacts - Download
 
           - script: |
-              ~/.dotnet/tools/dotnet-cake cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              ~/.dotnet/tools/dotnet-cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Download
 
           - script: |
