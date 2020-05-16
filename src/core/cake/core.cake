@@ -56,7 +56,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   return items;
 }
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = true, bool azure = true) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = false, bool azure = false) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(

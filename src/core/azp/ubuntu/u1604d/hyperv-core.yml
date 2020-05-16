@@ -4,7 +4,6 @@ pr: none
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: u16d
+      image: u1604d
       provider: hyperv
-      configuration: vagrant
-      parent: u16d
+      configuration: core
