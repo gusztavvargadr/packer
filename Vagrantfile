@@ -82,7 +82,7 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'w101909e')
   create_machine(deployment, 'w10ipe')
 
-  create_machine(deployment, 'u16s')
+  create_machine(deployment, 'u1604s')
 
   create_machine(deployment, 'u16d')
 

@@ -46,11 +46,12 @@ var w10ipe = PackerTemplates_CreateWindows(
   $"{version}.0.0"
 );
 
-var u16s = PackerTemplates_CreateLinux(
-  "u16s",
-  "ubuntu-server",
-  $"1604.0.{version}-lts"
+var u1604s = PackerTemplates_CreateLinux(
+  "u1604s",
+  "ubuntu-1604-server",
+  $"{version}.0.0"
 );
+var u16s = u1604s;
 
 var u16d = PackerTemplates_CreateLinux(
   "u16d",
