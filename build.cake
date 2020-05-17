@@ -26,8 +26,8 @@ var ws2019s = PackerTemplates_CreateWindows(
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
-  "windows-server",
-  $"1809.0.{version}-standard-core"
+  "windows-server-2019-standard-core",
+  $"{version}.0.0"
 );
 
 var w101809eltsc = PackerTemplates_CreateWindows(
