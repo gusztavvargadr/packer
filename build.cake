@@ -16,8 +16,8 @@ var ws2016s = PackerTemplates_CreateWindows(
 );
 var ws2016sc = PackerTemplates_CreateWindows(
   "ws2016sc",
-  "windows-server",
-  $"1607.0.{version}-standard-core"
+  "windows-server-2016-standard-core",
+  $"{version}.0.0"
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",

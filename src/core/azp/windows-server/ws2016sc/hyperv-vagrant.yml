@@ -1,0 +1,21 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2016sc-hyperv-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2016sc
+      provider: hyperv
+      configuration: vagrant
+      parent: ws2016sc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2016sc
+      provider: hyperv
+      configuration: vagrant
