@@ -29,6 +29,11 @@ var ws2019sc = PackerTemplates_CreateWindows(
   "windows-server-2019-standard-core",
   $"{version}.0.0"
 );
+var wsipsc = PackerTemplates_CreateWindows(
+  "wsipsc",
+  "windows-server-insinder-preview-standard-core",
+  $"{version}.0.0"
+);
 
 var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
