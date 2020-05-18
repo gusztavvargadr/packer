@@ -59,29 +59,31 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [**Latest versions**][windows-server-latest-versions]
-- **Featured**
-  - [**2019 Standard**][windows-server-2019-standard]
-  - [**2019 Standard Core**][windows-server-2019-standard-core]
-  - [**2016 Standard**][windows-server-2016-standard]
-  - [**2016 Standard Core**][windows-server-2016-standard-core]
+- [Latest][windows-server-latest]
+- [2016 Standard][windows-server-2016-standard]
+- [2016 Standard Core][windows-server-2016-standard-core]
+- [2019 Standard][windows-server-2019-standard]
+- [2019 Standard Core][windows-server-2019-standard-core]
+- [Insider Preview Standard Core][windows-server-insider-preview-standard-core]
 
-[windows-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
-[windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard/
-[windows-server-2019-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1809-standard-core/
-[windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard/
-[windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/versions/1607-standard-core/
+[windows-server-latest]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
+[windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
+[windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
+[windows-server-2019-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
+[windows-server-insider-preview-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core/
 
 ##### Windows 10
 
-- [**Latest versions**][windows-10-latest-versions]
-- **Featured**
-  - [**Version 1909 Enterprise**][windows-10-version-1909-enterprise]
-  - [**Version 1903 Enterprise**][windows-10-version-1903-enterprise]
+- [Latest][windows-10-latest]
+- [Version 1809 Enterprise LTSC][windows-10-1809-enterprise-ltsc]
+- [Version 1909 Enterprise][windows-10-1909-enterprise]
+- [Insider Preview Enterprise][windows-10-insider-preview-enterprise]
 
-[windows-10-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
-[windows-10-version-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1909-enterprise/
-[windows-10-version-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/versions/1903-enterprise/
+[windows-10-latest]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
+[windows-10-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1909-enterprise/
+[windows-10-insider-preview-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
 
 #### Ubuntu
 

@@ -11,8 +11,8 @@ Environment.SetEnvironmentVariable("PACKER_SOURCE_DIR", MakeAbsolute(Directory("
 
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",
-  "windows-server",
-  $"1607.0.{version}-standard"
+  "windows-server-2016-standard",
+  $"{version}.0.0"
 );
 var ws2016sc = PackerTemplates_CreateWindows(
   "ws2016sc",
@@ -21,8 +21,8 @@ var ws2016sc = PackerTemplates_CreateWindows(
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
-  "windows-server",
-  $"1809.0.{version}-standard"
+  "windows-server-2019-standard",
+  $"{version}.0.0"
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
@@ -31,7 +31,7 @@ var ws2019sc = PackerTemplates_CreateWindows(
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-insinder-preview-standard-core",
+  "windows-server-insider-preview-standard-core",
   $"{version}.0.0"
 );
 
