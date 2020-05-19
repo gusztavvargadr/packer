@@ -59,14 +59,14 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Latest][windows-server-latest]
+- [Latest stable versions][windows-server-latest-stable-versions]
 - [2016 Standard][windows-server-2016-standard]
 - [2016 Standard Core][windows-server-2016-standard-core]
 - [2019 Standard][windows-server-2019-standard]
 - [2019 Standard Core][windows-server-2019-standard-core]
 - [Insider Preview Standard Core][windows-server-insider-preview-standard-core]
 
-[windows-server-latest]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
 [windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
 [windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
@@ -75,12 +75,12 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows 10
 
-- [Latest][windows-10-latest]
+- [Latest stable versions][windows-10-latest-stable-versions]
 - [Version 1809 Enterprise LTSC][windows-10-1809-enterprise-ltsc]
 - [Version 1909 Enterprise][windows-10-1909-enterprise]
 - [Insider Preview Enterprise][windows-10-insider-preview-enterprise]
 
-[windows-10-latest]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
 [windows-10-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1909-enterprise/
 [windows-10-insider-preview-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
@@ -91,21 +91,19 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [**Latest versions**][ubuntu-server-latest-versions]
-- **Featured**
-  - [**1604 LTS**][ubuntu-server-1604-lts]
+- [Latest stable versions][ubuntu-server-latest-stable-versions]
+- [1604][ubuntu-server-1604]
 
-[ubuntu-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
-[ubuntu-server-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/versions/1604-lts/
+[ubuntu-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604/
 
 ##### Ubuntu Desktop
 
-- [**Latest versions**][ubuntu-desktop-latest-versions]
-- **Featured**
-  - [**1604 LTS**][ubuntu-desktop-1604-lts]
+- [Latest stable versions][ubuntu-desktop-latest-stable-versions]
+- [1604][ubuntu-desktop-1604]
 
-[ubuntu-desktop-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
-[ubuntu-desktop-1604-lts]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/versions/1604-lts/
+[ubuntu-desktop-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604/
 
 ### Hosting
 
@@ -409,7 +407,7 @@ Take a look at the repository of [virtual workstations] to easily automate and s
 
 ## Contributing
 
-Feedback, please - [issues] or [pull requests] are welcome and are greatly appreciated. Check out the [milestones] for the list of planned releases.
+Feedback, [issues] or [pull requests] are welcome and are greatly appreciated. Check out the [milestones] for the list of planned releases.
 
 [Contributing]: #contributing
 
@@ -419,7 +417,7 @@ Feedback, please - [issues] or [pull requests] are welcome and are greatly appre
 
 ## Resources
 
-This repository could not exist without the following great tools:
+This repository could not exist without the following great technologies:
 
 - [Packer]
 - [Vagrant]

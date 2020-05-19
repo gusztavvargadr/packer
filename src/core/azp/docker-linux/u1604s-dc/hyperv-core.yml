@@ -1,10 +1,15 @@
 trigger: none
 pr: none
 
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u1604s-hyperv-core
+
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: u16s-dc
+      image: u1604s-dc
       provider: hyperv
       configuration: core
-      parent: u16s
+      parent: u1604s
