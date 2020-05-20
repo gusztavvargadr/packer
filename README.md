@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Visual Studio], [Docker], [IIS] and [SQL Server] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
+This repository contains common [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
