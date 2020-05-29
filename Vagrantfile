@@ -87,18 +87,13 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
 
   create_machine(deployment, 'u1604d')
 
-  create_machine(deployment, 'w10e-dc')
-  create_machine(deployment, 'ws2019s-dc')
-  create_machine(deployment, 'ws2016s-de')
-  create_machine(deployment, 'ws2016sc-de')
   create_machine(deployment, 'ws2019s-de')
   create_machine(deployment, 'ws2019sc-de')
 
+  create_machine(deployment, 'w101909e-dc')
   create_machine(deployment, 'u1604s-dc')
   create_machine(deployment, 'u1604d-dc')
 
-  create_machine(deployment, 'ws2016s-iis')
-  create_machine(deployment, 'ws2016sc-iis')
   create_machine(deployment, 'ws2019s-iis')
   create_machine(deployment, 'ws2019sc-iis')
 
@@ -109,10 +104,6 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'w10e-dc-vs17p')
   create_machine(deployment, 'w10e-dc-vs19c')
   create_machine(deployment, 'w10e-dc-vs19p')
-  create_machine(deployment, 'ws2019s-dc-vs17c')
-  create_machine(deployment, 'ws2019s-dc-vs17p')
-  create_machine(deployment, 'ws2019s-dc-vs19c')
-  create_machine(deployment, 'ws2019s-dc-vs19p')
 end
 
 def create_machine(deployment, name)

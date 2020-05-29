@@ -16,6 +16,10 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore" /v AutoDow
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance" /v MaintenanceDisabled /t REG_DWORD /d 1 /f
 # TODO Firewall notify
 
+# Chocolatey
+$env:chocolateyVersion = '0.10.15'
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
+
 # Chef Client
 choco install chef-client -y --version 15.10.12
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
@@ -24,7 +28,7 @@ choco install chef-client -y --version 15.10.12
 choco install 7zip.portable -y --version 19.0
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.166.4/vsts-agent-win-x64-2.166.4.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.168.2/vsts-agent-win-x64-2.168.2.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
@@ -47,14 +51,17 @@ choco install -y dotnetcore-sdk
 choco install -y vagrant --version 2.2.7 --ignore-package-exit-codes
 [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "%VAGRANT_DEFAULT_PROVIDER%", "User")
 
-choco install -y chef-workstation --version 0.17.5
+choco install -y chef-workstation --version 0.18.3
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "workstation", "User")
 
 # choco install -y docker-desktop --version 2.2.0.5
+# choco install -y docker-desktop --version 2.3.0.3
+# TODO docker-machine
 
-# choco install -y virtualbox --version 6.1.6
+# choco install -y virtualbox --version 6.1.8
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
+# TODO extension pack
 
 # Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 # New-VMSwitch -SwitchName HyperVNAT -SwitchType Internal

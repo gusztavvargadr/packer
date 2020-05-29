@@ -50,7 +50,6 @@ var w10ipe = PackerTemplates_CreateWindows(
   "windows-10-insider-preview-enterprise",
   $"{version}.0.0"
 );
-var w10e = w101909e;
 
 var u1604s = PackerTemplates_CreateLinux(
   "u1604s",
@@ -64,30 +63,6 @@ var u1604d = PackerTemplates_CreateLinux(
   $"{version}.0.0"
 );
 
-var w10e_dc = PackerTemplates_CreateWindows(
-  "w10e-dc",
-  "docker-windows",
-  $"1903.0.{version}-community-windows-10-1909-enterprise",
-  w10e
-);
-var ws2019s_dc = PackerTemplates_CreateWindows(
-  "ws2019s-dc",
-  "docker-windows",
-  $"1903.0.{version}-community-windows-server-1809-standard",
-  ws2019s
-);
-var ws2016s_de = PackerTemplates_CreateWindows(
-  "ws2016s-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1607-standard",
-  ws2016s
-);
-var ws2016sc_de = PackerTemplates_CreateWindows(
-  "ws2016sc-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1607-standard-core",
-  ws2016sc
-);
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
   "docker-windows",
@@ -101,6 +76,13 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
+var w101909e_dc = PackerTemplates_CreateWindows(
+  "w101909e-dc",
+  "docker-1903-community-windows-10",
+  $"{version}.0.0",
+  w101909e
+);
+var w10e_dc = w101909e_dc;
 var u1604s_dc = PackerTemplates_CreateLinux(
   "u1604s-dc",
   "docker-1903-community-ubuntu-server",
@@ -114,18 +96,6 @@ var u1604d_dc = PackerTemplates_CreateLinux(
   u1604d
 );
 
-var ws2016s_iis = PackerTemplates_CreateWindows(
-  "ws2016s-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1607-standard",
-  ws2016s
-);
-var ws2016sc_iis = PackerTemplates_CreateWindows(
-  "ws2016sc-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1607-standard-core",
-  ws2016sc
-);
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
   "iis",
@@ -175,30 +145,6 @@ var w10e_dc_vs19p = PackerTemplates_CreateWindows(
   "visual-studio",
   $"2019.0.{version}-professional-windows-10-1909-enterprise",
   w10e_dc
-);
-var ws2019s_dc_vs17c = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs17c",
-  "visual-studio",
-  $"2017.0.{version}-community-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs17p = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs17p",
-  "visual-studio",
-  $"2017.0.{version}-professional-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs19c = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs19c",
-  "visual-studio",
-  $"2019.0.{version}-community-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs19p = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs19p",
-  "visual-studio",
-  $"2019.0.{version}-professional-windows-server-1809-standard",
-  ws2019s_dc
 );
 
 Task("default")
