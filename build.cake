@@ -65,14 +65,14 @@ var u1604d = PackerTemplates_CreateLinux(
 
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1809-standard",
+  "docker-1903-enterprise-windows-server",
+  $"{version}.0.0",
   ws2019s
 );
 var ws2019sc_de = PackerTemplates_CreateWindows(
   "ws2019sc-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1809-standard-core",
+  "docker-1903-enterprise-windows-server-core",
+  $"{version}.0.0",
   ws2019sc
 );
 

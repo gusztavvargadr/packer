@@ -1,10 +1,15 @@
 trigger: none
 pr: none
 
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w101909e-virtualbox-core
+
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019s-de
+      image: w101909e-dc
       provider: virtualbox
       configuration: core
-      parent: ws2019s
+      parent: w101909e
