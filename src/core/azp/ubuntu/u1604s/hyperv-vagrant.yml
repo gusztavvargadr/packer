@@ -5,6 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: u1604s-hyperv-core
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml
