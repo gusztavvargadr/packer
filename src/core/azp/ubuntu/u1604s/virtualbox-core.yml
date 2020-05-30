@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u1604s
+      provider: virtualbox
+      configuration: core

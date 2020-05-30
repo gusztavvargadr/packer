@@ -1,7 +1,7 @@
 #load "./template.cake"
 
-#addin "nuget:?package=Cake.FileHelpers&version=3.2.0"
-#addin "nuget:?package=Cake.Json&version=3.0.1"
+#addin "nuget:?package=Cake.FileHelpers&version=3.2.1"
+#addin "nuget:?package=Cake.Json&version=4.0.0"
 #addin "nuget:?package=Newtonsoft.Json&version=11.0.2"
 
 var packerTemplates = new List<PackerTemplate>();
@@ -56,7 +56,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   return items;
 }
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = true, bool azure = true) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = false, bool azure = false) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(

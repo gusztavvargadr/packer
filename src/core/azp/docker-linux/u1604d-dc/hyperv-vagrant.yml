@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u1604d-dc-hyperv-core
+      trigger:
+        branches:
+          include:
+            - '*'
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u1604d-dc
+      provider: hyperv
+      configuration: vagrant
+      parent: u1604d-dc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: u1604d-dc
+      provider: hyperv
+      configuration: vagrant

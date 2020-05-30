@@ -8,7 +8,10 @@
       "type": "virtualbox-iso",
       "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "guest_os_type": "{{user `virtualbox_guest_os_type`}}",
-      "iso_url": "{{user `iso_url`}}",
+      "iso_urls": [
+        "{{user `iso_url_local`}}",
+        "{{user `iso_url_remote`}}"
+      ],
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless": "{{user `virtualbox_headless`}}",

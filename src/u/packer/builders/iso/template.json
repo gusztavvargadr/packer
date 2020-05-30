@@ -1,6 +1,7 @@
 {
   "variables": {
-    "iso_url": "",
+    "iso_url_local": "",
+    "iso_url_remote": "",
     "iso_checksum_type": "",
     "iso_checksum": ""
   }

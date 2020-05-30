@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2019sc-hyperv-core
+      trigger:
+        branches:
+          include:
+            - '*'
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2019sc
+      provider: hyperv
+      configuration: vagrant
+      parent: ws2019sc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2019sc
+      provider: hyperv
+      configuration: vagrant

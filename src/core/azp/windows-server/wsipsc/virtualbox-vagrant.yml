@@ -1,0 +1,21 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: wsipsc-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: wsipsc
+      provider: virtualbox
+      configuration: vagrant
+      parent: wsipsc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: wsipsc
+      provider: virtualbox
+      configuration: vagrant

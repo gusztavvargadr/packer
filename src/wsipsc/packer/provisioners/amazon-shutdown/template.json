@@ -1,0 +1,23 @@
+{
+  "variables": {
+    "amazon_shutdown_source": "provisioners/amazon-shutdown",
+    "amazon_shutdown_destination": "C:/ProgramData/Amazon/EC2-Windows/Launch/Sysprep"
+  },
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `amazon_shutdown_source`}}/upload/",
+      "destination": "{{user `amazon_shutdown_destination`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "{{user `amazon_shutdown_destination`}}/shutdown.ps1"
+      ],
+      "valid_exit_codes": [
+        0,
+        1
+      ]
+    }
+  ]
+}

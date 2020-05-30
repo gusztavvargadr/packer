@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w101909e-hyperv-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w101909e-dc
+      provider: hyperv
+      configuration: core
+      parent: w101909e

@@ -2,7 +2,7 @@
 
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
-var version = "2003";
+var version = "2005";
 
 var buildDirectory = Argument("build-directory", EnvironmentVariable("PACKER_BUILD_DIR") ?? "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
@@ -11,105 +11,91 @@ Environment.SetEnvironmentVariable("PACKER_SOURCE_DIR", MakeAbsolute(Directory("
 
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",
-  "windows-server",
-  $"1607.0.{version}-standard"
+  "windows-server-2016-standard",
+  $"{version}.0.0"
 );
 var ws2016sc = PackerTemplates_CreateWindows(
   "ws2016sc",
-  "windows-server",
-  $"1607.0.{version}-standard-core"
+  "windows-server-2016-standard-core",
+  $"{version}.0.0"
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
-  "windows-server",
-  $"1809.0.{version}-standard"
+  "windows-server-2019-standard",
+  $"{version}.0.0"
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
-  "windows-server",
-  $"1809.0.{version}-standard-core"
+  "windows-server-2019-standard-core",
+  $"{version}.0.0"
+);
+var wsipsc = PackerTemplates_CreateWindows(
+  "wsipsc",
+  "windows-server-insider-preview-standard-core",
+  $"{version}.0.0"
 );
 
-var w10e = PackerTemplates_CreateWindows(
-  "w10e",
-  "windows-10",
-  $"1909.0.{version}-enterprise"
+var w101809eltsc = PackerTemplates_CreateWindows(
+  "w101809eltsc",
+  "windows-10-1809-enterprise-ltsc",
+  $"{version}.0.0"
+);
+var w101909e = PackerTemplates_CreateWindows(
+  "w101909e",
+  "windows-10-1909-enterprise",
+  $"{version}.0.0"
+);
+var w10ipe = PackerTemplates_CreateWindows(
+  "w10ipe",
+  "windows-10-insider-preview-enterprise",
+  $"{version}.0.0"
 );
 
-var u16s = PackerTemplates_CreateLinux(
-  "u16s",
-  "ubuntu-server",
-  $"1604.0.{version}-lts"
+var u1604s = PackerTemplates_CreateLinux(
+  "u1604s",
+  "ubuntu-server-1604",
+  $"{version}.0.0"
 );
 
-var u16d = PackerTemplates_CreateLinux(
-  "u16d",
-  "ubuntu-desktop",
-  $"1604.0.{version}-lts"
+var u1604d = PackerTemplates_CreateLinux(
+  "u1604d",
+  "ubuntu-desktop-1604",
+  $"{version}.0.0"
 );
 
-var w10e_dc = PackerTemplates_CreateWindows(
-  "w10e-dc",
-  "docker-windows",
-  $"1903.0.{version}-community-windows-10-1909-enterprise",
-  w10e
-);
-var ws2019s_dc = PackerTemplates_CreateWindows(
-  "ws2019s-dc",
-  "docker-windows",
-  $"1903.0.{version}-community-windows-server-1809-standard",
-  ws2019s
-);
-var ws2016s_de = PackerTemplates_CreateWindows(
-  "ws2016s-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1607-standard",
-  ws2016s
-);
-var ws2016sc_de = PackerTemplates_CreateWindows(
-  "ws2016sc-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1607-standard-core",
-  ws2016sc
-);
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1809-standard",
+  "docker-1903-enterprise-windows-server",
+  $"{version}.0.0",
   ws2019s
 );
 var ws2019sc_de = PackerTemplates_CreateWindows(
   "ws2019sc-de",
-  "docker-windows",
-  $"1903.0.{version}-enterprise-windows-server-1809-standard-core",
+  "docker-1903-enterprise-windows-server-core",
+  $"{version}.0.0",
   ws2019sc
 );
 
-var u16s_dc = PackerTemplates_CreateLinux(
-  "u16s-dc",
-  "docker-linux",
-  $"1903.0.{version}-community-ubuntu-server-1604-lts",
-  u16s
+var w101909e_dc = PackerTemplates_CreateWindows(
+  "w101909e-dc",
+  "docker-1903-community-windows-10",
+  $"{version}.0.0",
+  w101909e
 );
-var u16d_dc = PackerTemplates_CreateLinux(
-  "u16d-dc",
-  "docker-linux",
-  $"1903.0.{version}-community-ubuntu-desktop-1604-lts",
-  u16d
+var w10e_dc = w101909e_dc;
+var u1604s_dc = PackerTemplates_CreateLinux(
+  "u1604s-dc",
+  "docker-1903-community-ubuntu-server",
+  $"{version}.0.0",
+  u1604s
+);
+var u1604d_dc = PackerTemplates_CreateLinux(
+  "u1604d-dc",
+  "docker-1903-community-ubuntu-desktop",
+  $"{version}.0.0",
+  u1604d
 );
 
-var ws2016s_iis = PackerTemplates_CreateWindows(
-  "ws2016s-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1607-standard",
-  ws2016s
-);
-var ws2016sc_iis = PackerTemplates_CreateWindows(
-  "ws2016sc-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1607-standard-core",
-  ws2016sc
-);
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
   "iis",
@@ -159,30 +145,6 @@ var w10e_dc_vs19p = PackerTemplates_CreateWindows(
   "visual-studio",
   $"2019.0.{version}-professional-windows-10-1909-enterprise",
   w10e_dc
-);
-var ws2019s_dc_vs17c = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs17c",
-  "visual-studio",
-  $"2017.0.{version}-community-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs17p = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs17p",
-  "visual-studio",
-  $"2017.0.{version}-professional-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs19c = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs19c",
-  "visual-studio",
-  $"2019.0.{version}-community-windows-server-1809-standard",
-  ws2019s_dc
-);
-var ws2019s_dc_vs19p = PackerTemplates_CreateWindows(
-  "ws2019s-dc-vs19p",
-  "visual-studio",
-  $"2019.0.{version}-professional-windows-server-1809-standard",
-  ws2019s_dc
 );
 
 Task("default")

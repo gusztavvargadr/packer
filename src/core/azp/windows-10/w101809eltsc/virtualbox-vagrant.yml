@@ -1,0 +1,21 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w101809eltsc-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w101809eltsc
+      provider: virtualbox
+      configuration: vagrant
+      parent: w101809eltsc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w101809eltsc
+      provider: virtualbox
+      configuration: vagrant

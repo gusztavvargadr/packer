@@ -112,15 +112,15 @@ void PackerTemplate_Test(PackerTemplate template) {
 
   try {
     PackerTemplate_Vagrant(template, "up"
-      + $" {template.Name}-build"
+      + $" {template.Name}"
       + $" --provider {provider}"
     );
   } finally {
     PackerTemplate_Vagrant(template, "destroy --force"
-      + $" {template.Name}-build"
+      + $" {template.Name}"
     );
     PackerTemplate_Vagrant(template, "box remove"
-      + $" local/gusztavvargadr/{template.Name}-build"
+      + $" gusztavvargadr/{template.Name}-build"
       + $" --provider {provider}"
     );
   }
@@ -172,14 +172,26 @@ void PackerTemplate_Download(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  var downloadWaitMinutes = new [] { 1, 2, 5, 10, 20 };
+  var downloadWaitMinutes = new [] { 1, 2, 5, 10 };
   var downloadSucceeded = false;
+
+  var boxChecksum = string.Empty;
+  var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
+  foreach (var checksumLine in FileReadLines(checksumFile)) {
+    var checksumParts = checksumLine.Split('\t');
+    if (checksumParts[1] == "vagrant.box") {
+      boxChecksum = checksumParts[0];
+      break;
+    }
+  }
 
   foreach (var downloadWaitMinute in downloadWaitMinutes) {
     try {
-      PackerTemplate_Vagrant(template, "up"
-        + $" {template.Name}-deploy"
-        + $" --provider {provider}"
+      PackerTemplate_Vagrant(template, "box add"
+        + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
+        + $" --name gusztavvargadr/{template.Name}-publish"
+        + $" --checksum-type sha256"
+        + $" --checksum {boxChecksum}"
       );
 
       downloadSucceeded = true;
@@ -188,11 +200,8 @@ void PackerTemplate_Download(PackerTemplate template) {
       Information($"Error downloading: '{ex.Message}'.");
     } finally {
       try {
-        PackerTemplate_Vagrant(template, "destroy --force"
-          + $" {template.Name}-deploy"
-        );
         PackerTemplate_Vagrant(template, "box remove"
-          + $" local/gusztavvargadr/{template.Name}-deploy"
+          + $" gusztavvargadr/{template.Name}-publish"
           + $" --provider {provider}"
         );
       } catch (Exception ex) {

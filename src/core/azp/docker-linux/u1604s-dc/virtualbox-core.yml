@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u1604s-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u1604s-dc
+      provider: virtualbox
+      configuration: core
+      parent: u1604s

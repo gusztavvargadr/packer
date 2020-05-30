@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2019s-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - '*'
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2019s
+      provider: virtualbox
+      configuration: vagrant
+      parent: ws2019s
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2019s
+      provider: virtualbox
+      configuration: vagrant

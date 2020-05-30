@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w101809eltsc
+      provider: virtualbox
+      configuration: core
