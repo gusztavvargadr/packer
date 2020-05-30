@@ -6,7 +6,7 @@
     "version": "",
     "author": "gusztavvargadr",
     "output_directory": "output",
-    "download_directory": "{{env `HOME`}}/downloads"
+    "download_directory": "{{env `USERPROFILE`}}/downloads"
   },
   "description": "{{user `description`}}",
   "builders": [],
