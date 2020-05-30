@@ -5,6 +5,10 @@ resources:
   pipelines:
     - pipeline: parent
       source: u1604d-dc-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - '*'
 
 stages:
   - template: ../../ci-stages.yml

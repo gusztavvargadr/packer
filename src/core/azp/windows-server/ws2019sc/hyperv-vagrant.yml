@@ -5,7 +5,10 @@ resources:
   pipelines:
     - pipeline: parent
       source: ws2019sc-hyperv-core
-      trigger: true
+      trigger:
+        branches:
+          include:
+            - '*'
 
 stages:
   - template: ../../ci-stages.yml
