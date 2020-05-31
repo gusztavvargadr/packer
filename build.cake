@@ -45,6 +45,11 @@ var w101909e = PackerTemplates_CreateWindows(
   "windows-10-1909-enterprise",
   $"{version}.0.0"
 );
+var w102004e = PackerTemplates_CreateWindows(
+  "w102004e",
+  "windows-10-2004-enterprise",
+  $"{version}.0.0"
+);
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
   "windows-10-insider-preview-enterprise",
