@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: wsipsc-virtualbox-core
+      source: w102004e-hyperv-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: wsipsc
-      provider: virtualbox
+      image: w102004e
+      provider: hyperv
       configuration: vagrant
-      parent: wsipsc
+      parent: w102004e
 
   - template: ../../cd-stages.yml
     parameters:
-      image: wsipsc
-      provider: virtualbox
+      image: w102004e
+      provider: hyperv
       configuration: vagrant

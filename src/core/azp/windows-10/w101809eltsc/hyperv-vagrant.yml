@@ -5,6 +5,10 @@ resources:
   pipelines:
     - pipeline: parent
       source: w101809eltsc-hyperv-core
+      trigger:
+        branches:
+          include:
+            - master
 
 stages:
   - template: ../../ci-stages.yml

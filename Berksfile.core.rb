@@ -17,6 +17,7 @@ def gusztavvargadr_packer_sources
   gusztavvargadr_packer_cookbook 'wsipsc'
   gusztavvargadr_packer_cookbook 'w101809eltsc'
   gusztavvargadr_packer_cookbook 'w101909e'
+  gusztavvargadr_packer_cookbook 'w102004e'
   gusztavvargadr_packer_cookbook 'w10ipe'
 
   gusztavvargadr_packer_cookbook 'dc'

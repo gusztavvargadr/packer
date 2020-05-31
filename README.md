@@ -78,11 +78,13 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [Latest stable versions][windows-10-latest-stable-versions]
 - [Version 1809 Enterprise LTSC][windows-10-1809-enterprise-ltsc]
 - [Version 1909 Enterprise][windows-10-1909-enterprise]
+- [Version 2004 Enterprise][windows-10-2004-enterprise]
 - [Insider Preview Enterprise][windows-10-insider-preview-enterprise]
 
 [windows-10-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
 [windows-10-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1909-enterprise/
+[windows-10-2004-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-2004-enterprise/
 [windows-10-insider-preview-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
 
 #### Ubuntu
