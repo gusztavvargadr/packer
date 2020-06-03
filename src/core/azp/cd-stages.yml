@@ -24,6 +24,9 @@ stages:
 
           - script: |
               rm -Rf /opt/ghc
+              rm -Rf /usr/share/dotnet/sdk/2.1.*
+              rm -Rf /usr/share/dotnet/sdk/2.2.*
+              rm -Rf /usr/share/dotnet/sdk/3.0.*
               df -H
               du -h --max-depth=2 /usr/share/dotnet
             displayName: Init - Disk space
