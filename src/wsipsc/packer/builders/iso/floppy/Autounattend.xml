@@ -51,7 +51,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
-                            <Value>Windows Server SERVERSTANDARDCORE</Value>
+                            <Value>Windows Server SERVERSTANDARDACORE</Value>
                         </MetaData>
                     </InstallFrom>
                     <InstallTo>
