@@ -12,7 +12,7 @@ services:
     ports:
       - 8500:8500
 
-  azp-agent-host-hyperv:
+  azp-agent-host:
     build:
       context: ./
       dockerfile: ./azp-agent-host.Dockerfile
@@ -21,7 +21,7 @@ services:
         AZP_AGENT_HOST_VERSION: '0.1.0'
 
     volumes:
-      - ${REPO_DIR}/.terraform/hyperv/:/opt/terraform/samples/device-windows/.terraform/
+      - ${REPO_DIR}/.terraform/:/opt/terraform/samples/device-windows/.terraform/
 
     environment:
       CONSUL_HTTP_ADDR:
@@ -32,26 +32,4 @@ services:
       TF_VAR_device_count:
       TF_CLI_ARGS_plan:
 
-    command: hyperv
-
-  azp-agent-host-virtualbox:
-    build:
-      context: ./
-      dockerfile: ./azp-agent-host.Dockerfile
-      args:
-        AZP_AGENT_HOST_OS: windows
-        AZP_AGENT_HOST_VERSION: '0.1.0'
-
-    volumes:
-      - ${REPO_DIR}/.terraform/virtualbox/:/opt/terraform/samples/device-windows/.terraform/
-
-    environment:
-      CONSUL_HTTP_ADDR:
-      PACKET_AUTH_TOKEN:
-      TF_VAR_device_facility:
-      TF_VAR_device_plan:
-      TF_VAR_device_os_name:
-      TF_VAR_device_count:
-      TF_CLI_ARGS_plan:
-
-    command: virtualbox
+    command: azp-agent-host

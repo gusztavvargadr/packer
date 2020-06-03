@@ -23,8 +23,10 @@ stages:
             submodules: recursive
 
           - script: |
-              df -H
               rm -Rf /opt/ghc
+              rm -Rf /usr/share/dotnet/sdk/2.1.*
+              rm -Rf /usr/share/dotnet/sdk/2.2.*
+              rm -Rf /usr/share/dotnet/sdk/3.0.*
               df -H
             displayName: Init - Disk space
 
@@ -74,8 +76,10 @@ stages:
             submodules: recursive
 
           - script: |
-              df -H
               rm -Rf /opt/ghc
+              rm -Rf /usr/share/dotnet/sdk/2.1.*
+              rm -Rf /usr/share/dotnet/sdk/2.2.*
+              rm -Rf /usr/share/dotnet/sdk/3.0.*
               df -H
             displayName: Init - Disk space
 
