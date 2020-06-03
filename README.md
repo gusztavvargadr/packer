@@ -59,12 +59,12 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Latest stable versions][windows-server-latest-stable-versions]
-- [2016 Standard][windows-server-2016-standard]
-- [2016 Standard Core][windows-server-2016-standard-core]
-- [2019 Standard][windows-server-2019-standard]
-- [2019 Standard Core][windows-server-2019-standard-core]
-- [Insider Preview Standard Core][windows-server-insider-preview-standard-core]
+- [**Latest** stable versions][windows-server-latest-stable-versions] **recommended**
+- [**2016** Standard][windows-server-2016-standard]
+- [**2016** Standard Core][windows-server-2016-standard-core]
+- [**2019** Standard][windows-server-2019-standard]
+- [**2019** Standard Core][windows-server-2019-standard-core]
+- [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core] **new**
 
 [windows-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
@@ -75,11 +75,11 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows 10
 
-- [Latest stable versions][windows-10-latest-stable-versions]
-- [Version 1809 Enterprise LTSC][windows-10-1809-enterprise-ltsc]
-- [Version 1909 Enterprise][windows-10-1909-enterprise]
-- [Version 2004 Enterprise][windows-10-2004-enterprise]
-- [Insider Preview Enterprise][windows-10-insider-preview-enterprise]
+- [**Latest** stable versions][windows-10-latest-stable-versions] **recommended**
+- [**Version 1809** Enterprise LTSC][windows-10-1809-enterprise-ltsc]
+- [**Version 1909** Enterprise][windows-10-1909-enterprise]
+- [**Version 2004** Enterprise][windows-10-2004-enterprise] **new**
+- [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise] **new**
 
 [windows-10-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
@@ -93,16 +93,16 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [Latest stable versions][ubuntu-server-latest-stable-versions]
-- [1604][ubuntu-server-1604]
+- [**Latest** stable versions][ubuntu-server-latest-stable-versions] **recommended**
+- [**16.04**][ubuntu-server-1604]
 
 [ubuntu-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604/
 
 ##### Ubuntu Desktop
 
-- [Latest stable versions][ubuntu-desktop-latest-stable-versions]
-- [1604][ubuntu-desktop-1604]
+- [**Latest** stable versions][ubuntu-desktop-latest-stable-versions] **recommended**
+- [**16.04**][ubuntu-desktop-1604]
 
 [ubuntu-desktop-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604/
@@ -117,7 +117,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 [Docker]: #docker
 
-##### Docker on Windows
+##### Docker Windows
 
 - [**Latest versions**][docker-windows-latest-versions]
 - **Featured**
@@ -128,7 +128,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 [docker-windows-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-community/
 [docker-windows-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-enterprise/
 
-##### Docker on Linux
+##### Docker Linux
 
 - [**Latest versions**][docker-linux-latest-versions]
 - **Featured**
