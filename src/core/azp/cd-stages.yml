@@ -23,11 +23,9 @@ stages:
             submodules: recursive
 
           - script: |
-              df -H
-              du -h --max-depth=2 /usr/
               rm -Rf /opt/ghc
               df -H
-              du -h --max-depth=2 /usr/
+              du -h --max-depth=2 /usr/share/dotnet
             displayName: Init - Disk space
 
           - script: |
