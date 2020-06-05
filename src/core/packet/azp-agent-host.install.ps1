@@ -52,13 +52,13 @@ choco install -y dotnetcore-sdk
 choco install -y vagrant --version 2.2.7 --ignore-package-exit-codes
 [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "2.2.7", "User")
 
-choco install -y chef-workstation --version 0.18.3
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "0.18.3", "User")
-
 choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
+
+choco install -y chef-workstation --version 0.18.3
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "0.18.3", "User")
 
 # choco install -y docker-desktop --version 2.2.0.5
 # choco install -y docker-desktop --version 2.3.0.3
@@ -85,6 +85,7 @@ choco install -y packer --version 1.5.5
 ### TODO Configure NAT external addresses
 # [Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE", "HyperVNAT", "User")
 # [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "HyperVNAT", "User")
+# [Environment]::SetEnvironmentVariable("KITCHEN_HYPERV_SWITCH", "HyperVNAT", "User")
 
 # Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 ## Add-DhcpServerv4Scope -Name "192.168.238.0/24" -StartRange 192.168.238.100 -EndRange 192.168.238.199 -SubnetMask 255.255.255.0 -LeaseDuration "04:00:00"
