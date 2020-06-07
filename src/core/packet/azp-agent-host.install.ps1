@@ -25,10 +25,6 @@ wget https://vstsagentpackage.azureedge.net/agent/2.168.2/vsts-agent-win-x64-2.1
 ## TODO Configure agents
 
 # Provisioning
-$env:chocolateyVersion = '0.10.15'
-Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
-choco config set cacheLocation C:\tmp\choco
-
 choco install chef-client -y --version 15.10.12
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "15.10.12", "User")

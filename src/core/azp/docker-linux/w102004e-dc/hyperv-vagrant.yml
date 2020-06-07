@@ -4,18 +4,18 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w101909e-dc-hyperv-core
+      source: w102004e-dc-hyperv-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w101909e-dc
+      image: w102004e-dc
       provider: hyperv
       configuration: vagrant
-      parent: w101909e-dc
+      parent: w102004e-dc
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w101909e-dc
+      image: w102004e-dc
       provider: hyperv
       configuration: vagrant

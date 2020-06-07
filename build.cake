@@ -81,13 +81,13 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
-var w101909e_dc = PackerTemplates_CreateWindows(
-  "w101909e-dc",
+var w102004e_dc = PackerTemplates_CreateWindows(
+  "w102004e-dc",
   "docker-1903-community-windows-10",
   $"{version}.0.0",
-  w101909e
+  w102004e
 );
-var w10e_dc = w101909e_dc;
+var w10e_dc = w102004e_dc;
 var u1604s_dc = PackerTemplates_CreateLinux(
   "u1604s-dc",
   "docker-1903-community-ubuntu-server",

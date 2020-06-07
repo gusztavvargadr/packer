@@ -91,7 +91,7 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'ws2019s-de')
   create_machine(deployment, 'ws2019sc-de')
 
-  create_machine(deployment, 'w101909e-dc')
+  create_machine(deployment, 'w102004e-dc')
   create_machine(deployment, 'u1604s-dc')
   create_machine(deployment, 'u1604d-dc')
 
