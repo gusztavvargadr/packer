@@ -1,8 +1,8 @@
 parameters:
-  image: ''
-  provider: ''
-  configuration: ''
-  parent: ''
+  image: ""
+  provider: ""
+  configuration: ""
+  parent: ""
 
 stages:
   - stage: ci
@@ -26,16 +26,16 @@ stages:
             submodules: recursive
 
           - ${{ if parameters.parent }}:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                artifact: build
-                path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
-                source: specific
-                project: $(System.TeamProjectId)
-                pipeline: $(resources.pipeline.parent.pipelineID)
-                runVersion: latestFromBranch
-                runBranch: $(Build.SourceBranch)
-              displayName: Artifacts - Download
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  artifact: build
+                  path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+                  source: specific
+                  project: $(System.TeamProjectId)
+                  pipeline: $(resources.pipeline.parent.pipelineID)
+                  runVersion: latestFromBranch
+                  runBranch: $(Build.SourceBranch)
+                displayName: Artifacts - Download
 
           - script: |
               dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
