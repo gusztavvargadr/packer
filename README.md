@@ -59,14 +59,14 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [**Latest** stable versions][windows-server-latest-stable-versions] **recommended**
-- [**2016** Standard][windows-server-2016-standard] **latest**
+- [**Latest** version][windows-server-latest-version] **recommended**
+- [**2016** Standard][windows-server-2016-standard]
 - [**2016** Standard Core][windows-server-2016-standard-core]
 - [**2019** Standard][windows-server-2019-standard] **latest**
 - [**2019** Standard Core][windows-server-2019-standard-core]
 - **new** [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core]
 
-[windows-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
 [windows-server-2016-standard-core]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
 [windows-server-2019-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
@@ -75,13 +75,13 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows 10
 
-- [**Latest** stable versions][windows-10-latest-stable-versions] **recommended**
+- [**Latest** version][windows-10-latest-version] **recommended**
 - [**Version 1809** Enterprise LTSC][windows-10-1809-enterprise-ltsc]
 - [**Version 1909** Enterprise][windows-10-1909-enterprise]
 - **new** [**Version 2004** Enterprise][windows-10-2004-enterprise] **latest**
 - **new** [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise]
 
-[windows-10-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
 [windows-10-1909-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1909-enterprise/
 [windows-10-2004-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-2004-enterprise/
@@ -93,18 +93,18 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [**Latest** stable versions][ubuntu-server-latest-stable-versions] **recommended**
+- [**Latest** version][ubuntu-server-latest-version] **recommended**
 - [**16.04**][ubuntu-server-1604] **latest**
 
-[ubuntu-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604/
 
 ##### Ubuntu Desktop
 
-- [**Latest** stable versions][ubuntu-desktop-latest-stable-versions] **recommended**
+- [**Latest** version][ubuntu-desktop-latest-version] **recommended**
 - [**16.04**][ubuntu-desktop-1604] **latest**
 
-[ubuntu-desktop-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604/
 
 ### Hosting
@@ -119,22 +119,22 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
-- [**Latest** stable versions][docker-windows-latest-stable-versions] **recommended**
+- [**Latest** version][docker-windows-latest-version] **recommended**
 - [**1903** Enterprise on **Windows Server**][docker-1903-enterprise-windows-server] **latest**
 - [**1903** Enterprise on **Windows Server Core**][docker-1903-enterprise-windows-server-core]
 
-[docker-windows-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+[docker-windows-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-1903-enterprise-windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-enterprise-windows-server/
 [docker-1903-enterprise-windows-server-core]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-enterprise-windows-server-core/
 
 ##### Docker Linux
 
-- [**Latest** stable versions][docker-linux-latest-stable-versions] **recommended**
+- [**Latest** version][docker-linux-latest-version] **recommended**
 - [**1903** Community on **Windows 10**][docker-1903-community-windows-10]
 - [**1903** Community on **Ubuntu Server**][docker-1903-community-ubuntu-server] **latest**
 - [**1903** Community on **Ubuntu Desktop**][docker-1903-community-ubuntu-desktop]
 
-[docker-linux-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+[docker-linux-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-1903-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-windows-10/
 [docker-1903-community-ubuntu-server]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-ubuntu-server/
 [docker-1903-community-ubuntu-desktop]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-ubuntu-desktop/
@@ -173,20 +173,19 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [**Latest versions**][visual-studio-latest-versions]
-- **Featured**
-  - [**Visual Studio 2019 Community** on Windows Server 2019 Standard][visual-studio-2019-community]
-  - [**Visual Studio 2019 Professional** on Windows Server 2019 Standard][visual-studio-2019-professional]
-  - [**Visual Studio 2017 Community** on Windows Server 2019 Standard][visual-studio-2017-community]
-  - [**Visual Studio 2017 Professional** on Windows Server 2019 Standard][visual-studio-2017-professional]
+- [**Latest** version][visual-studio-latest-version]
+- [**2017** Community on **Windows 10**][visual-studio-2017-community-windows-10]
+- [**2017** Professional on **Windows 10**][visual-studio-2017-professional-windows-10]
+- [**2019** Community on **Windows 10**][visual-studio-2019-community-windows-10]
+- [**2017** Professionak on **Windows 10**][visual-studio-2019-professional-windows-10]
 
 [Visual Studio]: #visual-studio
 
 [visual-studio-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
-[visual-studio-2019-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-community/
-[visual-studio-2019-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2019-professional/
-[visual-studio-2017-community]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-community/
-[visual-studio-2017-professional]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/versions/2017-professional/
+[visual-studio-2017-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-community-windows-10/
+[visual-studio-2017-professional-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-professional-windows-10/
+[visual-studio-2019-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-10/
+[visual-studio-2019-professional-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-professional-windows-10/
 
 ## Getting started
 

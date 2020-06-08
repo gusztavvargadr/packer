@@ -5,6 +5,10 @@ resources:
   pipelines:
     - pipeline: parent
       source: ws2019sc-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - master
 
 stages:
   - template: ../../ci-stages.yml
