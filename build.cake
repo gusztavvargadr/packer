@@ -81,13 +81,12 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
-var w101909e_dc = PackerTemplates_CreateWindows(
-  "w101909e-dc",
+var w102004e_dc = PackerTemplates_CreateWindows(
+  "w102004e-dc",
   "docker-1903-community-windows-10",
   $"{version}.0.0",
-  w101909e
+  w102004e
 );
-var w10e_dc = w101909e_dc;
 var u1604s_dc = PackerTemplates_CreateLinux(
   "u1604s-dc",
   "docker-1903-community-ubuntu-server",
@@ -127,29 +126,29 @@ var ws2019s_sql19d = PackerTemplates_CreateWindows(
   ws2019s
 );
 
-var w10e_dc_vs17c = PackerTemplates_CreateWindows(
-  "w10e-dc-vs17c",
-  "visual-studio",
-  $"2017.0.{version}-community-windows-10-1909-enterprise",
-  w10e_dc
+var w102004e_dc_vs17c = PackerTemplates_CreateWindows(
+  "w102004e-dc-vs17c",
+  "visual-studio-2017-community-windows-10",
+  $"{version}.0.0",
+  w102004e_dc
 );
-var w10e_dc_vs17p = PackerTemplates_CreateWindows(
-  "w10e-dc-vs17p",
-  "visual-studio",
-  $"2017.0.{version}-professional-windows-10-1909-enterprise",
-  w10e_dc
+var w102004e_dc_vs17p = PackerTemplates_CreateWindows(
+  "w102004e-dc-vs17p",
+  "visual-studio-2017-professional-windows-10",
+  $"{version}.0.0",
+  w102004e_dc
 );
-var w10e_dc_vs19c = PackerTemplates_CreateWindows(
-  "w10e-dc-vs19c",
-  "visual-studio",
-  $"2019.0.{version}-community-windows-10-1909-enterprise",
-  w10e_dc
+var w102004e_dc_vs19c = PackerTemplates_CreateWindows(
+  "w102004e-dc-vs19c",
+  "visual-studio-2019-community-windows-10",
+  $"{version}.0.0",
+  w102004e_dc
 );
-var w10e_dc_vs19p = PackerTemplates_CreateWindows(
-  "w10e-dc-vs19p",
-  "visual-studio",
-  $"2019.0.{version}-professional-windows-10-1909-enterprise",
-  w10e_dc
+var w102004e_dc_vs19p = PackerTemplates_CreateWindows(
+  "w102004e-dc-vs19p",
+  "visual-studio-2019-professional-windows-10",
+  $"{version}.0.0",
+  w102004e_dc
 );
 
 Task("default")

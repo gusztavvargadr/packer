@@ -14,7 +14,7 @@ This repository contains common [Packer] helper tools and sample templates for [
 
 ## Overview
 
-**Contents** [Operating systems] | [Development] | [Hosting]  
+**Contents** [Operating systems] | [Hosting] | [Development]  
 
 > **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environments using them and [these][BlogWhy] [blogs][BlogHow] for more background and motivation.  
 
@@ -60,11 +60,11 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Windows Server
 
 - [**Latest** stable versions][windows-server-latest-stable-versions] **recommended**
-- [**2016** Standard][windows-server-2016-standard]
+- [**2016** Standard][windows-server-2016-standard] **latest**
 - [**2016** Standard Core][windows-server-2016-standard-core]
-- [**2019** Standard][windows-server-2019-standard]
+- [**2019** Standard][windows-server-2019-standard] **latest**
 - [**2019** Standard Core][windows-server-2019-standard-core]
-- [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core] **new**
+- **new** [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core]
 
 [windows-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
@@ -78,8 +78,8 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [**Latest** stable versions][windows-10-latest-stable-versions] **recommended**
 - [**Version 1809** Enterprise LTSC][windows-10-1809-enterprise-ltsc]
 - [**Version 1909** Enterprise][windows-10-1909-enterprise]
-- [**Version 2004** Enterprise][windows-10-2004-enterprise] **new**
-- [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise] **new**
+- **new** [**Version 2004** Enterprise][windows-10-2004-enterprise] **latest**
+- **new** [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise]
 
 [windows-10-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
@@ -94,7 +94,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Ubuntu Server
 
 - [**Latest** stable versions][ubuntu-server-latest-stable-versions] **recommended**
-- [**16.04**][ubuntu-server-1604]
+- [**16.04**][ubuntu-server-1604] **latest**
 
 [ubuntu-server-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604/
@@ -102,7 +102,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Ubuntu Desktop
 
 - [**Latest** stable versions][ubuntu-desktop-latest-stable-versions] **recommended**
-- [**16.04**][ubuntu-desktop-1604]
+- [**16.04**][ubuntu-desktop-1604] **latest**
 
 [ubuntu-desktop-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-1604]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604/
@@ -119,23 +119,25 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
-- [**Latest versions**][docker-windows-latest-versions]
-- **Featured**
-  - [**1903 Community** on Windows Server 2019 Standard][docker-windows-1903-community]
-  - [**1903 Enterprise** on Windows Server 2019 Standard][docker-windows-1903-enterprise]
+- [**Latest** stable versions][docker-windows-latest-stable-versions] **recommended**
+- [**1903** Enterprise on **Windows Server**][docker-1903-enterprise-windows-server] **latest**
+- [**1903** Enterprise on **Windows Server Core**][docker-1903-enterprise-windows-server-core]
 
-[docker-windows-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
-[docker-windows-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-community/
-[docker-windows-1903-enterprise]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/versions/1903-enterprise/
+[docker-windows-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+[docker-1903-enterprise-windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-enterprise-windows-server/
+[docker-1903-enterprise-windows-server-core]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-enterprise-windows-server-core/
 
 ##### Docker Linux
 
-- [**Latest versions**][docker-linux-latest-versions]
-- **Featured**
-  - [**1903 Community** on Ubuntu Server 1604 LTS][docker-linux-1903-community]
+- [**Latest** stable versions][docker-linux-latest-stable-versions] **recommended**
+- [**1903** Community on **Windows 10**][docker-1903-community-windows-10]
+- [**1903** Community on **Ubuntu Server**][docker-1903-community-ubuntu-server] **latest**
+- [**1903** Community on **Ubuntu Desktop**][docker-1903-community-ubuntu-desktop]
 
-[docker-linux-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
-[docker-linux-1903-community]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/versions/1903-community/
+[docker-linux-latest-stable-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+[docker-1903-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-windows-10/
+[docker-1903-community-ubuntu-server]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-ubuntu-server/
+[docker-1903-community-ubuntu-desktop]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-1903-community-ubuntu-desktop/
 
 #### IIS
 
