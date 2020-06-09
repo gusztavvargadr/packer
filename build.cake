@@ -102,27 +102,27 @@ var u1604d_dc = PackerTemplates_CreateLinux(
 
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1809-standard",
+  "iis-10-windows-server",
+  $"{version}.0.0",
   ws2019s
 );
 var ws2019sc_iis = PackerTemplates_CreateWindows(
   "ws2019sc-iis",
-  "iis",
-  $"10.0.{version}-windows-server-1809-standard-core",
+  "iis-10-windows-server-core",
+  $"{version}.0.0",
   ws2019sc
 );
 
 var ws2019s_sql17d = PackerTemplates_CreateWindows(
   "ws2019s-sql17d",
-  "sql-server",
-  $"2017.0.{version}-developer-windows-server-1809-standard",
+  "sql-server-2017-developer-windows-server",
+  $"{version}.0.0",
   ws2019s
 );
 var ws2019s_sql19d = PackerTemplates_CreateWindows(
   "ws2019s-sql19d",
-  "sql-server",
-  $"2019.0.{version}-developer-windows-server-1809-standard",
+  "sql-server-2019-developer-windows-server",
+  $"{version}.0.0",
   ws2019s
 );
 

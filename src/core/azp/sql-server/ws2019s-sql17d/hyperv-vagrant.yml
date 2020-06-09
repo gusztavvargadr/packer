@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2019s-sql17d-hyperv-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2019s-sql17d
+      provider: hyperv
+      configuration: vagrant
+      parent: ws2019s-sql17d
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2019s-sql17d
+      provider: hyperv
+      configuration: vagrant

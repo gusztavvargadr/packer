@@ -177,11 +177,11 @@ The following Vagrant boxes can be used for development scenarios including sett
 - [**2017** Community on **Windows 10**][visual-studio-2017-community-windows-10]
 - [**2017** Professional on **Windows 10**][visual-studio-2017-professional-windows-10]
 - [**2019** Community on **Windows 10**][visual-studio-2019-community-windows-10]
-- [**2017** Professionak on **Windows 10**][visual-studio-2019-professional-windows-10]
+- [**2017** Professional on **Windows 10**][visual-studio-2019-professional-windows-10]
 
 [Visual Studio]: #visual-studio
 
-[visual-studio-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
+[visual-studio-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 [visual-studio-2017-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-community-windows-10/
 [visual-studio-2017-professional-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-professional-windows-10/
 [visual-studio-2019-community-windows-10]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-10/
