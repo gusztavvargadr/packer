@@ -64,7 +64,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [**2016** Standard Core][windows-server-2016-standard-core]
 - [**2019** Standard][windows-server-2019-standard] **latest**
 - [**2019** Standard Core][windows-server-2019-standard-core]
-- **new** [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core]
+- [**Insider Preview** Standard Core][windows-server-insider-preview-standard-core]
 
 [windows-server-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2016-standard]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
@@ -78,8 +78,8 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [**Latest** version][windows-10-latest-version] **recommended**
 - [**Version 1809** Enterprise LTSC][windows-10-1809-enterprise-ltsc]
 - [**Version 1909** Enterprise][windows-10-1909-enterprise]
-- **new** [**Version 2004** Enterprise][windows-10-2004-enterprise] **latest**
-- **new** [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise]
+- [**Version 2004** Enterprise][windows-10-2004-enterprise] **latest**
+- [**Insider Preview** Enterprise][windows-10-insider-preview-enterprise]
 
 [windows-10-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-1809-enterprise-ltsc]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
@@ -141,29 +141,27 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### IIS
 
-- [**Latest versions**][iis-latest-versions]
-- **Featured**
-  - [**10 Version 1809** on Windows Server 2019 Standard][iis-10-1809]
-  - [**10 Version 1607** on Windows Server 2016 Standard][iis-10-1607]
+- [**Latest** version][iis-latest-version] **recommended**
+- [**10** on **Windows Server**][iis-10-windows-server] **latest**
+- [**10** on **Windows Server Core**][iis-10-windows-server-core]
 
 [IIS]: #iis
 
-[iis-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
-[iis-10-1809]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1809/
-[iis-10-1607]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/versions/10.0-1607/
+[iis-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
+[iis-10-windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-10-windows-server/
+[iis-10-windows-server-core]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-10-windows-server-core/
 
 #### SQL Server
 
-- [**Latest versions**][sql-server-latest-versions]
-- **Featured**
-  - [**2019 Developer** on Windows Server 2019 Standard][sql-server-2019-developer]
-  - [**2017 Developer** on Windows Server 2019 Standard][sql-server-2017-developer]
+- [**Latest** version][sql-server-latest-version] **recommended**
+- [**2017** Developer on **Windows Server**][sql-server-2017-developer-windows-server]
+- [**2019** Developer on **Windows Server**][sql-server-2019-developer-windows-server] **latest**
 
 [SQL Server]: #sql-server
 
-[sql-server-latest-versions]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
-[sql-server-2019-developer]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/versions/2019-developer/
-[sql-server-2017-developer]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/versions/2017-developer/
+[sql-server-latest-version]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+[sql-server-2017-developer-windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2017-developer-windows-server/
+[sql-server-2019-developer-windows-server]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server/
 
 ### Development
 
@@ -173,11 +171,11 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [**Latest** version][visual-studio-latest-version]
+- [**Latest** version][visual-studio-latest-version] **recommended**
 - [**2017** Community on **Windows 10**][visual-studio-2017-community-windows-10]
 - [**2017** Professional on **Windows 10**][visual-studio-2017-professional-windows-10]
-- [**2019** Community on **Windows 10**][visual-studio-2019-community-windows-10]
-- [**2017** Professional on **Windows 10**][visual-studio-2019-professional-windows-10]
+- [**2019** Community on **Windows 10**][visual-studio-2019-community-windows-10] **latest**
+- [**2019** Professional on **Windows 10**][visual-studio-2019-professional-windows-10]
 
 [Visual Studio]: #visual-studio
 
