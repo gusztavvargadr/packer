@@ -25,9 +25,9 @@ wget https://vstsagentpackage.azureedge.net/agent/2.168.2/vsts-agent-win-x64-2.1
 ## TODO Configure agents
 
 # Provisioning
-choco install chef-client -y --version 15.10.12
+choco install chef-client -y --version 16.1.16
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "15.10.12", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.1.16", "User")
 
 choco install 7zip.portable -y --version 19.0
 
@@ -52,9 +52,9 @@ choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
 
-choco install -y chef-workstation --version 0.18.3
+choco install -y chef-workstation --version 20.6.62
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "0.18.3", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.6.62", "User")
 
 Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")

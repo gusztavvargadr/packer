@@ -1,6 +1,5 @@
-
 Write-Host "Install Chef Client"
-choco install chef-client -y --version 15.10.12
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.1.6
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install 7zip"
