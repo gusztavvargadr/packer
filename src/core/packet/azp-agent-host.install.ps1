@@ -25,7 +25,7 @@ wget https://vstsagentpackage.azureedge.net/agent/2.170.1/vsts-agent-win-x64-2.1
 ## TODO Configure agents
 
 # Provisioning
-choco install chef-client --confirm --version 16.1.16 --prerelease
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.1.16
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.1.16", "User")
 
