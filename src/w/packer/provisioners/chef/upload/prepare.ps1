@@ -1,5 +1,5 @@
 Write-Host "Install Chef Client"
-choco install chef-client --confirm --version 16.1.16 --prerelease
+choco install chef-client --confirm --version 16.1.6 --prerelease
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install 7zip"
