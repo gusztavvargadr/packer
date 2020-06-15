@@ -25,7 +25,7 @@ wget https://vstsagentpackage.azureedge.net/agent/2.170.1/vsts-agent-win-x64-2.1
 ## TODO Configure agents
 
 # Provisioning
-choco install chef-client -y --version 16.1.16
+choco install chef-client --confirm --version 16.1.16 --prerelease
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.1.16", "User")
 
@@ -52,7 +52,7 @@ choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
 
-choco install -y chef-workstation --version 20.6.62
+choco install chef-workstation --confirm --version 20.6.62 --prerelease
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.6.62", "User")
 
