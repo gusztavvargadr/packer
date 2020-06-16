@@ -3,7 +3,7 @@ directory = File.dirname(__FILE__)
 require "#{directory}/src/vagrant"
 
 def version
-  '2005'
+  '2006'
 end
 
 VagrantMachine.defaults_include(

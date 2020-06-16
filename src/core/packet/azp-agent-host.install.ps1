@@ -18,16 +18,16 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedul
 netsh advfirewall set allprofiles settings inboundusernotification enable
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.168.2/vsts-agent-win-x64-2.168.2.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.170.1/vsts-agent-win-x64-2.170.1.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
 ## TODO Configure agents
 
 # Provisioning
-choco install chef-client -y --version 15.10.12
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.1.16
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "15.10.12", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.1.16", "User")
 
 choco install 7zip.portable -y --version 19.0
 
@@ -52,9 +52,9 @@ choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
 
-choco install -y chef-workstation --version 0.18.3
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.6.62
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "0.18.3", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.6.62", "User")
 
 Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")
@@ -78,8 +78,8 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 6 -Value 8.8.8.8,8.8.4.4
 ## TODO Static IP, gateway, DNS
 
-# choco install -y virtualbox --version 6.1.8 --params "/ExtensionPack"
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_VIRTUALBOX", "6.1.8", "User")
+# choco install -y virtualbox --version 6.1.10 --params "/ExtensionPack"
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_VIRTUALBOX", "6.1.10", "User")
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
 
 # choco install -y docker-desktop --version 2.2.0.5
