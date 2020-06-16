@@ -52,7 +52,7 @@ choco install -y packer --version 1.5.5
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
 
-choco install chef-workstation --confirm --version 20.6.62 --prerelease
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.6.62
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.6.62", "User")
 
