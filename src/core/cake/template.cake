@@ -172,7 +172,7 @@ void PackerTemplate_Download(PackerTemplate template) {
 
   var provider = template.Type.Split('-')[0];
 
-  var downloadWaitMinutes = new [] { 1, 2, 5, 10 };
+  var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10 };
   var downloadSucceeded = false;
 
   var boxChecksum = string.Empty;
@@ -186,6 +186,9 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   foreach (var downloadWaitMinute in downloadWaitMinutes) {
+    Information($"Waiting {downloadWaitMinute} minutes before retry.");
+    System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
+
     try {
       PackerTemplate_Vagrant(template, "box add"
         + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
@@ -208,9 +211,6 @@ void PackerTemplate_Download(PackerTemplate template) {
         Information($"Error cleaning up: '{ex.Message}'.");
       }
     }
-
-    Information($"Waiting {downloadWaitMinute} minutes before retry.");
-    System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
   }
 
   if (!downloadSucceeded) {
