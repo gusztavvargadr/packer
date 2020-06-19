@@ -31,14 +31,14 @@ var ws2019sc = PackerTemplates_CreateWindows(
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-insider-preview-standard-core",
-  $"{version}.0.0"
+  "windows-server-standard-core-insider",
+  $"2004.0.{version}"
 );
 
 var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
-  "windows-10-1809-enterprise-ltsc",
-  $"{version}.0.0"
+  "windows-10-enterprise-ltsc",
+  $"1809.0.{version}"
 );
 var w101909e = PackerTemplates_CreateWindows(
   "w101909e",
@@ -52,8 +52,8 @@ var w102004e = PackerTemplates_CreateWindows(
 );
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
-  "windows-10-insider-preview-enterprise",
-  $"{version}.0.0"
+  "windows-10-enterprise-insider",
+  $"2004.0.{version}"
 );
 
 var u1604s = PackerTemplates_CreateLinux(
