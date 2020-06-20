@@ -23,14 +23,12 @@ class VagrantWindowsMachine < VagrantMachine
       },
     },
     'provisioners' => {
-      'shell-os' => {
-        'inline' => 'cmd /c ver',
-      },
-      'shell-system' => {
-        'inline' => 'systeminfo',
-      },
-      'shell-packages' => {
-        'inline' => 'choco list -li',
+      'shell' => {
+        'inline' => <<-EOF
+          cmd /c ver
+          Get-ComputerInfo
+          choco list -li
+        EOF
       },
       'chef_policyfile' => {
         'paths' => [
@@ -54,14 +52,12 @@ class VagrantLinuxMachine < VagrantMachine
       },
     },
     'provisioners' => {
-      'shell-os' => {
-        'inline' => 'uname -a',
-      },
-      'shell-system' => {
-        'inline' => 'lshw',
-      },
-      'shell-packages' => {
-        'inline' => 'apt list --installed',
+      'shell' => {
+        'inline' => <<-EOF
+          uname -a
+          lshw
+          apt list --installed
+        EOF
       },
       'chef_policyfile' => {
         'paths' => [
