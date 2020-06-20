@@ -11,49 +11,49 @@ Environment.SetEnvironmentVariable("PACKER_SOURCE_DIR", MakeAbsolute(Directory("
 
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",
-  "windows-server-2016-standard",
-  $"{version}.0.0"
+  "windows-server-standard",
+  $"1607.0.{version}"
 );
 var ws2016sc = PackerTemplates_CreateWindows(
   "ws2016sc",
-  "windows-server-2016-standard-core",
-  $"{version}.0.0"
+  "windows-server-standard-core",
+  $"1607.0.{version}"
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
-  "windows-server-2019-standard",
-  $"{version}.0.0"
+  "windows-server-standard",
+  $"1809.0.{version}"
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
-  "windows-server-2019-standard-core",
-  $"{version}.0.0"
+  "windows-server-standard-core",
+  $"1809.0.{version}"
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-insider-preview-standard-core",
-  $"{version}.0.0"
+  "windows-server-standard-core-insider",
+  $"2004.0.{version}"
 );
 
 var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
-  "windows-10-1809-enterprise-ltsc",
-  $"{version}.0.0"
+  "windows-10-enterprise-ltsc",
+  $"1809.0.{version}"
 );
 var w101909e = PackerTemplates_CreateWindows(
   "w101909e",
-  "windows-10-1909-enterprise",
-  $"{version}.0.0"
+  "windows-10-enterprise",
+  $"1909.0.{version}"
 );
 var w102004e = PackerTemplates_CreateWindows(
   "w102004e",
-  "windows-10-2004-enterprise",
-  $"{version}.0.0"
+  "windows-10-enterprise",
+  $"2004.0.{version}"
 );
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
-  "windows-10-insider-preview-enterprise",
-  $"{version}.0.0"
+  "windows-10-enterprise-insider",
+  $"2004.0.{version}"
 );
 
 var u1604s = PackerTemplates_CreateLinux(
