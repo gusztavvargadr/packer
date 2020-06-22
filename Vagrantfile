@@ -28,7 +28,7 @@ class VagrantWindowsMachine < VagrantMachine
           cmd /c ver
           Get-ComputerInfo
           choco list -li
-        EOF,
+        EOF
       },
       'chef_policyfile' => {
         'paths' => [
@@ -57,7 +57,7 @@ class VagrantLinuxMachine < VagrantMachine
           uname -a
           lshw
           apt list --installed
-        EOF,
+        EOF
       },
       'chef_policyfile' => {
         'paths' => [
