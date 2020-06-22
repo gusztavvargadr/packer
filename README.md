@@ -60,32 +60,26 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Windows Server
 
 - [Windows Server **2016** and **2019**][windows-server-box] **aliases**
-- [Windows Server **2016 Standard**][windows-server-2016-standard-box]
-- [Windows Server **2016 Standard Core**][windows-server-2016-standard-core-box]
-- [Windows Server **2019 Standard**][windows-server-2019-standard-box]
-- [Windows Server **2019 Standard Core**][windows-server-2019-standard-core-box]
-- [Windows Server **Insider Preview Standard Core**][windows-server-insider-preview-standard-core-box] **new**
+- [Windows Server **2016** and **2019** **Standard**][windows-server-standard-box]
+- [Windows Server **2016** and **2019** **Standard Core**][windows-server-standard-core-box]
+- [Windows Server **Insider Preview** **Standard Core**][windows-server-standard-core-insider-preview-box] **new**
 
 [windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
-[windows-server-2016-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
-[windows-server-2016-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
-[windows-server-2019-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
-[windows-server-2019-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
-[windows-server-insider-preview-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core/
+[windows-server-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
+[windows-server-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core/
+[windows-server-standard-core-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider-preview/
 
 ##### Windows 10
 
 - [Windows 10 Version **1909** and **2004**][windows-10-box] **aliases**
-- [Windows 10 Version **1809 Enterprise LTSC**][windows-10-1809-enterprise-ltsc-box] **new**
-- [Windows 10 Version **1909 Enterprise**][windows-10-1909-enterprise-box]
-- [Windows 10 Version **2004 Enterprise**][windows-10-2004-enterprise-box] **new**
-- [Windows 10 **Insider Preview Enterprise**][windows-10-insider-preview-enterprise-box] **new**
+- [Windows 10 Version **1909** and **2004** **Enterprise**][windows-10-enterprise-box]
+- [Windows 10 Version **1809** **Enterprise LTSC**][windows-10-enterprise-ltsc-box] **new**
+- [Windows 10 **Insider Preview** **Enterprise**][windows-10-enterprise-insider-preview-box] **new**
 
 [windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
-[windows-10-1809-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
-[windows-10-1909-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1909-enterprise/
-[windows-10-2004-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-2004-enterprise/
-[windows-10-insider-preview-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
+[windows-10-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-ltsc/
+[windows-10-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
+[windows-10-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-insider-preview/
 
 #### Ubuntu
 
