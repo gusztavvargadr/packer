@@ -59,24 +59,24 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Windows Server **2016** and **2019**][windows-server-box] **aliases**
+- [Windows Server **all versions**][windows-server-all-box]
 - [Windows Server **2016** and **2019** **Standard**][windows-server-standard-box]
 - [Windows Server **2016** and **2019** **Standard Core**][windows-server-standard-core-box]
-- [Windows Server **Insider Preview** **Standard Core**][windows-server-standard-core-insider-preview-box] **new**
+- [Windows Server **Insider Preview** **Standard Core**][windows-server-standard-core-insider-preview-box]
 
-[windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
 [windows-server-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core/
 [windows-server-standard-core-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider-preview/
 
 ##### Windows 10
 
-- [Windows 10 Version **1909** and **2004**][windows-10-box] **aliases**
+- [Windows 10 Version **all versions**][windows-10-all-box]
+- [Windows 10 Version **1809** **Enterprise LTSC**][windows-10-enterprise-ltsc-box]
 - [Windows 10 Version **1909** and **2004** **Enterprise**][windows-10-enterprise-box]
-- [Windows 10 Version **1809** **Enterprise LTSC**][windows-10-enterprise-ltsc-box] **new**
-- [Windows 10 **Insider Preview** **Enterprise**][windows-10-enterprise-insider-preview-box] **new**
+- [Windows 10 **Insider Preview** **Enterprise**][windows-10-enterprise-insider-preview-box]
 
-[windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-ltsc/
 [windows-10-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
 [windows-10-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-insider-preview/
@@ -87,15 +87,19 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [Ubuntu Server **16.04**][ubuntu-server-box]
+- [Ubuntu Server **all versions**][ubuntu-server-all-box]
+- [Ubuntu Server **16.04** **LTS**][ubuntu-server-lts-box]
 
-[ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-lts/
 
 ##### Ubuntu Desktop
 
-- [Ubuntu Desktop **16.04**][ubuntu-desktop-box]
+- [Ubuntu Desktop **all versions**][ubuntu-desktop-all-box]
+- [Ubuntu Desktop **16.04** **LTS**][ubuntu-desktop-lts-box]
 
-[ubuntu-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-lts/
 
 ### Hosting
 
@@ -109,7 +113,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
-- [Docker Windows **19.03**][docker-windows-box] **aliases**
+- [Docker Windows **19.03**][docker-windows-box]
 - [Docker Windows **19.03 Enterprise** on **Windows Server**][docker-windows-enterprise-windows-server-box]
 - [Docker Windows **19.03 Enterprise** on **Windows Server Core**][docker-windows-enterprise-windows-server-core-box]
 
@@ -119,8 +123,8 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Linux
 
-- [Docker Linux **19.03**][docker-linux-box] **aliases**
-- [Docker Linux **19.03 Community** (in Docker Desktop) on **Windows 10**][docker-linux-community-windows-10-box] **new**
+- [Docker Linux **19.03**][docker-linux-box]
+- [Docker Linux **19.03 Community** (in Docker Desktop) on **Windows 10**][docker-linux-community-windows-10-box]
 - [Docker Linux **19.03 Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
 - [Docker Linux **19.03 Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
 
@@ -131,7 +135,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### IIS
 
-- [IIS **10.0**][iis-box] **aliases**
+- [IIS **10.0**][iis-box]
 - [IIS **10.0** on **Windows Server**][iis-windows-server-box]
 - [IIS **10.0** on **Windows Server Core**][iis-windows-server-core-box]
 
@@ -143,7 +147,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### SQL Server
 
-- [SQL Server **2017** and **2019**][sql-server-box] **aliases**
+- [SQL Server **2017** and **2019**][sql-server-box]
 - [SQL Server **2017** and **2019** **Developer** on **Windows Server**][sql-server-developer-windows-server-box]
 
 [SQL Server]: #sql-server
@@ -159,7 +163,7 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [Visual Studio **2017** and **2019**][visual-studio-box] **aliases**
+- [Visual Studio **2017** and **2019**][visual-studio-box]
 - [Visual Studio **2017** and **2019** **Community** on **Windows 10**][visual-studio-community-windows-10-box]
 - [Visual Studio **2017** and **2019** **Professional** on **Windows 10**][visual-studio-professional-windows-10-box]
 
