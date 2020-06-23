@@ -71,7 +71,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows 10
 
-- [Windows 10 Version **all versions**][windows-10-all-box]
+- [Windows 10 **all versions**][windows-10-all-box]
 - [Windows 10 Version **1809** **Enterprise LTSC**][windows-10-enterprise-ltsc-box]
 - [Windows 10 Version **1909** and **2004** **Enterprise**][windows-10-enterprise-box]
 - [Windows 10 **Insider Preview** **Enterprise**][windows-10-enterprise-insider-preview-box]
@@ -96,10 +96,10 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Ubuntu Desktop
 
 - [Ubuntu Desktop **all versions**][ubuntu-desktop-all-box]
-- [Ubuntu Desktop **16.04** **LTS**][ubuntu-desktop-lts-box]
+- [Ubuntu Desktop **16.04** **LTS** with **XFCE**][ubuntu-desktop-xfce-lts-box]
 
 [ubuntu-desktop-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
-[ubuntu-desktop-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-lts/
+[ubuntu-desktop-xfce-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-xfce-lts/
 
 ### Hosting
 
