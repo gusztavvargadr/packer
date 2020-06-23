@@ -63,6 +63,7 @@ void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
   CleanDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory());
 }
 
 void PackerTemplate_Version(PackerTemplate template) {
