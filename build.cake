@@ -71,32 +71,32 @@ var u1604d = PackerTemplates_CreateLinux(
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
   "docker-windows",
-  $"1903.1809.{version}.enterprise.windows-server",
+  $"1903.0.{version}.enterprise.windows-server",
   ws2019s
 );
 var ws2019sc_de = PackerTemplates_CreateWindows(
   "ws2019sc-de",
   "docker-windows",
-  $"1903.1809.{version}.enterprise.windows-server.core",
+  $"1903.0.{version}.enterprise.windows-server-core",
   ws2019sc
 );
 
 var w102004e_dc = PackerTemplates_CreateWindows(
   "w102004e-dc",
   "docker-linux",
-  $"1903.2004.{version}.community.windows-10",
+  $"1903.0.{version}.community.windows-10",
   w102004e
 );
 var u1604s_dc = PackerTemplates_CreateLinux(
   "u1604s-dc",
   "docker-linux",
-  $"1903.1604.{version}.community.ubuntu-server",
+  $"1903.0.{version}.community.ubuntu-server",
   u1604s
 );
 var u1604d_dc = PackerTemplates_CreateLinux(
   "u1604d-dc",
   "docker-linux",
-  $"1903.1604.{version}.community.ubuntu-desktop",
+  $"1903.0.{version}.community.ubuntu-desktop",
   u1604d
 );
 
@@ -109,45 +109,45 @@ var ws2019s_iis = PackerTemplates_CreateWindows(
 var ws2019sc_iis = PackerTemplates_CreateWindows(
   "ws2019sc-iis",
   "iis",
-  $"10.1809.{version}.windows-server.core",
+  $"10.1809.{version}.windows-server-core",
   ws2019sc
 );
 
 var ws2019s_sql17d = PackerTemplates_CreateWindows(
   "ws2019s-sql17d",
   "sql-server",
-  $"2017.1809.{version}.developer.windows-server",
+  $"2017.0.{version}.developer.windows-server",
   ws2019s
 );
 var ws2019s_sql19d = PackerTemplates_CreateWindows(
   "ws2019s-sql19d",
   "sql-server",
-  $"2019.1809.{version}.developer.windows-server",
+  $"2019.0.{version}.developer.windows-server",
   ws2019s
 );
 
 var w102004e_dc_vs17c = PackerTemplates_CreateWindows(
   "w102004e-dc-vs17c",
   "visual-studio",
-  $"2017.2004.{version}.community.windows-10",
+  $"2017.0.{version}.community.windows-10",
   w102004e_dc
 );
 var w102004e_dc_vs17p = PackerTemplates_CreateWindows(
   "w102004e-dc-vs17p",
   "visual-studio",
-  $"2017.2004.{version}.professional.windows-10",
+  $"2017.0.{version}.professional.windows-10",
   w102004e_dc
 );
 var w102004e_dc_vs19c = PackerTemplates_CreateWindows(
   "w102004e-dc-vs19c",
   "visual-studio",
-  $"2019.2004.{version}.community.windows-10",
+  $"2019.0.{version}.community.windows-10",
   w102004e_dc
 );
 var w102004e_dc_vs19p = PackerTemplates_CreateWindows(
   "w102004e-dc-vs19p",
   "visual-studio",
-  $"2019.2004.{version}.professional.windows-10",
+  $"2019.0.{version}.professional.windows-10",
   w102004e_dc
 );
 
