@@ -113,22 +113,22 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
-- [Docker Windows **19.03**][docker-windows-box]
-- [Docker Windows **19.03 Enterprise** on **Windows Server**][docker-windows-enterprise-windows-server-box]
-- [Docker Windows **19.03 Enterprise** on **Windows Server Core**][docker-windows-enterprise-windows-server-core-box]
+- [Docker Windows **all versions**][docker-windows-all-box]
+- [Docker Windows **19.03** **Enterprise** on **Windows Server**][docker-windows-enterprise-windows-server-box]
+- [Docker Windows **19.03** **Enterprise** on **Windows Server Core**][docker-windows-enterprise-windows-server-core-box]
 
-[docker-windows-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+[docker-windows-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-windows-enterprise-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows-enterprise-windows-server/
 [docker-windows-enterprise-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows-enterprise-windows-server-core/
 
 ##### Docker Linux
 
-- [Docker Linux **19.03**][docker-linux-box]
-- [Docker Linux **19.03 Community** (in Docker Desktop) on **Windows 10**][docker-linux-community-windows-10-box]
-- [Docker Linux **19.03 Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
-- [Docker Linux **19.03 Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
+- [Docker Linux **all versions**][docker-linux-all-box]
+- [Docker Linux **19.03** **Community** (in Docker Desktop) on **Windows 10**][docker-linux-community-windows-10-box]
+- [Docker Linux **19.03** **Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
+- [Docker Linux **19.03** **Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
 
-[docker-linux-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+[docker-linux-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-linux-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-windows-10/
 [docker-linux-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-ubuntu-server/
 [docker-linux-community-ubuntu-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-ubuntu-desktop/
