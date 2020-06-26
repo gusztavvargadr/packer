@@ -124,7 +124,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 ##### Docker Linux
 
 - [Docker Linux **all versions**][docker-linux-all-box]
-- [Docker Linux **19.03** **Community** (in Docker Desktop) on **Windows 10**][docker-linux-community-windows-10-box]
+- [Docker Linux **19.03** **Community** on **Windows 10**][docker-linux-community-windows-10-box]
 - [Docker Linux **19.03** **Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
 - [Docker Linux **19.03** **Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
 
@@ -135,24 +135,24 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### IIS
 
-- [IIS **10.0**][iis-box]
+- [IIS **all versions**][iis-all-box]
 - [IIS **10.0** on **Windows Server**][iis-windows-server-box]
 - [IIS **10.0** on **Windows Server Core**][iis-windows-server-core-box]
 
 [IIS]: #iis
 
-[iis-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
+[iis-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 [iis-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server/
 [iis-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-core/
 
 #### SQL Server
 
-- [SQL Server **2017** and **2019**][sql-server-box]
+- [SQL Server **all versions**][sql-server-all-box]
 - [SQL Server **2017** and **2019** **Developer** on **Windows Server**][sql-server-developer-windows-server-box]
 
 [SQL Server]: #sql-server
 
-[sql-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+[sql-server-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
 [sql-server-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-developer-windows-server/
 
 ### Development
@@ -163,13 +163,13 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [Visual Studio **2017** and **2019**][visual-studio-box]
+- [Visual Studio **all versions**][visual-studio-all-box]
 - [Visual Studio **2017** and **2019** **Community** on **Windows 10**][visual-studio-community-windows-10-box]
 - [Visual Studio **2017** and **2019** **Professional** on **Windows 10**][visual-studio-professional-windows-10-box]
 
 [Visual Studio]: #visual-studio
 
-[visual-studio-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
+[visual-studio-all-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 [visual-studio-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-community-windows-10/
 [visual-studio-professional-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-professional-windows-10/
 
