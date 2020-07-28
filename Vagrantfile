@@ -70,8 +70,8 @@ end
 
 VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'ws2016s')
-  create_machine(deployment, 'ws2016sc')
   create_machine(deployment, 'ws2019s')
+  create_machine(deployment, 'ws2016sc')
   create_machine(deployment, 'ws2019sc')
   create_machine(deployment, 'wsipsc')
 
@@ -98,8 +98,8 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'ws2019s-sql19d')
 
   create_machine(deployment, 'w102004e-dc-vs17c')
-  create_machine(deployment, 'w102004e-dc-vs17p')
   create_machine(deployment, 'w102004e-dc-vs19c')
+  create_machine(deployment, 'w102004e-dc-vs17p')
   create_machine(deployment, 'w102004e-dc-vs19p')
 end
 
