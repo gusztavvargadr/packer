@@ -6,14 +6,14 @@ $ProgressPreference = 'SilentlyContinue'
 Write-Host "Install Chocolatey"
 $env:chocolateyVersion = '0.10.15'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
-choco config set cacheLocation C:\tmp\choco
-
-Write-Host "Install Chef Client"
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.1.16
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
+choco config set cacheLocation C:\tmp\chocolatey
 
 Write-Host "Install 7zip"
-choco install 7zip.portable -y --version 19.0
+choco install 7zip.portable -y
+
+Write-Host "Install Chef Client"
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.2.73
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block
