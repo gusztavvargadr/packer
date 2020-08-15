@@ -2,7 +2,6 @@
   "variables": {
     "iso_url_local": "{{user `download_directory`}}/Windows_InsiderPreview_Server_en-us_20185.iso",
     "iso_url_remote": "",
-    "iso_checksum_type": "sha256",
-    "iso_checksum": "7e7859b48bfb5f945703abf120bfaca611ce7f7689e45cdf37d0598661a21d37"
+    "iso_checksum": "sha256:7e7859b48bfb5f945703abf120bfaca611ce7f7689e45cdf37d0598661a21d37"
   }
 }
