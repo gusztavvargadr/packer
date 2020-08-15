@@ -25,9 +25,9 @@ wget https://vstsagentpackage.azureedge.net/agent/2.172.2/vsts-agent-win-x64-2.1
 ## TODO Configure agents
 
 # Provisioning
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.2.73
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.3.45
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.2.73", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.3.45", "User")
 
 choco install 7zip.portable -y --version 19.0
 
@@ -48,13 +48,13 @@ choco install -y dotnetcore-sdk
 choco install -y vagrant --version 2.2.9 --ignore-package-exit-codes
 [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "2.2.9", "User")
 
-choco install -y packer --version 1.5.5
+choco install -y packer --version 1.6.1
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.5.5", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.6.1", "User")
 
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.7.96
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.8.111
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.7.96", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.8.111", "User")
 
 # Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 # [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")

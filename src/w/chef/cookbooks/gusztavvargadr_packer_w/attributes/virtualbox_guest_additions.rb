@@ -4,7 +4,7 @@ default['gusztavvargadr_packer_w'] = {
       'version' => '6.1.12',
     },
     'virtio-drivers' => {
-      'version' => '0.1.187.100',
+      'version' => '0.1.189.100',
     },
   },
 }
