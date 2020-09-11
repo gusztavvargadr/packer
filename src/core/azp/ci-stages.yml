@@ -10,7 +10,7 @@ stages:
 
     jobs:
       - job: build
-        displayName: Build
+        displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
         pool:
           name: Default
           demands:
