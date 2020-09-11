@@ -9,7 +9,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://choc
 choco config set cacheLocation C:\tmp\chocolatey
 
 Write-Host "Install Chef Client"
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.3.45
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.4.41
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 Write-Host "Install 7zip"
