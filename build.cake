@@ -2,7 +2,7 @@
 
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
-var version = "2008";
+var version = "2009";
 
 var buildDirectory = Argument("build-directory", EnvironmentVariable("PACKER_BUILD_DIR") ?? "./build");
 PackerTemplate.BuildDirectory = buildDirectory;

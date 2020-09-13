@@ -10,7 +10,7 @@ stages:
 
     jobs:
       - job: publish
-        displayName: Publish
+        displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
         pool:
           vmImage: ubuntu-16.04
         workspace:
@@ -63,7 +63,7 @@ stages:
             condition: always()
 
       - job: download
-        displayName: Download
+        displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
         pool:
           name: Default
           demands:
