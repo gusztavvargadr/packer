@@ -63,7 +63,7 @@ void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
   CleanDirectory(template.GetBuildDirectory());
-  DeleteDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
 }
 
 void PackerTemplate_Version(PackerTemplate template) {
