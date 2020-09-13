@@ -275,6 +275,21 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
   }
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
+
+  var buildDirectory = MakeAbsolute(Directory("./"));
+  foreach (var floppyDirectory in GetDirectories(template.GetBuildDirectory() + "/**/floppy")) {
+      var floppyPath = "./" + buildDirectory.GetRelativePath(floppyDirectory);
+      PackerTemplate_Log(template, "Generate ISO for " + floppyPath);
+
+      {
+        var settings = new DockerComposeRunSettings {
+          Rm = true
+        };
+        var service = "mkisofs";
+        var command = floppyPath.ToString();
+        DockerComposeRun(settings, service, command);
+      }
+  }
 }
 
 void PackerTemplate_MergeJson(PackerTemplate template) {

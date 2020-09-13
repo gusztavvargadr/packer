@@ -8,13 +8,6 @@ $env:chocolateyVersion = '0.10.15'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 choco config set cacheLocation C:\tmp\chocolatey
 
-Write-Host "Install Chef Client"
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.4.41
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
-
-Write-Host "Install 7zip"
-choco install 7zip.portable -y
-
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block
 Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
