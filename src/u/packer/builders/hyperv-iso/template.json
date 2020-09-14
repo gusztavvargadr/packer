@@ -1,6 +1,7 @@
 {
   "variables": {
-    "hyperv_disk_size": "31744"
+    "hyperv_disk_size": "31744",
+    "hyperv_disk_block_size": "1"
   },
   "builders": [
     {
@@ -19,6 +20,7 @@
       "cpus": "{{user `hyperv_cpus`}}",
       "enable_virtualization_extensions": "{{user `hyperv_enable_virtualization_extensions`}}",
       "disk_size": "{{user `hyperv_disk_size`}}",
+      "disk_block_size": "{{user `hyperv_disk_block_size` }}",
       "switch_name": "{{user `hyperv_switch_name`}}",
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
       "enable_secure_boot": false,
