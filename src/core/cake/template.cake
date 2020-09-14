@@ -276,6 +276,10 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
 
+  if (!template.Builders.Any(item => item.IsMatching("hyperv"))) {
+    return;
+  }
+
   var buildDirectory = MakeAbsolute(Directory("./"));
   foreach (var floppyDirectory in GetDirectories(template.GetBuildDirectory() + "/**/floppy")) {
       var floppyPath = "./" + buildDirectory.GetRelativePath(floppyDirectory);
