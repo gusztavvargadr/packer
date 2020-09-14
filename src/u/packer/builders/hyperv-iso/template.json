@@ -31,7 +31,7 @@
         "linux /install/vmlinuz ",
         "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg ",
         "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname={{.Name}} ",
+        "hostname=vagrant ",
         "fb=false debconf/frontend=noninteractive ",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
         "keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>",
