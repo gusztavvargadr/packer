@@ -59,13 +59,6 @@ void PackerTemplate_Info(PackerTemplate template) {
   PackerTemplate_Log(template, "Info");
 }
 
-void PackerTemplate_Clean(PackerTemplate template) {
-  PackerTemplate_Log(template, "Clean");
-
-  CleanDirectory(template.GetBuildDirectory());
-  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
-}
-
 void PackerTemplate_Version(PackerTemplate template) {
   PackerTemplate_Log(template, "Version");
 }
@@ -217,6 +210,13 @@ void PackerTemplate_Download(PackerTemplate template) {
   if (!downloadSucceeded) {
     throw new Exception("Error downloading.");
   }
+}
+
+void PackerTemplate_Clean(PackerTemplate template) {
+  PackerTemplate_Log(template, "Clean");
+
+  CleanDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
 }
 
 void PackerTemplate_Log(PackerTemplate template, string message) {
