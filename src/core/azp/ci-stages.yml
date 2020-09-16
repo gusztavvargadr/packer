@@ -38,14 +38,6 @@ stages:
                 displayName: Artifacts - Download
 
           - script: |
-              dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-            displayName: Build - Restore
-
-          - script: |
-              dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
-            displayName: Build - Run
-
-          - script: |
               dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Test
 

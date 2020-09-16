@@ -183,10 +183,11 @@ Follow the steps below to install the required tools:
 
 1. Install the [.NET Core SDK][NETCoreSDKInstallation] with [Cake Build][CakeBuildInstallation].
 1. Install [Packer][PackerInstallation] and [Vagrant][VagrantInstallation].
-1. Install [Chef Workstation][ChefWorkstationInstallation].
 1. Install the tools for the virtualization provider you want to use.
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
+1. Install [Docker][DockerInstallation].
+1. Install [Chef Workstation][ChefWorkstationInstallation].
 
 You are now ready to build a virtual machine image and a Vagrant box.
 
@@ -201,9 +202,10 @@ You are now ready to build a virtual machine image and a Vagrant box.
 [CakeBuildInstallation]: https://www.nuget.org/packages/Cake.Tool/
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
 [VagrantInstallation]: https://www.vagrantup.com/docs/installation/
-[ChefWorkstationInstallation]: https://downloads.chef.io/chef-workstation/
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads/
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+[DockerInstallation]: https://docs.docker.com/get-docker/
+[ChefWorkstationInstallation]: https://downloads.chef.io/chef-workstation/
 
 [PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
 
@@ -221,7 +223,7 @@ related resources, and makes chaining builds and creating new configurations qui
 
 ### Building base images
 
-Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone using PowerShell. Type the following command to list all the available templates you can build:
+Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone in your shell. Type the following command to list all the available templates you can build:
 
 ```shell
 $ dotnet cake [--target=info]
@@ -234,15 +236,16 @@ The output will be contain the section `info` with the list of the templates:
 ========================================
 info
 ========================================
+...
 ws2019s-virtualbox-core: Info
 ws2019s-virtualbox-vagrant: Info
 ws2019s-hyperv-core: Info
 ws2019s-hyperv-vagrant: Info
 ...
-w10e-virtualbox-core: Info
-w10e-virtualbox-vagrant: Info
-w10e-hyperv-core: Info
-w10e-hyperv-vagrant: Info
+w102004e-virtualbox-core: Info
+w102004e-virtualbox-vagrant: Info
+w102004e-hyperv-core: Info
+w102004e-hyperv-vagrant: Info
 ...
 ws2019s-iis-virtualbox-core: Info
 ws2019s-iis-virtualbox-vagrant: Info
@@ -257,7 +260,7 @@ You can filter this further to list only the templates for a given virtual machi
 $ dotnet cake [--target=info] --configuration=ws2019s
 ```
 
-You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`w10e`, `ws2019s`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `azure`, `amazon`) easily.  
+You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2019s`, `w102004e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `azure`, `amazon`) easily.  
 
 The output will contain only the matching templates:
 
