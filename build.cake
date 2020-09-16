@@ -156,15 +156,25 @@ Task("default")
 
 Task("info")
   .Does(() => {
+    StartProcess("packer", "--version");
+
+    StartProcess("docker", "--version");
+    StartProcess("docker-compose", "--version");
+    StartProcess("docker", "image ls -a");
+    StartProcess("docker", "container ls -a");
+
+    StartProcess("chef", "--version");
+
+    StartProcess("vagrant", "--version");
+    StartProcess("vagrant", "plugin list");
+    StartProcess("vagrant", "box list");
+    StartProcess("vagrant", "global-status");
+
     PackerTemplates_ForEach(configuration, PackerTemplate_Info);
   });
 
-Task("clean")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Clean);
-  });
-
 Task("version")
+  .IsDependentOn("info")
   .Does(() => {
     PackerTemplates_ForEach(configuration, PackerTemplate_Version);
   });
@@ -207,6 +217,12 @@ Task("publish")
 Task("download")
   .Does(() => {
     PackerTemplates_ForEach(configuration, PackerTemplate_Download);
+  });
+
+Task("clean")
+  .IsDependentOn("version")
+  .Does(() => {
+    PackerTemplates_ForEach(configuration, PackerTemplate_Clean);
   });
 
 RunTarget(target);

@@ -59,13 +59,6 @@ void PackerTemplate_Info(PackerTemplate template) {
   PackerTemplate_Log(template, "Info");
 }
 
-void PackerTemplate_Clean(PackerTemplate template) {
-  PackerTemplate_Log(template, "Clean");
-
-  CleanDirectory(template.GetBuildDirectory());
-  DeleteDirectory(template.GetBuildDirectory());
-}
-
 void PackerTemplate_Version(PackerTemplate template) {
   PackerTemplate_Log(template, "Version");
 }
@@ -219,6 +212,13 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 }
 
+void PackerTemplate_Clean(PackerTemplate template) {
+  PackerTemplate_Log(template, "Clean");
+
+  CleanDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
+}
+
 void PackerTemplate_Log(PackerTemplate template, string message) {
   Information(template.GetLogMessage(message));
 }
@@ -275,6 +275,25 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
   }
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
+
+  if (!template.Builders.Any(item => item.IsMatching("hyperv"))) {
+    return;
+  }
+
+  var buildDirectory = MakeAbsolute(Directory("./"));
+  foreach (var floppyDirectory in GetDirectories(template.GetBuildDirectory() + "/**/floppy")) {
+      var floppyPath = "./" + buildDirectory.GetRelativePath(floppyDirectory);
+      PackerTemplate_Log(template, "Generate ISO for " + floppyPath);
+
+      {
+        var settings = new DockerComposeRunSettings {
+          Rm = true
+        };
+        var service = "mkisofs";
+        var command = floppyPath.ToString();
+        DockerComposeRun(settings, service, command);
+      }
+  }
 }
 
 void PackerTemplate_MergeJson(PackerTemplate template) {

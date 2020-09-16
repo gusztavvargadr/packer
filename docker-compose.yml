@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mkisofs:
+    build:
+      context: ./src/core/docker/
+      dockerfile: ./mkisofs.Dockerfile
+
+    volumes:
+      - .:/opt/packer/
+
+    working_dir: /opt/packer/
