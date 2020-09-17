@@ -31,15 +31,15 @@ stages:
             displayName: Init - Disk space
 
           - script: |
-              dotnet tool install Cake.Tool --global --version 0.33.0
+              dotnet tool install Cake.Tool --global
               dotnet --info
               dotnet tool list --global
             displayName: Init - .NET
 
           - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
-              sudo dpkg -i vagrant_2.2.7_x86_64.deb
-              rm vagrant_2.2.7_x86_64.deb
+              wget -q https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
+              sudo dpkg -i vagrant_2.2.10_x86_64.deb
+              rm vagrant_2.2.10_x86_64.deb
               vagrant --version
             displayName: Init - Vagrant
 
