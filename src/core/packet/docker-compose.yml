@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   consul:
@@ -18,7 +18,7 @@ services:
       dockerfile: ./azp-agent-host.Dockerfile
       args:
         AZP_AGENT_HOST_OS: windows
-        AZP_AGENT_HOST_VERSION: '0.1.0'
+        AZP_AGENT_HOST_VERSION: "0.2.0"
 
     volumes:
       - ${REPO_DIR}/.terraform/:/opt/terraform/samples/device-windows/.terraform/
@@ -26,10 +26,9 @@ services:
     environment:
       CONSUL_HTTP_ADDR:
       PACKET_AUTH_TOKEN:
-      TF_VAR_device_facility:
       TF_VAR_device_plan:
       TF_VAR_device_os_name:
       TF_VAR_device_count:
       TF_CLI_ARGS_plan:
 
-    command: azp-agent-host
+    command: azp-agent-host-${AZP_AGENT_HOST_NAME}

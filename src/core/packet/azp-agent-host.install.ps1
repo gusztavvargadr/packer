@@ -18,16 +18,16 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedul
 netsh advfirewall set allprofiles settings inboundusernotification enable
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.174.1/vsts-agent-win-x64-2.174.1.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.175.2/vsts-agent-win-x64-2.175.2.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
 ## TODO Configure agents
 
 # Provisioning
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.4.41
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.5.77
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.4.41", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.5.77", "User")
 
 choco install -y 7zip.portable
 
@@ -56,9 +56,9 @@ choco install -y vagrant --version 2.2.10 --ignore-package-exit-codes
 # [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER_LINUX", "19.03", "User")
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "docker", "User")
 
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.9.136
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.9.158
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.9.136", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.9.158", "User")
 
 choco install -y packer --version 1.6.2
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
