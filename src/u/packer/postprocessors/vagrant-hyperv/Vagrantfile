@@ -1,6 +1,6 @@
 Vagrant.configure(2) do |config|
   config.vm.provider 'hyperv' do |h|
-    h.memory = 1024
-    h.cpus = 1
+    h.memory = 2048
+    h.cpus = 2
   end
 end
