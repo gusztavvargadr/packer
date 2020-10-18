@@ -14,12 +14,12 @@ class VagrantWindowsMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 8192,
-        'cpus' => 4,
+        'memory' => 4096,
+        'cpus' => 2,
       },
       'hyperv' => {
-        'memory' => 8192,
-        'cpus' => 4,
+        'memory' => 4096,
+        'cpus' => 2,
       },
     },
     'provisioners' => {
@@ -43,12 +43,12 @@ class VagrantLinuxMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 8192,
-        'cpus' => 4,
+        'memory' => 4096,
+        'cpus' => 2,
       },
       'hyperv' => {
-        'memory' => 8192,
-        'cpus' => 4,
+        'memory' => 4096,
+        'cpus' => 2,
       },
     },
     'provisioners' => {
