@@ -11,7 +11,7 @@
     "hyperv_enable_virtualization_extensions": "true",
     "hyperv_switch_name": "Default Switch",
     "hyperv_enable_mac_spoofing": "true",
-    "hyperv_boot_wait": "1s",
+    "hyperv_boot_wait": "5s",
     "hyperv_communicator": "ssh",
     "hyperv_ssh_username": "Administrator",
     "hyperv_ssh_password": "Packer42-",

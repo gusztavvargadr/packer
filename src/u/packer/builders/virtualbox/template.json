@@ -3,7 +3,7 @@
     "virtualbox_headless": "true",
     "virtualbox_memory": "8192",
     "virtualbox_cpus": "4",
-    "virtualbox_boot_wait": "10s",
+    "virtualbox_boot_wait": "5s",
     "virtualbox_communicator": "ssh",
     "virtualbox_ssh_username": "vagrant",
     "virtualbox_ssh_password": "vagrant",
