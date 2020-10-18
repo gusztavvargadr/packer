@@ -1,8 +1,8 @@
 {
   "variables": {
     "virtualbox_headless": "true",
-    "virtualbox_memory": "8192",
-    "virtualbox_cpus": "4",
+    "virtualbox_memory": "4096",
+    "virtualbox_cpus": "2",
     "virtualbox_boot_wait": "5s",
     "virtualbox_communicator": "ssh",
     "virtualbox_ssh_username": "vagrant",
