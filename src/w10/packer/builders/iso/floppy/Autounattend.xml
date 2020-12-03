@@ -42,7 +42,7 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
-                    <WillShowUI>OnError</WillShowUI>
+                    <WillShowUI>Never</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Administrator</FullName>

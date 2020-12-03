@@ -18,16 +18,16 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedul
 netsh advfirewall set allprofiles settings inboundusernotification enable
 
 # AZP Agent
-wget https://vstsagentpackage.azureedge.net/agent/2.175.2/vsts-agent-win-x64-2.175.2.zip -OutFile vsts-agent.zip
+wget https://vstsagentpackage.azureedge.net/agent/2.177.1/vsts-agent-win-x64-2.177.1.zip -OutFile vsts-agent.zip
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
 ## TODO Configure agents
 
 # Provisioning
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.5.77
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 16.6.14
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.5.77", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_CLIENT", "16.6.14", "User")
 
 choco install -y 7zip.portable
 
@@ -45,38 +45,38 @@ choco install -y poshgit
 choco install -y dotnetcore-sdk
 & 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global
 
-choco install -y vagrant --version 2.2.10 --ignore-package-exit-codes
-[Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "2.2.10", "User")
+choco install -y vagrant --version 2.2.13 --ignore-package-exit-codes
+[Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "2.2.13", "User")
 
-# C:\HashiCorp\Vagrant\embedded\gems\2.2.10\gems\vagrant-2.2.10\bin\vagrant
+# C:\HashiCorp\Vagrant\embedded\gems\2.2.13\gems\vagrant-2.2.13\bin\vagrant
 # Encoding.default_external = Encoding.find('Windows-1250')
 # Encoding.default_internal = Encoding.find('Windows-1250')
 
-# choco install -y docker-desktop --version 2.2.0.5
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER_LINUX", "19.03", "User")
+Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
+[Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_LINKED_CLONE", "true", "User")
+[Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_VIRTUALIZATION", "true", "User")
+[Environment]::SetEnvironmentVariable("VAGRANT_SYNCED_FOLDER_SMB_USERNAME", "Admin", "User")
+# [Environment]::SetEnvironmentVariable("VAGRANT_SYNCED_FOLDER_SMB_PASSWORD", "Password42-", "User")
+[Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE", "HyperVNAT", "User")
+# TODO vagrant up dhcp
+[Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")
+[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
+
+choco install -y virtualbox --version 6.1.16 --params "/ExtensionPack"
+[Environment]::SetEnvironmentVariable("_AZP_AGENT_VIRTUALBOX", "6.1.16", "User")
+# [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
+
+choco install -y docker-desktop --version 2.2.0.5
+[Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER_LINUX", "19.03", "User")
+[Environment]::SetEnvironmentVariable("_AZP_AGENT_DOCKER_WINDOWS", "19.03", "User")
 # [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "docker", "User")
 
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.9.158
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.9.158", "User")
-
-choco install -y packer --version 1.6.2
+choco install -y packer --version 1.6.4
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "C:\Users\Admin\.packer\cache", "User")
-[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.6.2", "User")
+[Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "HyperVNAT", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "1.6.4", "User")
 
-# Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")
-# [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
-# [Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_LINKED_CLONE", "true", "User")
-# [Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_VIRTUALIZATION", "true", "User")
-# [Environment]::SetEnvironmentVariable("VAGRANT_SYNCED_FOLDER_SMB_USERNAME", "Admin", "User")
-## [Environment]::SetEnvironmentVariable("VAGRANT_SYNCED_FOLDER_SMB_PASSWORD", "Password42-", "User")
-
-# [Environment]::SetEnvironmentVariable("VAGRANT_PROVIDER_HYPERV_NETWORK_BRIDGE", "HyperVNAT", "User")
-# [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "HyperVNAT", "User")
-# [Environment]::SetEnvironmentVariable("KITCHEN_HYPERV_SWITCH", "HyperVNAT", "User")
-## TODO vagrant up dhcp
-
-# choco install -y virtualbox --version 6.1.14 --params "/ExtensionPack"
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_VIRTUALBOX", "6.1.14", "User")
-# [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "User")
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 20.11.180
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
+[Environment]::SetEnvironmentVariable("KITCHEN_HYPERV_SWITCH", "HyperVNAT", "User")
+[Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF_WORKSTATION", "20.11.180", "User")
