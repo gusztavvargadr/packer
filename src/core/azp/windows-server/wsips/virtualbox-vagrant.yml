@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: wsips-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - "*"
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: wsips
+      provider: virtualbox
+      configuration: vagrant
+      parent: wsips
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: wsips
+      provider: virtualbox
+      configuration: vagrant

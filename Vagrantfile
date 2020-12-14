@@ -14,12 +14,12 @@ class VagrantWindowsMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 4096,
-        'cpus' => 2,
+        'memory' => '4096',
+        'cpus' => '2',
       },
       'hyperv' => {
-        'memory' => 4096,
-        'cpus' => 2,
+        'memory' => '4096',
+        'cpus' => '2',
       },
     },
     'provisioners' => {
@@ -43,12 +43,12 @@ class VagrantLinuxMachine < VagrantMachine
   @defaults = {
     'providers' => {
       'virtualbox' => {
-        'memory' => 4096,
-        'cpus' => 2,
+        'memory' => '4096',
+        'cpus' => '2',
       },
       'hyperv' => {
-        'memory' => 4096,
-        'cpus' => 2,
+        'memory' => '4096',
+        'cpus' => '2',
       },
     },
     'provisioners' => {
@@ -73,6 +73,7 @@ VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
   create_machine(deployment, 'ws2019s')
   create_machine(deployment, 'ws2016sc')
   create_machine(deployment, 'ws2019sc')
+  create_machine(deployment, 'wsips')
   create_machine(deployment, 'wsipsc')
 
   create_machine(deployment, 'w101809eltsc')
