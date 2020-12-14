@@ -1,5 +1,5 @@
 {
-  "min_packer_version": "1.4.0",
+  "min_packer_version": "1.6.0",
   "variables": {
     "name": "",
     "description": "",
