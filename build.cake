@@ -45,15 +45,15 @@ var w101809eltsc = PackerTemplates_CreateWindows(
   "windows-10-enterprise-ltsc",
   $"1809.0.{version}"
 );
-var w101909e = PackerTemplates_CreateWindows(
-  "w101909e",
-  "windows-10-enterprise",
-  $"1909.0.{version}"
-);
 var w102004e = PackerTemplates_CreateWindows(
   "w102004e",
   "windows-10-enterprise",
   $"2004.0.{version}"
+);
+var w102009e = PackerTemplates_CreateWindows(
+  "w102009e",
+  "windows-10-enterprise",
+  $"2009.0.{version}"
 );
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
