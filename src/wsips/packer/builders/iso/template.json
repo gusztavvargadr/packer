@@ -1,0 +1,7 @@
+{
+  "variables": {
+    "iso_url_local": "{{user `download_directory`}}/Windows_InsiderPreview_Server_vNext_en-us_20270.iso",
+    "iso_url_remote": "",
+    "iso_checksum": "sha256:8cbbf95c4e8d8423e78bfc3006ac1cb7f298ab57f1d14a382516ecc9d88822d5"
+  }
+}

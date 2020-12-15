@@ -23,7 +23,8 @@
       "disk_block_size": "{{user `hyperv_disk_block_size` }}",
       "switch_name": "{{user `hyperv_switch_name`}}",
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
-      "enable_secure_boot": false,
+      "enable_secure_boot": "{{user `hyperv_enable_secure_boot`}}",
+      "secure_boot_template": "{{user `hyperv_secure_boot_template`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
       "boot_command": [
         "<esc><wait>",
