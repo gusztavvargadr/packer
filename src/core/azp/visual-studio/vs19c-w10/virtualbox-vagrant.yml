@@ -4,22 +4,22 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w102004e-dc-vs19p-hyperv-core
+      source: vs19c-w10-virtualbox-core
       trigger:
         branches:
           include:
-            - '*'
+            - "*"
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102004e-dc-vs19p
-      provider: hyperv
+      image: w102009e-dc-vs19c
+      provider: virtualbox
       configuration: vagrant
-      parent: w102004e-dc-vs19p
+      parent: w102009e-dc-vs19c
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w102004e-dc-vs19p
-      provider: hyperv
+      image: w102009e-dc-vs19c
+      provider: virtualbox
       configuration: vagrant
