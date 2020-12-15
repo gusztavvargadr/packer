@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: dc-w10-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - "*"
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w102009e-dc
+      provider: virtualbox
+      configuration: vagrant
+      parent: w102009e-dc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w102009e-dc
+      provider: virtualbox
+      configuration: vagrant
