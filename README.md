@@ -59,15 +59,31 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Windows Server **latest version**][windows-server-latest-box]
-- [Windows Server **2016** and **2019** **Standard**][windows-server-standard-box]
-- [Windows Server **2016** and **2019** **Standard Core**][windows-server-standard-core-box]
-- [Windows Server **Standard Core** **Insider Preview**][windows-server-standard-core-insider-preview-box]
+- [Windows Server **latest**][windows-server-latest-box]
+  - Windows Server **2019** Standard LTSC
+      ```ruby
+      Vagrant.configure("2") do |config|
+        config.vm.box = "gusztavvargadr/windows-server"
+        config.vm.box_version = "~> 1809"
+      end
+      ```
+  - Windows Server **2016** Standard LTSC
+    ```ruby
+    Vagrant.configure("2") do |config|
+      config.vm.box = "gusztavvargadr/windows-server"
+      config.vm.box_version = "~> 1607"
+    end
+    ```
+- [Windows Server **Standard LTSC**][windows-server-standard-ltsc-box]
+- [Windows Server **Standard Core LTSC**][windows-server-standard-core-ltsc-box]
+- [Windows Server **Standard Insider**][windows-server-standard-core-insider-box]
+- [Windows Server **Standard Core Insider**][windows-server-standard-core-insider-box]
 
 [windows-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
-[windows-server-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
-[windows-server-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core/
-[windows-server-standard-core-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider-preview/
+[windows-server-standard-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
+[windows-server-standard-core-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core/
+[windows-server-standard-insider-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-insider/
+[windows-server-standard-core-insider-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider/
 
 ##### Windows 10
 
