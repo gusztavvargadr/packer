@@ -31,12 +31,12 @@ var ws2019sc = PackerTemplates_CreateWindows(
 );
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
-  "windows-server-standard-insider-preview",
+  "windows-server-standard-insider",
   $"2009.0.{version}"
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-standard-core-insider-preview",
+  "windows-server-standard-core-insider",
   $"2009.0.{version}"
 );
 
@@ -57,7 +57,7 @@ var w102009e = PackerTemplates_CreateWindows(
 );
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
-  "windows-10-enterprise-insider-preview",
+  "windows-10-enterprise-insider",
   $"2009.0.{version}"
 );
 
