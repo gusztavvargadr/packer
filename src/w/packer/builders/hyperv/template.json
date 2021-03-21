@@ -1,7 +1,9 @@
 {
   "variables": {
     "builder_source": "builders",
-    "builder_destination": "C:/Windows/Setup/packer",
+    "builder_destination": "C:/Windows/Temp/packer",
+    "elevated_user": "Administrator",
+    "elevated_password": "Packer42-",
     "hyperv_headless": "true",
     "hyperv_generation": "2",
     "hyperv_configuration_version": "9.0",
@@ -19,15 +21,13 @@
     "hyperv_ssh_password": "Packer42-",
     "hyperv_ssh_timeout": "30m",
     "hyperv_guest_additions_mode": "disable",
-    "hyperv_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd",
+    "hyperv_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
     "hyperv_shutdown_timeout": "10m"
   },
   "provisioners": [
     {
       "type": "powershell",
-      "inline": [
-        "mkdir -Force {{user `builder_destination`}}"
-      ]
+      "script": "{{user `builder_source`}}/{{build_type}}/scripts/prepare.ps1"
     },
     {
       "type": "file",

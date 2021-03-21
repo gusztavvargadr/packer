@@ -1,3 +1,0 @@
-require "#{ENV['PACKER_SOURCE_DIR']}/Berksfile.core"
-
-gusztavvargadr_packer_sources

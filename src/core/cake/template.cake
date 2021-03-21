@@ -66,9 +66,11 @@ void PackerTemplate_Version(PackerTemplate template) {
 void PackerTemplate_Restore(PackerTemplate template) {
   PackerTemplate_Log(template, "Restore");
 
-  if (DirectoryExists(template.GetBuildDirectory())) {
+  if (FileExists(template.GetBuildDirectory() + "/template.json")) {
     return;
   }
+
+  CleanDirectory(template.GetBuildDirectory());
 
   if (template.Parent != null) {
     PackerTemplate_Restore(template.Parent);
@@ -294,6 +296,13 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
         DockerComposeRun(settings, service, command);
       }
   }
+
+  foreach (var policyFile in GetFiles(template.GetBuildDirectory() + "/**/Policyfile.rb")) {
+      var policyPath = "./" + buildDirectory.GetRelativePath(policyFile);
+      
+      PackerTemplate_Chef(template, "install " + policyPath);
+      PackerTemplate_Chef(template, "export " + File(policyPath).Path.GetDirectory() + "/Policyfile.lock.json " + File(policyPath).Path.GetDirectory() + "/upload");
+  }
 }
 
 void PackerTemplate_MergeJson(PackerTemplate template) {
@@ -395,11 +404,6 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   jsonTemplateVariables["version"] = version + ".0.0";
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 
-  jsonTemplateVariables["chef_run_list_prepare"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::prepare]"));
-  jsonTemplateVariables["chef_run_list_install"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::install]"));
-  jsonTemplateVariables["chef_run_list_patch"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::patch]"));
-  jsonTemplateVariables["chef_run_list_cleanup"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::cleanup]"));
-
   var environentVariableKeyPrefix = "PACKER_VAR_";
   foreach (var environmentVariable in EnvironmentVariables()) {
     if (environmentVariable.Key.StartsWith(environentVariableKeyPrefix)) {
@@ -431,6 +435,18 @@ void PackerTemplate_Vagrant(PackerTemplate template, string arguments) {
   PackerTemplate_Log(template, "Vagrant " + arguments);
 
   var result = StartProcess("vagrant", new ProcessSettings {
+    Arguments = arguments
+  });
+  
+  if (result != 0) {
+    throw new Exception("Process exited with code " + result + ".");
+  }
+}
+
+void PackerTemplate_Chef(PackerTemplate template, string arguments) {
+  PackerTemplate_Log(template, "Chef " + arguments);
+
+  var result = StartProcess("chef", new ProcessSettings {
     Arguments = arguments
   });
   

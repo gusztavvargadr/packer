@@ -4,10 +4,8 @@ var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var version = "2103";
 
-var buildDirectory = Argument("build-directory", EnvironmentVariable("PACKER_BUILD_DIR") ?? "./build");
+var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
-
-Environment.SetEnvironmentVariable("PACKER_SOURCE_DIR", MakeAbsolute(Directory(".")).ToString());
 
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",

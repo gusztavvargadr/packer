@@ -1,4 +1,6 @@
-directory = File.dirname(__FILE__)
+def directory
+  File.dirname(__FILE__)
+end
 
 require "#{directory}/src/vagrant"
 
@@ -30,11 +32,11 @@ class VagrantWindowsMachine < VagrantMachine
           choco list -li
         EOF
       },
-      'chef_policyfile' => {
-        'paths' => [
-          'Policyfile.rb',
-        ],
-      },
+      # 'chef_policyfile' => {
+      #   'paths' => [
+      #     'Policyfile.rb',
+      #   ],
+      # },
     }
   }
 end
@@ -59,11 +61,11 @@ class VagrantLinuxMachine < VagrantMachine
           apt list --installed
         EOF
       },
-      'chef_policyfile' => {
-        'paths' => [
-          'Policyfile.rb',
-        ],
-      },
+      # 'chef_policyfile' => {
+      #   'paths' => [
+      #     'Policyfile.rb',
+      #   ],
+      # },
     }
   }
 end
@@ -122,5 +124,5 @@ def create_machine_class(name)
 end
 
 def build_dir
-  ENV['PACKER_BUILD_DIR'] ? ENV['PACKER_BUILD_DIR'] : "#{File.dirname(__FILE__)}/build"
+  "#{directory}/build"
 end

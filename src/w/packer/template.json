@@ -10,13 +10,6 @@
   },
   "description": "{{user `description`}}",
   "builders": [],
-  "provisioners": [
-    {
-      "type": "powershell",
-      "inline": [
-        "[Environment]::SetEnvironmentVariable('PACKER_BUILDER', '{{build_type}}', 'User')"
-      ]
-    }
-  ],
+  "provisioners": [],
   "post-processors": []
 }
