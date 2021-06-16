@@ -14,8 +14,19 @@
   "provisioners": [
     {
       "type": "shell-local",
+      "only_on": ["windows"],
       "tempfile_extension": ".cmd",
       "script": "{{user `chef_source`}}/scripts/berkshelf.cmd"
+    },
+    {
+      "type": "shell-local",
+      "only_on": ["darwin", "linux"],
+      "command": "chmod u+x {{user `chef_source`}}/scripts/berkshelf.sh"
+    },
+    {
+      "type": "shell-local",
+      "only_on": ["darwin", "linux"],
+      "script": "{{user `chef_source`}}/scripts/berkshelf.sh"
     },
     {
       "type": "powershell",
