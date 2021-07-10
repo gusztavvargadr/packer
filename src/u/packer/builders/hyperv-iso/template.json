@@ -1,6 +1,6 @@
 {
   "variables": {
-    "hyperv_disk_size": "31744",
+    "hyperv_disk_size": "64512",
     "hyperv_disk_block_size": "1"
   },
   "builders": [

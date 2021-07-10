@@ -14,8 +14,6 @@ stages:
         pool:
           name: Default
           demands:
-            - AZP_AGENT_PACKER
-            - AZP_AGENT_VAGRANT
             - AZP_AGENT_${{ parameters.provider }}
         workspace:
           clean: all

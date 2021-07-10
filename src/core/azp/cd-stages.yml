@@ -12,7 +12,7 @@ stages:
       - job: publish
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
         pool:
-          vmImage: ubuntu-16.04
+          vmImage: ubuntu-20.04
         workspace:
           clean: all
         timeoutInMinutes: 240
@@ -67,7 +67,6 @@ stages:
         pool:
           name: Default
           demands:
-            - AZP_AGENT_VAGRANT
             - AZP_AGENT_${{ parameters.provider }}
         workspace:
           clean: all
