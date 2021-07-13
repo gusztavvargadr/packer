@@ -76,6 +76,7 @@ choco install -y packer --version 1.7.2
 [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "Machine")
 # [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "%HYPERV_DEFAULT_SWITCH%", "Machine")
 
+## TODO: adk (oscdimg)
 ## TODO download ISOs
 
 # Chef Workstation

@@ -38,7 +38,8 @@
         "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list install"
       ],
       "elevated_user": "{{user `elevated_user`}}",
-      "elevated_password": "{{user `elevated_password`}}"
+      "elevated_password": "{{user `elevated_password`}}",
+      "pause_before": "1m"
     },
     {
       "type": "windows-restart",
