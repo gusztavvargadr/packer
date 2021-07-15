@@ -30,6 +30,12 @@ stages:
           - checkout: self
             submodules: recursive
 
+          - script: |
+              dotnet --info
+
+              dotnet tool restore
+            displayName: Initialize .NET
+
           - ${{ if parameters.parent }}:
               - task: DownloadPipelineArtifact@2
                 inputs:

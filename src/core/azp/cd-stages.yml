@@ -31,10 +31,10 @@ stages:
             displayName: Init - Disk space
 
           - script: |
-              dotnet tool install Cake.Tool --global
               dotnet --info
-              dotnet tool list --global
-            displayName: Init - .NET
+
+              dotnet tool restore
+            displayName: Initialize .NET
 
           - script: |
               wget -q https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
