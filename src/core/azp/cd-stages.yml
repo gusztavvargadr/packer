@@ -64,8 +64,12 @@ stages:
 
       - job: download
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+
         pool:
-          name: core-windows
+          name: default
+          demands:
+            - AZP_AGENT_VAGRANT
+
         workspace:
           clean: all
         timeoutInMinutes: 240

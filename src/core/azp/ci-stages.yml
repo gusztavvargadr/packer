@@ -12,15 +12,12 @@ stages:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
-        ${{ if eq(parameters.provider, 'virtualbox') }}:
-          pool:
-            name: Default
-            demands:
-              - AZP_AGENT_${{ parameters.provider }}
-
-        ${{ if eq(parameters.provider, 'hyperv') }}:
-          pool:
-            name: core-windows
+        pool:
+          name: Default
+          demands:
+            - AZP_AGENT_PACKER
+            - AZP_AGENT_VAGRANT
+            - AZP_AGENT_${{ parameters.provider }}
 
         workspace:
           clean: all
