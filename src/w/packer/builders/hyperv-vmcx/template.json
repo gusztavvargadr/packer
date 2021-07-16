@@ -23,7 +23,6 @@
       "ssh_username": "{{user `hyperv_ssh_username`}}",
       "ssh_password": "{{user `hyperv_ssh_password`}}",
       "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
-      "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
       "shutdown_timeout": "{{user `hyperv_shutdown_timeout`}}",
       "output_directory": "{{user `output_directory`}}/build"

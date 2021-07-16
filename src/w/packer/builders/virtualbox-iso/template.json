@@ -2,7 +2,7 @@
   "variables": {
     "virtualbox_guest_os_type": "",
     "virtualbox_disk_size": "130048",
-    "virtualbox_floppy_files": "builders/virtualbox-iso/floppy"
+    "virtualbox_cd_files": "builders/virtualbox-iso/floppy/*"
   },
   "builders": [
     {
@@ -30,8 +30,13 @@
         ]
       ],
       "disk_size": "{{user `virtualbox_disk_size`}}",
-      "floppy_files": "{{user `virtualbox_floppy_files`}}",
+      "cd_files": [
+        "{{user `virtualbox_cd_files`}}",
+      ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
+      "boot_command": [
+        "<enter><wait><enter><wait><enter><wait><enter><wait><enter><wait>"
+      ],
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
       "ssh_password": "{{user `virtualbox_ssh_password`}}",
@@ -40,7 +45,12 @@
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "shutdown_timeout": "{{user `virtualbox_shutdown_timeout`}}",
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
-      "output_directory": "{{user `output_directory`}}/build"
+      "output_directory": "{{user `output_directory`}}/build",
+      "firmware": "efi",
+      "nested_virt": "true",
+      "gfx_controller": "vboxsvga",
+      "gfx_vram_size": 32,
+      "hard_drive_interface": "sata"
     }
   ]
 }

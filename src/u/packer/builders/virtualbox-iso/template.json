@@ -1,7 +1,7 @@
 {
   "variables": {
     "virtualbox_guest_os_type": "",
-    "virtualbox_disk_size": "31744"
+    "virtualbox_disk_size": "64512"
   },
   "builders": [
     {

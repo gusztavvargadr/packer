@@ -40,7 +40,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
-                            <Value>Windows Server 2019 SERVERSTANDARDCORE</Value>
+                            <Value>Windows Server 2022 SERVERSTANDARDCORE</Value>
                         </MetaData>
                     </InstallFrom>
                     <InstallTo>
@@ -50,10 +50,6 @@
                 </OSImage>
             </ImageInstall>
             <UserData>
-                <ProductKey>
-                    <WillShowUI>Never</WillShowUI>
-                    <Key>MFY9F-XBN2F-TYFMP-CCV49-RMYVH</Key>
-                </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Administrator</FullName>
                 <Organization>gusztavvargadr</Organization>
