@@ -28,9 +28,12 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://choc
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.2.29
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
+# Chef Workstation
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.6.497
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
+
 # Workstation
-choco install -y googlechrome
-# choco install -y firefox --params "/NoAutoUpdate"
+choco install -y microsoft-edge
 choco install -y conemu
 choco install -y far
 choco install -y treesizefree
@@ -41,7 +44,14 @@ choco install -y beyondcompare
 choco install -y git --package-parameters="'/GitAndUnixToolsOnPath /NoAutoCrlf /NoShellIntegration /SChannel'"
 choco install -y poshgit
 choco install -y dotnetcore-sdk
-& 'C:\Program Files\dotnet\dotnet.exe' tool install Cake.Tool --global
+
+# Vagrant
+choco install -y vagrant --version 2.2.17 --ignore-package-exit-codes
+# C:\HashiCorp\Vagrant\embedded\gems\2.2.17\gems\vagrant-2.2.16\bin\vagrant
+# Encoding.default_external = Encoding.find('Windows-1250')
+# Encoding.default_internal = Encoding.find('Windows-1250')
+
+## TODO boxes
 
 # Hyper-V
 Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
@@ -57,45 +67,34 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 3 -Value 192.168.238.1
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 6 -Value 8.8.8.8,8.8.4.4
 
-# VirtualBox
-# choco install -y virtualbox --version 6.1.22 --params "/ExtensionPack"
-# bcdedit /set hypervisorlaunchtype off
-
-# Vagrant
-choco install -y vagrant --version 2.2.16 --ignore-package-exit-codes
-# C:\HashiCorp\Vagrant\embedded\gems\2.2.16\gems\vagrant-2.2.16\bin\vagrant
-# Encoding.default_external = Encoding.find('Windows-1250')
-# Encoding.default_internal = Encoding.find('Windows-1250')
 [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "Machine")
-# [Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "virtualbox", "Machine")
 
-## TODO boxes
+## TODO docker, config and base images
+## TODO compose
+
+## TODO kitchen, kitchen-docker
+# [Environment]::SetEnvironmentVariable("KITCHEN_HYPERV_SWITCH", "%HYPERV_DEFAULT_SWITCH%", "Machine")
 
 # Packer
-choco install -y packer --version 1.7.2
-[Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "Machine")
+choco install -y packer --version 1.7.3
+[Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
 # [Environment]::SetEnvironmentVariable("PACKER_VAR_hyperv_switch_name", "%HYPERV_DEFAULT_SWITCH%", "Machine")
 
 ## TODO: adk (oscdimg)
 ## TODO download ISOs
 
-# Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.6.497
-# [Environment]::SetEnvironmentVariable("KITCHEN_HYPERV_SWITCH", "%HYPERV_DEFAULT_SWITCH%", "Machine")
-
-## TODO kitchen, kitchen-docker
-## TODO docker, config and base images
-## TODO compose
-
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.188.3/vsts-agent-win-x64-2.188.3.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.188.4/vsts-agent-win-x64-2.188.4.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
-# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "Token42-", "User")
+# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "", "User")
 
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "1809", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "9.0", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_VIRTUALBOX", "6.1.22", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOTNET", "latest", "Mchine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "latest", "Machine")
 
 ## TODO Configure agents
