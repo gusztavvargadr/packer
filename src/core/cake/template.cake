@@ -229,14 +229,14 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
   PackerTemplate_Log(template, "Merge Directories");
 
   foreach (var component in template.Components) {
-    foreach (var sourceDirectory in GetDirectories("src/*")) {
+    foreach (var sourceDirectory in PackerTemplate_GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
+        foreach (var builderDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -249,7 +249,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
+        foreach (var provisionerDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -262,7 +262,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
+        foreach (var postProcessorDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -328,7 +328,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       runList.Add(component.Name);
     }
 
-    foreach (var sourceDirectory in GetDirectories("src/*")) {
+    foreach (var sourceDirectory in PackerTemplate_GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
@@ -343,7 +343,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
+        foreach (var builderDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -356,7 +356,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
+        foreach (var provisionerDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -369,7 +369,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
+        foreach (var postProcessorDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -398,6 +398,10 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   json.Merge(jsonTemplate);
 
   FileWriteText(jsonFile, json.ToString());
+}
+
+IEnumerable<DirectoryPath> PackerTemplate_GetDirectories(GlobPattern pattern) {
+  return GetDirectories(pattern).OrderBy(item => item.GetDirectoryName());
 }
 
 void PackerTemplate_Packer(PackerTemplate template, string arguments) {
