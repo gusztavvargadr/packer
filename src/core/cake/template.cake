@@ -66,9 +66,11 @@ void PackerTemplate_Version(PackerTemplate template) {
 void PackerTemplate_Restore(PackerTemplate template) {
   PackerTemplate_Log(template, "Restore");
 
-  if (DirectoryExists(template.GetBuildDirectory())) {
+  if (FileExists(template.GetBuildDirectory() + "/template.json")) {
     return;
   }
+
+  CleanDirectory(template.GetBuildDirectory());
 
   if (template.Parent != null) {
     PackerTemplate_Restore(template.Parent);
@@ -227,14 +229,14 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
   PackerTemplate_Log(template, "Merge Directories");
 
   foreach (var component in template.Components) {
-    foreach (var sourceDirectory in GetDirectories("src/*")) {
+    foreach (var sourceDirectory in PackerTemplate_GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
+        foreach (var builderDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -247,7 +249,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
+        foreach (var provisionerDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -260,7 +262,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
+        foreach (var postProcessorDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -276,23 +278,12 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
 
-  if (!template.Builders.Any(item => item.IsMatching("hyperv"))) {
-    return;
-  }
-
   var buildDirectory = MakeAbsolute(Directory("./"));
-  foreach (var floppyDirectory in GetDirectories(template.GetBuildDirectory() + "/**/floppy")) {
-      var floppyPath = "./" + buildDirectory.GetRelativePath(floppyDirectory);
-      PackerTemplate_Log(template, "Generate ISO for " + floppyPath);
-
-      {
-        var settings = new DockerComposeRunSettings {
-          Rm = true
-        };
-        var service = "mkisofs";
-        var command = floppyPath.ToString();
-        DockerComposeRun(settings, service, command);
-      }
+  foreach (var policyFile in GetFiles(template.GetBuildDirectory() + "/**/Policyfile.rb")) {
+      var policyPath = "./" + buildDirectory.GetRelativePath(policyFile);
+      
+      PackerTemplate_Chef(template, "install " + policyPath);
+      PackerTemplate_Chef(template, "export " + File(policyPath).Path.GetDirectory() + "/Policyfile.lock.json " + File(policyPath).Path.GetDirectory() + "/upload");
   }
 }
 
@@ -337,7 +328,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       runList.Add(component.Name);
     }
 
-    foreach (var sourceDirectory in GetDirectories("src/*")) {
+    foreach (var sourceDirectory in PackerTemplate_GetDirectories("src/*")) {
       var sourceDirectoryName = sourceDirectory.GetDirectoryName();
       if (!component.IsMatching(sourceDirectoryName)) {
         continue;
@@ -352,7 +343,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var builder in template.Builders) {
-        foreach (var builderDirectory in GetDirectories(sourceDirectory + "/packer/builders/*")) {
+        foreach (var builderDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/builders/*")) {
           var builderDirectoryName = builderDirectory.GetDirectoryName();
           if (!builder.IsMatching(builderDirectoryName)) {
             continue;
@@ -365,7 +356,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var provisioner in template.Provisioners) {
-        foreach (var provisionerDirectory in GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
+        foreach (var provisionerDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/provisioners/*")) {
           var provisionerDirectoryName = provisionerDirectory.GetDirectoryName();
           if (!provisioner.IsMatching(provisionerDirectoryName)) {
             continue;
@@ -378,7 +369,7 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
       }
 
       foreach (var postProcessor in template.PostProcessors) {
-        foreach (var postProcessorDirectory in GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
+        foreach (var postProcessorDirectory in PackerTemplate_GetDirectories(sourceDirectory + "/packer/postprocessors/*")) {
           var postProcessorDirectoryName = postProcessorDirectory.GetDirectoryName();
           if (!postProcessor.IsMatching(postProcessorDirectoryName)) {
             continue;
@@ -395,11 +386,6 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   jsonTemplateVariables["version"] = version + ".0.0";
   jsonTemplateVariables["description"] = string.Join(", ", descriptions);
 
-  jsonTemplateVariables["chef_run_list_prepare"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::prepare]"));
-  jsonTemplateVariables["chef_run_list_install"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::install]"));
-  jsonTemplateVariables["chef_run_list_patch"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::patch]"));
-  jsonTemplateVariables["chef_run_list_cleanup"] = string.Join(",", runList.Select(item => "recipe[gusztavvargadr_packer_" + item.Replace("-", "_") + "::cleanup]"));
-
   var environentVariableKeyPrefix = "PACKER_VAR_";
   foreach (var environmentVariable in EnvironmentVariables()) {
     if (environmentVariable.Key.StartsWith(environentVariableKeyPrefix)) {
@@ -412,6 +398,10 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
   json.Merge(jsonTemplate);
 
   FileWriteText(jsonFile, json.ToString());
+}
+
+IEnumerable<DirectoryPath> PackerTemplate_GetDirectories(GlobPattern pattern) {
+  return GetDirectories(pattern).OrderBy(item => item.GetDirectoryName());
 }
 
 void PackerTemplate_Packer(PackerTemplate template, string arguments) {
@@ -431,6 +421,18 @@ void PackerTemplate_Vagrant(PackerTemplate template, string arguments) {
   PackerTemplate_Log(template, "Vagrant " + arguments);
 
   var result = StartProcess("vagrant", new ProcessSettings {
+    Arguments = arguments
+  });
+  
+  if (result != 0) {
+    throw new Exception("Process exited with code " + result + ".");
+  }
+}
+
+void PackerTemplate_Chef(PackerTemplate template, string arguments) {
+  PackerTemplate_Log(template, "Chef " + arguments);
+
+  var result = StartProcess("chef", new ProcessSettings {
     Arguments = arguments
   });
   

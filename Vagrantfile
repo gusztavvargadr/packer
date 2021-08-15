@@ -1,126 +1,109 @@
-directory = File.dirname(__FILE__)
+def directory
+  File.dirname(__FILE__)
+end
 
-require "#{directory}/src/vagrant"
+def build_dir
+  "#{directory}/build"
+end
 
 def version
-  '2103'
+  "2106"
 end
 
-VagrantMachine.defaults_include(
-  'autostart' => false,
-)
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |p|
+  end
 
-class VagrantWindowsMachine < VagrantMachine
-  @defaults = {
-    'providers' => {
-      'virtualbox' => {
-        'memory' => '4096',
-        'cpus' => '2',
-      },
-      'hyperv' => {
-        'memory' => '4096',
-        'cpus' => '2',
-      },
-    },
-    'provisioners' => {
-      'shell' => {
-        'inline' => <<-EOF
-          cmd /c ver
-          Get-ComputerInfo
-          choco list -li
-        EOF
-      },
-      'chef_policyfile' => {
-        'paths' => [
-          'Policyfile.rb',
-        ],
-      },
-    }
-  }
-end
+  config.vm.provider "hyperv" do |p, override|
+    p.linked_clone = true
+    p.enable_virtualization_extensions = true
 
-class VagrantLinuxMachine < VagrantMachine
-  @defaults = {
-    'providers' => {
-      'virtualbox' => {
-        'memory' => '4096',
-        'cpus' => '2',
-      },
-      'hyperv' => {
-        'memory' => '4096',
-        'cpus' => '2',
-      },
-    },
-    'provisioners' => {
-      'shell' => {
-        'inline' => <<-EOF
-          uname -a
-          lshw
-          apt list --installed
-        EOF
-      },
-      'chef_policyfile' => {
-        'paths' => [
-          'Policyfile.rb',
-        ],
-      },
-    }
-  }
-end
+    network_bridge = ENV['VAGRANT_HYPERV_NETWORK_BRIDGE']
+    override.vm.network "public_network", bridge: network_bridge unless network_bridge.to_s.empty?
+  end
 
-VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-  create_machine(deployment, 'ws2016s')
-  create_machine(deployment, 'ws2019s')
-  create_machine(deployment, 'ws2016sc')
-  create_machine(deployment, 'ws2019sc')
-  create_machine(deployment, 'wsips')
-  create_machine(deployment, 'wsipsc')
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  create_machine(deployment, 'w101809eltsc')
-  create_machine(deployment, 'w102004e')
-  create_machine(deployment, 'w102009e')
-  create_machine(deployment, 'w10ipe')
+  names = [
+    "ws2016s",
+    "ws2019s",
+    "ws2016sc",
+    "ws2019sc",
+    "wsips",
+    "wsipsc",
 
-  create_machine(deployment, 'u1604s')
+    "w101809eltsc",
+    "w102009e",
+    "w102101e",
+    "w10ipe",
 
-  create_machine(deployment, 'u1604d')
+    "u1604s",
 
-  create_machine(deployment, 'ws2019s-de')
-  create_machine(deployment, 'ws2019sc-de')
+    "u1604d",
 
-  create_machine(deployment, 'w102009e-dc')
-  create_machine(deployment, 'u1604s-dc')
-  create_machine(deployment, 'u1604d-dc')
+    "ws2019s-de",
+    "ws2019sc-de",
 
-  create_machine(deployment, 'ws2019s-iis')
-  create_machine(deployment, 'ws2019sc-iis')
+    "u1604s-dc",
+    "u1604d-dc",
+    "w102101e-dc",
 
-  create_machine(deployment, 'ws2019s-sql17d')
-  create_machine(deployment, 'ws2019s-sql19d')
+    "ws2019s-iis",
+    "ws2019sc-iis",
 
-  create_machine(deployment, 'w102009e-dc-vs17c')
-  create_machine(deployment, 'w102009e-dc-vs19c')
-  create_machine(deployment, 'w102009e-dc-vs17p')
-  create_machine(deployment, 'w102009e-dc-vs19p')
-end
+    "ws2019s-sql17d",
+    "ws2019s-sql19d",
+  ]
+  names.each do |name|
+    config.vm.define name, autostart: false do |machine|
+      machine.vm.box = "gusztavvargadr/#{name}-build"
 
-def create_machine(deployment, name)
-  VagrantMachine.configure(deployment, create_machine_class(name).defaults.merge('name' => name, 'box' => "gusztavvargadr/#{name}-build")) do |machine|
-    VagrantVirtualBoxProvider.configure(machine, machine.options.fetch('providers').fetch('virtualbox')) do |provider|
-      provider.override.vm.box_url = "file://#{build_dir}/#{name}/virtualbox-vagrant/output/package/vagrant.box"
-    end
+      machine.vm.provider "virtualbox" do |p, override|
+        override.vm.box_url = "file:///#{build_dir}/#{name}/virtualbox-vagrant/output/package/vagrant.box"
+      end
 
-    VagrantHyperVProvider.configure(machine, machine.options.fetch('providers').fetch('hyperv')) do |provider|
-      provider.override.vm.box_url = "file://#{build_dir}/#{name}/hyperv-vagrant/output/package/vagrant.box"
+      machine.vm.provider "hyperv" do |p, override|
+        override.vm.box_url = "file:///#{build_dir}/#{name}/hyperv-vagrant/output/package/vagrant.box"
+      end
     end
   end
 end
 
-def create_machine_class(name)
-  class_name = name.include?('u16') ? 'VagrantLinuxMachine' : 'VagrantWindowsMachine'
-  Object.const_get(class_name)
-end
 
-def build_dir
-  ENV['PACKER_BUILD_DIR'] ? ENV['PACKER_BUILD_DIR'] : "#{File.dirname(__FILE__)}/build"
-end
+# class VagrantWindowsMachine < VagrantMachine
+#       'shell' => {
+#         'inline' => <<-EOF
+#           cmd /c ver
+#           Get-ComputerInfo
+#           choco list -li
+#         EOF
+#       },
+#       # 'chef_policyfile' => {
+#       #   'paths' => [
+#       #     'Policyfile.rb',
+#       #   ],
+#       # },
+# end
+
+# class VagrantLinuxMachine < VagrantMachine
+#       'shell' => {
+#         'inline' => <<-EOF
+#           uname -a
+#           lshw
+#           apt list --installed
+#         EOF
+#       },
+#       # 'chef_policyfile' => {
+#       #   'paths' => [
+#       #     'Policyfile.rb',
+#       #   ],
+#       # },
+# end
+
+# VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
+
+#   create_machine(deployment, 'w102009e-dc-vs17c')
+#   create_machine(deployment, 'w102009e-dc-vs19c')
+#   create_machine(deployment, 'w102009e-dc-vs17p')
+#   create_machine(deployment, 'w102009e-dc-vs19p')
+# end

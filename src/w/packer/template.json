@@ -6,17 +6,10 @@
     "version": "",
     "author": "gusztavvargadr",
     "output_directory": "output",
-    "download_directory": "{{env `USERPROFILE`}}/downloads"
+    "download_directory": "{{env `HOME`}}/Downloads"
   },
   "description": "{{user `description`}}",
   "builders": [],
-  "provisioners": [
-    {
-      "type": "powershell",
-      "inline": [
-        "[Environment]::SetEnvironmentVariable('PACKER_BUILDER', '{{build_type}}', 'User')"
-      ]
-    }
-  ],
+  "provisioners": [],
   "post-processors": []
 }

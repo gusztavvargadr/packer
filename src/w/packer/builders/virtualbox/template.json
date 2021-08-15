@@ -1,7 +1,9 @@
 {
   "variables": {
     "builder_source": "builders",
-    "builder_destination": "C:/Windows/Setup/packer",
+    "builder_destination": "C:/Windows/Temp/packer",
+    "elevated_user": "Administrator",
+    "elevated_password": "Packer42-",
     "virtualbox_headless": "true",
     "virtualbox_memory": "4096",
     "virtualbox_cpus": "2",
@@ -11,16 +13,14 @@
     "virtualbox_ssh_password": "Packer42-",
     "virtualbox_ssh_timeout": "30m",
     "virtualbox_guest_additions_mode": "disable",
-    "virtualbox_shutdown_command": "C:/Windows/Setup/packer/shutdown.cmd",
+    "virtualbox_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
     "virtualbox_shutdown_timeout": "10m",
     "virtualbox_post_shutdown_delay": "5s"
   },
   "provisioners": [
     {
       "type": "powershell",
-      "inline": [
-        "mkdir -Force {{user `builder_destination`}}"
-      ]
+      "script": "{{user `builder_source`}}/{{build_type}}/scripts/prepare.ps1"
     },
     {
       "type": "file",

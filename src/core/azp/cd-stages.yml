@@ -12,7 +12,7 @@ stages:
       - job: publish
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
         pool:
-          vmImage: ubuntu-16.04
+          vmImage: ubuntu-20.04
         workspace:
           clean: all
         timeoutInMinutes: 240
@@ -31,10 +31,10 @@ stages:
             displayName: Init - Disk space
 
           - script: |
-              dotnet tool install Cake.Tool --global
               dotnet --info
-              dotnet tool list --global
-            displayName: Init - .NET
+
+              dotnet tool restore
+            displayName: Initialize .NET
 
           - script: |
               wget -q https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
@@ -64,11 +64,12 @@ stages:
 
       - job: download
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+
         pool:
-          name: Default
+          name: default
           demands:
             - AZP_AGENT_VAGRANT
-            - AZP_AGENT_${{ parameters.provider }}
+
         workspace:
           clean: all
         timeoutInMinutes: 240

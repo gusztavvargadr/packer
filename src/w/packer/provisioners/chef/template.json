@@ -1,27 +1,15 @@
 {
   "variables": {
     "chef_source": "provisioners/chef",
-    "chef_destination": "/tmp/packer/chef-upload",
-    "chef_guest_os_type": "windows",
-    "chef_skip_install": "true",
-    "chef_staging_directory": "/tmp/packer/chef-solo",
-    "chef_run_list_prepare": "",
-    "chef_run_list_install": "",
-    "chef_run_list_patch": "",
-    "chef_run_list_cleanup": "",
+    "chef_destination": "C:/Windows/Temp/chef",
     "chef_restart_timeout": "1h"
   },
   "provisioners": [
     {
-      "type": "shell-local",
-      "tempfile_extension": ".cmd",
-      "script": "{{user `chef_source`}}/scripts/berkshelf.cmd"
-    },
-    {
       "type": "powershell",
-      "inline": [
-        "mkdir -Force {{user `chef_destination`}}"
-      ]
+      "script": "{{user `chef_source`}}/scripts/prepare.ps1",
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
     },
     {
       "type": "file",
@@ -29,99 +17,95 @@
       "destination": "{{user `chef_destination`}}"
     },
     {
-      "type": "powershell",
-      "inline": [
-        "{{user `chef_destination`}}/prepare.ps1"
-      ]
-    },
-    {
-      "type": "windows-restart"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_prepare`}}"
-    },
-    {
       "type": "windows-restart",
       "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_install`}}"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_patch`}}"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_patch`}}"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_patch`}}"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_patch`}}"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "{{user `chef_restart_timeout`}}"
-    },
-    {
-      "type": "chef-solo",
-      "guest_os_type": "{{user `chef_guest_os_type`}}",
-      "skip_install": "{{user `chef_skip_install`}}",
-      "staging_directory": "{{user `chef_staging_directory`}}",
-      "remote_cookbook_paths": "{{user `chef_destination`}}/cookbooks",
-      "run_list": "{{user `chef_run_list_cleanup`}}"
     },
     {
       "type": "powershell",
       "inline": [
-        "{{user `chef_destination`}}/cleanup.ps1"
-      ]
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list prepare"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list install"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}",
+      "pause_before": "1m"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list patch"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list patch"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list patch"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list patch"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "{{user `chef_restart_timeout`}}"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd {{user `chef_destination`}}; chef-client --local-mode --named-run-list cleanup"
+      ],
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
+    },
+    {
+      "type": "powershell",
+      "script": "{{user `chef_source`}}/scripts/cleanup.ps1",
+      "elevated_user": "{{user `elevated_user`}}",
+      "elevated_password": "{{user `elevated_password`}}"
     }
   ]
 }

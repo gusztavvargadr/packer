@@ -49,7 +49,7 @@
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -Command "Set-ExecutionPolicy Bypass -Force; C:\Windows\Setup\packer\Autounattend.ps1"</CommandLine>
+                    <CommandLine>C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -Command "Set-ExecutionPolicy Bypass -Force; C:\Windows\Temp\packer\Autounattend.ps1"</CommandLine>
                     <Description>Autounattend.ps1</Description>
                     <Order>1</Order>
                     <RequiresUserInput>true</RequiresUserInput>

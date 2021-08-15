@@ -11,12 +11,14 @@ stages:
     jobs:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+
         pool:
           name: Default
           demands:
             - AZP_AGENT_PACKER
             - AZP_AGENT_VAGRANT
             - AZP_AGENT_${{ parameters.provider }}
+
         workspace:
           clean: all
         timeoutInMinutes: 240
@@ -24,6 +26,12 @@ stages:
         steps:
           - checkout: self
             submodules: recursive
+
+          - script: |
+              dotnet --info
+
+              dotnet tool restore
+            displayName: Initialize .NET
 
           - ${{ if parameters.parent }}:
               - task: DownloadPipelineArtifact@2
