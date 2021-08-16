@@ -7,68 +7,72 @@ def build_dir
 end
 
 def version
-  "2106"
+  '2108'
 end
 
-Vagrant.configure("2") do |config|
-  config.vm.provider "virtualbox" do |p|
+Vagrant.configure('2') do |config|
+  config.vm.provider 'virtualbox' do |_|
   end
 
-  config.vm.provider "hyperv" do |p, override|
+  config.vm.provider 'hyperv' do |p, override|
     p.linked_clone = true
     p.enable_virtualization_extensions = true
 
-    network_bridge = ENV['VAGRANT_HYPERV_NETWORK_BRIDGE']
-    override.vm.network "public_network", bridge: network_bridge unless network_bridge.to_s.empty?
+    network_bridge = ENV['VAGRANT_HYPERV_NETWORK_BRIDGE'] || 'Default Switch'
+    override.vm.network 'public_network', bridge: network_bridge
   end
 
-  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 
   names = [
-    "ws2016s",
-    "ws2019s",
-    "ws2016sc",
-    "ws2019sc",
-    "wsips",
-    "wsipsc",
+    'ws2016s',
+    'ws2019s',
+    'ws2016sc',
+    'ws2019sc',
+    'wsips',
+    'wsipsc',
 
-    "w101809eltsc",
-    "w102009e",
-    "w102101e",
-    "w10ipe",
+    'w101809eltsc',
+    'w102009e',
+    'w102101e',
+    'w10ipe',
 
-    "u1604s",
+    'u1604s',
 
-    "u1604d",
+    'u1604d',
 
-    "ws2019s-de",
-    "ws2019sc-de",
+    'ws2019s-de',
+    'ws2019sc-de',
 
-    "u1604s-dc",
-    "u1604d-dc",
-    "w102101e-dc",
+    'u1604s-dc',
+    'u1604d-dc',
+    # 'w102101e-dc',
 
-    "ws2019s-iis",
-    "ws2019sc-iis",
+    'ws2019s-iis',
+    'ws2019sc-iis',
 
-    "ws2019s-sql17d",
-    "ws2019s-sql19d",
+    'ws2019s-sql17d',
+    'ws2019s-sql19d',
+
+    # 'w102101e-dc-vs17c',
+    # 'w102101e-dc-vs17p',
+    # 'w102101e-dc-vs19c',
+    # 'w102101e-dc-vs19p',
   ]
   names.each do |name|
     config.vm.define name, autostart: false do |machine|
       machine.vm.box = "gusztavvargadr/#{name}-build"
 
-      machine.vm.provider "virtualbox" do |p, override|
+      machine.vm.provider 'virtualbox' do |_, override|
         override.vm.box_url = "file:///#{build_dir}/#{name}/virtualbox-vagrant/output/package/vagrant.box"
       end
 
-      machine.vm.provider "hyperv" do |p, override|
+      machine.vm.provider 'hyperv' do |_, override|
         override.vm.box_url = "file:///#{build_dir}/#{name}/hyperv-vagrant/output/package/vagrant.box"
       end
     end
   end
 end
-
 
 # class VagrantWindowsMachine < VagrantMachine
 #       'shell' => {
@@ -98,12 +102,4 @@ end
 #       #     'Policyfile.rb',
 #       #   ],
 #       # },
-# end
-
-# VagrantDeployment.configure(directory, 'stack' => 'packer') do |deployment|
-
-#   create_machine(deployment, 'w102009e-dc-vs17c')
-#   create_machine(deployment, 'w102009e-dc-vs19c')
-#   create_machine(deployment, 'w102009e-dc-vs17p')
-#   create_machine(deployment, 'w102009e-dc-vs19p')
 # end
