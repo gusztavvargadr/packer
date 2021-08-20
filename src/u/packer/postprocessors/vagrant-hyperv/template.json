@@ -1,7 +1,5 @@
 {
   "variables": {
-    "hyperv_memory": "2048",
-    "hyperv_cpus": "2",
     "vagrant_vagrantfile_template": "postprocessors/vagrant-hyperv/Vagrantfile"
   }
 }
