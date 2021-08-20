@@ -11,11 +11,15 @@ stages:
     jobs:
       - job: publish
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+
         pool:
-          vmImage: ubuntu-20.04
+          name: Default
+          demands:
+            - AZP_AGENT_DOTNET
+            - AZP_AGENT_VAGRANT
+
         workspace:
           clean: all
-        timeoutInMinutes: 240
         variables:
           - group: environment-vagrantcloud
 
@@ -24,24 +28,10 @@ stages:
             submodules: recursive
 
           - script: |
-              rm -Rf /usr/share/dotnet/sdk/2.1.*
-              rm -Rf /usr/share/dotnet/sdk/2.2.*
-              rm -Rf /usr/share/dotnet/sdk/3.0.*
-              df -H
-            displayName: Init - Disk space
-
-          - script: |
               dotnet --info
 
               dotnet tool restore
             displayName: Initialize .NET
-
-          - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
-              sudo dpkg -i vagrant_2.2.10_x86_64.deb
-              rm vagrant_2.2.10_x86_64.deb
-              vagrant --version
-            displayName: Init - Vagrant
 
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -52,13 +42,13 @@ stages:
             displayName: Artifacts - Download
 
           - script: |
-              ~/.dotnet/tools/dotnet-cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              dotnet cake build.cake --target=publish --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Publish
             env:
               VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
           - script: |
-              ~/.dotnet/tools/dotnet-cake build.cake --target=clean
+              dotnet cake build.cake --target=clean
             displayName: Build - Clean
             condition: always()
 
@@ -66,18 +56,24 @@ stages:
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: default
+          name: Default
           demands:
+            - AZP_AGENT_DOTNET
             - AZP_AGENT_VAGRANT
 
         workspace:
           clean: all
-        timeoutInMinutes: 240
         dependsOn: publish
 
         steps:
           - checkout: self
             submodules: recursive
+
+          - script: |
+              dotnet --info
+
+              dotnet tool restore
+            displayName: Initialize .NET
 
           - task: DownloadPipelineArtifact@2
             inputs:
