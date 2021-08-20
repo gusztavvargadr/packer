@@ -9,7 +9,7 @@ Set-ExecutionPolicy RemoteSigned -Force
 
 # Chef Client
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.3.48
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 
 # Windows
 Set-MpPreference -DisableRealtimeMonitoring $True -ExclusionPath "C:\"
@@ -45,7 +45,7 @@ choco install -y dotnetcore-sdk
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.8.555
 
 # Vagrant
-choco install -y vagrant --version 2.2.18 --ignore-package-exit-codes
+choco install -y vagrant --version 2.2.18 --ignore-checksums --ignore-package-exit-codes
 # C:\HashiCorp\Vagrant\embedded\gems\2.2.18\gems\vagrant-2.2.18\bin\vagrant
 # Encoding.default_external = Encoding.find('Windows-1250')
 # Encoding.default_internal = Encoding.find('Windows-1250')
@@ -75,21 +75,20 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 3 -Value 192.168.238.1
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 6 -Value 8.8.8.8,8.8.4.4
 
-[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "Machine")
+[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.188.4/vsts-agent-win-x64-2.188.4.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.190.0/vsts-agent-win-x64-2.190.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
-# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_TOKEN", "", "User")
 
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "latest", "Machine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOTNET", "latest", "Mchine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "latest", "Machine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "latest", "Machine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "latest", "Machine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "latest", "Machine")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOTNET", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "latest", "User")
 
 ## TODO Configure agents

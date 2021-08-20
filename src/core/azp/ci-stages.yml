@@ -15,13 +15,14 @@ stages:
         pool:
           name: Default
           demands:
+            - AZP_AGENT_DOTNET
             - AZP_AGENT_PACKER
             - AZP_AGENT_VAGRANT
             - AZP_AGENT_${{ parameters.provider }}
 
         workspace:
           clean: all
-        timeoutInMinutes: 240
+        timeoutInMinutes: 90
 
         steps:
           - checkout: self
