@@ -2,7 +2,7 @@
   "variables": {
     "chef_source": "provisioners/chef",
     "chef_destination": "C:/Windows/Temp/chef",
-    "chef_restart_timeout": "1h"
+    "chef_restart_timeout": "30m"
   },
   "provisioners": [
     {
