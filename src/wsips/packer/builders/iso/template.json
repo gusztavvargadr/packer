@@ -1,7 +1,7 @@
 {
   "variables": {
     "iso_url_local": "{{user `download_directory`}}/20348.1.210507-1500.fe_release_SERVER_EVAL_x64FRE_en-us.iso",
-    "iso_url_remote": "",
+    "iso_url_remote": "https://software-download.microsoft.com/download/sg/20348.1.210507-1500.fe_release_SERVER_EVAL_x64FRE_en-us.iso",
     "iso_checksum": "sha256:2ee3a0325f7230b1ff68bd8db2695f4102eae4ff32118382b1ab2e2b98a71aaa"
   }
 }

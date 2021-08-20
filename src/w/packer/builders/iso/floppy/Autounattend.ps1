@@ -7,6 +7,9 @@ Write-Host "Install Chocolatey"
 $env:chocolateyVersion = '0.10.15'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
+Write-Host "Install 7zip"
+choco install 7zip.portable -y --version 19.0
+
 Write-Host "Install OpenSSH"
 netsh advfirewall firewall add rule name="OpenSSH-Install" dir=in localport=22 protocol=TCP action=block
 choco install openssh -y --version 8.0.0.1 -params '"/SSHServerFeature"' # /PathSpecsToProbeForShellEXEString:$env:windir\system32\windowspowershell\v1.0\powershell.exe"'
