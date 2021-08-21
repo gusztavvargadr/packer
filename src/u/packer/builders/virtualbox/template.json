@@ -8,7 +8,7 @@
     "virtualbox_ssh_username": "vagrant",
     "virtualbox_ssh_password": "vagrant",
     "virtualbox_ssh_port": "22",
-    "virtualbox_ssh_timeout": "30m",
+    "virtualbox_ssh_timeout": "15m",
     "virtualbox_guest_additions_mode": "disable",
     "virtualbox_shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
   }

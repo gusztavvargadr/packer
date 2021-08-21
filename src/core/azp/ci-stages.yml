@@ -22,7 +22,7 @@ stages:
 
         workspace:
           clean: all
-        timeoutInMinutes: 90
+        timeoutInMinutes: 120
 
         steps:
           - checkout: self
