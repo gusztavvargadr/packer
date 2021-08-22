@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102009e-dc
+      image: w102101e-dc
       provider: hyperv
       configuration: vagrant
-      parent: w102009e-dc
+      parent: w102101e-dc
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w102009e-dc
+      image: w102101e-dc
       provider: hyperv
       configuration: vagrant

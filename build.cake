@@ -100,7 +100,7 @@ var dc_w10 = PackerTemplates_CreateWindows(
   "w102101e-dc",
   "docker-linux-community-windows-10",
   $"2010.2101.{version}",
-  w102009e
+  w102101e
 );
 
 var ws2019s_iis = PackerTemplates_CreateWindows(

@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w102009e-virtualbox-core
+      source: w102101e-virtualbox-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102009e-dc
+      image: w102101e-dc
       provider: virtualbox
       configuration: core
-      parent: w102009e
+      parent: w102101e
