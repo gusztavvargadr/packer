@@ -54,10 +54,10 @@ Vagrant.configure('2') do |config|
     'ws2019s-sql17d',
     'ws2019s-sql19d',
 
-    # 'w102101e-dc-vs17c',
-    # 'w102101e-dc-vs17p',
-    # 'w102101e-dc-vs19c',
-    # 'w102101e-dc-vs19p',
+    'w102101e-dc-vs17c',
+    'w102101e-dc-vs17p',
+    'w102101e-dc-vs19c',
+    'w102101e-dc-vs19p',
   ]
   names.each do |name|
     config.vm.define name, autostart: false do |machine|

@@ -37,6 +37,9 @@ stages:
             inputs:
               artifact: build
               path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+              source: specific
+              project: $(System.TeamProjectId)
+              pipeline: $(System.DefinitionId)
               runVersion: latestFromBranch
               runBranch: $(Build.SourceBranch)
             displayName: Artifacts - Download
@@ -74,15 +77,6 @@ stages:
 
               dotnet tool restore
             displayName: Initialize .NET
-
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-              runVersion: latestFromBranch
-              runBranch: $(Build.SourceBranch)
-              patterns: "**/checksum.*"
-            displayName: Artifacts - Download
 
           - script: |
               dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}

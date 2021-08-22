@@ -45,6 +45,18 @@ stages:
                   runVersion: latestFromBranch
                   runBranch: $(Build.SourceBranch)
                 displayName: Artifacts - Download
+                condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  artifact: build
+                  path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+                  source: specific
+                  project: $(System.TeamProjectId)
+                  pipeline: $(resources.pipeline.parent.pipelineID)
+                  runVersion: latest
+                displayName: Artifacts - Download
+                condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
 
           - script: |
               dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
