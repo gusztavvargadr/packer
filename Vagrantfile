@@ -46,7 +46,7 @@ Vagrant.configure('2') do |config|
 
     'u1604s-dc',
     'u1604d-dc',
-    # 'w102101e-dc',
+    'w102101e-dc',
 
     'ws2019s-iis',
     'ws2019sc-iis',
