@@ -8,18 +8,18 @@ resources:
       trigger:
         branches:
           include:
-            - "*"
+            - master
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102009e-dc-vs17c
+      image: w102101e-dc-vs17c
       provider: virtualbox
       configuration: vagrant
-      parent: w102009e-dc-vs17c
+      parent: w102101e-dc-vs17c
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w102009e-dc-vs17c
+      image: w102101e-dc-vs17c
       provider: virtualbox
       configuration: vagrant
