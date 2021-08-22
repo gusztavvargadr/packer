@@ -171,16 +171,6 @@ void PackerTemplate_Download(PackerTemplate template) {
   var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10 };
   var downloadSucceeded = false;
 
-  var boxChecksum = string.Empty;
-  var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
-  foreach (var checksumLine in FileReadLines(checksumFile)) {
-    var checksumParts = checksumLine.Split('\t');
-    if (checksumParts[1] == "vagrant.box") {
-      boxChecksum = checksumParts[0];
-      break;
-    }
-  }
-
   foreach (var downloadWaitMinute in downloadWaitMinutes) {
     Information($"Waiting {downloadWaitMinute} minutes before retry.");
     System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
@@ -189,8 +179,6 @@ void PackerTemplate_Download(PackerTemplate template) {
       PackerTemplate_Vagrant(template, "box add"
         + $" https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box"
         + $" --name gusztavvargadr/{template.Name}-publish"
-        + $" --checksum-type sha256"
-        + $" --checksum {boxChecksum}"
       );
 
       downloadSucceeded = true;
