@@ -1,5 +1,12 @@
 Vagrant.configure('2') do |config|
-  config.vm.box = ENV['VAGRANT_BOX'] || ''
+  vm_name = ENV['VAGRANT_VM_NAME'] || 'default'
+  box_name = ENV['VAGRANT_BOX_NAME'] || ''
+  box_version = ENV['VAGRANT_BOX_VERSION'] || ''
+
+  config.vm.define vm_name
+
+  config.vm.box = box_name
+  config.vm.box_version = box_version
 
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
@@ -14,7 +21,7 @@ Vagrant.configure('2') do |config|
     override.vm.network 'public_network', bridge: network_bridge
   end
 
-  if config.vm.box.start_with?('w')
+  if vm_name.start_with?('w')
     config.vm.provision 'shell', inline: <<-EOF
       cmd /c ver
       chef-client --version

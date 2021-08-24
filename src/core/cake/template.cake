@@ -105,15 +105,16 @@ void PackerTemplate_Test(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
+  var vmName = $"{template.Name}-build";
   var boxName = $"gusztavvargadr/{template.Name}-build";
-  var boxAddress = $"{template.GetBuildDirectory()}/{template.Name}/{provider}-vagrant/output/package/vagrant.box";
+  var boxAddress = $"file://{template.GetBuildDirectory()}/output/package/vagrant.box";
 
   try {
     PackerTemplate_Vagrant(template, $"box add {boxAddress} --name {boxName}");
-    PackerTemplate_Vagrant(template, $"up --provider {provider}", boxName);
+    PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName);
   } finally {
-    PackerTemplate_Vagrant(template, "destroy --force", boxName);
-    PackerTemplate_Vagrant(template, $"box remove {boxName}");
+    PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName);
+    PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
   }
 }
 
@@ -162,8 +163,9 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
-  var boxName = $"gusztavvargadr/{template.Name}-publish";
-  var boxAddress = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
+  var vmName = $"{template.Name}-publish";
+  var boxName = $"gusztavvargadr/{template.GroupName}";
+  var boxVersion = template.GroupVersion;
 
   var downloadWaitMinutes = new [] { 0, 1, 2, 5, 10 };
   var downloadSucceeded = false;
@@ -173,8 +175,7 @@ void PackerTemplate_Download(PackerTemplate template) {
     System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
 
     try {
-      PackerTemplate_Vagrant(template, $"box add {boxAddress} --name {boxName}");
-      PackerTemplate_Vagrant(template, $"up --provider {provider}", boxName);
+      PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxVersion);
 
       downloadSucceeded = true;
       break;
@@ -182,8 +183,8 @@ void PackerTemplate_Download(PackerTemplate template) {
       Information($"Error downloading: '{ex.Message}'.");
     } finally {
       try {
-        PackerTemplate_Vagrant(template, "destroy --force", boxName);
-        PackerTemplate_Vagrant(template, $"box remove {boxName}");
+        PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName, boxVersion);
+        PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider} --box-version {boxVersion}");
       } catch (Exception ex) {
         Information($"Error cleaning up: '{ex.Message}'.");
       }
@@ -259,7 +260,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
 
-  var buildDirectory = MakeAbsolute(Directory("./"));
+  var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
   foreach (var policyFile in GetFiles(template.GetBuildDirectory() + "/**/Policyfile.rb")) {
       var policyPath = "./" + buildDirectory.GetRelativePath(policyFile);
       
@@ -398,12 +399,16 @@ void PackerTemplate_Packer(PackerTemplate template, string arguments) {
   }
 }
 
-void PackerTemplate_Vagrant(PackerTemplate template, string arguments, string boxName = "") {
+void PackerTemplate_Vagrant(PackerTemplate template, string arguments, string vmName = "", string boxName = "", string boxVersion = "") {
   PackerTemplate_Log(template, "Vagrant " + arguments);
 
   var result = StartProcess("vagrant", new ProcessSettings {
     Arguments = arguments,
-    EnvironmentVariables = new Dictionary<string, string> { { "VAGRANT_BOX", boxName } }
+    EnvironmentVariables = new Dictionary<string, string> { 
+      { "VAGRANT_VM_NAME", vmName },
+      { "VAGRANT_BOX_NAME", boxName },
+      { "VAGRANT_BOX_VERSION", boxVersion },
+    }
   });
   
   if (result != 0) {
