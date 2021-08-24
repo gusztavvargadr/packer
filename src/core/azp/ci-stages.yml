@@ -34,6 +34,18 @@ stages:
               dotnet tool restore
             displayName: Initialize .NET
 
+          - script: |
+              packer --version
+            displayName: Initialize Packer
+
+          - script: |
+              vagrant --version
+              vagrant plugin list
+
+              vagrant box list
+              vagrant global-status
+            displayName: Initialize Vagrant
+
           - ${{ if parameters.parent }}:
               - task: DownloadPipelineArtifact@2
                 inputs:
@@ -57,6 +69,14 @@ stages:
                   runVersion: latest
                 displayName: Artifacts - Download
                 condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+          - script: |
+              dotnet cake build.cake --target=restore --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Restore
+
+          - script: |
+              dotnet cake build.cake --target=build --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+            displayName: Build - Build
 
           - script: |
               dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}

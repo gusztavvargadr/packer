@@ -33,15 +33,18 @@ stages:
               dotnet tool restore
             displayName: Initialize .NET
 
+          - script: |
+              vagrant --version
+              vagrant plugin list
+
+              vagrant box list
+              vagrant global-status
+            displayName: Initialize Vagrant
+
           - task: DownloadPipelineArtifact@2
             inputs:
               artifact: build
               path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
-              source: specific
-              project: $(System.TeamProjectId)
-              pipeline: $(System.DefinitionId)
-              runVersion: latestFromBranch
-              runBranch: $(Build.SourceBranch)
             displayName: Artifacts - Download
 
           - script: |
@@ -77,6 +80,14 @@ stages:
 
               dotnet tool restore
             displayName: Initialize .NET
+
+          - script: |
+              vagrant --version
+              vagrant plugin list
+
+              vagrant box list
+              vagrant global-status
+            displayName: Initialize Vagrant
 
           - script: |
               dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
