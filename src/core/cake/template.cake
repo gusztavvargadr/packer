@@ -260,7 +260,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
   DeleteFiles(template.GetBuildDirectory() + "/**/template.json");
 
-  var buildDirectory = MakeAbsolute(Directory(template.GetBuildDirectory()));
+  var buildDirectory = MakeAbsolute(Directory("./"));
   foreach (var policyFile in GetFiles(template.GetBuildDirectory() + "/**/Policyfile.rb")) {
       var policyPath = "./" + buildDirectory.GetRelativePath(policyFile);
       
