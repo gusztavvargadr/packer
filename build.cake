@@ -194,18 +194,18 @@ var ud1604 = PackerTemplates_CreateWindows(
   u1604d
 );
 
-var usd = PackerTemplates_CreateWindows(
-  "usd",
-  "docker-linux",
-  $"2010.0.{version}",
-  u1604s_dc
-);
-
 var wsd = PackerTemplates_CreateWindows(
   "wsd",
   "docker-windows",
   $"2010.0.{version}",
   ws2019s_de
+);
+
+var usd = PackerTemplates_CreateWindows(
+  "usd",
+  "docker-linux",
+  $"2010.0.{version}",
+  u1604s_dc
 );
 
 var wsiis = PackerTemplates_CreateWindows(
