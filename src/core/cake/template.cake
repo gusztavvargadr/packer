@@ -187,6 +187,10 @@ void PackerTemplate_Download(PackerTemplate template) {
 void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
+  if (template.Parent != null) {
+    PackerTemplate_Clean(template.Parent);
+  }
+
   CleanDirectory(template.GetBuildDirectory());
   DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
 
@@ -215,10 +219,6 @@ void PackerTemplate_Clean(PackerTemplate template) {
     PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
   } catch (Exception ex) {
     Information($"Error cleaning up build: '{ex.Message}'.");
-  }
-
-  if (template.Parent != null) {
-    PackerTemplate_Clean(template.Parent);
   }
 }
 
