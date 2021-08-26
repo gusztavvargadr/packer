@@ -146,7 +146,7 @@ void PackerTemplate_Publish(PackerTemplate template) {
       + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
     );
   } catch (Exception ex) {
-    Information($"Error publishing: '{ex.Message}'.");
+    PackerTemplate_Log(template, $"Error publishing: '{ex.Message}'.");
   }
 }
 
@@ -166,7 +166,7 @@ void PackerTemplate_Download(PackerTemplate template) {
   var downloadSucceeded = false;
 
   foreach (var downloadWaitMinute in downloadWaitMinutes) {
-    Information($"Waiting {downloadWaitMinute} minutes before retry.");
+    PackerTemplate_Log(template, $"Waiting {downloadWaitMinute} minutes before retry.");
     System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
 
     try {
@@ -175,7 +175,7 @@ void PackerTemplate_Download(PackerTemplate template) {
       downloadSucceeded = true;
       break;
     } catch (Exception ex) {
-      Information($"Error downloading: '{ex.Message}'.");
+      PackerTemplate_Log(template, $"Error downloading: '{ex.Message}'.");
     }
   }
 
@@ -187,18 +187,28 @@ void PackerTemplate_Download(PackerTemplate template) {
 void PackerTemplate_Clean(PackerTemplate template) {
   PackerTemplate_Log(template, "Clean");
 
+  CleanDirectory(template.GetBuildDirectory());
+  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
+
   if (template.Parent != null) {
     PackerTemplate_Clean(template.Parent);
   }
-
-  CleanDirectory(template.GetBuildDirectory());
-  DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
 
   if (!template.Type.Contains("vagrant")) {
     return;
   }
 
   var provider = template.Type.Split('-')[0];
+
+  try {
+    var vmName = $"{template.Name}-build";
+    var boxName = $"gusztavvargadr/{template.Name}-build";
+
+    PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName);
+    PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
+  } catch (Exception ex) {
+    PackerTemplate_Log(template, $"Error cleaning up build: '{ex.Message}'.");
+  }
 
   try {
     var vmName = $"{template.Name}-publish";
@@ -208,17 +218,7 @@ void PackerTemplate_Clean(PackerTemplate template) {
     PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName, boxVersion);
     PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider} --box-version {boxVersion}");
   } catch (Exception ex) {
-    Information($"Error cleaning up publish: '{ex.Message}'.");
-  }
-
-  try {
-    var vmName = $"{template.Name}-build";
-    var boxName = $"gusztavvargadr/{template.Name}-build";
-
-    PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName);
-    PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
-  } catch (Exception ex) {
-    Information($"Error cleaning up build: '{ex.Message}'.");
+    PackerTemplate_Log(template, $"Error cleaning up publish: '{ex.Message}'.");
   }
 }
 

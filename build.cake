@@ -180,14 +180,14 @@ var w102101 = PackerTemplates_CreateWindows(
   w102101e
 );
 
-var us1604 = PackerTemplates_CreateWindows(
+var us1604 = PackerTemplates_CreateLinux(
   "us1604",
   "ubuntu-server",
   $"1604.0.{version}",
   u1604s
 );
 
-var ud1604 = PackerTemplates_CreateWindows(
+var ud1604 = PackerTemplates_CreateLinux(
   "ud1604",
   "ubuntu-desktop",
   $"1604.0.{version}",
@@ -201,7 +201,7 @@ var wsd = PackerTemplates_CreateWindows(
   ws2019s_de
 );
 
-var usd = PackerTemplates_CreateWindows(
+var usd = PackerTemplates_CreateLinux(
   "usd",
   "docker-linux",
   $"2010.0.{version}",
