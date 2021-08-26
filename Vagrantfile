@@ -14,7 +14,6 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provider 'hyperv' do |p, override|
-    p.linked_clone = true
     p.enable_virtualization_extensions = true
 
     network_bridge = ENV['VAGRANT_HYPERV_NETWORK_BRIDGE'] || 'Default Switch'
