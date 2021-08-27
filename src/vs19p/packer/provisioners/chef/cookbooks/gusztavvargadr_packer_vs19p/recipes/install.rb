@@ -1,5 +1,5 @@
 gusztavvargadr_visualstudio_ide '' do
-  version '2017'
+  version '2019'
   edition 'professional'
   action :install
 end
