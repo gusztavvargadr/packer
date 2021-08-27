@@ -66,6 +66,7 @@ stages:
           demands:
             - AZP_AGENT_DOTNET
             - AZP_AGENT_VAGRANT
+            - AZP_AGENT_${{ parameters.provider }}
 
         workspace:
           clean: all
@@ -94,6 +95,6 @@ stages:
             displayName: Build - Download
 
           - script: |
-              dotnet cake build.cake --target=clean
+              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Clean
             condition: always()

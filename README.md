@@ -60,10 +60,18 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Windows Server
 
 - [Windows Server **latest**][windows-server-latest-box]
+    - Windows Server 2019 Standard
+    - Windows Server 2016 Standard
 - [Windows Server **Standard LTSC**][windows-server-standard-ltsc-box]
+    - Windows Server 2019 Standard
+    - Windows Server 2016 Standard
 - [Windows Server **Standard Core LTSC**][windows-server-standard-core-ltsc-box]
+    - Windows Server 2019 Standard Core
+    - Windows Server 2016 Standard Core
 - [Windows Server **Standard Insider**][windows-server-standard-insider-box]
+    - Windows Server 2022 Preview Standard
 - [Windows Server **Standard Core Insider**][windows-server-standard-core-insider-box]
+    - Windows Server 2022 Preview Standard Core
 
 [windows-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-standard-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
@@ -74,9 +82,15 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Windows 10
 
 - [Windows 10 **latest**][windows-10-latest-box]
+    - Windows 10 Version 21H1 Enterprise
+    - Windows 10 Version 20H2 Enterprise
 - [Windows 10 **Enterprise SAC**][windows-10-enterprise-sac-box]
+    - Windows 10 Version 21H1 Enterprise
+    - Windows 10 Version 20H2 Enterprise
 - [Windows 10 **Enterprise LTSC**][windows-10-enterprise-ltsc-box]
+    - Windows 10 Version 1809 Enterprise LTSC
 - [Windows 10 **Enterprise Insider**][windows-10-enterprise-insider-box]
+    - Windows 10 Version 21H1 Insider Preview Enterprise
 
 [windows-10-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-enterprise-sac-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
@@ -90,7 +104,9 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Ubuntu Server
 
 - [Ubuntu Server **latest**][ubuntu-server-latest-box]
+    - Ubuntu 16.04 Server LTS
 - [Ubuntu Server **LTS**][ubuntu-server-lts-box]
+    - Ubuntu 16.04 Server LTS
 
 [ubuntu-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-lts/
@@ -98,7 +114,9 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 ##### Ubuntu Desktop
 
 - [Ubuntu Desktop **latest**][ubuntu-desktop-latest-box]
+    - Ubuntu 16.04 Desktop with XFCE LTS
 - [Ubuntu Desktop **XFCE LTS**][ubuntu-desktop-xfce-lts-box]
+    - Ubuntu 16.04 Desktop with XFCE LTS
 
 [ubuntu-desktop-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-xfce-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-xfce-lts/
@@ -116,8 +134,11 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 ##### Docker Windows
 
 - [Docker Windows **latest**][docker-windows-latest-box]
+    - Docker 20.10 Enterprise on Windows Server 2019 Standard
 - [Docker Windows **Enterprise** on **Windows Server**][docker-windows-enterprise-windows-server-box]
+    - Docker 20.10 Enterprise on Windows Server 2019 Standard
 - [Docker Windows **Enterprise** on **Windows Server Core**][docker-windows-enterprise-windows-server-core-box]
+    - Docker 20.10 Enterprise on Windows Server 2019 Standard Core
 
 [docker-windows-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-windows-enterprise-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows-enterprise-windows-server/
@@ -126,9 +147,13 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 ##### Docker Linux
 
 - [Docker Linux **latest**][docker-linux-latest-box]
+    - Docker 20.10 Community on Ubuntu 16.04 Server LTS
 - [Docker Linux **Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
+    - Docker 20.10 Community on Ubuntu 16.04 Server LTS
 - [Docker Linux **Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
+    - Docker 20.10 Community on Ubuntu 16.04 Desktop with XFCE LTS
 - [Docker Linux **Community** with Docker Desktop on **Windows 10**][docker-linux-community-windows-10-box]
+    - Docker 20.10 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
 
 [docker-linux-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-linux-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-ubuntu-server/
@@ -138,8 +163,11 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 #### IIS
 
 - [IIS **latest**][iis-latest-box]
+    - IIS 10.0 with .NET on Windows Server 2019 Standard
 - [IIS with .NET on **Windows Server**][iis-windows-server-box]
+    - IIS 10.0 with .NET on Windows Server 2019 Standard
 - [IIS with .NET on **Windows Server Core**][iis-windows-server-core-box]
+    - IIS 10.0 with .NET on Windows Server 2019 Standard Core
 
 [IIS]: #iis
 
@@ -150,7 +178,11 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 #### SQL Server
 
 - [SQL Server **latest**][sql-server-latest-box]
+    - SQL Server 2019 Developer with Management Studio on Windows Server 2019 Standard
+    - SQL Server 2017 Developer with Management Studio on Windows Server 2019 Standard
 - [SQL Server **Developer** with Management Studio on **Windows Server**][sql-server-developer-windows-server-box]
+    - SQL Server 2019 Developer with Management Studio on Windows Server 2019 Standard
+    - SQL Server 2017 Developer with Management Studio on Windows Server 2019 Standard
 
 [SQL Server]: #sql-server
 
@@ -166,8 +198,14 @@ The following Vagrant boxes can be used for development scenarios including sett
 #### Visual Studio
 
 - [Visual Studio **latest**][visual-studio-latest-box]
+    - Visual Studio 2019 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
+    - Visual Studio 2017 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
 - [Visual Studio **Community** with Docker Desktop on **Windows 10**][visual-studio-community-windows-10-box]
+    - Visual Studio 2019 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
+    - Visual Studio 2017 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
 - [Visual Studio **Professional** with Docker Desktop on **Windows 10**][visual-studio-professional-windows-10-box]
+    - Visual Studio 2019 Professional with Docker Desktop on Windows 10 Version 21H1 Enterprise
+    - Visual Studio 2017 Professional with Docker Desktop on Windows 10 Version 21H1 Enterprise
 
 [Visual Studio]: #visual-studio
 
@@ -188,7 +226,6 @@ Follow the steps below to install the required tools:
 1. Install the tools for the virtualization provider you want to use.
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
-1. Install [Docker][DockerInstallation].
 1. Install [Chef Workstation][ChefWorkstationInstallation].
 
 You are now ready to build a virtual machine image and a Vagrant box.
@@ -206,7 +243,6 @@ You are now ready to build a virtual machine image and a Vagrant box.
 [VagrantInstallation]: https://www.vagrantup.com/docs/installation/
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads/
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
-[DockerInstallation]: https://docs.docker.com/get-docker/
 [ChefWorkstationInstallation]: https://downloads.chef.io/chef-workstation/
 
 [PackerCaching]: https://www.packer.io/docs/other/environment-variables.html#packer_cache_dir
@@ -228,6 +264,7 @@ related resources, and makes chaining builds and creating new configurations qui
 Clone this repo [including the submodules][GitCloneRecursive], and navigate to the root directory of the clone in your shell. Type the following command to list all the available templates you can build:
 
 ```shell
+$ dotnet tool restore
 $ dotnet cake [--target=info]
 ```
 
@@ -244,10 +281,10 @@ ws2019s-virtualbox-vagrant: Info
 ws2019s-hyperv-core: Info
 ws2019s-hyperv-vagrant: Info
 ...
-w102004e-virtualbox-core: Info
-w102004e-virtualbox-vagrant: Info
-w102004e-hyperv-core: Info
-w102004e-hyperv-vagrant: Info
+w102101e-virtualbox-core: Info
+w102101e-virtualbox-vagrant: Info
+w102101e-hyperv-core: Info
+w102101e-hyperv-vagrant: Info
 ...
 ws2019s-iis-virtualbox-core: Info
 ws2019s-iis-virtualbox-vagrant: Info
@@ -262,7 +299,7 @@ You can filter this further to list only the templates for a given virtual machi
 $ dotnet cake [--target=info] --configuration=ws2019s
 ```
 
-You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2019s`, `w102004e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`, `azure`, `amazon`) easily.  
+You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2019s`, `w102101e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`) easily.  
 
 The output will contain only the matching templates:
 
@@ -362,7 +399,7 @@ For example, to test the `ws2019s` configuration, from the root of your clone yo
 $ dotnet cake --target=test --configuration=ws2019s-virtualbox-vagrant
 ```
 
-This will import the locally built Vagrant box temporarily with the name `ws2019s-build` and will use that to spin up a new virtual machine. After outputting some basic diagnostics information, it destroys the newly created virtual machine and removes the temporary Vagrant box.
+This will import the locally built Vagrant box temporarily with the name `ws2019s-build` and will use that to spin up a new virtual machine. It also outputs some basic diagnostics information to help quickly checking the installations.
 
 [Testing]: #testing
 
@@ -389,7 +426,7 @@ Omitting this parameter will apply the command to all the templates, so the foll
 $ dotnet cake --target=clean
 ```
 
-> **Note** The `clean` command removes only the Packer build templates and artifacts, the eventually imported Vagrant boxes and virtual machines are taken care of the `test` command.  
+> **Note** The `clean` command cleans up dependencies recursively, including the eventually imported Vagrant boxes and virtual machines created using the `test` command.  
 
 [Cleaning up]: #cleaning-up
 

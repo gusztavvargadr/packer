@@ -154,6 +154,93 @@ var vs19p_w10 = PackerTemplates_CreateWindows(
   dc_w10
 );
 
+var ws2016 = PackerTemplates_CreateWindows(
+  "ws2016",
+  "windows-server",
+  $"1607.0.{version}",
+  ws2016s
+);
+var ws2019 = PackerTemplates_CreateWindows(
+  "ws2019",
+  "windows-server",
+  $"1809.0.{version}",
+  ws2019s
+);
+
+var w102009 = PackerTemplates_CreateWindows(
+  "w102009",
+  "windows-10",
+  $"2009.0.{version}",
+  w102009e
+);
+var w102101 = PackerTemplates_CreateWindows(
+  "w102101",
+  "windows-10",
+  $"2101.0.{version}",
+  w102101e
+);
+
+var us1604 = PackerTemplates_CreateLinux(
+  "us1604",
+  "ubuntu-server",
+  $"1604.0.{version}",
+  u1604s
+);
+
+var ud1604 = PackerTemplates_CreateLinux(
+  "ud1604",
+  "ubuntu-desktop",
+  $"1604.0.{version}",
+  u1604d
+);
+
+var wsd = PackerTemplates_CreateWindows(
+  "wsd",
+  "docker-windows",
+  $"2010.0.{version}",
+  ws2019s_de
+);
+
+var usd = PackerTemplates_CreateLinux(
+  "usd",
+  "docker-linux",
+  $"2010.0.{version}",
+  u1604s_dc
+);
+
+var wsiis = PackerTemplates_CreateWindows(
+  "wsiis",
+  "iis",
+  $"10.0.{version}",
+  ws2019s_iis
+);
+
+var wssql17 = PackerTemplates_CreateWindows(
+  "wssql17",
+  "sql-server",
+  $"2017.0.{version}",
+  ws2019s_sql17d
+);
+var wssql19 = PackerTemplates_CreateWindows(
+  "wssql19",
+  "sql-server",
+  $"2019.0.{version}",
+  ws2019s_sql19d
+);
+
+var w10vs17 = PackerTemplates_CreateWindows(
+  "w10vs17",
+  "visual-studio",
+  $"2017.0.{version}",
+  vs17c_w10
+);
+var w10vs19 = PackerTemplates_CreateWindows(
+  "w10vs19",
+  "visual-studio",
+  $"2019.0.{version}",
+  vs19c_w10
+);
+
 Task("default")
   .IsDependentOn("info");
 
