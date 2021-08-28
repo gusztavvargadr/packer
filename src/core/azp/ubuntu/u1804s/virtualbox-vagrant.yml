@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u1804s-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u1804s
+      provider: virtualbox
+      configuration: vagrant
+      parent: u1804s
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: u1804s
+      provider: virtualbox
+      configuration: vagrant
