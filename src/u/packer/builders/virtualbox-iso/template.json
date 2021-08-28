@@ -1,6 +1,6 @@
 {
   "variables": {
-    "virtualbox_guest_os_type": "",
+    "virtualbox_guest_os_type": "Ubuntu_64",
     "virtualbox_disk_size": "64512"
   },
   "builders": [
