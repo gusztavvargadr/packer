@@ -23,7 +23,7 @@ EOF
       # Disable Predictable Network Interface names and use eth0
       sed -i 's/en[[:alnum:]]*/eth0/g' /etc/network/interfaces;
       sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0 \1"/g' /etc/default/grub;
-      sudo sed -i "/recordfail_broken=/{s/1/0/}" /etc/grub.d/00_header
+      sed -i "/recordfail_broken=/{s/1/0/}" /etc/grub.d/00_header
       update-grub;
     fi
 esac

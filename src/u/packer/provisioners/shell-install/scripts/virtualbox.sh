@@ -16,7 +16,6 @@ virtualbox-iso)
     umount /tmp/vbox;
     rm -rf /tmp/vbox;
     rm -f $HOME_DIR/*.iso;
-    ;;
 
     reboot
 esac
