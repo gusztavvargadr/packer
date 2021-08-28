@@ -11,4 +11,6 @@ hyperv-iso)
   elif [ "$major_version" -ge "17" ]; then
     apt-get -y install linux-image-virtual linux-tools-virtual linux-cloud-tools-virtual;
   fi
+
+  reboot
 esac
