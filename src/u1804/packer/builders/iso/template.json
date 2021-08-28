@@ -1,0 +1,7 @@
+{
+  "variables": {
+    "iso_url_local": "{{user `download_directory`}}/ubuntu-18.04.5-server-amd64.iso",
+    "iso_url_remote": "https://cdimage.ubuntu.com/ubuntu/releases/18.04/release/ubuntu-18.04.5-server-amd64.iso",
+    "iso_checksum": "sha256:8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996"
+  }
+}

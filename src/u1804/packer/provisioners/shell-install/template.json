@@ -4,8 +4,9 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "provisioners/shell-prepare/scripts/update.sh",
-        "provisioners/shell-prepare/scripts/chef.sh"
+        "provisioners/shell-install/scripts/virtualbox.sh",
+        "provisioners/shell-install/scripts/hyperv.sh",
+        "provisioners/shell-install/scripts/custom.sh"
       ],
       "type": "shell"
     }

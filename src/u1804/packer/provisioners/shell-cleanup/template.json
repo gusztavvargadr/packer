@@ -4,8 +4,9 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "provisioners/shell-prepare/scripts/update.sh",
-        "provisioners/shell-prepare/scripts/chef.sh"
+        "provisioners/shell-cleanup/scripts/cleanup.sh",
+        "provisioners/shell-cleanup/scripts/minimize.sh",
+        "provisioners/shell-cleanup/scripts/azure-arm.sh"
       ],
       "type": "shell"
     }

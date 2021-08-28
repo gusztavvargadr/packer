@@ -64,6 +64,11 @@ var u1604s = PackerTemplates_CreateLinux(
   "ubuntu-server-lts",
   $"1604.0.{version}"
 );
+var u1804s = PackerTemplates_CreateLinux(
+  "u1804s",
+  "ubuntu-server-lts",
+  $"1804.0.{version}"
+);
 
 var u1604d = PackerTemplates_CreateLinux(
   "u1604d",
