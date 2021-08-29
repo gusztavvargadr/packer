@@ -54,9 +54,10 @@
       "output_directory": "{{user `output_directory`}}/build",
       "firmware": "efi",
       "nested_virt": "true",
-      "gfx_controller": "vboxsvga",
+      "gfx_controller": "vmsvga",
       "gfx_vram_size": 32,
-      "hard_drive_interface": "sata"
+      "hard_drive_interface": "sata",
+      "iso_interface": "sata"
     }
   ]
 }
