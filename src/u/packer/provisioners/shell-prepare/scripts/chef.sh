@@ -7,5 +7,3 @@ virtualbox-iso|hyperv-iso|azure-arm)
 
     apt-get -y install p7zip-full;
 esac
-
-reboot
