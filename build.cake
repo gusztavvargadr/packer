@@ -75,6 +75,11 @@ var u1604d = PackerTemplates_CreateLinux(
   "ubuntu-desktop-xfce-lts",
   $"1604.0.{version}"
 );
+var u1804d = PackerTemplates_CreateLinux(
+  "u1804d",
+  "ubuntu-desktop-xfce-lts",
+  $"1804.0.{version}"
+);
 
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
