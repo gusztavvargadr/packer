@@ -30,6 +30,7 @@ Vagrant.configure('2') do |config|
   else
     config.vm.provision 'shell', inline: <<-EOF
       uname -a
+      lsb_release -a
       chef-client --version
       lshw
       apt list --installed

@@ -26,7 +26,7 @@
       "enable_secure_boot": "{{user `hyperv_enable_secure_boot`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
       "boot_command": [
-        "<esc><wait>",
+        "<wait><esc><wait>",
         "set gfxpayload=1024x768<enter>",
         "linux /install/vmlinuz ",
         "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg ",
