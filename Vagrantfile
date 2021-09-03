@@ -1,12 +1,12 @@
 Vagrant.configure('2') do |config|
   vm_name = ENV['VAGRANT_VM_NAME'] || 'default'
   box_name = ENV['VAGRANT_BOX_NAME'] || ''
-  box_version = ENV['VAGRANT_BOX_VERSION'] || ''
+  box_url = ENV['VAGRANT_BOX_URL'] || ''
 
   config.vm.define vm_name
 
   config.vm.box = box_name
-  config.vm.box_version = box_version
+  config.vm.box_url = box_url
 
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
