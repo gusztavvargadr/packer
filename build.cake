@@ -58,6 +58,11 @@ var w10ipe = PackerTemplates_CreateWindows(
   "windows-10-enterprise-insider",
   $"2101.0.{version}"
 );
+var w11ipe = PackerTemplates_CreateWindows(
+  "w11ipe",
+  "windows-11-enterprise-insider-preview",
+  $"2102.0.{version}"
+);
 
 var u1604s = PackerTemplates_CreateLinux(
   "u1604s",

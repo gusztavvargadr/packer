@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w11ipe-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - "*"
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w11ipe
+      provider: virtualbox
+      configuration: vagrant
+      parent: w11ipe
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w11ipe
+      provider: virtualbox
+      configuration: vagrant
