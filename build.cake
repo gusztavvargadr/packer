@@ -32,6 +32,11 @@ var ws2019sc = PackerTemplates_CreateWindows(
   "windows-server-standard-core",
   $"1809.0.{version}"
 );
+var ws2022sc = PackerTemplates_CreateWindows(
+  "ws2022sc",
+  "windows-server-2022-standard-core",
+  $"2102.0.{version}"
+);
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
   "windows-server-standard-insider",
