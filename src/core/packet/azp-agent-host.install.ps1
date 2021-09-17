@@ -8,7 +8,7 @@ Set-ExecutionPolicy RemoteSigned -Force
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # Chef Client
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.3.48
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.4.38
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
 
 # Windows
@@ -42,7 +42,7 @@ choco install -y poshgit
 choco install -y dotnetcore-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.8.555
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.9.613
 
 # Vagrant
 choco install -y vagrant --version 2.2.18 --ignore-checksums --ignore-package-exit-codes
@@ -79,7 +79,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.190.0/vsts-agent-win-x64-2.190.0.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.192.0/vsts-agent-win-x64-2.192.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 
