@@ -74,26 +74,54 @@ var w11ipe = PackerTemplates_CreateWindows(
   $"2102.0.{version}"
 );
 
-var u1604s = PackerTemplates_CreateLinux(
-  "u1604s",
-  "ubuntu-server-lts",
-  $"1604.0.{version}"
-);
 var u1804s = PackerTemplates_CreateLinux(
   "u1804s",
-  "ubuntu-server-lts",
+  "ubuntu-server-1804-lts",
+  $"1804.0.{version}"
+);
+
+var u1604s = PackerTemplates_CreateLinux(
+  "u1604s",
+  "ubuntu-server-1604-lts",
+  $"1604.0.{version}"
+);
+
+var u1804s_alias = PackerTemplates_CreateLinux(
+  "u1804s-alias",
+  "ubuntu-server",
+  $"1804.0.{version}",
+  u1804s
+);
+var u1604s_alias = PackerTemplates_CreateLinux(
+  "u1604s-alias",
+  "ubuntu-server",
+  $"1604.0.{version}",
+  u1604s
+);
+
+var u1804d = PackerTemplates_CreateLinux(
+  "u1804d",
+  "ubuntu-desktop-1804-lts-xfce",
   $"1804.0.{version}"
 );
 
 var u1604d = PackerTemplates_CreateLinux(
   "u1604d",
-  "ubuntu-desktop-xfce-lts",
+  "ubuntu-desktop-1604-lts-xfce",
   $"1604.0.{version}"
 );
-var u1804d = PackerTemplates_CreateLinux(
-  "u1804d",
-  "ubuntu-desktop-xfce-lts",
-  $"1804.0.{version}"
+
+var u1804d_alias = PackerTemplates_CreateLinux(
+  "u1804d-alias",
+  "ubuntu-desktop",
+  $"1804.0.{version}",
+  u1804d
+);
+var u1604d_alias = PackerTemplates_CreateLinux(
+  "u1604d-alias",
+  "ubuntu-desktop",
+  $"1604.0.{version}",
+  u1604d
 );
 
 var ws2019s_de = PackerTemplates_CreateWindows(
@@ -109,30 +137,39 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
-var u1604s_dc = PackerTemplates_CreateLinux(
-  "u1604s-dc",
-  "docker-linux-community-ubuntu-server",
-  $"2010.1604.{version}",
-  u1604s
-);
 var u1804s_dc = PackerTemplates_CreateLinux(
   "u1804s-dc",
-  "docker-linux-community-ubuntu-server",
+  "docker-community-ubuntu-server",
   $"2010.1804.{version}",
   u1804s
 );
-var u1604d_dc = PackerTemplates_CreateLinux(
-  "u1604d-dc",
-  "docker-linux-community-ubuntu-desktop",
+var u1604s_dc = PackerTemplates_CreateLinux(
+  "u1604s-dc",
+  "docker-community-ubuntu-server",
   $"2010.1604.{version}",
-  u1604d
+  u1604s
 );
+
 var u1804d_dc = PackerTemplates_CreateLinux(
   "u1804d-dc",
-  "docker-linux-community-ubuntu-desktop",
+  "docker-community-ubuntu-desktop",
   $"2010.1804.{version}",
   u1804d
 );
+var u1604d_dc = PackerTemplates_CreateLinux(
+  "u1604d-dc",
+  "docker-community-ubuntu-desktop",
+  $"2010.1604.{version}",
+  u1604d
+);
+
+var u1804s_dc_alias = PackerTemplates_CreateLinux(
+  "u1804s-dc-alias",
+  "docker-linux",
+  $"2010.0.{version}",
+  u1804s_dc
+);
+
 var dc_w10 = PackerTemplates_CreateWindows(
   "w102101e-dc",
   "docker-linux-community-windows-10",
@@ -217,32 +254,11 @@ var w102101 = PackerTemplates_CreateWindows(
   w102101e
 );
 
-var us1604 = PackerTemplates_CreateLinux(
-  "us1604",
-  "ubuntu-server",
-  $"1604.0.{version}",
-  u1604s
-);
-
-var ud1604 = PackerTemplates_CreateLinux(
-  "ud1604",
-  "ubuntu-desktop",
-  $"1604.0.{version}",
-  u1604d
-);
-
 var wsd = PackerTemplates_CreateWindows(
   "wsd",
   "docker-windows",
   $"2010.0.{version}",
   ws2019s_de
-);
-
-var usd = PackerTemplates_CreateLinux(
-  "usd",
-  "docker-linux",
-  $"2010.0.{version}",
-  u1604s_dc
 );
 
 var wsiis = PackerTemplates_CreateWindows(
