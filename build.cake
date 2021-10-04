@@ -7,44 +7,70 @@ var version = "2109";
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
 
-var ws2016s = PackerTemplates_CreateWindows(
-  "ws2016s",
-  "windows-server-standard",
-  $"1607.0.{version}"
-);
-var ws2019s = PackerTemplates_CreateWindows(
-  "ws2019s",
-  "windows-server-standard",
-  $"1809.0.{version}"
-);
 var ws2022s = PackerTemplates_CreateWindows(
   "ws2022s",
   "windows-server-2022-standard-desktop",
   $"2102.0.{version}"
 );
-var ws2016sc = PackerTemplates_CreateWindows(
-  "ws2016sc",
-  "windows-server-standard-core",
-  $"1607.0.{version}"
-);
-var ws2019sc = PackerTemplates_CreateWindows(
-  "ws2019sc",
-  "windows-server-standard-core",
-  $"1809.0.{version}"
-);
+
 var ws2022sc = PackerTemplates_CreateWindows(
   "ws2022sc",
   "windows-server-2022-standard-core",
   $"2102.0.{version}"
 );
+
+var ws2019s = PackerTemplates_CreateWindows(
+  "ws2019s",
+  "windows-server-2019-standard-desktop",
+  $"1809.0.{version}"
+);
+
+var ws2019sc = PackerTemplates_CreateWindows(
+  "ws2019sc",
+  "windows-server-2019-standard-corse",
+  $"1809.0.{version}"
+);
+
+var ws2016s = PackerTemplates_CreateWindows(
+  "ws2016s",
+  "windows-server-2016-standard-desktop",
+  $"1607.0.{version}"
+);
+
+var ws2016sc = PackerTemplates_CreateWindows(
+  "ws2016sc",
+  "windows-server-2016-standard-core",
+  $"1607.0.{version}"
+);
+
+var ws2022s_alias = PackerTemplates_CreateWindows(
+  "ws2022s-alias",
+  "windows-server",
+  $"2102.0.{version}",
+  ws2022s
+);
+var ws2019s_alias = PackerTemplates_CreateWindows(
+  "ws2019s-alias",
+  "windows-server",
+  $"1809.0.{version}",
+  ws2019s
+);
+var ws2016s_alias = PackerTemplates_CreateWindows(
+  "ws2016s-alias",
+  "windows-server",
+  $"1607.0.{version}",
+  ws2016s
+);
+
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
-  "windows-server-standard-insider",
+  "windows-server-2022-standard-desktop-insider",
   $"2102.0.{version}"
 );
+
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-standard-core-insider",
+  "windows-server-20220standard-core-insider",
   $"2102.0.{version}"
 );
 
@@ -226,19 +252,6 @@ var vs19p_w10 = PackerTemplates_CreateWindows(
   "visual-studio-professional-windows-10",
   $"2019.2101.{version}",
   dc_w10
-);
-
-var ws2016 = PackerTemplates_CreateWindows(
-  "ws2016",
-  "windows-server",
-  $"1607.0.{version}",
-  ws2016s
-);
-var ws2019 = PackerTemplates_CreateWindows(
-  "ws2019",
-  "windows-server",
-  $"1809.0.{version}",
-  ws2019s
 );
 
 var w102009 = PackerTemplates_CreateWindows(
