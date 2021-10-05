@@ -52,6 +52,7 @@
             <UserData>
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
+                    <Key>MFY9F-XBN2F-TYFMP-CCV49-RMYVH</Key>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Administrator</FullName>
@@ -112,7 +113,7 @@
                 </Password>
                 <Enabled>true</Enabled>
                 <Username>Administrator</Username>
-                <LogonCount>1</LogonCount>
+                <LogonCount>2</LogonCount>
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
