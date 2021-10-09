@@ -112,7 +112,7 @@
                 </Password>
                 <Enabled>true</Enabled>
                 <Username>Administrator</Username>
-                <LogonCount>4</LogonCount>
+                <LogonCount>2</LogonCount>
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
