@@ -70,6 +70,12 @@ var ws2016s_alias = PackerTemplates_CreateWindows(
   ws2016s
 );
 
+var w112102e = PackerTemplates_CreateWindows(
+  "w112102e",
+  "windows-11-enterprise",
+  $"2102.0.{version}"
+);
+
 var w102101e = PackerTemplates_CreateWindows(
   "w102101e",
   "windows-10-enterprise",
