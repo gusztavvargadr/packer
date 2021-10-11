@@ -1,7 +1,8 @@
 {
   "variables": {
     "hyperv_disk_size": "130048",
-    "hyperv_cd_files": "builders/hyperv-iso/floppy/*"
+    "hyperv_cd_files": "builders/hyperv-iso/floppy/*",
+    "hyperv_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>"
   },
   "builders": [
     {
@@ -28,9 +29,7 @@
       "enable_secure_boot": "{{user `hyperv_enable_secure_boot`}}",
       "secure_boot_template": "{{user `hyperv_secure_boot_template`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
-      "boot_command": [
-        "<enter><wait><enter><wait><enter><wait><enter><wait><enter><wait>"
-      ],
+      "boot_command": "{{ user `hyperv_boot_command` }}",
       "communicator": "{{user `hyperv_communicator`}}",
       "ssh_username": "{{user `hyperv_ssh_username`}}",
       "ssh_password": "{{user `hyperv_ssh_password`}}",
