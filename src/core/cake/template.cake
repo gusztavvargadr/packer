@@ -135,18 +135,14 @@ void PackerTemplate_Publish(PackerTemplate template) {
     }
   }
 
-  try {
-    PackerTemplate_Vagrant(template, "cloud publish --force"
-      + $" --checksum-type sha256"
-      + $" --checksum {boxChecksum}"
-      + $" gusztavvargadr/{template.GroupName}"
-      + $" {template.GroupVersion}"
-      + $" {provider}"
-      + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
-    );
-  } catch (Exception ex) {
-    PackerTemplate_Log(template, $"Error publishing: '{ex.Message}'.");
-  }
+  PackerTemplate_Vagrant(template, "cloud publish --force"
+    + $" --checksum-type sha256"
+    + $" --checksum {boxChecksum}"
+    + $" gusztavvargadr/{template.GroupName}"
+    + $" {template.GroupVersion}"
+    + $" {provider}"
+    + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
+  );
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
@@ -161,26 +157,7 @@ void PackerTemplate_Download(PackerTemplate template) {
   var boxName = $"gusztavvargadr/{template.GroupName}-publish";
   var boxUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
 
-  var downloadWaitMinutes = new [] { 0, 1, 2, 5 };
-  var downloadSucceeded = false;
-
-  foreach (var downloadWaitMinute in downloadWaitMinutes) {
-    PackerTemplate_Log(template, $"Waiting {downloadWaitMinute} minutes before retry.");
-    System.Threading.Thread.Sleep(TimeSpan.FromMinutes(downloadWaitMinute));
-
-    try {
-      PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxUrl);
-
-      downloadSucceeded = true;
-      break;
-    } catch (Exception ex) {
-      PackerTemplate_Log(template, $"Error downloading: '{ex.Message}'.");
-    }
-  }
-
-  if (!downloadSucceeded) {
-    throw new Exception("Error downloading.");
-  }
+  PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxUrl);
 }
 
 void PackerTemplate_Clean(PackerTemplate template) {

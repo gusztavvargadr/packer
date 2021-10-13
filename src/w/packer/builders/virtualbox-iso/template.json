@@ -2,7 +2,8 @@
   "variables": {
     "virtualbox_guest_os_type": "",
     "virtualbox_disk_size": "130048",
-    "virtualbox_cd_files": "builders/virtualbox-iso/floppy/*"
+    "virtualbox_cd_files": "builders/virtualbox-iso/floppy/*",
+    "virtualbox_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>"
   },
   "builders": [
     {
@@ -31,12 +32,10 @@
       ],
       "disk_size": "{{user `virtualbox_disk_size`}}",
       "cd_files": [
-        "{{user `virtualbox_cd_files`}}",
+        "{{user `virtualbox_cd_files`}}"
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
-      "boot_command": [
-        "<enter><wait><enter><wait><enter><wait><enter><wait><enter><wait>"
-      ],
+      "boot_command": "{{ user `virtualbox_boot_command` }}",
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
       "ssh_password": "{{user `virtualbox_ssh_password`}}",
