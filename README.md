@@ -18,11 +18,23 @@ This repository contains common [Packer] helper tools and sample templates for [
 
 > **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environments using them and [these][BlogWhy] [blogs][BlogHow] for more background and motivation.  
 
-This repository contains [Packer] sample template for the following virtualization scenarios:
+This repository contains [Packer] sample templates for the following virtualization scenarios:
 
-- [Operating systems] for generic experiments with [Windows] and [Ubuntu].
-- [Hosting] using [Docker], [IIS] and [SQL Server].
-- [Development] using [Visual Studio].
+- Default versions for getting started:
+  - [Windows Server][windows-server-default-box] 2022, 2019 and 2016 Standard Desktop
+  - [Windows 11][windows-11-default-box] Version 21H2 Enteprise
+  - [Windows 10][windows-10-default-box] Version 21H1 and 20H2 Enterprise
+  - [Ubuntu Server][ubuntu-server-default-box] 18.04 and 16.04 LTS
+  - [Ubuntu Desktop][ubuntu-desktop-default-box] 18.04 and 16.04 LTS with Xfce
+  - [Docker Windows][docker-windows-default-box] Enterprise on Windows Server Desktop
+  - [Docker Linux][docker-linux-default-box] Community on Ubuntu Server
+  - [IIS][iis-default-box] with .NET on Windows Server Desktop
+  - [SQL Server][sql-server-default-box] 2019 and 2017 Developer with Management Studio on Windows Server Desktop
+  - [Visual Studio][visual-studio-default-box] 2019 and 2017 Community with Docker Desktop on Windows 10
+- Specific versions for more complex scenarios:
+  - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
+  - [Hosting] using [Docker], [IIS] and [SQL Server].
+  - [Development] using [Visual Studio].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
@@ -59,43 +71,45 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Windows Server **latest**][windows-server-latest-box]
-    - Windows Server 2019 Standard
-    - Windows Server 2016 Standard
-- [Windows Server **Standard LTSC**][windows-server-standard-ltsc-box]
-    - Windows Server 2019 Standard
-    - Windows Server 2016 Standard
-- [Windows Server **Standard Core LTSC**][windows-server-standard-core-ltsc-box]
-    - Windows Server 2019 Standard Core
-    - Windows Server 2016 Standard Core
-- [Windows Server **Standard Insider**][windows-server-standard-insider-box]
-    - Windows Server 2022 Preview Standard
-- [Windows Server **Standard Core Insider**][windows-server-standard-core-insider-box]
-    - Windows Server 2022 Preview Standard Core
+- [Windows Server **2022 Standard Desktop**][windows-server-2022-standard-desktop-box]
+- [Windows Server **2022 Standard Core**][windows-server-2022-standard-core-box]
+- [Windows Server **2019 Standard Desktop**][windows-server-2019-standard-desktop-box]
+- [Windows Server **2019 Standard Core**][windows-server-2019-standard-core-box]
+- [Windows Server **2016 Standard Desktop**][windows-server-2016-standard-desktop-box]
+- [Windows Server **2016 Standard Core**][windows-server-2016-standard-core-box]
+- [Windows Server **vNext Standard Desktop Insider Preview**][windows-server-standard-desktop-insider-preview-box]
+- [Windows Server **vNext Standard Core Insider Preview**][windows-server-standard-core-insider-preview-box]
 
-[windows-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
-[windows-server-standard-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard/
-[windows-server-standard-core-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core/
-[windows-server-standard-insider-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-insider/
-[windows-server-standard-core-insider-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider/
+[windows-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-2022-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-desktop/
+[windows-server-2022-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core/
+[windows-server-2019-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-desktop/
+[windows-server-2019-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
+[windows-server-2016-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-desktop/
+[windows-server-2016-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
+[windows-server-standard-desktop-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-desktop-insider-preview/
+[windows-server-standard-core-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider-preview/
+
+##### Windows 11
+
+- [Windows 11 **Version 21H2 Enterprise**][windows-11-enterprise-box]
+- [Windows 11 **Version 21H2 Enterprise Insider Preview**][windows-11-enterprise-insider-preview-box]
+
+[windows-11-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11/
+[windows-11-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-enterprise/
+[windows-11-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-enterprise-insider-preview/
+
 
 ##### Windows 10
 
-- [Windows 10 **latest**][windows-10-latest-box]
-    - Windows 10 Version 21H1 Enterprise
-    - Windows 10 Version 20H2 Enterprise
-- [Windows 10 **Enterprise SAC**][windows-10-enterprise-sac-box]
-    - Windows 10 Version 21H1 Enterprise
-    - Windows 10 Version 20H2 Enterprise
-- [Windows 10 **Enterprise LTSC**][windows-10-enterprise-ltsc-box]
-    - Windows 10 Version 1809 Enterprise LTSC
-- [Windows 10 **Enterprise Insider**][windows-10-enterprise-insider-box]
-    - Windows 10 Version 21H1 Insider Preview Enterprise
+- [Windows 10 **Version 21H1 and 20H2 Enterprise**][windows-10-enterprise-box]
+- [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-enterprise-ltsc-box]
+- [Windows 10 **Version 21H2 Enterprise Insider Preview**][windows-10-enterprise-insider-preview-box]
 
-[windows-10-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
-[windows-10-enterprise-sac-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
+[windows-10-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
+[windows-10-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
 [windows-10-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-ltsc/
-[windows-10-enterprise-insider-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-insider/
+[windows-10-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-insider-preview/
 
 #### Ubuntu
 
@@ -103,23 +117,21 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
-- [Ubuntu Server **latest**][ubuntu-server-latest-box]
-    - Ubuntu 16.04 Server LTS
-- [Ubuntu Server **LTS**][ubuntu-server-lts-box]
-    - Ubuntu 16.04 Server LTS
+- [Ubuntu Server **18.04 LTS**][ubuntu-server-1804-lts-box]
+- [Ubuntu Server **16.04 LTS**][ubuntu-server-1604-lts-box]
 
-[ubuntu-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
-[ubuntu-server-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-lts/
+[ubuntu-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-1804-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1804-lts/
+[ubuntu-server-1604-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604-lts/
 
 ##### Ubuntu Desktop
 
-- [Ubuntu Desktop **latest**][ubuntu-desktop-latest-box]
-    - Ubuntu 16.04 Desktop with XFCE LTS
-- [Ubuntu Desktop **XFCE LTS**][ubuntu-desktop-xfce-lts-box]
-    - Ubuntu 16.04 Desktop with XFCE LTS
+- [Ubuntu Desktop **18.04 LTS with Xfce**][ubuntu-desktop-1804-lts-xfce-box]
+- [Ubuntu Desktop **16.04 LTS with Xfce**][ubuntu-desktop-1604-lts-xfce-box]
 
-[ubuntu-desktop-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
-[ubuntu-desktop-xfce-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-xfce-lts/
+[ubuntu-desktop-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-1804-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1804-lts-xfce/
+[ubuntu-desktop-1604-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604-lts-xfce/
 
 ### Hosting
 
@@ -133,61 +145,43 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
-- [Docker Windows **latest**][docker-windows-latest-box]
-    - Docker 20.10 Enterprise on Windows Server 2019 Standard
-- [Docker Windows **Enterprise** on **Windows Server**][docker-windows-enterprise-windows-server-box]
-    - Docker 20.10 Enterprise on Windows Server 2019 Standard
-- [Docker Windows **Enterprise** on **Windows Server Core**][docker-windows-enterprise-windows-server-core-box]
-    - Docker 20.10 Enterprise on Windows Server 2019 Standard Core
+- [Docker **Enterprise on Windows Server Desktop**][docker-enterprise-windows-server-desktop-box]
+- [Docker **Enterprise on Windows Server Core**][docker-enterprise-windows-server-core-box]
+- [Docker **Desktop on Windows 10**][docker-desktop-windows-10-box]
 
-[docker-windows-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
-[docker-windows-enterprise-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows-enterprise-windows-server/
-[docker-windows-enterprise-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows-enterprise-windows-server-core/
+[docker-windows-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
+[docker-enterprise-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server-desktop/
+[docker-enterprise-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server-core/
+[docker-desktop-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-10/
 
 ##### Docker Linux
 
-- [Docker Linux **latest**][docker-linux-latest-box]
-    - Docker 20.10 Community on Ubuntu 16.04 Server LTS
-- [Docker Linux **Community** on **Ubuntu Server**][docker-linux-community-ubuntu-server-box]
-    - Docker 20.10 Community on Ubuntu 16.04 Server LTS
-- [Docker Linux **Community** on **Ubuntu Desktop**][docker-linux-community-ubuntu-desktop-box]
-    - Docker 20.10 Community on Ubuntu 16.04 Desktop with XFCE LTS
-- [Docker Linux **Community** with Docker Desktop on **Windows 10**][docker-linux-community-windows-10-box]
-    - Docker 20.10 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
+- [Docker **Community on Ubuntu Server**][docker-community-ubuntu-server-box]
+- [Docker **Community on Ubuntu Desktop**][docker-community-ubuntu-desktop-box]
 
-[docker-linux-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
-[docker-linux-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-ubuntu-server/
-[docker-linux-community-ubuntu-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-ubuntu-desktop/
-[docker-linux-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux-community-windows-10/
+[docker-linux-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+[docker-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-server/
+[docker-community-ubuntu-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-desktop/
 
 #### IIS
 
-- [IIS **latest**][iis-latest-box]
-    - IIS 10.0 with .NET on Windows Server 2019 Standard
-- [IIS with .NET on **Windows Server**][iis-windows-server-box]
-    - IIS 10.0 with .NET on Windows Server 2019 Standard
-- [IIS with .NET on **Windows Server Core**][iis-windows-server-core-box]
-    - IIS 10.0 with .NET on Windows Server 2019 Standard Core
+- [IIS **with .NET on Windows Server Desktop**][iis-windows-server-desktop-box]
+- [IIS **with .NET on Windows Server Core**][iis-windows-server-core-box]
 
 [IIS]: #iis
 
-[iis-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
-[iis-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server/
+[iis-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
+[iis-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-desktop/
 [iis-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-core/
 
 #### SQL Server
 
-- [SQL Server **latest**][sql-server-latest-box]
-    - SQL Server 2019 Developer with Management Studio on Windows Server 2019 Standard
-    - SQL Server 2017 Developer with Management Studio on Windows Server 2019 Standard
-- [SQL Server **Developer** with Management Studio on **Windows Server**][sql-server-developer-windows-server-box]
-    - SQL Server 2019 Developer with Management Studio on Windows Server 2019 Standard
-    - SQL Server 2017 Developer with Management Studio on Windows Server 2019 Standard
+- [SQL Server **2019 and 2017 Developer with Management Studio on Windows Server**][sql-server-developer-windows-server-desktop-box]
 
 [SQL Server]: #sql-server
 
-[sql-server-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
-[sql-server-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-developer-windows-server/
+[sql-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
+[sql-server-developer-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-developer-windows-server-desktop/
 
 ### Development
 
@@ -197,19 +191,12 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
-- [Visual Studio **latest**][visual-studio-latest-box]
-    - Visual Studio 2019 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
-    - Visual Studio 2017 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
-- [Visual Studio **Community** with Docker Desktop on **Windows 10**][visual-studio-community-windows-10-box]
-    - Visual Studio 2019 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
-    - Visual Studio 2017 Community with Docker Desktop on Windows 10 Version 21H1 Enterprise
-- [Visual Studio **Professional** with Docker Desktop on **Windows 10**][visual-studio-professional-windows-10-box]
-    - Visual Studio 2019 Professional with Docker Desktop on Windows 10 Version 21H1 Enterprise
-    - Visual Studio 2017 Professional with Docker Desktop on Windows 10 Version 21H1 Enterprise
+- [Visual Studio **2019 and 2017 Community with Docker Desktop on Windows 10**][visual-studio-community-windows-10-box]
+- [Visual Studio **2019 and 2017 Professional with Docker Desktop on Windows 10**][visual-studio-professional-windows-10-box]
 
 [Visual Studio]: #visual-studio
 
-[visual-studio-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
+[visual-studio-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 [visual-studio-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-community-windows-10/
 [visual-studio-professional-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-professional-windows-10/
 
