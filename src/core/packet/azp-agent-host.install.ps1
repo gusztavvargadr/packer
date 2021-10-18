@@ -9,7 +9,7 @@ Set-ExecutionPolicy RemoteSigned -Force
 
 # Chef Client
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.6.18
-[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "User")
+[Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Windows
 Set-MpPreference -DisableRealtimeMonitoring $True -ExclusionPath "C:\"
@@ -75,7 +75,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 3 -Value 192.168.238.1
 # Set-DhcpServerv4OptionValue -ScopeId 192.168.238.0 -OptionId 6 -Value 8.8.8.8,8.8.4.4
 
-[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "User")
+[Environment]::SetEnvironmentVariable("VAGRANT_DEFAULT_PROVIDER", "hyperv", "Machine")
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
