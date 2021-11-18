@@ -4,11 +4,8 @@
 $ErrorActionPreference = "Stop"
 $ProgressPreference = 'SilentlyContinue'
 
-Set-ExecutionPolicy RemoteSigned -Force
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
 # Chef Client
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.6.18
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.7.29
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Windows
@@ -25,7 +22,7 @@ netsh advfirewall set allprofiles settings inboundusernotification enable
 ## TODO windows update cleanup
 
 # Chocolatey
-$env:chocolateyVersion = '0.10.15'
+$env:chocolateyVersion = '0.11.3'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 # Workstation
@@ -42,20 +39,21 @@ choco install -y poshgit
 choco install -y dotnetcore-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.10.640
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.11.679
 
 # Vagrant
-choco install -y vagrant --version 2.2.18 --ignore-checksums --ignore-package-exit-codes
-# C:\HashiCorp\Vagrant\embedded\gems\2.2.18\gems\vagrant-2.2.18\bin\vagrant
+choco install -y vagrant --version 2.2.19 --ignore-checksums --ignore-package-exit-codes
+# C:\HashiCorp\Vagrant\embedded\gems\2.2.19\gems\vagrant-2.2.19\bin\vagrant
 # Encoding.default_external = Encoding.find('Windows-1250')
 # Encoding.default_internal = Encoding.find('Windows-1250')
 
 ## TODO boxes
 
 # Packer
-choco install -y packer --version 1.7.6
-[Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
+choco install -y packer --version 1.7.8
+# [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
 
+## TODO allow firewall access
 ## TODO: adk (oscdimg)
 ## TODO download ISOs
 
@@ -79,7 +77,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.193.1/vsts-agent-win-x64-2.193.1.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.194.0/vsts-agent-win-x64-2.194.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
 
