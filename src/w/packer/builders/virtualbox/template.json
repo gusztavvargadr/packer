@@ -7,7 +7,7 @@
     "virtualbox_headless": "true",
     "virtualbox_memory": "4096",
     "virtualbox_cpus": "2",
-    "virtualbox_boot_wait": "1s",
+    "virtualbox_boot_wait": "-1s",
     "virtualbox_communicator": "ssh",
     "virtualbox_ssh_username": "Administrator",
     "virtualbox_ssh_password": "Packer42-",

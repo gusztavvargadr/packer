@@ -153,11 +153,10 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
-  var vmName = $"{template.Name}-publish";
-  var boxName = $"gusztavvargadr/{template.GroupName}-publish";
+  var boxName = $"gusztavvargadr/{template.Name}-publish";
   var boxUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
 
-  PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxUrl);
+  PackerTemplate_Vagrant(template, $"box add --name {boxName} {boxUrl}");
 }
 
 void PackerTemplate_Clean(PackerTemplate template) {
@@ -187,10 +186,8 @@ void PackerTemplate_Clean(PackerTemplate template) {
   }
 
   try {
-    var vmName = $"{template.Name}-publish";
-    var boxName = $"gusztavvargadr/{template.GroupName}-publish";
+    var boxName = $"gusztavvargadr/{template.Name}-publish";
 
-    PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName);
     PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
   } catch (Exception ex) {
     PackerTemplate_Log(template, $"Error cleaning up publish: '{ex.Message}'.");

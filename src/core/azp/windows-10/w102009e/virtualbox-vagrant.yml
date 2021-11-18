@@ -8,7 +8,7 @@ resources:
       trigger:
         branches:
           include:
-            - "*"
+            - master
 
 stages:
   - template: ../../ci-stages.yml

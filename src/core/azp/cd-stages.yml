@@ -13,10 +13,7 @@ stages:
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: Default
-          demands:
-            - AZP_AGENT_DOTNET
-            - AZP_AGENT_VAGRANT
+          vmImage: ubuntu-20.04
 
         workspace:
           clean: all
@@ -34,12 +31,21 @@ stages:
             displayName: Initialize .NET
 
           - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+              sudo dpkg -i vagrant_2.2.19_x86_64.deb
+              rm vagrant_2.2.19_x86_64.deb
+
               vagrant --version
               vagrant plugin list
 
               vagrant box list
               vagrant global-status
             displayName: Initialize Vagrant
+
+          - script: |
+              df -H
+              du -hs /*
+            displayName: Initialize disk
 
           - task: DownloadPipelineArtifact@2
             inputs:
@@ -62,11 +68,7 @@ stages:
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: Default
-          demands:
-            - AZP_AGENT_DOTNET
-            - AZP_AGENT_VAGRANT
-            - AZP_AGENT_${{ parameters.provider }}
+          vmImage: ubuntu-20.04
 
         workspace:
           clean: all
@@ -83,12 +85,21 @@ stages:
             displayName: Initialize .NET
 
           - script: |
+              wget -q https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+              sudo dpkg -i vagrant_2.2.19_x86_64.deb
+              rm vagrant_2.2.19_x86_64.deb
+
               vagrant --version
               vagrant plugin list
 
               vagrant box list
               vagrant global-status
             displayName: Initialize Vagrant
+
+          - script: |
+              df -H
+              du -hs /*
+            displayName: Initialize disk
 
           - script: |
               dotnet cake build.cake --target=download --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
