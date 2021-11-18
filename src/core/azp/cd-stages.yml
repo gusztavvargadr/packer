@@ -6,7 +6,7 @@ parameters:
 stages:
   - stage: cd
     displayName: CD
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
     jobs:
       - job: publish
@@ -31,9 +31,9 @@ stages:
             displayName: Initialize .NET
 
           - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.18/vagrant_2.2.18_x86_64.deb
-              sudo dpkg -i vagrant_2.2.18_x86_64.deb
-              rm vagrant_2.2.18_x86_64.deb
+              wget -q https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+              sudo dpkg -i vagrant_2.2.19_x86_64.deb
+              rm vagrant_2.2.19_x86_64.deb
 
               vagrant --version
               vagrant plugin list
@@ -43,10 +43,8 @@ stages:
             displayName: Initialize Vagrant
 
           - script: |
-              rm -Rf /usr/share/dotnet/sdk/2.1.*
-              rm -Rf /usr/share/dotnet/sdk/2.2.*
-              rm -Rf /usr/share/dotnet/sdk/3.0.*
               df -H
+              du -hs /*
             displayName: Initialize disk
 
           - task: DownloadPipelineArtifact@2
@@ -87,9 +85,9 @@ stages:
             displayName: Initialize .NET
 
           - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.18/vagrant_2.2.18_x86_64.deb
-              sudo dpkg -i vagrant_2.2.18_x86_64.deb
-              rm vagrant_2.2.18_x86_64.deb
+              wget -q https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+              sudo dpkg -i vagrant_2.2.19_x86_64.deb
+              rm vagrant_2.2.19_x86_64.deb
 
               vagrant --version
               vagrant plugin list
@@ -99,10 +97,8 @@ stages:
             displayName: Initialize Vagrant
 
           - script: |
-              rm -Rf /usr/share/dotnet/sdk/2.1.*
-              rm -Rf /usr/share/dotnet/sdk/2.2.*
-              rm -Rf /usr/share/dotnet/sdk/3.0.*
               df -H
+              du -hs /*
             displayName: Initialize disk
 
           - script: |
