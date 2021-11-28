@@ -66,7 +66,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "hyper" } | W
 # New-NetIPAddress -IPAddress 192.168.238.1 -PrefixLength 24 -InterfaceAlias "vEthernet (Default Switch)"
 # New-NetNat -Name "Default Switch" -InternalIPInterfaceAddressPrefix 192.168.238.0/24
 
-## TODO Configure NAT external addresses
+## TODO Configure IF interface metric
 
 Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Where { $_.State -ne "Enabled" } | ForEach { Enable-WindowsOptionalFeature -Online -FeatureName $_.FeatureName -All -NoRestart }
 # Add-DhcpServerv4Scope -Name "192.168.238.0/24" -StartRange 192.168.238.100 -EndRange 192.168.238.199 -SubnetMask 255.255.255.0 -LeaseDuration "04:00:00"
