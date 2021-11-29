@@ -36,6 +36,7 @@
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "boot_command": "{{ user `virtualbox_boot_command` }}",
+      "boot_keygroup_interval": "1s",
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
       "ssh_password": "{{user `virtualbox_ssh_password`}}",
@@ -46,9 +47,9 @@
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
       "output_directory": "{{user `output_directory`}}/build",
       "firmware": "efi",
-      "nested_virt": "true",
+      "nested_virt": "false",
       "gfx_controller": "vboxsvga",
-      "gfx_vram_size": 32,
+      "gfx_vram_size": 64,
       "hard_drive_interface": "sata"
     }
   ]

@@ -15,7 +15,7 @@
     "hyperv_enable_mac_spoofing": "true",
     "hyperv_enable_secure_boot": "true",
     "hyperv_secure_boot_template": "MicrosoftWindows",
-    "hyperv_boot_wait": "-1s",
+    "hyperv_boot_wait": "1s",
     "hyperv_communicator": "ssh",
     "hyperv_ssh_username": "Administrator",
     "hyperv_ssh_password": "Packer42-",
