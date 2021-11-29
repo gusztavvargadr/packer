@@ -43,6 +43,7 @@
         "initrd /install/initrd.gz<enter>",
         "boot<enter>"
       ],
+      "boot_keygroup_interval": "1s",
       "http_directory": ".",
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
