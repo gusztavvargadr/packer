@@ -77,16 +77,16 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.194.0/vsts-agent-win-x64-2.194.0.zip -OutFile vsts-agent.zip
-# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "User")
-# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "User")
+# wget https://vstsagentpackage.azureedge.net/agent/2.195.0/vsts-agent-win-x64-2.195.0.zip -OutFile vsts-agent.zip
+# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "Machine")
+# [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "Machine")
 
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOTNET", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "latest", "User")
-# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "latest", "User")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_WINDOWS", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOTNET", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_CHEF", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_VAGRANT", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_PACKER", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_DOCKER", "latest", "Machine")
+# [Environment]::SetEnvironmentVariable("AZP_AGENT_HYPERV", "latest", "Machine")
 
 ## TODO Configure agents
