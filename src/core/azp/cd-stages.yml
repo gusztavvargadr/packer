@@ -44,7 +44,7 @@ stages:
 
           - script: |
               df -H
-              du -hs /*
+              du -hs /usr/* || true
             displayName: Initialize disk
 
           - task: DownloadPipelineArtifact@2
@@ -98,7 +98,7 @@ stages:
 
           - script: |
               df -H
-              du -hs /*
+              du -hs /usr/* || true
             displayName: Initialize disk
 
           - script: |
