@@ -21,7 +21,7 @@
     "hyperv_ssh_password": "Packer42-",
     "hyperv_ssh_timeout": "30m",
     "hyperv_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
-    "hyperv_shutdown_timeout": "10m"
+    "hyperv_shutdown_timeout": "20m"
   },
   "provisioners": [
     {
