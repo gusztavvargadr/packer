@@ -14,7 +14,7 @@
     "virtualbox_ssh_timeout": "30m",
     "virtualbox_guest_additions_mode": "disable",
     "virtualbox_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
-    "virtualbox_shutdown_timeout": "20m",
+    "virtualbox_shutdown_timeout": "10m",
     "virtualbox_post_shutdown_delay": "5s"
   },
   "provisioners": [
