@@ -9,7 +9,7 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102101e-dc-vs17c
+      image: w102102e-dc-vs17c
       provider: hyperv
       configuration: core
-      parent: w102101e-dc
+      parent: w102102e-dc

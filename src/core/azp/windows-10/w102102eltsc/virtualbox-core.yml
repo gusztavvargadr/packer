@@ -4,6 +4,6 @@ pr: none
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102009e
-      provider: hyperv
+      image: w102102eltsc
+      provider: virtualbox
       configuration: core
