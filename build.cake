@@ -206,6 +206,13 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
+var dc_w11 = PackerTemplates_CreateWindows(
+  "w112102e-dc",
+  "docker-desktop-windows-11",
+  $"2010.2102.{version}",
+  w112102e
+);
+
 var dc_w10 = PackerTemplates_CreateWindows(
   "w102102e-dc",
   "docker-desktop-windows-10",
@@ -312,6 +319,20 @@ var ws2022s_sql17d_alias = PackerTemplates_CreateWindows(
   ws2022s_sql17d
 );
 
+var vs19c_w11 = PackerTemplates_CreateWindows(
+  "w112102e-dc-vs19c",
+  "visual-studio-2019-community-windows-11",
+  $"2019.2102.{version}",
+  dc_w11
+);
+
+var vs17c_w11 = PackerTemplates_CreateWindows(
+  "w112102e-dc-vs17c",
+  "visual-studio-2017-community-windows-10",
+  $"2017.2102.{version}",
+  dc_w11
+);
+
 var vs19c_w10 = PackerTemplates_CreateWindows(
   "w102102e-dc-vs19c",
   "visual-studio-community-windows-10",
@@ -338,17 +359,17 @@ var vs17p_w10 = PackerTemplates_CreateWindows(
   dc_w10
 );
 
-var vs19c_w10_alias = PackerTemplates_CreateWindows(
-  "vs19c-w10-alias",
+var vs19c_w11_alias = PackerTemplates_CreateWindows(
+  "vs19c-w11-alias",
   "visual-studio",
   $"2019.0.{version}",
-  vs19c_w10
+  vs19c_w11
 );
-var vs17c_w10_alias = PackerTemplates_CreateWindows(
-  "vs17c-w10-alias",
+var vs17c_w11_alias = PackerTemplates_CreateWindows(
+  "vs17c-w11-alias",
   "visual-studio",
   $"2017.0.{version}",
-  vs17c_w10
+  vs17c_w11
 );
 
 Task("default")
