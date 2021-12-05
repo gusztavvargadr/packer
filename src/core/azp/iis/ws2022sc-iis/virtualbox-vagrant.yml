@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: ws2019s-sql19d-virtualbox-core
+      source: ws2022sc-iis-virtualbox-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019s-sql19d
+      image: ws2022sc-iis
       provider: virtualbox
       configuration: vagrant
-      parent: ws2019s-sql19d
+      parent: ws2022sc-iis
 
   - template: ../../cd-stages.yml
     parameters:
-      image: ws2019s-sql19d
+      image: ws2022sc-iis
       provider: virtualbox
       configuration: vagrant
