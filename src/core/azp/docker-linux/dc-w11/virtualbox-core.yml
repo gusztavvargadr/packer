@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w112102e-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w112102e-dc
+      provider: virtualbox
+      configuration: core
+      parent: w112102e
