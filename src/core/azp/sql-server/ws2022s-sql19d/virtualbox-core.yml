@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: ws2019s-hyperv-core
+      source: ws2022s-virtualbox-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019s-sql19d
-      provider: hyperv
+      image: ws2022s-sql19d
+      provider: virtualbox
       configuration: core
-      parent: ws2019s
+      parent: ws2022s
