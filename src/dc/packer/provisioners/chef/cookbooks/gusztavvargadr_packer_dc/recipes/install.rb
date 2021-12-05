@@ -1,4 +1,4 @@
 gusztavvargadr_docker_engine '' do
-  edition 'community'
+  edition 'desktop'
   action :install
 end
