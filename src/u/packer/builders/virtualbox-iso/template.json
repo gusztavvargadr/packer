@@ -54,7 +54,7 @@
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "output_directory": "{{user `output_directory`}}/build",
       "firmware": "efi",
-      "nested_virt": "false",
+      "nested_virt": "true",
       "gfx_controller": "vmsvga",
       "gfx_vram_size": 64,
       "hard_drive_interface": "sata"

@@ -47,7 +47,7 @@
       "post_shutdown_delay": "{{user `virtualbox_post_shutdown_delay`}}",
       "output_directory": "{{user `output_directory`}}/build",
       "firmware": "efi",
-      "nested_virt": "false",
+      "nested_virt": "true",
       "gfx_controller": "vboxsvga",
       "gfx_vram_size": 64,
       "hard_drive_interface": "sata"

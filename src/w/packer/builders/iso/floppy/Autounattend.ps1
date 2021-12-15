@@ -8,7 +8,7 @@ $env:chocolateyVersion = '0.11.3'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 Write-Host "Install 7zip"
-choco install 7zip.portable -y --version 19.0
+choco install 7zip.portable -y --version 21.6
 
 Write-Host "Install OpenSSH"
 netsh advfirewall firewall add rule name="OpenSSH-Install" dir=in localport=22 protocol=TCP action=block

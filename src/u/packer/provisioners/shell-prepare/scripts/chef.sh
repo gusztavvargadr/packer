@@ -2,7 +2,7 @@
 
 case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso|hyperv-iso|azure-arm)
-    curl -L https://omnitruck.chef.io/install.sh | bash -s -- -P chef -v 17.7.29
+    curl -L https://omnitruck.chef.io/install.sh | bash -s -- -P chef -v 17.8.25
     echo "CHEF_LICENSE=accept-silent" >> /etc/environment
 
     apt-get -y install p7zip-full;
