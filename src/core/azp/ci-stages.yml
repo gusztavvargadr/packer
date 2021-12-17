@@ -87,6 +87,6 @@ stages:
             displayName: Artifacts - Publish
 
           - script: |
-              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }} --recursive true
             displayName: Build - Clean
             condition: always()

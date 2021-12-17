@@ -6,7 +6,7 @@
 
 var packerTemplates = new List<PackerTemplate>();
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, IEnumerable<string> aliases = null) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(
@@ -25,7 +25,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
     virtualBoxCore,
     groupName,
-    groupVersion
+    groupVersion,
+    aliases
   );
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
@@ -46,7 +47,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
     hyperVCore,
     groupName,
-    groupVersion
+    groupVersion,
+    aliases
   );
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);
@@ -56,7 +58,7 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   return items;
 }
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, bool amazon = false, bool azure = false) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, IEnumerable<string> aliases = null, bool amazon = false, bool azure = false) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(
@@ -75,7 +77,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string grou
     new [] { PackerPostProcessor_Create("vagrant-virtualbox") },
     virtualBoxCore,
     groupName,
-    groupVersion
+    groupVersion,
+    aliases
   );
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
@@ -96,7 +99,8 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string grou
     new [] { PackerPostProcessor_Create("vagrant-hyperv") },
     hyperVCore,
     groupName,
-    groupVersion
+    groupVersion,
+    aliases
   );
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);

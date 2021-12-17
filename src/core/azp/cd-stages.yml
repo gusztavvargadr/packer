@@ -55,7 +55,7 @@ stages:
               VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
           - script: |
-              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }} --recursive true
             displayName: Build - Clean
             condition: always()
 
@@ -96,6 +96,6 @@ stages:
             displayName: Build - Download
 
           - script: |
-              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+              dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }} --recursive true
             displayName: Build - Clean
             condition: always()
