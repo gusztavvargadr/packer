@@ -16,6 +16,7 @@ class PackerTemplate {
   public PackerTemplate Parent { get; set; }
   public string GroupName { get; set; }
   public string GroupVersion { get; set; }
+  public IEnumerable<string> Aliases { get; set; }
 
   public bool IsMatching(string name) {
     return string.IsNullOrEmpty(name) || FullName.Contains(name);
@@ -38,7 +39,8 @@ PackerTemplate PackerTemplate_Create(
   IEnumerable<PackerPostProcessor> postprocessors,
   PackerTemplate parent,
   string groupName = null,
-  string groupVersion = null
+  string groupVersion = null,
+  IEnumerable<string> aliases = null
 ) {
   var components = name.Split('-').Select(component => Component_Create(component)).ToList();
 
@@ -51,7 +53,8 @@ PackerTemplate PackerTemplate_Create(
     PostProcessors = postprocessors,
     Parent = parent,
     GroupName = groupName,
-    GroupVersion = groupVersion
+    GroupVersion = groupVersion,
+    Aliases = aliases
   };
 }
 
@@ -72,7 +75,7 @@ void PackerTemplate_Restore(PackerTemplate template) {
 
   CleanDirectory(template.GetBuildDirectory());
 
-  if (template.Parent != null) {
+  if (recursive && template.Parent != null) {
     PackerTemplate_Restore(template.Parent);
     PackerTemplate_Build(template.Parent);
   }
@@ -105,8 +108,8 @@ void PackerTemplate_Test(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
-  var vmName = $"{template.Name}-build";
-  var boxName = $"gusztavvargadr/{template.Name}-build";
+  var vmName = $"{template.Name}-test";
+  var boxName = $"gusztavvargadr/{template.Name}-test";
   var boxUrl = $"file://{template.GetBuildDirectory()}/output/package/vagrant.box";
 
   PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxUrl);
@@ -138,11 +141,28 @@ void PackerTemplate_Publish(PackerTemplate template) {
   PackerTemplate_Vagrant(template, "cloud publish --force"
     + $" --checksum-type sha256"
     + $" --checksum {boxChecksum}"
+    + $" --release"
     + $" gusztavvargadr/{template.GroupName}"
     + $" {template.GroupVersion}"
     + $" {provider}"
     + $" {template.GetBuildDirectory()}/output/package/vagrant.box"
   );
+
+  if (template.Aliases?.Any() == true) {
+    foreach (var alias in template.Aliases) {
+      var boxUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
+
+      PackerTemplate_Vagrant(template, "cloud publish --force"
+        + $" --checksum-type sha256"
+        + $" --checksum {boxChecksum}"
+        + $" --release"
+        + $" --url {boxUrl}"
+        + $" gusztavvargadr/{alias}"
+        + $" {template.GroupVersion}"
+        + $" {provider}"
+      );
+    }
+  }
 }
 
 void PackerTemplate_Download(PackerTemplate template) {
@@ -153,10 +173,30 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
-  var boxName = $"gusztavvargadr/{template.Name}-publish";
-  var boxUrl = $"https://vagrantcloud.com/gusztavvargadr/boxes/{template.GroupName}/versions/{template.GroupVersion}/providers/{provider}.box";
 
-  PackerTemplate_Vagrant(template, $"box add --name {boxName} {boxUrl}");
+  try {
+    PackerTemplate_Vagrant(template, $"box add gusztavvargadr/{template.GroupName} --box-version {template.GroupVersion} --provider {provider}");
+  } finally {
+    try {
+      PackerTemplate_Vagrant(template, $"box remove gusztavvargadr/{template.GroupName} --box-version {template.GroupVersion} --provider {provider}");
+    } catch (Exception ex) {
+      PackerTemplate_Log(template, $"Error cleaning up download: '{ex.Message}'.");
+    }
+  }
+
+  if (template.Aliases?.Any() == true) {
+    foreach (var alias in template.Aliases) {
+      try {
+        PackerTemplate_Vagrant(template, $"box add gusztavvargadr/{alias} --box-version {template.GroupVersion} --provider {provider}");
+      } finally {
+        try {
+          PackerTemplate_Vagrant(template, $"box remove gusztavvargadr/{alias} --box-version {template.GroupVersion} --provider {provider}");
+        } catch (Exception ex) {
+          PackerTemplate_Log(template, $"Error cleaning up download: '{ex.Message}'.");
+        }
+      }
+    }
+  }
 }
 
 void PackerTemplate_Clean(PackerTemplate template) {
@@ -165,7 +205,7 @@ void PackerTemplate_Clean(PackerTemplate template) {
   CleanDirectory(template.GetBuildDirectory());
   DeleteDirectory(template.GetBuildDirectory(), new DeleteDirectorySettings { Recursive = true, Force = true });
 
-  if (template.Parent != null) {
+  if (recursive && template.Parent != null) {
     PackerTemplate_Clean(template.Parent);
   }
 
@@ -176,21 +216,13 @@ void PackerTemplate_Clean(PackerTemplate template) {
   var provider = template.Type.Split('-')[0];
 
   try {
-    var vmName = $"{template.Name}-build";
-    var boxName = $"gusztavvargadr/{template.Name}-build";
+    var vmName = $"{template.Name}-test";
+    var boxName = $"gusztavvargadr/{template.Name}-test";
 
     PackerTemplate_Vagrant(template, $"destroy {vmName} --force", vmName, boxName);
     PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
   } catch (Exception ex) {
-    PackerTemplate_Log(template, $"Error cleaning up build: '{ex.Message}'.");
-  }
-
-  try {
-    var boxName = $"gusztavvargadr/{template.Name}-publish";
-
-    PackerTemplate_Vagrant(template, $"box remove {boxName} --provider {provider}");
-  } catch (Exception ex) {
-    PackerTemplate_Log(template, $"Error cleaning up publish: '{ex.Message}'.");
+    PackerTemplate_Log(template, $"Error cleaning up test: '{ex.Message}'.");
   }
 }
 
