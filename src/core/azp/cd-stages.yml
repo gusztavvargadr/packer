@@ -67,7 +67,6 @@ stages:
           demands:
             - AZP_AGENT_DOTNET
             - AZP_AGENT_VAGRANT
-            - AZP_AGENT_${{ parameters.provider }}
 
         workspace:
           clean: all
