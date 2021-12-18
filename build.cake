@@ -113,12 +113,14 @@ var u1804d = PackerTemplates_CreateLinux(
   "u1804d",
   "ubuntu-desktop-1804-lts-xfce",
   $"1804.0.{version}",
+  u1804s,
   aliases: new [] { "ubuntu-desktop" }
 );
 var u1604d = PackerTemplates_CreateLinux(
   "u1604d",
   "ubuntu-desktop-1604-lts-xfce",
   $"1604.0.{version}",
+  u1604s,
   aliases: new [] { "ubuntu-desktop" }
 );
 
