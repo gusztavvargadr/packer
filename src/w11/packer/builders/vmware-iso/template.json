@@ -1,0 +1,6 @@
+{
+  "variables": {
+    "virtualbox_guest_os_type": "windows9_64",
+    "virtualbox_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>,<wait5>,<leftShiftOn><f10><leftShiftOff><wait>,E:\\setup.cmd<enter><wait>,exit<enter><wait>"
+  }
+}

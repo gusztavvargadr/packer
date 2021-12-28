@@ -12,13 +12,15 @@ var ws2022s = PackerTemplates_CreateWindows(
   "ws2022s",
   "windows-server-2022-standard-desktop",
   $"2102.0.{version}",
-  aliases: new [] { "windows-server" }
+  aliases: new [] { "windows-server" },
+  vmware: true
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server-2019-standard-desktop",
   $"1809.0.{version}",
-  aliases: new [] { "windows-server" }
+  aliases: new [] { "windows-server" },
+  vmware: true
 );
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",
@@ -36,13 +38,15 @@ var ws2022sc = PackerTemplates_CreateWindows(
   "ws2022sc",
   "windows-server-2022-standard-core",
   $"2102.0.{version}",
-  aliases: new [] { "windows-server-core" }
+  aliases: new [] { "windows-server-core" },
+  vmware: true
 );
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
   "windows-server-2019-standard-core",
   $"1809.0.{version}",
-  aliases: new [] { "windows-server-core" }
+  aliases: new [] { "windows-server-core" },
+  vmware: true
 );
 var ws2016sc = PackerTemplates_CreateWindows(
   "ws2016sc",
@@ -60,7 +64,8 @@ var w112102e = PackerTemplates_CreateWindows(
   "w112102e",
   "windows-11-enterprise",
   $"2102.0.{version}",
-  aliases: new [] { "windows-11" }
+  aliases: new [] { "windows-11" },
+  vmware: true
 );
 var w11ipe = PackerTemplates_CreateWindows(
   "w11ipe",
@@ -72,7 +77,8 @@ var w102102e = PackerTemplates_CreateWindows(
   "w102102e",
   "windows-10-enterprise",
   $"2102.0.{version}",
-  aliases: new [] { "windows-10" }
+  aliases: new [] { "windows-10" },
+  vmware: true
 );
 var w102101e = PackerTemplates_CreateWindows(
   "w102101e",

@@ -1,3 +1,10 @@
+if vmware?
+  chocolatey_package 'vmware-tools' do
+    returns [0, 2, 3010]
+    action :install
+  end
+end
+
 powershell_script 'Configure OS services' do
   code <<-EOH
     Write-Host "Disable Windows Defender"
