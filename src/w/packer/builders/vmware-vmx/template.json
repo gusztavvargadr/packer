@@ -1,6 +1,7 @@
 {
   "variables": {
-    "vmware_source_path": ""
+    "vmware_source_path": "",
+    "vmware_vmx_remove_ethernet_interfaces": "false"
   },
   "builders": [
     {
@@ -8,6 +9,7 @@
       "vm_name": "{{user `author`}}-{{user `name`}}-{{user `version`}}-{{timestamp}}",
       "source_path": "{{user `vmware_source_path`}}",
       "headless": "{{user `vmware_headless`}}",
+      "vmx_remove_ethernet_interfaces": "{{user `vmware_vmx_remove_ethernet_interfaces`}}",
       "boot_wait": "{{user `vmware_boot_wait`}}",
       "communicator": "{{user `vmware_communicator`}}",
       "ssh_username": "{{user `vmware_ssh_username`}}",
