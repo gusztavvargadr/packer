@@ -1,3 +1,3 @@
-chocolatey_package '7zip.portable' do
-  action :upgrade
-end
+# chocolatey_package '7zip.portable' do
+#   action :upgrade
+# end
