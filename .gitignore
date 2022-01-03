@@ -1,10 +1,12 @@
 tools
 build
+output
 
 .vagrant
 vagrant.*override*.yml
 
 *.lock.json
+*.tgz
 .chef
 Berksfile.lock
 

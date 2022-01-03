@@ -4,159 +4,184 @@ variables {
   description = "Windows Server 2022 Standard Core"
   version     = "2112.0.0"
 
-  download_directory = "${env("HOME")}/Downloads"
+  artifacts_directory = "output"
+  download_directory  = "${env("HOME")}/Downloads"
 }
 
-source "null" "chef" {
-  communicator = "none"
+locals {
+  vm_name = "${var.author}-${var.name}-${var.version}-${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
+  cpus    = 2
+  memory  = 4096
+
+  boot_wait              = "1s"
+  boot_command           = ["<enter><wait>", "<enter><wait>", "<enter><wait>"]
+  boot_keygroup_interval = "1s"
+  headless               = true
+
+  communicator_type     = "winrm"
+  communicator_username = "Administrator"
+  communicator_password = "Packer42-"
+  communicator_timeout  = "30m"
+
+  shutdown_command = "shutdown /s /t 10"
+  shutdown_timeout = "10m"
+
+  iso_urls = [
+    "${var.download_directory}/20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+    "https://software-download.microsoft.com/download/sg/20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
+  ]
+  iso_checksum = "sha256:4f1457c4fe14ce48c9b2324924f33ca4f0470475e6da851b39ccbf98f44e7852"
+  disk_size    = 130048
+  cd_files = [
+    "builders/iso/Autounattend.xml",
+    "builders/iso/boot.ps1"
+  ]
 }
 
-build {
-  source "null.chef" {
-  }
+locals {
+  chef_file_source      = "provisioners/chef"
+  chef_file_destination = "C:/Windows/Temp/packer/${local.chef_file_source}"
 
-  provisioner "shell-local" {
-    inline = [
-      "cd provisioners/chef",
-      "chef install",
-      "chef export policies --archive"
-    ]
-  }
+  windows_restart_timeout = "30m"
 }
 
 build {
   source "hyperv-iso.default" {
     name             = "hyperv-core"
-    output_directory = "output/${source.name}/image"
+    output_directory = "${var.artifacts_directory}/${source.name}/image"
   }
 
-  provisioner "file" {
-    source      = "builders/iso/scripts"
-    destination = "C:/Windows/Temp/packer"
+  source "virtualbox-iso.default" {
+    name             = "virtualbox-core"
+    output_directory = "${var.artifacts_directory}/${source.name}/image"
   }
 
   provisioner "powershell" {
-    script            = "provisioners/chef/scripts/prepare.ps1"
+    inline            = ["mkdir -Force ${local.chef_file_destination}"]
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
   }
 
   provisioner "file" {
-    source      = "provisioners/chef/policies"
-    destination = "C:/Windows/Temp/packer"
+    source      = "${local.chef_file_source}/policies"
+    destination = "${local.chef_file_destination}"
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "7z x *.tgz",
-      "7z x *.tar",
-      "rm *.tar",
-      "rm *.tgz"
-    ]
+    script            = "${local.chef_file_source}/prepare.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}"
+    ]
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list prepare"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=prepare"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list install"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=install"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list patch"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=patch"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list patch"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=patch"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list patch"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=patch"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list patch"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=patch"
+    ]
   }
 
   provisioner "windows-restart" {
-    restart_timeout = "30m"
+    restart_timeout = local.windows_restart_timeout
   }
 
   provisioner "powershell" {
-    inline = [
-      "cd C:/Windows/Temp/packer/policies",
-      "chef-client --local-mode --named-run-list cleanup"
-    ]
+    script            = "${local.chef_file_source}/run.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
+    environment_vars = [
+      "PKR_CWD=${local.chef_file_destination}",
+      "PKR_CHEF_NAMED_RUN_LIST=clenaup"
+    ]
   }
 
   provisioner "powershell" {
-    script            = "provisioners/chef/scripts/cleanup.ps1"
+    script            = "${local.chef_file_source}/cleanup.ps1"
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
   }
 
   post-processor "manifest" {
-    output = "output/${source.name}/manifest.json"
+    output = "${var.artifacts_directory}/${source.name}/manifest.json"
   }
 
   post-processor "checksum" {
     checksum_types = ["sha256"]
-    output         = "output/${source.name}/checksum.{{.ChecksumType}}"
+    output         = "${var.artifacts_directory}/${source.name}/{{.ChecksumType}}.checksum"
   }
 }

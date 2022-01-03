@@ -116,8 +116,8 @@
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -Command "Set-ExecutionPolicy Bypass -Force; E:\Autounattend.ps1"</CommandLine>
-                    <Description>Autounattend.ps1</Description>
+                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -File E:\boot.ps1</CommandLine>
+                    <Description>boot.ps1</Description>
                     <Order>1</Order>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>

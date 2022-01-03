@@ -1,9 +1,3 @@
-Write-Host "Configure PowerShell"
-Set-ExecutionPolicy RemoteSigned -Force
-$ProgressPreference = 'SilentlyContinue'
-
-mkdir -Force C:/Windows/Temp/packer
-
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block
 Get-NetConnectionProfile | ForEach-Object { Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private }
