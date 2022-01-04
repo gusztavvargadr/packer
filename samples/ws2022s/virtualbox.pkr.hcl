@@ -3,9 +3,9 @@ locals {
   guest_additions_mode = "disable"
   firmware             = "efi"
   nested_virt          = true
+  hard_drive_interface = "sata"
   gfx_controller       = "vboxsvga"
   gfx_vram_size        = 64
-  hard_drive_interface = "sata"
   post_shutdown_delay  = "5s"
 }
 
@@ -18,7 +18,7 @@ source "virtualbox-iso" "default" {
   disk_size    = local.disk_size
   iso_urls     = local.iso_urls
   iso_checksum = local.iso_checksum
-  cd_files     = local.cd_files
+  cd_content   = local.cd_content
 
   boot_wait              = local.boot_wait
   boot_command           = local.boot_command
@@ -36,8 +36,8 @@ source "virtualbox-iso" "default" {
   guest_additions_mode = local.guest_additions_mode
   firmware             = local.firmware
   nested_virt          = local.nested_virt
+  hard_drive_interface = local.hard_drive_interface
   gfx_controller       = local.gfx_controller
   gfx_vram_size        = local.gfx_vram_size
-  hard_drive_interface = local.hard_drive_interface
   post_shutdown_delay  = local.post_shutdown_delay
 }

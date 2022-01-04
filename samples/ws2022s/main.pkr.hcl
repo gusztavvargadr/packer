@@ -20,10 +20,10 @@ locals {
     "https://software-download.microsoft.com/download/sg/20348.169.210806-2348.fe_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
   ]
   iso_checksum = "sha256:4f1457c4fe14ce48c9b2324924f33ca4f0470475e6da851b39ccbf98f44e7852"
-  cd_files = [
-    "builders/iso/Autounattend.xml",
-    "builders/iso/boot.ps1"
-  ]
+  cd_content = {
+    "Autounattend.xml" = file("builders/iso/Autounattend.xml")
+    "boot.ps1"         = file("builders/iso/boot.ps1")
+  }
 
   boot_wait              = "1s"
   boot_command           = ["<enter><wait>", "<enter><wait>", "<enter><wait>"]
@@ -47,13 +47,13 @@ locals {
 }
 
 build {
-  source "hyperv-iso.default" {
-    name             = "hyperv-core"
+  source "virtualbox-iso.default" {
+    name             = "virtualbox-core"
     output_directory = "${var.artifacts_directory}/${source.name}/image"
   }
 
-  source "virtualbox-iso.default" {
-    name             = "virtualbox-core"
+  source "hyperv-iso.default" {
+    name             = "hyperv-core"
     output_directory = "${var.artifacts_directory}/${source.name}/image"
   }
 
