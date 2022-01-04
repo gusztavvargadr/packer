@@ -10,14 +10,19 @@ locals {
 }
 
 source "virtualbox-iso" "default" {
-  vm_name = local.vm_name
-  cpus    = local.cpus
-  memory  = local.memory
+  vm_name  = local.vm_name
+  cpus     = local.cpus
+  memory   = local.memory
+  headless = local.headless
+
+  disk_size    = local.disk_size
+  iso_urls     = local.iso_urls
+  iso_checksum = local.iso_checksum
+  cd_files     = local.cd_files
 
   boot_wait              = local.boot_wait
   boot_command           = local.boot_command
   boot_keygroup_interval = local.boot_keygroup_interval
-  headless               = local.headless
 
   communicator   = local.communicator_type
   winrm_username = local.communicator_username
@@ -26,11 +31,6 @@ source "virtualbox-iso" "default" {
 
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
-
-  iso_urls     = local.iso_urls
-  iso_checksum = local.iso_checksum
-  disk_size    = local.disk_size
-  cd_files     = local.cd_files
 
   guest_os_type        = local.guest_os_type
   guest_additions_mode = local.guest_additions_mode

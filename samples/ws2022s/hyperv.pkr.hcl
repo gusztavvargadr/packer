@@ -10,14 +10,23 @@ locals {
 }
 
 source "hyperv-iso" "default" {
-  vm_name = local.vm_name
-  cpus    = local.cpus
-  memory  = local.memory
+  vm_name  = local.vm_name
+  cpus     = local.cpus
+  memory   = local.memory
+  headless = local.headless
+
+  disk_size    = local.disk_size
+  iso_urls     = local.iso_urls
+  iso_checksum = local.iso_checksum
+  # cd_files     = local.cd_files
+  cd_content = {
+    "Autounattend.xml" = file("builders/iso/Autounattend.xml")
+    "boot.ps1" = file("builders/iso/boot.ps1")
+  }
 
   boot_wait              = local.boot_wait
   boot_command           = local.boot_command
   boot_keygroup_interval = local.boot_keygroup_interval
-  headless               = local.headless
 
   communicator   = local.communicator_type
   winrm_username = local.communicator_username
@@ -26,11 +35,6 @@ source "hyperv-iso" "default" {
 
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
-
-  iso_urls     = local.iso_urls
-  iso_checksum = local.iso_checksum
-  disk_size    = local.disk_size
-  cd_files     = local.cd_files
 
   generation                       = local.generation
   configuration_version            = local.configuration_version
