@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 $ProgressPreference = 'SilentlyContinue'
 
 # Chef Client
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.8.25
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.9.26
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Windows
@@ -39,7 +39,7 @@ choco install -y poshgit
 choco install -y dotnetcore-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 21.11.679
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.1.745
 
 # Vagrant
 choco install -y vagrant --version 2.2.19 --ignore-checksums --ignore-package-exit-codes
@@ -77,7 +77,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.195.0/vsts-agent-win-x64-2.195.0.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.195.2/vsts-agent-win-x64-2.192.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "Machine")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "Machine")
 
