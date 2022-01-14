@@ -60,7 +60,12 @@ chocolatey_package 'sdelete' do
 end
 
 if vbox?
+  reboot 'virtualbox' do
+    action :nothing
+  end
+
   chocolatey_package 'virtualbox-guest-additions-guest.install' do
     action :upgrade
+    notifies :request_reboot, 'reboot[virtualbox]'
   end
 end
