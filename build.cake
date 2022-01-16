@@ -28,7 +28,7 @@ var ws2016s = PackerTemplates_CreateWindows(
 );
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
-  "windows-server-standard-insider-preview",
+  "windows-server-insider-preview-standard",
   $"2102.0.{version}"
 );
 
@@ -52,7 +52,7 @@ var ws2016sc = PackerTemplates_CreateWindows(
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-standard-core-insider-preview",
+  "windows-server-insider-preview-standard-core",
   $"2102.0.{version}"
 );
 
