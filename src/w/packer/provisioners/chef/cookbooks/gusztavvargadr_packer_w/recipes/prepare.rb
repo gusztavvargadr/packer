@@ -60,12 +60,48 @@ chocolatey_package 'sdelete' do
 end
 
 if vbox?
-  reboot 'virtualbox' do
-    action :nothing
-  end
+  vbox_guest_additions_installed = !powershell_out('choco list -li | grep -i virtualbox').stdout.strip.empty?
+  unless vbox_guest_additions_installed
+    reboot 'vbox' do
+      action :nothing
+    end
 
-  chocolatey_package 'virtualbox-guest-additions-guest.install' do
-    action :upgrade
-    notifies :request_reboot, 'reboot[virtualbox]'
+    vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
+    vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
+    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
+
+    remote_file vbox_guest_additions_path do
+      source vbox_guest_additions_source
+      action :create
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path vbox_guest_additions_path
+      iso_drive_letter 'Z'
+      action :mount
+    end
+
+    powershell_script 'Install VirtualBox certificates' do
+      code <<-EOH
+        Start-Process "VBoxCertUtil.exe" "add-trusted-publisher vbox*.cer --root vbox*.cer" -Wait
+      EOH
+      cwd 'Z:/cert'
+      action :run
+    end
+
+    powershell_script 'Install VirtualBox Guest Additions' do
+      code <<-EOH
+        Start-Process "VBoxWindowsAdditions.exe" "/S" -Wait
+      EOH
+      cwd 'Z:'
+      action :run
+      notifies :request_reboot, 'reboot[vbox]'
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path vbox_guest_additions_path
+      iso_drive_letter 'Z'
+      action :dismount
+    end
   end
 end
