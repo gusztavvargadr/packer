@@ -22,10 +22,12 @@ powershell_script 'Clearing temporary files' do
         }
   EOH
   action :run
+  not_if { reboot_pending? }
 end
 
 gusztavvargadr_windows_updates '' do
   action :cleanup
+  not_if { reboot_pending? }
 end
 
 powershell_script 'Optimizing volume' do
@@ -33,6 +35,7 @@ powershell_script 'Optimizing volume' do
     Optimize-Volume -DriveLetter C -Analyze -Defrag
   EOH
   action :run
+  not_if { reboot_pending? }
 end
 
 powershell_script 'Zeroing volume' do
@@ -40,4 +43,10 @@ powershell_script 'Zeroing volume' do
     sdelete -nobanner -z C:
   EOH
   action :run
+  not_if { reboot_pending? }
+end
+
+reboot 'cleanup' do
+  action :request_reboot
+  only_if { reboot_pending? }
 end
