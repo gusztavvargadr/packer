@@ -17,7 +17,8 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "headless": "{{user `vmware_headless`}}",
       "vmx_data": {
-        "firmware": "efi"
+        "firmware": "efi",
+        "vhv.enable": "TRUE"
       },
       "version": "15",
       "disk_type_id": 0,

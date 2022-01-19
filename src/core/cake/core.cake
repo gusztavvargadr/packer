@@ -6,7 +6,7 @@
 
 var packerTemplates = new List<PackerTemplate>();
 
-IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, IEnumerable<string> aliases = null, bool vmware = false) {
+IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string groupName = null, string groupVersion = null, IEnumerable<PackerTemplate> parents = null, IEnumerable<string> aliases = null) {
   var items = new List<PackerTemplate>();
 
   var virtualBoxCore = PackerTemplate_Create(
@@ -53,29 +53,27 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);
 
-  if (vmware) {
-    var vmwareCore = PackerTemplate_Create(
-      name,
-      "vmware-core",
-      new [] { PackerBuilder_Create(parents == null ? "vmware-iso" : "vmware-vmx") },
-      new [] { PackerProvisioner_Create("chef") },
-      new [] { PackerPostProcessor_Create("manifest") },
-      parents != null ? parents.First(item => item.IsMatching("vmware-core")) : null
-    );
-    var vmwareVagrant = PackerTemplate_Create(
-      name,
-      "vmware-vagrant",
-      new [] { PackerBuilder_Create("vmware-vmx") },
-      new [] { PackerProvisioner_Create("vagrant") },
-      new [] { PackerPostProcessor_Create("vagrant-vmware") },
-      vmwareCore,
-      groupName,
-      groupVersion,
-      aliases
-    );
-    items.Add(vmwareCore);
-    items.Add(vmwareVagrant);
-  }
+  var vmwareCore = PackerTemplate_Create(
+    name,
+    "vmware-core",
+    new [] { PackerBuilder_Create(parents == null ? "vmware-iso" : "vmware-vmx") },
+    new [] { PackerProvisioner_Create("chef") },
+    new [] { PackerPostProcessor_Create("manifest") },
+    parents != null ? parents.First(item => item.IsMatching("vmware-core")) : null
+  );
+  var vmwareVagrant = PackerTemplate_Create(
+    name,
+    "vmware-vagrant",
+    new [] { PackerBuilder_Create("vmware-vmx") },
+    new [] { PackerProvisioner_Create("vagrant") },
+    new [] { PackerPostProcessor_Create("vagrant-vmware") },
+    vmwareCore,
+    groupName,
+    groupVersion,
+    aliases
+  );
+  items.Add(vmwareCore);
+  items.Add(vmwareVagrant);
 
   packerTemplates.AddRange(items);
 
