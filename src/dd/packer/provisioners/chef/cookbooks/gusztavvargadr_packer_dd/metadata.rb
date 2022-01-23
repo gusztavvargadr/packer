@@ -1,5 +1,5 @@
-name 'gusztavvargadr_packer_dc'
-description 'Installs/Configures Packer Docker Community'
+name 'gusztavvargadr_packer_dd'
+description 'Installs/Configures Packer Docker Desktop'
 license 'Unlicense'
 maintainer 'Gusztáv Varga'
 maintainer_email 'mail@gusztavvargadr.me'
