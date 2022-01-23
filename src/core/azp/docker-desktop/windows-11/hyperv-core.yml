@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w112102e-virtualbox-core
+      source: w1121h2e-hyperv-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w112102e-dc
-      provider: virtualbox
+      image: w1121h2e-dc
+      provider: hyperv
       configuration: core
-      parent: w112102e
+      parent: w1121h2e
