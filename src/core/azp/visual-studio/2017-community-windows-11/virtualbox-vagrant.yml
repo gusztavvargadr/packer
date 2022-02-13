@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: vs19c-w11-virtualbox-core
+      source: w1121h2e-dd-virtualbox-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w112102e-dc-vs19c
+      image: w1121h2e-dd-vs17c
       provider: virtualbox
       configuration: vagrant
-      parent: w112102e-dc-vs19c
+      parent: w1121h2e-dd-vs17c
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w112102e-dc-vs19c
+      image: w1121h2e-dd-vs17c
       provider: virtualbox
       configuration: vagrant
