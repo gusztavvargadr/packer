@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2022sc-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2022sc-sql19d
+      provider: virtualbox
+      configuration: core
+      parent: ws2022sc

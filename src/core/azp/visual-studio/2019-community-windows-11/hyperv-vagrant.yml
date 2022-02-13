@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w1121h2e-dd-hyperv-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w1121h2e-dd-vs19c
+      provider: hyperv
+      configuration: vagrant
+      parent: w1121h2e-dd-vs19c
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w1121h2e-dd-vs19c
+      provider: hyperv
+      configuration: vagrant

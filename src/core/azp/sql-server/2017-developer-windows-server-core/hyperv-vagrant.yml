@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: vs19p-w10-hyperv-core
+      source: ws2022sc-sql17d-hyperv-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w102102e-dc-vs19p
+      image: ws2022sc-sql17d
       provider: hyperv
       configuration: vagrant
-      parent: w102102e-dc-vs19p
+      parent: ws2022sc-sql17d
 
   - template: ../../cd-stages.yml
     parameters:
-      image: w102102e-dc-vs19p
+      image: ws2022sc-sql17d
       provider: hyperv
       configuration: vagrant
