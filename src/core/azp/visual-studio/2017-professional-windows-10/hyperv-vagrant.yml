@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w1021h2e-dd-hyperv-core
+      source: w1021h2e-dd-vs17p-hyperv-core
       trigger:
         branches:
           include:
