@@ -1,3 +1,1 @@
-chocolatey_package '7zip.portable' do
-  action :upgrade
-end
+include_recipe 'gusztavvargadr_packer_w::prepare'

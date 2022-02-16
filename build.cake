@@ -3,32 +3,32 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
-var version = "2112";
+var version = "2202";
 
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
 
 var ws2022s = PackerTemplates_CreateWindows(
   "ws2022s",
-  "windows-server-2022-standard-desktop",
+  "windows-server-2022-standard",
   $"2102.0.{version}",
   aliases: new [] { "windows-server" }
 );
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
-  "windows-server-2019-standard-desktop",
+  "windows-server-2019-standard",
   $"1809.0.{version}",
   aliases: new [] { "windows-server" }
 );
 var ws2016s = PackerTemplates_CreateWindows(
   "ws2016s",
-  "windows-server-2016-standard-desktop",
+  "windows-server-2016-standard",
   $"1607.0.{version}",
   aliases: new [] { "windows-server" }
 );
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
-  "windows-server-standard-desktop-insider-preview",
+  "windows-server-insider-preview-standard",
   $"2102.0.{version}"
 );
 
@@ -52,47 +52,47 @@ var ws2016sc = PackerTemplates_CreateWindows(
 );
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
-  "windows-server-standard-core-insider-preview",
+  "windows-server-insider-preview-standard-core",
   $"2102.0.{version}"
 );
 
-var w112102e = PackerTemplates_CreateWindows(
-  "w112102e",
-  "windows-11-enterprise",
+var w1121h2e = PackerTemplates_CreateWindows(
+  "w1121h2e",
+  "windows-11-21h2-enterprise",
   $"2102.0.{version}",
   aliases: new [] { "windows-11" }
 );
 var w11ipe = PackerTemplates_CreateWindows(
   "w11ipe",
-  "windows-11-enterprise-insider-preview",
+  "windows-11-insider-preview-enterprise",
   $"2102.0.{version}"
 );
 
-var w102102e = PackerTemplates_CreateWindows(
-  "w102102e",
-  "windows-10-enterprise",
+var w1021h2e = PackerTemplates_CreateWindows(
+  "w1021h2e",
+  "windows-10-21h2-enterprise",
   $"2102.0.{version}",
   aliases: new [] { "windows-10" }
 );
-var w102101e = PackerTemplates_CreateWindows(
-  "w102101e",
-  "windows-10-enterprise",
+var w1021h1e = PackerTemplates_CreateWindows(
+  "w1021h1e",
+  "windows-10-21h1-enterprise",
   $"2101.0.{version}",
   aliases: new [] { "windows-10" }
 );
-var w102102eltsc = PackerTemplates_CreateWindows(
-  "w102102eltsc",
-  "windows-10-enterprise-ltsc",
+var w1021h2eltsc = PackerTemplates_CreateWindows(
+  "w1021h2eltsc",
+  "windows-10-21h2-enterprise-ltsc",
   $"2102.0.{version}"
 );
 var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
-  "windows-10-enterprise-ltsc",
+  "windows-10-1809-enterprise-ltsc",
   $"1809.0.{version}"
 );
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
-  "windows-10-enterprise-insider-preview",
+  "windows-10-insider-preview-enterprise",
   $"2102.0.{version}"
 );
 
@@ -126,14 +126,14 @@ var u1604d = PackerTemplates_CreateLinux(
 
 var ws2022s_de = PackerTemplates_CreateWindows(
   "ws2022s-de",
-  "docker-enterprise-windows-server-desktop",
+  "docker-enterprise-windows-server",
   $"2010.2102.{version}",
   ws2022s,
   aliases: new [] { "docker-windows" }
 );
 var ws2019s_de = PackerTemplates_CreateWindows(
   "ws2019s-de",
-  "docker-enterprise-windows-server-desktop",
+  "docker-enterprise-windows-server",
   $"2010.1809.{version}",
   ws2019s,
   aliases: new [] { "docker-windows" }
@@ -150,20 +150,6 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   "docker-enterprise-windows-server-core",
   $"2010.1809.{version}",
   ws2019sc
-);
-
-var dc_w11 = PackerTemplates_CreateWindows(
-  "w112102e-dc",
-  "docker-desktop-windows-11",
-  $"2010.2102.{version}",
-  w112102e
-);
-
-var dc_w10 = PackerTemplates_CreateWindows(
-  "w102102e-dc",
-  "docker-desktop-windows-10",
-  $"2010.2102.{version}",
-  w102102e
 );
 
 var u1804s_dc = PackerTemplates_CreateLinux(
@@ -194,16 +180,30 @@ var u1604d_dc = PackerTemplates_CreateLinux(
   u1604d
 );
 
+var w1121h2e_dd = PackerTemplates_CreateWindows(
+  "w1121h2e-dd",
+  "docker-desktop-windows-11",
+  $"2010.2102.{version}",
+  w1121h2e
+);
+
+var w1021h2e_dd = PackerTemplates_CreateWindows(
+  "w1021h2e-dd",
+  "docker-desktop-windows-10",
+  $"2010.2102.{version}",
+  w1021h2e
+);
+
 var ws2022s_iis = PackerTemplates_CreateWindows(
   "ws2022s-iis",
-  "iis-windows-server-desktop",
+  "iis-windows-server",
   $"10.2102.{version}",
   ws2022s,
   aliases: new [] { "iis" }
 );
 var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
-  "iis-windows-server-desktop",
+  "iis-windows-server",
   $"10.1809.{version}",
   ws2019s,
   aliases: new [] { "iis" }
@@ -224,58 +224,71 @@ var ws2019sc_iis = PackerTemplates_CreateWindows(
 
 var ws2022s_sql19d = PackerTemplates_CreateWindows(
   "ws2022s-sql19d",
-  "sql-server-developer-windows-server-desktop",
+  "sql-server-2019-developer-windows-server",
   $"2019.2102.{version}",
   ws2022s,
   aliases: new [] { "sql-server" }
 );
 var ws2022s_sql17d = PackerTemplates_CreateWindows(
   "ws2022s-sql17d",
-  "sql-server-developer-windows-server-desktop",
+  "sql-server-2017-developer-windows-server",
   $"2017.2102.{version}",
   ws2022s,
   aliases: new [] { "sql-server" }
 );
 
-var vs19c_w11 = PackerTemplates_CreateWindows(
-  "w112102e-dc-vs19c",
+var ws2022sc_sql19d = PackerTemplates_CreateWindows(
+  "ws2022sc-sql19d",
+  "sql-server-2019-developer-windows-server-core",
+  $"2019.2102.{version}",
+  ws2022sc
+);
+var ws2022sc_sql17d = PackerTemplates_CreateWindows(
+  "ws2022sc-sql17d",
+  "sql-server-2017-developer-windows-server-core",
+  $"2017.2102.{version}",
+  ws2022sc
+);
+
+var w1121h2e_dd_vs19c = PackerTemplates_CreateWindows(
+  "w1121h2e-dd-vs19c",
   "visual-studio-2019-community-windows-11",
   $"2019.2102.{version}",
-  dc_w11
+  w1121h2e_dd
 );
-var vs17c_w11 = PackerTemplates_CreateWindows(
-  "w112102e-dc-vs17c",
+var w1121h2e_dd_vs17c = PackerTemplates_CreateWindows(
+  "w1121h2e-dd-vs17c",
   "visual-studio-2017-community-windows-11",
   $"2017.2102.{version}",
-  dc_w11
+  w1121h2e_dd
 );
 
-var vs19c_w10 = PackerTemplates_CreateWindows(
-  "w102102e-dc-vs19c",
-  "visual-studio-community-windows-10",
+var w1021h2e_dd_vs19c = PackerTemplates_CreateWindows(
+  "w1021h2e-dd-vs19c",
+  "visual-studio-2019-community-windows-10",
   $"2019.2102.{version}",
-  dc_w10,
+  w1021h2e_dd,
   aliases: new [] { "visual-studio" }
 );
-var vs17c_w10 = PackerTemplates_CreateWindows(
-  "w102102e-dc-vs17c",
-  "visual-studio-community-windows-10",
+var w1021h2e_dd_vs17c = PackerTemplates_CreateWindows(
+  "w1021h2e-dd-vs17c",
+  "visual-studio-2017-community-windows-10",
   $"2017.2102.{version}",
-  dc_w10,
+  w1021h2e_dd,
   aliases: new [] { "visual-studio" }
 );
 
-var vs19p_w10 = PackerTemplates_CreateWindows(
-  "w102102e-dc-vs19p",
-  "visual-studio-professional-windows-10",
+var w1021h2e_dd_vs19p = PackerTemplates_CreateWindows(
+  "w1021h2e-dd-vs19p",
+  "visual-studio-2019-professional-windows-10",
   $"2019.2102.{version}",
-  dc_w10
+  w1021h2e_dd
 );
-var vs17p_w10 = PackerTemplates_CreateWindows(
-  "w102102e-dc-vs17p",
-  "visual-studio-professional-windows-10",
+var w1021h2e_dd_vs17p = PackerTemplates_CreateWindows(
+  "w1021h2e-dd-vs17p",
+  "visual-studio-2017-professional-windows-10",
   $"2017.2102.{version}",
-  dc_w10
+  w1021h2e_dd
 );
 
 Task("default")

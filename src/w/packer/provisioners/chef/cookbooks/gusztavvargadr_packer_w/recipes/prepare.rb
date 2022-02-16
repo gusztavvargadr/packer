@@ -1,39 +1,107 @@
-powershell_script 'Configure OS services' do
-  code <<-EOH
-    Write-Host "Disable Windows Defender"
-    Set-MpPreference -DisableRealtimeMonitoring $True -ExclusionPath "C:\"
+windows_defender_exclusion '' do
+  paths ['C:\\']
+  action :add
+end
 
-    Write-Host "Disable Windows Updates"
-    reg add "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU" /v NoAutoUpdate /d 1 /t REG_DWORD /f /reg:64
+reboot 'windows-uac' do
+  action :nothing
+end
 
-    Write-Host "Disable Windows Store Updates"
-    reg add "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\WindowsStore" /v AutoDownload /d 2 /t REG_DWORD /f /reg:64
+windows_uac '' do
+  enable_uac false
+  action :configure
+  notifies :request_reboot, 'reboot[windows-uac]'
+end
 
-    Write-Host "Disable Maintenance"
-    reg add "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance" /v MaintenanceDisabled /t REG_DWORD /d 1 /f
-
-    Write-Host "Disable UAC"
-    reg add "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v EnableLUA /t REG_DWORD /d 0 /f
-    reg add "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
-
-    Write-Host "Enable Remote Desktop"
-    reg add "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
-    netsh advfirewall firewall add rule name="Remote Desktop" dir=in localport=3389 protocol=TCP action=allow
-  EOH
-  action :run
+registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System' do
+  values [{
+    name: 'LocalAccountTokenFilterPolicy',
+    type: :dword,
+    data: 1,
+  }]
+  recursive true
+  action :create
 end
 
 gusztavvargadr_windows_updates '' do
   action [:configure]
 end
 
-gusztavvargadr_windows_chocolatey_package 'sdelete' do
-  action :install
+registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
+  values [{
+    name: 'MaintenanceDisabled',
+    type: :dword,
+    data: 1,
+  }]
+  recursive true
+  action :create
+end
+
+registry_key 'HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server' do
+  values [{
+    name: 'fDenyTSConnections',
+    type: :dword,
+    data: 0,
+  }]
+  recursive true
+  action :create
+end
+
+windows_firewall_rule 'Remote Desktop' do
+  direction :inbound
+  local_port '3389'
+  protocol 'TCP'
+  firewall_action :allow
+  action :create
+end
+
+chocolatey_package 'sdelete' do
+  action :upgrade
 end
 
 if vbox?
-  gusztavvargadr_windows_chocolatey_packages '' do
-    options node['gusztavvargadr_packer_w']['virtualbox_chocolatey_packages']
-    action :install
+  vbox_guest_additions_installed = !powershell_out('choco list -li | grep -i virtualbox').stdout.strip.empty?
+  unless vbox_guest_additions_installed
+    reboot 'vbox' do
+      action :nothing
+    end
+
+    vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
+    vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
+    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
+
+    remote_file vbox_guest_additions_path do
+      source vbox_guest_additions_source
+      action :create
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path vbox_guest_additions_path
+      iso_drive_letter 'Z'
+      action :mount
+    end
+
+    powershell_script 'Install VirtualBox certificates' do
+      code <<-EOH
+        Start-Process "VBoxCertUtil.exe" "add-trusted-publisher vbox*.cer --root vbox*.cer" -Wait
+      EOH
+      cwd 'Z:/cert'
+      action :run
+    end
+
+    powershell_script 'Install VirtualBox Guest Additions' do
+      code <<-EOH
+        Start-Process "VBoxWindowsAdditions.exe" "/S" -Wait
+      EOH
+      cwd 'Z:'
+      action :run
+      notifies :request_reboot, 'reboot[vbox]'
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path vbox_guest_additions_path
+      iso_drive_letter 'Z'
+      action :dismount
+    end
   end
 end

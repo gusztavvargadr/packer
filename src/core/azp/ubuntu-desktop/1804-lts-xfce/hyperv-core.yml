@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u1804s-hyperv-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u1804d
+      provider: hyperv
+      configuration: core
+      parent: u1804s
