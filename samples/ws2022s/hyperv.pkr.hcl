@@ -41,3 +41,31 @@ source "hyperv-iso" "default" {
   switch_name                      = local.switch_name
   enable_mac_spoofing              = local.enable_mac_spoofing
 }
+
+source "hyperv-vmcx" "default" {
+  vm_name  = local.vm_name
+  cpus     = local.cpus
+  memory   = local.memory
+  headless = local.headless
+
+  clone_from_vmcx_path = local.clone_from_vmcx_path
+
+  boot_wait = local.boot_wait
+
+  communicator   = local.communicator_type
+  winrm_username = local.communicator_username
+  winrm_password = local.communicator_password
+  winrm_timeout  = local.communicator_timeout
+
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = local.shutdown_timeout
+
+  generation                       = local.generation
+  configuration_version            = local.configuration_version
+  enable_virtualization_extensions = local.enable_virtualization_extensions
+  enable_dynamic_memory            = local.enable_dynamic_memory
+  enable_secure_boot               = local.enable_secure_boot
+  secure_boot_template             = local.secure_boot_template
+  switch_name                      = local.switch_name
+  enable_mac_spoofing              = local.enable_mac_spoofing
+}

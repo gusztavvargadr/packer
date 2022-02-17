@@ -1,7 +1,7 @@
 variables {
   author      = "gusztavvargadr"
-  name        = "ws2022sc"
-  description = "Windows Server 2022 Standard Core"
+  name        = "ws2022s"
+  description = "Windows Server 2022 Standard"
   version     = "2112.0.0"
 
   artifacts_directory = "output"
@@ -24,6 +24,8 @@ locals {
     "Autounattend.xml" = file("builders/iso/Autounattend.xml")
     "boot.ps1"         = file("builders/iso/boot.ps1")
   }
+
+  clone_from_vmcx_path = "output/hyperv-core/image"
 
   boot_wait              = "1s"
   boot_command           = ["<enter><wait>", "<enter><wait>", "<enter><wait>"]
@@ -188,12 +190,42 @@ build {
     ]
   }
 
-  post-processor "manifest" {
-    output = "${var.artifacts_directory}/${source.name}/manifest.json"
+  post-processors {
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output         = "${var.artifacts_directory}/${source.name}/{{.ChecksumType}}.checksum"
+    }
+
+    post-processor "manifest" {
+      output = "${var.artifacts_directory}/${source.name}/manifest.json"
+    }
+  }
+}
+
+build {
+  source "hyperv-vmcx.default" {
+    name             = "hyperv-vagrant"
+    output_directory = "${var.artifacts_directory}/${source.name}/image"
   }
 
-  post-processor "checksum" {
-    checksum_types = ["sha256"]
-    output         = "${var.artifacts_directory}/${source.name}/{{.ChecksumType}}.checksum"
+  provisioner "powershell" {
+    inline            = ["echo hello"]
+    elevated_user     = local.communicator_username
+    elevated_password = local.communicator_password
+  }
+
+  post-processors {
+    post-processor "vagrant" {
+      output = "${var.artifacts_directory}/${source.name}/package/vagrant.box"
+    }
+
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output         = "${var.artifacts_directory}/${source.name}/{{.ChecksumType}}.checksum"
+    }
+
+    post-processor "manifest" {
+      output = "${var.artifacts_directory}/${source.name}/manifest.json"
+    }
   }
 }
