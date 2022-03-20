@@ -27,6 +27,14 @@ gusztavvargadr_windows_updates '' do
   action [:configure]
 end
 
+powershell_script 'Disable Reserved Storage State' do
+  code <<-EOH
+    DISM.exe /Online /Set-ReservedStorageState /State:Disabled
+  EOH
+  action :run
+  only_if { windows_workstation? }
+end
+
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
   values [{
     name: 'MaintenanceDisabled',
