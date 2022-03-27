@@ -19,6 +19,7 @@ stages:
             - AZP_AGENT_PACKER
             - AZP_AGENT_VAGRANT
             - AZP_AGENT_${{ parameters.provider }}
+            - AZP_AGENT_UPLOAD
 
         workspace:
           clean: all
