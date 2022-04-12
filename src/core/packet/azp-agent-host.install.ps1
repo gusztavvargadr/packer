@@ -6,7 +6,7 @@ $ProgressPreference = 'SilentlyContinue'
 
 # Chef Client
 Write-Host "Install Chef Client"
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.9.52
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 17.10.3
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Windows
@@ -23,7 +23,7 @@ netsh advfirewall set allprofiles settings inboundusernotification enable
 ## TODO windows update cleanup
 
 # Chocolatey
-$env:chocolateyVersion = '0.11.3'
+$env:chocolateyVersion = '1.1.0'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 # Workstation
@@ -40,7 +40,7 @@ choco install -y poshgit
 choco install -y dotnetcore-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.2.807
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.4.861
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Vagrant
@@ -52,7 +52,7 @@ choco install -y vagrant --version 2.2.19 --ignore-checksums --ignore-package-ex
 ## TODO boxes
 
 # Packer
-choco install -y packer --version 1.7.10
+choco install -y packer --version 1.8.0
 # [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
 
 ## TODO allow firewall access

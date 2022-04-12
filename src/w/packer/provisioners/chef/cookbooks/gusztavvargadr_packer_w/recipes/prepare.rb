@@ -64,7 +64,7 @@ windows_firewall_rule 'Remote Desktop' do
 end
 
 chocolatey_package 'sdelete' do
-  action :upgrade
+  action :install
 end
 
 if vbox?
