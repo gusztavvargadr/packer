@@ -79,7 +79,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.200.2/vsts-agent-win-x64-2.200.2.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.202.0/vsts-agent-win-x64-2.202.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "Machine")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "Machine")
 
