@@ -1,0 +1,6 @@
+Vagrant.configure(2) do |config|
+  config.vm.provider 'hyperv' do |h|
+    h.cpus = 2
+    h.memory = 4096
+  end
+end

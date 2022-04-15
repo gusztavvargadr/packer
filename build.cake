@@ -96,6 +96,12 @@ var w10ipe = PackerTemplates_CreateWindows(
   $"2102.0.{version}"
 );
 
+var u2004s = PackerTemplates_CreateLinux(
+  "u2004s",
+  "ubuntu-server-2004-lts",
+  $"2004.0.{version}",
+  aliases: new [] { "ubuntu-server" }
+);
 var u1804s = PackerTemplates_CreateLinux(
   "u1804s",
   "ubuntu-server-1804-lts",
@@ -109,6 +115,13 @@ var u1604s = PackerTemplates_CreateLinux(
   aliases: new [] { "ubuntu-server" }
 );
 
+var u2004d = PackerTemplates_CreateLinux(
+  "u2004d",
+  "ubuntu-desktop-2004-lts-xfce",
+  $"2004.0.{version}",
+  u2004s,
+  aliases: new [] { "ubuntu-desktop" }
+);
 var u1804d = PackerTemplates_CreateLinux(
   "u1804d",
   "ubuntu-desktop-1804-lts-xfce",
