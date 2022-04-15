@@ -36,7 +36,6 @@
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "boot_command": [ "{{ user `virtualbox_boot_command` }}" ],
-      "boot_keygroup_interval": "1s",
       "communicator": "{{user `virtualbox_communicator`}}",
       "ssh_username": "{{user `virtualbox_ssh_username`}}",
       "ssh_password": "{{user `virtualbox_ssh_password`}}",
