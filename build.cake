@@ -165,6 +165,13 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
+var u2004s_dc = PackerTemplates_CreateLinux(
+  "u2004s-dc",
+  "docker-community-ubuntu-server",
+  $"2010.2004.{version}",
+  u2004s,
+  aliases: new [] { "docker-linux" }
+);
 var u1804s_dc = PackerTemplates_CreateLinux(
   "u1804s-dc",
   "docker-community-ubuntu-server",
@@ -180,6 +187,12 @@ var u1604s_dc = PackerTemplates_CreateLinux(
   aliases: new [] { "docker-linux" }
 );
 
+var u2004d_dc = PackerTemplates_CreateLinux(
+  "u2004d-dc",
+  "docker-community-ubuntu-desktop",
+  $"2010.2004.{version}",
+  u2004d
+);
 var u1804d_dc = PackerTemplates_CreateLinux(
   "u1804d-dc",
   "docker-community-ubuntu-desktop",

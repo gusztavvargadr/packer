@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u2004d-dc-hyperv-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u2004d-dc
+      provider: hyperv
+      configuration: vagrant
+      parent: u2004d-dc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: u2004d-dc
+      provider: hyperv
+      configuration: vagrant
