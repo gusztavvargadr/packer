@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
+This repository contains [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
@@ -21,12 +21,12 @@ This repository contains common [Packer] helper tools and sample templates for [
 This repository contains [Packer] sample templates for the following virtualization scenarios:
 
 - Default versions for getting started:
-  - [Windows Server][windows-server-default-box] 2022, 2019 and 2016 Standard
-  - [Windows Server Core][windows-server-core-default-box] 2022, 2019 and 2016 Standard
+  - [Windows Server][windows-server-default-box] 2022 and 2019 Standard
+  - [Windows Server Core][windows-server-core-default-box] 2022 and 2019 Standard
   - [Windows 11][windows-11-default-box] Version 21H2 Enteprise
   - [Windows 10][windows-10-default-box] Version 21H2 and 21H1 Enterprise
-  - [Ubuntu Server][ubuntu-server-default-box] 18.04 LTS
-  - [Ubuntu Desktop][ubuntu-desktop-default-box] 18.04 LTS with Xfce
+  - [Ubuntu Server][ubuntu-server-default-box] 20.04 and 18.04 LTS
+  - [Ubuntu Desktop][ubuntu-desktop-default-box] 20.04 and 18.04 LTS with Xfce
   - [Docker Windows][docker-windows-default-box] Enterprise on Windows Server
   - [Docker Linux][docker-linux-default-box] Community on Ubuntu Server
   - [IIS][iis-default-box] on Windows Server
@@ -74,26 +74,22 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 - [Windows Server **2022 Standard**][windows-server-2022-standard-box]
 - [Windows Server **2019 Standard**][windows-server-2019-standard-box]
-- [Windows Server **2016 Standard**][windows-server-2016-standard-box]
 - [Windows Server **Insider Preview Standard**][windows-server-insider-preview-standard-box]
 
 [windows-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2022-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard/
 [windows-server-2019-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
-[windows-server-2016-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard/
 [windows-server-insider-preview-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard/
 
 ##### Windows Server Core
 
 - [Windows Server **2022 Standard Core**][windows-server-2022-standard-core-box]
 - [Windows Server **2019 Standard Core**][windows-server-2019-standard-core-box]
-- [Windows Server **2016 Standard Core**][windows-server-2016-standard-core-box]
 - [Windows Server **Insider Preview Standard Core**][windows-server-insider-preview-standard-core-box]
 
 [windows-server-core-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core/
 [windows-server-2022-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core/
 [windows-server-2019-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
-[windows-server-2016-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
 [windows-server-insider-preview-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core/
 
 ##### Windows 11
@@ -126,16 +122,20 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
+- [Ubuntu Server **20.04 LTS**][ubuntu-server-2004-lts-box]
 - [Ubuntu Server **18.04 LTS**][ubuntu-server-1804-lts-box]
 
 [ubuntu-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2004-lts/
 [ubuntu-server-1804-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1804-lts/
 
 ##### Ubuntu Desktop
 
+- [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
 - [Ubuntu Desktop **18.04 LTS with Xfce**][ubuntu-desktop-1804-lts-xfce-box]
 
 [ubuntu-desktop-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-2004-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
 [ubuntu-desktop-1804-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1804-lts-xfce/
 
 ### Hosting
@@ -382,7 +382,7 @@ As in the previous `ws2019s` sample, for this configuration the `ws2019s-iis-vir
 Note that the script can invoke the build of the dependencies automatically, so for the previous example you can simply type:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant
+$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant --recursive true
 ```
 
 This will in turn invoke the `restore` and `build` stages for the `ws2019s-virtualbox-core` and `ws2019s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
@@ -390,7 +390,7 @@ This will in turn invoke the `restore` and `build` stages for the `ws2019s-virtu
 Again, this works for Hyper-V as well:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-iis-hyperv-vagrant
+$ dotnet cake --target=build --configuration=ws2019s-iis-hyperv-vagrant --recursive true
 ```
 
 Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hyperv-core` images first if they are missing.
