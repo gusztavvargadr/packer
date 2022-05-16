@@ -276,6 +276,12 @@ var ws2022sc_sql17d = PackerTemplates_CreateWindows(
   ws2022sc
 );
 
+var w1121h2e_dd_vs22c = PackerTemplates_CreateWindows(
+  "w1121h2e-dd-vs22c",
+  "visual-studio-2022-community-windows-11",
+  $"2022.2102.{version}",
+  w1121h2e_dd
+);
 var w1121h2e_dd_vs19c = PackerTemplates_CreateWindows(
   "w1121h2e-dd-vs19c",
   "visual-studio-2019-community-windows-11",
@@ -289,6 +295,13 @@ var w1121h2e_dd_vs17c = PackerTemplates_CreateWindows(
   w1121h2e_dd
 );
 
+var w1021h2e_dd_vs22c = PackerTemplates_CreateWindows(
+  "w1021h2e-dd-vs22c",
+  "visual-studio-2022-community-windows-10",
+  $"2022.2102.{version}",
+  w1021h2e_dd,
+  aliases: new [] { "visual-studio" }
+);
 var w1021h2e_dd_vs19c = PackerTemplates_CreateWindows(
   "w1021h2e-dd-vs19c",
   "visual-studio-2019-community-windows-10",

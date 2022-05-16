@@ -52,13 +52,13 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [BlogWhy]: https://bit.ly/wdywttt5
 [BlogHow]: https://bit.ly/wdywttt7
 
-[Packer]: https://www.packer.io/
-[Vagrant]: https://www.vagrantup.com/
-[VirtualBox]: https://www.virtualbox.org/
+[Packer]: https://packer.io
+[Vagrant]: https://vagrantup.com
+[VirtualBox]: https://virtualbox.org
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[Azure]: https://azure.microsoft.com/
-[AWS]: https://aws.amazon.com/
-[Chef]: https://www.chef.sh/
+[Azure]: https://azure.microsoft.com
+[AWS]: https://aws.amazon.com
+[Chef]: https://chef.io
 
 ### Operating systems
 
