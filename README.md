@@ -31,7 +31,7 @@ This repository contains [Packer] sample templates for the following virtualizat
   - [Docker Linux][docker-linux-default-box] Community on Ubuntu Server
   - [IIS][iis-default-box] on Windows Server
   - [SQL Server][sql-server-default-box] 2019 and 2017 Developer on Windows Server
-  - [Visual Studio][visual-studio-default-box] 2019 and 2017 Community on Windows 10
+  - [Visual Studio][visual-studio-default-box] 2022 and 2019 Community on Windows 10
 - Specific versions for more complex scenarios:
   - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
   - [Hosting] using [Docker], [IIS] and [SQL Server].
@@ -208,18 +208,18 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
+- [Visual Studio **2022 Community on Windows 11**][visual-studio-2022-community-windows-11-box]
 - [Visual Studio **2019 Community on Windows 11**][visual-studio-2019-community-windows-11-box]
-- [Visual Studio **2017 Community on Windows 11**][visual-studio-2017-community-windows-11-box]
+- [Visual Studio **2022 Community on Windows 10**][visual-studio-2022-community-windows-10-box]
 - [Visual Studio **2019 Community on Windows 10**][visual-studio-2019-community-windows-10-box]
-- [Visual Studio **2017 Community on Windows 10**][visual-studio-2017-community-windows-10-box]
 
 [Visual Studio]: #visual-studio
 
 [visual-studio-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
+[visual-studio-2022-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-11/
 [visual-studio-2019-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-11/
-[visual-studio-2017-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-community-windows-11/
+[visual-studio-2022-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-10/
 [visual-studio-2019-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-10/
-[visual-studio-2017-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2017-community-windows-10/
 
 ## Getting started
 
