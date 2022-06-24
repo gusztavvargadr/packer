@@ -37,10 +37,11 @@ choco install -y beyondcompare
 # Development
 choco install -y git --package-parameters="'/GitAndUnixToolsOnPath /NoAutoCrlf /NoShellIntegration /SChannel'"
 choco install -y poshgit
-choco install -y dotnetcore-sdk
+choco install -y dotnetcore-3.1-sdk
+choco install -y dotnet-6.0-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.5.923
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.6.973
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Vagrant
@@ -52,7 +53,7 @@ choco install -y vagrant --version 2.2.19 --ignore-checksums --ignore-package-ex
 ## TODO boxes
 
 # Packer
-choco install -y packer --version 1.8.0
+choco install -y packer --version 1.8.1
 # [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
 
 ## TODO allow firewall access
@@ -79,7 +80,7 @@ Get-WindowsOptionalFeature -Online | Where { $_.FeatureName -match "dhcp" } | Wh
 ## TODO kitchen-hyperv, kitchen-docker
 
 # AZP Agent
-# wget https://vstsagentpackage.azureedge.net/agent/2.202.1/vsts-agent-win-x64-2.202.1.zip -OutFile vsts-agent.zip
+# wget https://vstsagentpackage.azureedge.net/agent/2.204.0/vsts-agent-win-x64-2.204.0.zip -OutFile vsts-agent.zip
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_URL", "https://dev.azure.com/gusztavvargadr/", "Machine")
 # [Environment]::SetEnvironmentVariable("VSTS_AGENT_INPUT_AUTH", "pat", "Machine")
 
