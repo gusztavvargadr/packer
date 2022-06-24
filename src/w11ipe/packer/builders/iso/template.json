@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url_local": "{{user `download_directory`}}/Windows11_InsiderPreview_EnterpriseVL_x64_en-us_22621.iso",
+    "iso_url_local": "{{user `download_directory`}}/Windows11_InsiderPreview_EnterpriseVL_x64_en-us_25140.iso",
     "iso_url_remote": "",
-    "iso_checksum": "sha256:dd606f093fcb9f785b3c41b27c6ae89ceeddff947824b8581f4be75af7286fbf"
+    "iso_checksum": "sha256:57a2a9550c4e1a235ab0a709f108b1610e3b4006dfd9e099b3b07c71b8e93a27"
   }
 }
