@@ -3,7 +3,7 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
-var version = "2206";
+var version = "2207";
 
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
