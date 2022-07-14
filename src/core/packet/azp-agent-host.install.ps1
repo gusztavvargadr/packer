@@ -41,19 +41,19 @@ choco install -y dotnetcore-3.1-sdk
 choco install -y dotnet-6.0-sdk
 
 # Chef Workstation
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.6.973
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -version 22.7.1006
 [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
 
 # Vagrant
-choco install -y vagrant --version 2.2.19 --ignore-checksums --ignore-package-exit-codes
-# C:\HashiCorp\Vagrant\embedded\gems\2.2.19\gems\vagrant-2.2.19\bin\vagrant
+choco install -y vagrant --ignore-checksums --ignore-package-exit-codes
+# C:\HashiCorp\Vagrant\embedded\gems\v\gems\vagrant-v\bin\vagrant
 # Encoding.default_external = Encoding.find('Windows-1250')
 # Encoding.default_internal = Encoding.find('Windows-1250')
 
 ## TODO boxes
 
 # Packer
-choco install -y packer --version 1.8.1
+choco install -y packer
 # [Environment]::SetEnvironmentVariable("PACKER_CACHE_DIR", "%USERPROFILE%\.packer\cache", "User")
 
 ## TODO allow firewall access
