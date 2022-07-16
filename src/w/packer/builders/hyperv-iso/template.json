@@ -2,7 +2,7 @@
   "variables": {
     "hyperv_disk_size": "130048",
     "hyperv_cd_files": "builders/hyperv-iso/floppy/*",
-    "hyperv_boot_command": "<enter><wait><enter><wait><enter><wait>"
+    "hyperv_boot_command": "<enter><wait><enter><wait><enter>"
   },
   "builders": [
     {
