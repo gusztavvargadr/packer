@@ -3,7 +3,7 @@
     "virtualbox_guest_os_type": "",
     "virtualbox_disk_size": "130048",
     "virtualbox_cd_files": "builders/virtualbox-iso/floppy/*",
-    "virtualbox_boot_command": "<enter><wait5><enter><wait5><enter><wait5>"
+    "virtualbox_boot_command": "<enter><wait><enter><wait><enter>"
   },
   "builders": [
     {

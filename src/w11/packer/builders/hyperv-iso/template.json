@@ -1,5 +1,0 @@
-{
-  "variables": {
-    "hyperv_boot_command": "<enter><wait5><enter><wait5><enter><wait5><leftShiftOn><f10><leftShiftOff><wait>E:\\setup.cmd<enter><wait>exit<enter><wait>"
-  }
-}
