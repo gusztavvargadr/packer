@@ -20,12 +20,6 @@ var ws2019s = PackerTemplates_CreateWindows(
   $"1809.0.{version}",
   aliases: new [] { "windows-server" }
 );
-var ws2016s = PackerTemplates_CreateWindows(
-  "ws2016s",
-  "windows-server-2016-standard",
-  $"1607.0.{version}",
-  aliases: new [] { "windows-server" }
-);
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
   "windows-server-insider-preview-standard",
@@ -42,12 +36,6 @@ var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
   "windows-server-2019-standard-core",
   $"1809.0.{version}",
-  aliases: new [] { "windows-server-core" }
-);
-var ws2016sc = PackerTemplates_CreateWindows(
-  "ws2016sc",
-  "windows-server-2016-standard-core",
-  $"1607.0.{version}",
   aliases: new [] { "windows-server-core" }
 );
 var wsipsc = PackerTemplates_CreateWindows(
@@ -80,6 +68,12 @@ var w1021h1e = PackerTemplates_CreateWindows(
   $"2101.0.{version}",
   aliases: new [] { "windows-10" }
 );
+var w10ipe = PackerTemplates_CreateWindows(
+  "w10ipe",
+  "windows-10-insider-preview-enterprise",
+  $"2102.0.{version}"
+);
+
 var w1021h2eltsc = PackerTemplates_CreateWindows(
   "w1021h2eltsc",
   "windows-10-21h2-enterprise-ltsc",
@@ -89,11 +83,6 @@ var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
   "windows-10-1809-enterprise-ltsc",
   $"1809.0.{version}"
-);
-var w10ipe = PackerTemplates_CreateWindows(
-  "w10ipe",
-  "windows-10-insider-preview-enterprise",
-  $"2102.0.{version}"
 );
 
 var u2004s = PackerTemplates_CreateLinux(
@@ -106,12 +95,6 @@ var u1804s = PackerTemplates_CreateLinux(
   "u1804s",
   "ubuntu-server-1804-lts",
   $"1804.0.{version}",
-  aliases: new [] { "ubuntu-server" }
-);
-var u1604s = PackerTemplates_CreateLinux(
-  "u1604s",
-  "ubuntu-server-1604-lts",
-  $"1604.0.{version}",
   aliases: new [] { "ubuntu-server" }
 );
 
@@ -127,13 +110,6 @@ var u1804d = PackerTemplates_CreateLinux(
   "ubuntu-desktop-1804-lts-xfce",
   $"1804.0.{version}",
   u1804s,
-  aliases: new [] { "ubuntu-desktop" }
-);
-var u1604d = PackerTemplates_CreateLinux(
-  "u1604d",
-  "ubuntu-desktop-1604-lts-xfce",
-  $"1604.0.{version}",
-  u1604s,
   aliases: new [] { "ubuntu-desktop" }
 );
 
@@ -179,13 +155,6 @@ var u1804s_dc = PackerTemplates_CreateLinux(
   u1804s,
   aliases: new [] { "docker-linux" }
 );
-var u1604s_dc = PackerTemplates_CreateLinux(
-  "u1604s-dc",
-  "docker-community-ubuntu-server",
-  $"2010.1604.{version}",
-  u1604s,
-  aliases: new [] { "docker-linux" }
-);
 
 var u2004d_dc = PackerTemplates_CreateLinux(
   "u2004d-dc",
@@ -198,12 +167,6 @@ var u1804d_dc = PackerTemplates_CreateLinux(
   "docker-community-ubuntu-desktop",
   $"2010.1804.{version}",
   u1804d
-);
-var u1604d_dc = PackerTemplates_CreateLinux(
-  "u1604d-dc",
-  "docker-community-ubuntu-desktop",
-  $"2010.1604.{version}",
-  u1604d
 );
 
 var w1121h2e_dd = PackerTemplates_CreateWindows(
@@ -317,6 +280,18 @@ var w1021h2e_dd_vs17c = PackerTemplates_CreateWindows(
   aliases: new [] { "visual-studio" }
 );
 
+var ws2016s = PackerTemplates_CreateWindows(
+  "ws2016s",
+  "windows-server-2016-standard",
+  $"1607.0.{version}",
+  aliases: new [] { "windows-server" }
+);
+var ws2016sc = PackerTemplates_CreateWindows(
+  "ws2016sc",
+  "windows-server-2016-standard-core",
+  $"1607.0.{version}",
+  aliases: new [] { "windows-server-core" }
+);
 var w1021h2e_dd_vs19p = PackerTemplates_CreateWindows(
   "w1021h2e-dd-vs19p",
   "visual-studio-2019-professional-windows-10",
