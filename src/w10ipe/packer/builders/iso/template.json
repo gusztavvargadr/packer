@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url_local": "{{user `download_directory`}}/Windows10_InsiderPreview_EnterpriseVL_x64_en-us__19044.iso",
+    "iso_url_local": "{{user `download_directory`}}/Windows10_InsiderPreview_EnterpriseVL_x64_en-us_19045.1826.iso",
     "iso_url_remote": "",
-    "iso_checksum": "sha256:f87a563c76351f00d309f3d2e72d1ec5f2ba7a0d3fc345161b1e559655704b33"
+    "iso_checksum": "sha256:fcd292f980306449e85f8c6e746b3a2dd265a5d8041ad243f0313a1b26b0507c"
   }
 }

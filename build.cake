@@ -20,6 +20,7 @@ var ws2019s = PackerTemplates_CreateWindows(
   $"1809.0.{version}",
   aliases: new [] { "windows-server" }
 );
+
 var wsips = PackerTemplates_CreateWindows(
   "wsips",
   "windows-server-insider-preview-standard",
@@ -38,6 +39,7 @@ var ws2019sc = PackerTemplates_CreateWindows(
   $"1809.0.{version}",
   aliases: new [] { "windows-server-core" }
 );
+
 var wsipsc = PackerTemplates_CreateWindows(
   "wsipsc",
   "windows-server-insider-preview-standard-core",
@@ -50,6 +52,7 @@ var w1121h2e = PackerTemplates_CreateWindows(
   $"2102.0.{version}",
   aliases: new [] { "windows-11" }
 );
+
 var w11ipe = PackerTemplates_CreateWindows(
   "w11ipe",
   "windows-11-insider-preview-enterprise",
@@ -68,11 +71,6 @@ var w1021h1e = PackerTemplates_CreateWindows(
   $"2101.0.{version}",
   aliases: new [] { "windows-10" }
 );
-var w10ipe = PackerTemplates_CreateWindows(
-  "w10ipe",
-  "windows-10-insider-preview-enterprise",
-  $"2102.0.{version}"
-);
 
 var w1021h2eltsc = PackerTemplates_CreateWindows(
   "w1021h2eltsc",
@@ -83,6 +81,12 @@ var w101809eltsc = PackerTemplates_CreateWindows(
   "w101809eltsc",
   "windows-10-1809-enterprise-ltsc",
   $"1809.0.{version}"
+);
+
+var w10ipe = PackerTemplates_CreateWindows(
+  "w10ipe",
+  "windows-10-insider-preview-enterprise",
+  $"2102.0.{version}"
 );
 
 var u2004s = PackerTemplates_CreateLinux(
@@ -278,31 +282,6 @@ var w1021h2e_dd_vs17c = PackerTemplates_CreateWindows(
   $"2017.2102.{version}",
   w1021h2e_dd,
   aliases: new [] { "visual-studio" }
-);
-
-var ws2016s = PackerTemplates_CreateWindows(
-  "ws2016s",
-  "windows-server-2016-standard",
-  $"1607.0.{version}",
-  aliases: new [] { "windows-server" }
-);
-var ws2016sc = PackerTemplates_CreateWindows(
-  "ws2016sc",
-  "windows-server-2016-standard-core",
-  $"1607.0.{version}",
-  aliases: new [] { "windows-server-core" }
-);
-var w1021h2e_dd_vs19p = PackerTemplates_CreateWindows(
-  "w1021h2e-dd-vs19p",
-  "visual-studio-2019-professional-windows-10",
-  $"2019.2102.{version}",
-  w1021h2e_dd
-);
-var w1021h2e_dd_vs17p = PackerTemplates_CreateWindows(
-  "w1021h2e-dd-vs17p",
-  "visual-studio-2017-professional-windows-10",
-  $"2017.2102.{version}",
-  w1021h2e_dd
 );
 
 Task("default")

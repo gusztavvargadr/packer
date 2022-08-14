@@ -7,8 +7,10 @@ gusztavvargadr_mssql_server '' do
   not_if { reboot_pending? }
 end
 
-gusztavvargadr_mssql_management_studio '' do
-  version '2018'
-  action :install
-  not_if { reboot_pending? || windows_server_core? }
+unless windows_server_core?
+  gusztavvargadr_mssql_management_studio '' do
+    version '2018'
+    action :install
+    not_if { reboot_pending? }
+  end
 end
