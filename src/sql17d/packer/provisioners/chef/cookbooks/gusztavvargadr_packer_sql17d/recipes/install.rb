@@ -7,7 +7,8 @@ gusztavvargadr_mssql_server '' do
   not_if { reboot_pending? }
 end
 
-unless windows_server_core?
+installationType = powershell_out('Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name InstallationType').stdout.strip
+unless installationType.contains('Server Core')
   gusztavvargadr_mssql_management_studio '' do
     version '2018'
     action :install
