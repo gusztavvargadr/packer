@@ -60,7 +60,7 @@ chocolatey_package 'sdelete' do
 end
 
 if vbox?
-  vbox_guest_additions_installed = !powershell_out('choco list -li | grep -i virtualbox').stdout.strip.empty?
+  vbox_guest_additions_installed = powershell_out('choco list -li').stdout.downcase.include? 'virtualbox'
   unless vbox_guest_additions_installed
     reboot 'vbox' do
       action :nothing

@@ -1,8 +1,8 @@
 parameters:
-  image: ""
-  provider: ""
-  configuration: ""
-  parent: ""
+  image: ''
+  provider: ''
+  configuration: ''
+  parent: ''
 
 stages:
   - stage: ci
@@ -15,15 +15,9 @@ stages:
         pool:
           name: Default
           demands:
-            - AZP_AGENT_DOTNET
-            - AZP_AGENT_PACKER
-            - AZP_AGENT_VAGRANT
-            - AZP_AGENT_${{ parameters.provider }}
-            - AZP_AGENT_UPLOAD
+            - VSTS_AGENT_CAP_HYPERVISOR -equals ${{ parameters.provider }}
 
-        workspace:
-          clean: all
-        timeoutInMinutes: 180
+        timeoutInMinutes: 120
 
         steps:
           - checkout: self
