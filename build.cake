@@ -59,6 +59,12 @@ var w11ipe = PackerTemplates_CreateWindows(
   $"2102.0.{version}"
 );
 
+var w1022h2e = PackerTemplates_CreateWindows(
+  "w1022h2e",
+  "windows-10-22h2-enterprise",
+  $"2202.0.{version}",
+  aliases: new [] { "windows-10" }
+);
 var w1021h2e = PackerTemplates_CreateWindows(
   "w1021h2e",
   "windows-10-21h2-enterprise",

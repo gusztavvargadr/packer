@@ -17,7 +17,7 @@ stages:
           demands:
             - VSTS_AGENT_CAP_HYPERVISOR -equals ${{ parameters.provider }}
 
-        timeoutInMinutes: 120
+        timeoutInMinutes: 150
 
         steps:
           - checkout: self
