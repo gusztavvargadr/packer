@@ -249,7 +249,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
           var targetDirecory = template.GetBuildDirectory() + "/builders/" + builder.Name;
           EnsureDirectoryExists(targetDirecory);
-          CopyFiles(builderDirectory + "/**/*", targetDirecory, true);
+          CopyDirectory(builderDirectory, targetDirecory);
         }
       }
 
@@ -262,7 +262,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
           var targetDirecory = template.GetBuildDirectory() + "/provisioners/" + provisioner.Name;
           EnsureDirectoryExists(targetDirecory);
-          CopyFiles(provisionerDirectory + "/**/*", targetDirecory, true);
+          CopyDirectory(provisionerDirectory, targetDirecory);
         }
       }
 
@@ -275,7 +275,7 @@ void PackerTemplate_MergeDirectories(PackerTemplate template) {
 
           var targetDirecory = template.GetBuildDirectory() + "/postprocessors/" + postProcessor.Name;
           EnsureDirectoryExists(targetDirecory);
-          CopyFiles(postProcessorDirectory + "/**/*", targetDirecory, true);
+          CopyDirectory(postProcessorDirectory, targetDirecory);
         }
       }
     }
