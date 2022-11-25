@@ -1,6 +1,6 @@
 mkdir -Force C:/Windows/Temp/chef
 
-If (Get-Command "chef-client" -ErrorAction Ignore).Count -gt 0) {
+If ((Get-Command "chef-client" -ErrorAction Ignore).Count -gt 0) {
   Return
 }
 
