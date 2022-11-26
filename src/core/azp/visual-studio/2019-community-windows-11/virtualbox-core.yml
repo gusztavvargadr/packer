@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w1121h2e-dd-virtualbox-core
+      source: w1122h2e-dd-virtualbox-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w1121h2e-dd-vs19c
+      image: w1122h2e-dd-vs19c
       provider: virtualbox
       configuration: core
-      parent: w1121h2e-dd
+      parent: w1122h2e-dd

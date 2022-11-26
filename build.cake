@@ -185,18 +185,18 @@ var u1804d_dc = PackerTemplates_CreateLinux(
   u1804d
 );
 
-var w1121h2e_dd = PackerTemplates_CreateWindows(
-  "w1121h2e-dd",
+var w1122h2e_dd = PackerTemplates_CreateWindows(
+  "w1122h2e-dd",
   "docker-desktop-windows-11",
-  $"2010.2102.{version}",
-  w1121h2e
+  $"2010.2202.{version}",
+  w1122h2e
 );
 
-var w1021h2e_dd = PackerTemplates_CreateWindows(
-  "w1021h2e-dd",
+var w1022h2e_dd = PackerTemplates_CreateWindows(
+  "w1022h2e-dd",
   "docker-desktop-windows-10",
-  $"2010.2102.{version}",
-  w1021h2e
+  $"2010.2202.{version}",
+  w1022h2e
 );
 
 var ws2022s_iis = PackerTemplates_CreateWindows(
@@ -255,44 +255,31 @@ var ws2022sc_sql17d = PackerTemplates_CreateWindows(
   ws2022sc
 );
 
-var w1121h2e_dd_vs22c = PackerTemplates_CreateWindows(
-  "w1121h2e-dd-vs22c",
+var w1122h2e_dd_vs22c = PackerTemplates_CreateWindows(
+  "w1122h2e-dd-vs22c",
   "visual-studio-2022-community-windows-11",
-  $"2022.2102.{version}",
-  w1121h2e_dd
+  $"2022.2202.{version}",
+  w1122h2e_dd
 );
-var w1121h2e_dd_vs19c = PackerTemplates_CreateWindows(
-  "w1121h2e-dd-vs19c",
+var w1122h2e_dd_vs19c = PackerTemplates_CreateWindows(
+  "w1122h2e-dd-vs19c",
   "visual-studio-2019-community-windows-11",
-  $"2019.2102.{version}",
-  w1121h2e_dd
-);
-var w1121h2e_dd_vs17c = PackerTemplates_CreateWindows(
-  "w1121h2e-dd-vs17c",
-  "visual-studio-2017-community-windows-11",
-  $"2017.2102.{version}",
-  w1121h2e_dd
+  $"2019.2202.{version}",
+  w1122h2e_dd
 );
 
-var w1021h2e_dd_vs22c = PackerTemplates_CreateWindows(
-  "w1021h2e-dd-vs22c",
+var w1022h2e_dd_vs22c = PackerTemplates_CreateWindows(
+  "w1022h2e-dd-vs22c",
   "visual-studio-2022-community-windows-10",
-  $"2022.2102.{version}",
-  w1021h2e_dd,
+  $"2022.2202.{version}",
+  w1022h2e_dd,
   aliases: new [] { "visual-studio" }
 );
-var w1021h2e_dd_vs19c = PackerTemplates_CreateWindows(
-  "w1021h2e-dd-vs19c",
+var w1022h2e_dd_vs19c = PackerTemplates_CreateWindows(
+  "w1022h2e-dd-vs19c",
   "visual-studio-2019-community-windows-10",
-  $"2019.2102.{version}",
-  w1021h2e_dd,
-  aliases: new [] { "visual-studio" }
-);
-var w1021h2e_dd_vs17c = PackerTemplates_CreateWindows(
-  "w1021h2e-dd-vs17c",
-  "visual-studio-2017-community-windows-10",
-  $"2017.2102.{version}",
-  w1021h2e_dd,
+  $"2019.2202.{version}",
+  w1022h2e_dd,
   aliases: new [] { "visual-studio" }
 );
 
