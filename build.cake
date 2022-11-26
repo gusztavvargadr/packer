@@ -185,6 +185,13 @@ var u1804d_dc = PackerTemplates_CreateLinux(
   u1804d
 );
 
+var ws2022s_dd = PackerTemplates_CreateWindows(
+  "ws2022s-dd",
+  "docker-desktop-windows-server",
+  $"2010.2102.{version}",
+  ws2022s
+);
+
 var w1122h2e_dd = PackerTemplates_CreateWindows(
   "w1122h2e-dd",
   "docker-desktop-windows-11",
@@ -253,6 +260,19 @@ var ws2022sc_sql17d = PackerTemplates_CreateWindows(
   "sql-server-2017-developer-windows-server-core",
   $"2017.2102.{version}",
   ws2022sc
+);
+
+var ws2022s_dd_vs22c = PackerTemplates_CreateWindows(
+  "ws2022s-dd-vs22c",
+  "visual-studio-2022-community-windows-server",
+  $"2022.2102.{version}",
+  ws2022s_dd
+);
+var ws2022s_dd_vs19c = PackerTemplates_CreateWindows(
+  "ws2022s-dd-vs19c",
+  "visual-studio-2019-community-windows-server",
+  $"2019.2102.{version}",
+  ws2022s_dd
 );
 
 var w1122h2e_dd_vs22c = PackerTemplates_CreateWindows(

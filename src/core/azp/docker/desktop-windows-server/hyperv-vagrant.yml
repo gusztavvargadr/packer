@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2022s-dd-hyperv-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2022s-dd
+      provider: hyperv
+      configuration: vagrant
+      parent: ws2022s-dd
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2022s-dd
+      provider: hyperv
+      configuration: vagrant
