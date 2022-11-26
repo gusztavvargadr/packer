@@ -9,7 +9,7 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2022sc-de
+      image: ws2022sc-dc
       provider: hyperv
       configuration: core
       parent: ws2022sc

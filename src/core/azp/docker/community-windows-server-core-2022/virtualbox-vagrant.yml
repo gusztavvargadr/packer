@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: ws2022sc-de-virtualbox-core
+      source: ws2022sc-dc-virtualbox-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2022sc-de
+      image: ws2022sc-dc
       provider: virtualbox
       configuration: vagrant
-      parent: ws2022sc-de
+      parent: ws2022sc-dc
 
   - template: ../../cd-stages.yml
     parameters:
-      image: ws2022sc-de
+      image: ws2022sc-dc
       provider: virtualbox
       configuration: vagrant

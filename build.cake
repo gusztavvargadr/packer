@@ -129,9 +129,9 @@ var u1804d = PackerTemplates_CreateLinux(
   aliases: new [] { "ubuntu-desktop" }
 );
 
-var ws2022s_de = PackerTemplates_CreateWindows(
-  "ws2022s-de",
-  "docker-enterprise-windows-server",
+var ws2022s_dc = PackerTemplates_CreateWindows(
+  "ws2022s-dc",
+  "docker-community-windows-server",
   $"2010.2102.{version}",
   ws2022s,
   aliases: new [] { "docker-windows" }
@@ -144,9 +144,9 @@ var ws2019s_de = PackerTemplates_CreateWindows(
   aliases: new [] { "docker-windows" }
 );
 
-var ws2022sc_de = PackerTemplates_CreateWindows(
-  "ws2022sc-de",
-  "docker-enterprise-windows-server-core",
+var ws2022sc_dc = PackerTemplates_CreateWindows(
+  "ws2022sc-dc",
+  "docker-community-windows-server-core",
   $"2010.2102.{version}",
   ws2022sc
 );
@@ -155,14 +155,6 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   "docker-enterprise-windows-server-core",
   $"2010.1809.{version}",
   ws2019sc
-);
-
-var ws2022s_dc = PackerTemplates_CreateWindows(
-  "ws2022s-dc",
-  "docker-community-windows-server",
-  $"2010.2102.{version}",
-  ws2022s,
-  aliases: new [] { "docker-windows" }
 );
 
 var u2004s_dc = PackerTemplates_CreateLinux(
