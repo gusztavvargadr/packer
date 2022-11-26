@@ -157,6 +157,14 @@ var ws2019sc_de = PackerTemplates_CreateWindows(
   ws2019sc
 );
 
+var ws2022s_dc = PackerTemplates_CreateWindows(
+  "ws2022s-dc",
+  "docker-community-windows-server",
+  $"2010.2102.{version}",
+  ws2022s,
+  aliases: new [] { "docker-windows" }
+);
+
 var u2004s_dc = PackerTemplates_CreateLinux(
   "u2004s-dc",
   "docker-community-ubuntu-server",
