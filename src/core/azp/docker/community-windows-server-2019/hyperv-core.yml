@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: ws2019sc-hyperv-core
+      source: ws2019s-hyperv-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019sc-de
+      image: ws2019s-dc
       provider: hyperv
       configuration: core
-      parent: ws2019sc
+      parent: ws2019s

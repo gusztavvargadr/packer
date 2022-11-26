@@ -136,9 +136,9 @@ var ws2022s_dc = PackerTemplates_CreateWindows(
   ws2022s,
   aliases: new [] { "docker-windows" }
 );
-var ws2019s_de = PackerTemplates_CreateWindows(
-  "ws2019s-de",
-  "docker-enterprise-windows-server",
+var ws2019s_dc = PackerTemplates_CreateWindows(
+  "ws2019s-dc",
+  "docker-community-windows-server",
   $"2010.1809.{version}",
   ws2019s,
   aliases: new [] { "docker-windows" }
@@ -150,9 +150,9 @@ var ws2022sc_dc = PackerTemplates_CreateWindows(
   $"2010.2102.{version}",
   ws2022sc
 );
-var ws2019sc_de = PackerTemplates_CreateWindows(
-  "ws2019sc-de",
-  "docker-enterprise-windows-server-core",
+var ws2019sc_dc = PackerTemplates_CreateWindows(
+  "ws2019sc-dc",
+  "docker-community-windows-server-core",
   $"2010.1809.{version}",
   ws2019sc
 );

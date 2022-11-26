@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: ws2019s-de-virtualbox-core
+      source: ws2019sc-dc-hyperv-core
       trigger:
         branches:
           include:
@@ -13,13 +13,13 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019s-de
-      provider: virtualbox
+      image: ws2019sc-dc
+      provider: hyperv
       configuration: vagrant
-      parent: ws2019s-de
+      parent: ws2019sc-dc
 
   - template: ../../cd-stages.yml
     parameters:
-      image: ws2019s-de
-      provider: virtualbox
+      image: ws2019sc-dc
+      provider: hyperv
       configuration: vagrant

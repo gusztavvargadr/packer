@@ -9,7 +9,7 @@ resources:
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: ws2019sc-de
+      image: ws2019sc-dc
       provider: virtualbox
       configuration: core
       parent: ws2019sc
