@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: ws2022sc-dc-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: ws2022sc-dc
+      provider: virtualbox
+      configuration: vagrant
+      parent: ws2022sc-dc
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: ws2022sc-dc
+      provider: virtualbox
+      configuration: vagrant

@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w1022h2e-dd-virtualbox-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w1022h2e-dd
+      provider: virtualbox
+      configuration: vagrant
+      parent: w1022h2e-dd
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: w1022h2e-dd
+      provider: virtualbox
+      configuration: vagrant
