@@ -17,9 +17,9 @@
     "hyperv_secure_boot_template": "MicrosoftWindows",
     "hyperv_boot_wait": "-1s",
     "hyperv_communicator": "ssh",
-    "hyperv_ssh_username": "Administrator",
-    "hyperv_ssh_password": "Packer42-",
-    "hyperv_ssh_timeout": "30m",
+    "hyperv_communicator_username": "Administrator",
+    "hyperv_communicator_password": "Packer42-",
+    "hyperv_communicator_timeout": "30m",
     "hyperv_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
     "hyperv_shutdown_timeout": "10m"
   },

@@ -14,6 +14,12 @@ var ws2022s = PackerTemplates_CreateWindows(
   $"2102.0.{version}",
   aliases: new [] { "windows-server" }
 );
+var ws2022s_nocm = PackerTemplates_CreateWindows(
+  "ws2022s-nocm",
+  "windows-server-2022-standard-nocm",
+  $"2102.0.{version}",
+  ws2022s
+);
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server-2019-standard",
@@ -70,6 +76,12 @@ var w1022h2e = PackerTemplates_CreateWindows(
   "windows-10-22h2-enterprise",
   $"2202.0.{version}",
   aliases: new [] { "windows-10" }
+);
+var w1022h2e_nocm = PackerTemplates_CreateWindows(
+  "w1022h2e-nocm",
+  "windows-10-22h2-enterprise-nocm",
+  $"2202.0.{version}",
+  w1022h2e
 );
 var w1021h2e = PackerTemplates_CreateWindows(
   "w1021h2e",
