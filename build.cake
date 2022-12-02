@@ -23,8 +23,7 @@ var ws2022s_nocm = PackerTemplates_CreateWindows(
 var ws2019s = PackerTemplates_CreateWindows(
   "ws2019s",
   "windows-server-2019-standard",
-  $"1809.0.{version}",
-  aliases: new [] { "windows-server" }
+  $"1809.0.{version}"
 );
 
 var wsips = PackerTemplates_CreateWindows(
@@ -42,8 +41,7 @@ var ws2022sc = PackerTemplates_CreateWindows(
 var ws2019sc = PackerTemplates_CreateWindows(
   "ws2019sc",
   "windows-server-2019-standard-core",
-  $"1809.0.{version}",
-  aliases: new [] { "windows-server-core" }
+  $"1809.0.{version}"
 );
 
 var wsipsc = PackerTemplates_CreateWindows(
@@ -61,14 +59,13 @@ var w1122h2e = PackerTemplates_CreateWindows(
 var w1121h2e = PackerTemplates_CreateWindows(
   "w1121h2e",
   "windows-11-21h2-enterprise",
-  $"2102.0.{version}",
-  aliases: new [] { "windows-11" }
+  $"2102.0.{version}"
 );
 
 var w11ipe = PackerTemplates_CreateWindows(
   "w11ipe",
   "windows-11-insider-preview-enterprise",
-  $"2102.0.{version}"
+  $"2202.0.{version}"
 );
 
 var w1022h2e = PackerTemplates_CreateWindows(
@@ -86,14 +83,12 @@ var w1022h2e_nocm = PackerTemplates_CreateWindows(
 var w1021h2e = PackerTemplates_CreateWindows(
   "w1021h2e",
   "windows-10-21h2-enterprise",
-  $"2102.0.{version}",
-  aliases: new [] { "windows-10" }
+  $"2102.0.{version}"
 );
 var w1021h1e = PackerTemplates_CreateWindows(
   "w1021h1e",
   "windows-10-21h1-enterprise",
-  $"2101.0.{version}",
-  aliases: new [] { "windows-10" }
+  $"2101.0.{version}"
 );
 
 var w1021h2eltsc = PackerTemplates_CreateWindows(
@@ -110,7 +105,7 @@ var w101809eltsc = PackerTemplates_CreateWindows(
 var w10ipe = PackerTemplates_CreateWindows(
   "w10ipe",
   "windows-10-insider-preview-enterprise",
-  $"2102.0.{version}"
+  $"2202.0.{version}"
 );
 
 var u2004s = PackerTemplates_CreateLinux(
@@ -122,8 +117,7 @@ var u2004s = PackerTemplates_CreateLinux(
 var u1804s = PackerTemplates_CreateLinux(
   "u1804s",
   "ubuntu-server-1804-lts",
-  $"1804.0.{version}",
-  aliases: new [] { "ubuntu-server" }
+  $"1804.0.{version}"
 );
 
 var u2004d = PackerTemplates_CreateLinux(
@@ -137,8 +131,7 @@ var u1804d = PackerTemplates_CreateLinux(
   "u1804d",
   "ubuntu-desktop-1804-lts-xfce",
   $"1804.0.{version}",
-  u1804s,
-  aliases: new [] { "ubuntu-desktop" }
+  u1804s
 );
 
 var ws2022s_dc = PackerTemplates_CreateWindows(
@@ -152,8 +145,7 @@ var ws2019s_dc = PackerTemplates_CreateWindows(
   "ws2019s-dc",
   "docker-community-windows-server",
   $"2010.1809.{version}",
-  ws2019s,
-  aliases: new [] { "docker-windows" }
+  ws2019s
 );
 
 var ws2022sc_dc = PackerTemplates_CreateWindows(
@@ -180,8 +172,7 @@ var u1804s_dc = PackerTemplates_CreateLinux(
   "u1804s-dc",
   "docker-community-ubuntu-server",
   $"2010.1804.{version}",
-  u1804s,
-  aliases: new [] { "docker-linux" }
+  u1804s
 );
 
 var u2004d_dc = PackerTemplates_CreateLinux(
@@ -229,8 +220,7 @@ var ws2019s_iis = PackerTemplates_CreateWindows(
   "ws2019s-iis",
   "iis-windows-server",
   $"10.1809.{version}",
-  ws2019s,
-  aliases: new [] { "iis" }
+  ws2019s
 );
 
 var ws2022sc_iis = PackerTemplates_CreateWindows(
@@ -257,8 +247,7 @@ var ws2022s_sql17d = PackerTemplates_CreateWindows(
   "ws2022s-sql17d",
   "sql-server-2017-developer-windows-server",
   $"2017.2102.{version}",
-  ws2022s,
-  aliases: new [] { "sql-server" }
+  ws2022s
 );
 
 var ws2022sc_sql19d = PackerTemplates_CreateWindows(
@@ -311,8 +300,7 @@ var w1022h2e_dd_vs19c = PackerTemplates_CreateWindows(
   "w1022h2e-dd-vs19c",
   "visual-studio-2019-community-windows-10",
   $"2019.2202.{version}",
-  w1022h2e_dd,
-  aliases: new [] { "visual-studio" }
+  w1022h2e_dd
 );
 
 Task("default")
