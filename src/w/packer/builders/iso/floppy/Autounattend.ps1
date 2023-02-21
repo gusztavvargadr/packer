@@ -4,7 +4,7 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 Write-Host "Install Chocolatey"
-$env:chocolateyVersion = '1.2.0'
+$env:chocolateyVersion = '1.3.0'
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 Write-Host "Install OpenSSH"
