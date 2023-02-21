@@ -20,6 +20,12 @@
           "{{.Name}}",
           "--cpus",
           "{{user `virtualbox_cpus`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nat-localhostreachable1",
+          "on"
         ]
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
