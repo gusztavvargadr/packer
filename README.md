@@ -59,11 +59,15 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
+[Sample usage][windows-server-sample-usage]
+
 - [Windows Server][windows-server-default-box]
 - [Windows Server **2022 Standard**][windows-server-2022-standard-box]
 - [Windows Server **2022 Standard** No Configuration Management][windows-server-2022-standard-nocm-box]
 - [Windows Server **2019 Standard**][windows-server-2019-standard-box]
 - [Windows Server **Insider Preview Standard**][windows-server-insider-preview-standard-box]
+
+[windows-server-sample-usage]: ./samples/windows-server/
 
 [windows-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
 [windows-server-2022-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard/
@@ -73,10 +77,14 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server Core
 
+[Sample usage][windows-server-core-sample-usage]
+
 - [Windows Server Core][windows-server-core-default-box]
 - [Windows Server **2022 Standard** Core][windows-server-2022-standard-core-box]
 - [Windows Server **2019 Standard** Core][windows-server-2019-standard-core-box]
 - [Windows Server **Insider Preview Standard** Core][windows-server-insider-preview-standard-core-box]
+
+[windows-server-core-sample-usage]: ./samples/windows-server-core/
 
 [windows-server-core-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core/
 [windows-server-2022-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core/
@@ -85,10 +93,14 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows 11
 
+[Sample usage][windows-11-sample-usage]
+
 - [Windows 11][windows-11-default-box]
 - [Windows 11 **Version 22H2 Enterprise**][windows-11-22h2-enterprise-box]
 - [Windows 11 **Version 21H2 Enterprise**][windows-11-21h2-enterprise-box]
 - [Windows 11 **Insider Preview Enterprise**][windows-11-insider-preview-enterprise-box]
+
+[windows-11-sample-usage]: ./samples/windows-11/
 
 [windows-11-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11/
 [windows-11-22h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-22h2-enterprise/
@@ -96,6 +108,8 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 [windows-11-insider-preview-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-insider-preview-enterprise/
 
 ##### Windows 10
+
+[Sample usage][windows-10-sample-usage]
 
 - [Windows 10][windows-10-default-box]
 - [Windows 10 **Version 22H2 Enterprise**][windows-10-22h2-enterprise-box]
@@ -105,6 +119,8 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [Windows 10 **Version 21H2 Enterprise LTSC**][windows-10-21h2-enterprise-ltsc-box]
 - [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-1809-enterprise-ltsc-box]
 - [Windows 10 **Insider Preview Enterprise**][windows-10-insider-preview-enterprise-box]
+
+[windows-10-sample-usage]: ./samples/windows-10/
 
 [windows-10-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-22h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-22h2-enterprise/
@@ -121,9 +137,13 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
+[Sample usage][ubuntu-server-sample-usage]
+
 - [Ubuntu Server][ubuntu-server-default-box]
 - [Ubuntu Server **20.04 LTS**][ubuntu-server-2004-lts-box]
 - [Ubuntu Server **18.04 LTS**][ubuntu-server-1804-lts-box]
+
+[ubuntu-server-sample-usage]: ./samples/ubuntu-server/
 
 [ubuntu-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2004-lts/
@@ -131,9 +151,13 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Desktop
 
+[Sample usage][ubuntu-desktop-sample-usage]
+
 - [Ubuntu Desktop][ubuntu-desktop-default-box]
 - [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
 - [Ubuntu Desktop **18.04 LTS with Xfce**][ubuntu-desktop-1804-lts-xfce-box]
+
+[ubuntu-desktop-sample-usage]: ./samples/ubuntu-desktop/
 
 [ubuntu-desktop-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-2004-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
