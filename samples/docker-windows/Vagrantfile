@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "default", primary: true do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-windows"
+  end
+
+  config.vm.define "community-windows-server", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server"
+  end
+
+  config.vm.define "community-windows-server-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server-core"
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    cmd /c ver
+    systeminfo
+    docker version
+    docker compose version
+  EOH
+end

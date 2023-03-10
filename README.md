@@ -175,19 +175,31 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 ##### Docker Windows
 
+[Sample usage][docker-windows-sample-usage]
+
 - [Docker Windows][docker-windows-default-box]
 - [Docker **Community** on **Windows Server**][docker-community-windows-server-box]
 - [Docker **Community** on **Windows Server Core**][docker-community-windows-server-core-box]
+- ~~_Deprecated_ [Docker **Enterprise** on **Windows Server**][docker-enterprise-windows-server-box]~~
+- ~~_Deprecated_ [Docker **Enterprise** on **Windows Server Core**][docker-enterprise-windows-server-core-box]~~
+
+[docker-windows-sample-usage]: ./samples/docker-windows/
 
 [docker-windows-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server/
 [docker-community-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server-core/
+[docker-enterprise-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server/
+[docker-enterprise-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server-core/
 
 ##### Docker Linux
+
+[Sample usage][docker-linux-sample-usage]
 
 - [Docker Linux][docker-linux-default-box]
 - [Docker **Community** on **Ubuntu Server**][docker-community-ubuntu-server-box]
 - [Docker **Community** on **Ubuntu Desktop**][docker-community-ubuntu-desktop-box]
+
+[docker-linux-sample-usage]: ./samples/docker-linux/
 
 [docker-linux-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-server/
