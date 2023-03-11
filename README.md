@@ -207,11 +207,15 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### IIS
 
+[Sample usage][iis-sample-usage]
+
 - [IIS][iis-default-box]
 - [IIS on **Windows Server**][iis-windows-server-box]
 - [IIS on **Windows Server Core**][iis-windows-server-core-box]
 
 [IIS]: #iis
+
+[iis-sample-usage]: ./samples/iis/
 
 [iis-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
 [iis-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server/
@@ -219,18 +223,22 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 #### SQL Server
 
+[Sample usage][sql-server-sample-usage]
+
 - [SQL Server][sql-server-default-box]
 - [SQL Server **2019 Developer** on **Windows Server**][sql-server-2019-developer-windows-server-box]
-- [SQL Server **2017 Developer** on **Windows Server**][sql-server-2017-developer-windows-server-box]
 - [SQL Server **2019 Developer** on **Windows Server Core**][sql-server-2019-developer-windows-server-core-box]
+- [SQL Server **2017 Developer** on **Windows Server**][sql-server-2017-developer-windows-server-box]
 - [SQL Server **2017 Developer** on **Windows Server Core**][sql-server-2017-developer-windows-server-core-box]
 
 [SQL Server]: #sql-server
 
+[sql-server-sample-usage]: ./samples/sql-server/
+
 [sql-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
 [sql-server-2019-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server/
-[sql-server-2017-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2017-developer-windows-server/
 [sql-server-2019-developer-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server-core/
+[sql-server-2017-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2017-developer-windows-server/
 [sql-server-2017-developer-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2017-developer-windows-server-core/
 
 ### Development
@@ -241,9 +249,15 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 ##### Docker Desktop
 
+[Sample usage][docker-desktop-sample-usage]
+
 - [Docker Desktop on **Windows Server**][docker-desktop-windows-server-box]
 - [Docker Desktop on **Windows 11**][docker-desktop-windows-11-box]
 - [Docker Desktop on **Windows 10**][docker-desktop-windows-10-box]
+
+[Docker Desktop]: #docker-desktop
+
+[docker-desktop-sample-usage]: ./samples/docker-desktop/
 
 [docker-desktop-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-server/
 [docker-desktop-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-11/
@@ -251,22 +265,26 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 #### Visual Studio
 
+[Sample usage][visual-studio-sample-usage]
+
 - [Visual Studio][visual-studio-default-box]
 - [Visual Studio **2022 Community** on **Windows Server**][visual-studio-2022-community-windows-server-box]
-- [Visual Studio **2019 Community** on **Windows Server**][visual-studio-2019-community-windows-server-box]
 - [Visual Studio **2022 Community** on **Windows 11**][visual-studio-2022-community-windows-11-box]
-- [Visual Studio **2019 Community** on **Windows 11**][visual-studio-2019-community-windows-11-box]
 - [Visual Studio **2022 Community** on **Windows 10**][visual-studio-2022-community-windows-10-box]
+- [Visual Studio **2019 Community** on **Windows Server**][visual-studio-2019-community-windows-server-box]
+- [Visual Studio **2019 Community** on **Windows 11**][visual-studio-2019-community-windows-11-box]
 - [Visual Studio **2019 Community** on **Windows 10**][visual-studio-2019-community-windows-10-box]
 
 [Visual Studio]: #visual-studio
 
+[visual-studio-sample-usage]: ./samples/visual-studio/
+
 [visual-studio-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
 [visual-studio-2022-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-server/
-[visual-studio-2019-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-server/
 [visual-studio-2022-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-11/
-[visual-studio-2019-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-11/
 [visual-studio-2022-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-10/
+[visual-studio-2019-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-server/
+[visual-studio-2019-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-11/
 [visual-studio-2019-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-10/
 
 ## Getting started
