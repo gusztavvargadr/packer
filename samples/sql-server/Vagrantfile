@@ -1,0 +1,27 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "default", primary: true do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/sql-server"
+  end
+
+  config.vm.define "2019-developer-windows-server", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/sql-server-2019-developer-windows-server"
+  end
+
+  config.vm.define "2019-developer-windows-server-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/sql-server-2019-developer-windows-server-core"
+  end
+
+  config.vm.define "2017-developer-windows-server", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/sql-server-2017-developer-windows-server"
+  end
+
+  config.vm.define "2017-developer-windows-server-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/sql-server-2017-developer-windows-server-core"
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    cmd /c ver
+    systeminfo
+    sqlcmd -Q "SELECT @@VERSION"
+  EOH
+end
