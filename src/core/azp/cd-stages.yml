@@ -33,7 +33,7 @@ stages:
               vagrant plugin list
 
               vagrant box list
-              vagrant global-status
+              vagrant global-status --prune
             displayName: Initialize Vagrant
 
           - task: DownloadPipelineArtifact@2
@@ -76,7 +76,7 @@ stages:
               vagrant plugin list
 
               vagrant box list
-              vagrant global-status
+              vagrant global-status --prune
             displayName: Initialize Vagrant
 
           - script: |
