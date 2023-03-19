@@ -1,8 +1,4 @@
 Vagrant.configure("2") do |config|
-  config.vm.define "windows-server", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-desktop-windows-server"
-  end
-
   config.vm.define "windows-11", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/docker-desktop-windows-11"
   end

@@ -1,0 +1,53 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "windows", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-windows"
+
+    config_vm.vm.provision "shell", inline: <<-EOH
+      cmd /c ver
+      systeminfo
+    EOH
+  end
+
+  config.vm.define "community-windows-server", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server"
+
+    config_vm.vm.provision "shell", inline: <<-EOH
+      cmd /c ver
+      systeminfo
+    EOH
+  end
+
+  config.vm.define "community-windows-server-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server-core"
+
+    config_vm.vm.provision "shell", inline: <<-EOH
+      cmd /c ver
+      systeminfo
+    EOH
+  end
+
+  config.vm.define "linux", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-linux"
+
+    config_vm.vm.provision "shell", inline: <<-EOH
+      uname -a
+      lsb_release -a
+      lshw
+    EOH
+  end
+
+  config.vm.define "community-ubuntu-server", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/docker-community-ubuntu-server"
+
+    config_vm.vm.provision "shell", inline: <<-EOH
+      uname -a
+      lsb_release -a
+      lshw
+    EOH
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    docker version
+    docker compose version
+  EOH
+end
