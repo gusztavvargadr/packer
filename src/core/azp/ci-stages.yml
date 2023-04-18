@@ -12,10 +12,14 @@ stages:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
-        pool:
-          name: Default
-          demands:
-            - VSTS_AGENT_CAP_HYPERVISOR -equals ${{ parameters.provider }}
+        ${{ if eq(parameters.provider, 'virtualbox' }}:
+          pool:
+            name: linux-virtualbox
+        ${{ else }}:
+          pool:
+            name: Default
+            demands:
+              - VSTS_AGENT_CAP_HYPERVISOR -equals ${{ parameters.provider }}
 
         timeoutInMinutes: 90
 
