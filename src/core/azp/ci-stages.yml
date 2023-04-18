@@ -12,7 +12,7 @@ stages:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
-        ${{ if eq(parameters.provider, 'virtualbox' }}:
+        ${{ if eq(parameters.provider, 'virtualbox') }}:
           pool:
             name: linux-virtualbox
         ${{ else }}:
