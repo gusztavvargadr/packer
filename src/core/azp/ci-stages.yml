@@ -15,6 +15,9 @@ stages:
         ${{ if eq(parameters.provider, 'virtualbox') }}:
           pool:
             name: linux-virtualbox
+        ${{ elseif eq(parameters.provider, 'hyperv') }}:
+          pool:
+            name: windows-hyperv
         ${{ else }}:
           pool:
             name: Default
