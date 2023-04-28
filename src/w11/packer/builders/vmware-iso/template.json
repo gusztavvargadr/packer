@@ -1,6 +1,5 @@
 {
   "variables": {
-    "vmware_guest_os_type": "windows9-64",
-    "vmware_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>,<wait5>,<leftShiftOn><f10><leftShiftOff><wait>,A:\\setup.cmd<enter><wait>,exit<enter><wait>"
+    "vmware_guest_os_type": "windows9-64"
   }
 }
