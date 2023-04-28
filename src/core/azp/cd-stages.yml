@@ -57,7 +57,7 @@ stages:
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: Default
+          name: ubuntu-core
 
         dependsOn: publish
 

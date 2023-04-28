@@ -18,6 +18,9 @@ stages:
         ${{ elseif eq(parameters.provider, 'hyperv') }}:
           pool:
             name: windows-hyperv
+        ${{ elseif eq(parameters.provider, 'vmware') }}:
+          pool:
+            name: ubuntu-vmware
         ${{ else }}:
           pool:
             name: ubuntu-core
