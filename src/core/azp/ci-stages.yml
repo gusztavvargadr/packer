@@ -14,15 +14,13 @@ stages:
 
         ${{ if eq(parameters.provider, 'virtualbox') }}:
           pool:
-            name: linux-virtualbox
+            name: ubuntu-virtualbox
         ${{ elseif eq(parameters.provider, 'hyperv') }}:
           pool:
             name: windows-hyperv
         ${{ else }}:
           pool:
-            name: Default
-            demands:
-              - VSTS_AGENT_CAP_HYPERVISOR -equals ${{ parameters.provider }}
+            name: ubuntu-core
 
         timeoutInMinutes: 150
 
