@@ -3,7 +3,7 @@
     "vmware_guest_os_type": "",
     "vmware_disk_size": "130048",
     "vmware_floppy_files": "builders/vmware-iso/floppy/*",
-    "vmware_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>"
+    "vmware_boot_command": "<enter><wait><enter><wait><enter>"
   },
   "builders": [
     {
@@ -20,7 +20,7 @@
         "firmware": "efi",
         "vhv.enable": "TRUE"
       },
-      "version": "15",
+      "version": "16",
       "disk_type_id": 0,
       "disk_adapter_type": "nvme",
       "memory": "{{user `vmware_memory`}}",
@@ -30,12 +30,15 @@
         "{{user `vmware_floppy_files`}}"
       ],
       "boot_wait": "{{user `vmware_boot_wait`}}",
-      "boot_command": "{{ user `vmware_boot_command` }}",
+      "boot_command": [ "{{ user `vmware_boot_command` }}" ],
       "boot_keygroup_interval": "1s",
       "communicator": "{{user `vmware_communicator`}}",
-      "ssh_username": "{{user `vmware_ssh_username`}}",
-      "ssh_password": "{{user `vmware_ssh_password`}}",
-      "ssh_timeout": "{{user `vmware_ssh_timeout`}}",
+      "ssh_username": "{{user `vmware_communicator_username`}}",
+      "ssh_password": "{{user `vmware_communicator_password`}}",
+      "ssh_timeout": "{{user `vmware_communicator_timeout`}}",
+      "winrm_username": "{{user `vmware_communicator_username`}}",
+      "winrm_password": "{{user `vmware_communicator_password`}}",
+      "winrm_timeout": "{{user `vmware_communicator_timeout`}}",
       "shutdown_command": "{{user `vmware_shutdown_command`}}",
       "shutdown_timeout": "{{user `vmware_shutdown_timeout`}}",
       "output_directory": "{{user `output_directory`}}/build"
