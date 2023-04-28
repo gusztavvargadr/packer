@@ -1,5 +1,0 @@
-{
-  "variables": {
-    "vmware_guest_os_type": "windows9srv-64"
-  }
-}
