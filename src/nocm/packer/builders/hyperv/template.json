@@ -1,0 +1,5 @@
+{
+  "variables": {
+    "hyperv_communicator": "winrm"
+  }
+}

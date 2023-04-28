@@ -10,14 +10,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  config.vm.provider 'virtualbox' do |_|
-  end
-
-  config.vm.provider 'hyperv' do |p, override|
-    p.enable_virtualization_extensions = true
-
-    network_bridge = ENV['VAGRANT_HYPERV_NETWORK_BRIDGE'] || 'Default Switch'
-    override.vm.network 'public_network', bridge: network_bridge
+  config.vm.provider "hyperv" do |hyperv, override|
+    override.vm.network "private_network", bridge: "Default Switch"
   end
 
   if vm_name.start_with?('w')

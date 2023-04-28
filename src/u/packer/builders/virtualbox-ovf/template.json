@@ -20,14 +20,19 @@
           "{{.Name}}",
           "--cpus",
           "{{user `virtualbox_cpus`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nat-localhostreachable1",
+          "on"
         ]
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
       "communicator": "{{user `virtualbox_communicator`}}",
-      "ssh_username": "{{user `virtualbox_ssh_username`}}",
-      "ssh_password": "{{user `virtualbox_ssh_password`}}",
-      "ssh_port": "{{user `virtualbox_ssh_port`}}",
-      "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
+      "ssh_username": "{{user `virtualbox_communicator_username`}}",
+      "ssh_password": "{{user `virtualbox_communicator_password`}}",
+      "ssh_timeout": "{{user `virtualbox_communicator_timeout`}}",
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "output_directory": "{{user `output_directory`}}/build"

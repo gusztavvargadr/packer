@@ -1,7 +1,8 @@
 {
   "variables": {
     "hyperv_disk_size": "130048",
-    "hyperv_disk_block_size": "1"
+    "hyperv_disk_block_size": "1",
+    "hyperv_boot_command": "<wait><esc><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=vagrant fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"
   },
   "builders": [
     {
@@ -25,26 +26,12 @@
       "enable_mac_spoofing": "{{user `hyperv_enable_mac_spoofing`}}",
       "enable_secure_boot": "{{user `hyperv_enable_secure_boot`}}",
       "boot_wait": "{{user `hyperv_boot_wait`}}",
-      "boot_command": [
-        "<wait><esc><wait>",
-        "set gfxpayload=1024x768<enter>",
-        "linux /install/vmlinuz ",
-        "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/builders/hyperv-iso/http/preseed.cfg ",
-        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-        "hostname=vagrant ",
-        "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
-        "keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>",
-        "initrd /install/initrd.gz<enter>",
-        "boot<enter>"
-      ],
-      "boot_keygroup_interval": "1s",
+      "boot_command": [ "{{user `hyperv_boot_command`}}" ],
       "http_directory": ".",
       "communicator": "{{user `hyperv_communicator`}}",
-      "ssh_username": "{{user `hyperv_ssh_username`}}",
-      "ssh_password": "{{user `hyperv_ssh_password`}}",
-      "ssh_port": "{{user `hyperv_ssh_port`}}",
-      "ssh_timeout": "{{user `hyperv_ssh_timeout`}}",
+      "ssh_username": "{{user `hyperv_communicator_username`}}",
+      "ssh_password": "{{user `hyperv_communicator_password`}}",
+      "ssh_timeout": "{{user `hyperv_communicator_timeout`}}",
       "guest_additions_mode": "{{user `hyperv_guest_additions_mode`}}",
       "shutdown_command": "{{user `hyperv_shutdown_command`}}",
       "output_directory": "{{user `output_directory`}}/build"

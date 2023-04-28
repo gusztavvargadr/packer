@@ -55,12 +55,29 @@ windows_firewall_rule 'Remote Desktop' do
   action :create
 end
 
-chocolatey_package 'sdelete' do
-  action :upgrade
+sdelete_archive_source = 'https://download.sysinternals.com/files/SDelete.zip'
+sdelete_archive_target = "#{Chef::Config['file_cache_path']}/SDelete.zip"
+sdelete_archive_destination = "#{Chef::Config['file_cache_path']}/sdelete"
+sdelete_executable_source = "file:///#{Chef::Config['file_cache_path']}/sdelete/sdelete64.exe"
+sdelete_executable_target = "#{powershell_out('$env:SystemRoot').stdout.strip}/System32/sdelete.exe"
+
+remote_file sdelete_archive_target do
+  source sdelete_archive_source
+  action :create
+end
+
+archive_file sdelete_archive_target do
+  destination sdelete_archive_destination
+  action :extract
+end
+
+remote_file sdelete_executable_target do
+  source sdelete_executable_source
+  action :create
 end
 
 if vbox?
-  vbox_guest_additions_installed = !powershell_out('choco list -li | grep -i virtualbox').stdout.strip.empty?
+  vbox_guest_additions_installed = powershell_out('choco list -li').stdout.downcase.include? 'virtualbox'
   unless vbox_guest_additions_installed
     reboot 'vbox' do
       action :nothing

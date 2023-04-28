@@ -24,7 +24,7 @@
       ],
       "elevated_user": "{{user `elevated_user`}}",
       "elevated_password": "{{user `elevated_password`}}",
-      "pause_before": "2m",
+      "pause_before": "1m",
       "start_retry_timeout": "{{user `chef_start_retry_timeout`}}",
       "max_retries": "{{user `chef_max_retries`}}"
     },

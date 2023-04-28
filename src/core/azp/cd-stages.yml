@@ -1,7 +1,7 @@
 parameters:
-  image: ""
-  provider: ""
-  configuration: ""
+  image: ''
+  provider: ''
+  configuration: ''
 
 stages:
   - stage: cd
@@ -13,10 +13,8 @@ stages:
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          vmImage: ubuntu-20.04
+          name: ubuntu-core
 
-        workspace:
-          clean: all
         variables:
           - group: environment-vagrantcloud
 
@@ -31,15 +29,11 @@ stages:
             displayName: Initialize .NET
 
           - script: |
-              wget -q https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
-              sudo dpkg -i vagrant_2.2.19_x86_64.deb
-              rm vagrant_2.2.19_x86_64.deb
-
               vagrant --version
               vagrant plugin list
 
               vagrant box list
-              vagrant global-status
+              vagrant global-status --prune
             displayName: Initialize Vagrant
 
           - task: DownloadPipelineArtifact@2
@@ -64,12 +58,7 @@ stages:
 
         pool:
           name: Default
-          demands:
-            - AZP_AGENT_DOTNET
-            - AZP_AGENT_VAGRANT
 
-        workspace:
-          clean: all
         dependsOn: publish
 
         steps:
@@ -87,7 +76,7 @@ stages:
               vagrant plugin list
 
               vagrant box list
-              vagrant global-status
+              vagrant global-status --prune
             displayName: Initialize Vagrant
 
           - script: |

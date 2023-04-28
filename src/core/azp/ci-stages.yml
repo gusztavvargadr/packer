@@ -1,8 +1,8 @@
 parameters:
-  image: ""
-  provider: ""
-  configuration: ""
-  parent: ""
+  image: ''
+  provider: ''
+  configuration: ''
+  parent: ''
 
 stages:
   - stage: ci
@@ -12,17 +12,17 @@ stages:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
-        pool:
-          name: Default
-          demands:
-            - AZP_AGENT_DOTNET
-            - AZP_AGENT_PACKER
-            - AZP_AGENT_VAGRANT
-            - AZP_AGENT_${{ parameters.provider }}
+        ${{ if eq(parameters.provider, 'virtualbox') }}:
+          pool:
+            name: ubuntu-virtualbox
+        ${{ elseif eq(parameters.provider, 'hyperv') }}:
+          pool:
+            name: windows-hyperv
+        ${{ else }}:
+          pool:
+            name: ubuntu-core
 
-        workspace:
-          clean: all
-        timeoutInMinutes: 180
+        timeoutInMinutes: 150
 
         steps:
           - checkout: self

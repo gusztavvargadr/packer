@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains common [Packer] helper tools and sample templates for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
+This repository contains [Packer] samples for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
 
 ## TL;DR
 
@@ -20,21 +20,9 @@ This repository contains common [Packer] helper tools and sample templates for [
 
 This repository contains [Packer] sample templates for the following virtualization scenarios:
 
-- Default versions for getting started:
-  - [Windows Server][windows-server-default-box] 2022, 2019 and 2016 Standard Desktop
-  - [Windows 11][windows-11-default-box] Version 21H2 Enteprise
-  - [Windows 10][windows-10-default-box] Version 21H1 and 20H2 Enterprise
-  - [Ubuntu Server][ubuntu-server-default-box] 18.04 and 16.04 LTS
-  - [Ubuntu Desktop][ubuntu-desktop-default-box] 18.04 and 16.04 LTS with Xfce
-  - [Docker Windows][docker-windows-default-box] Enterprise on Windows Server Desktop
-  - [Docker Linux][docker-linux-default-box] Community on Ubuntu Server
-  - [IIS][iis-default-box] with .NET on Windows Server Desktop
-  - [SQL Server][sql-server-default-box] 2019 and 2017 Developer with Management Studio on Windows Server Desktop
-  - [Visual Studio][visual-studio-default-box] 2019 and 2017 Community with Docker Desktop on Windows 10
-- Specific versions for more complex scenarios:
   - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
   - [Hosting] using [Docker], [IIS] and [SQL Server].
-  - [Development] using [Visual Studio].
+  - [Development] using [Docker Desktop] and [Visual Studio].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
@@ -51,13 +39,13 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [BlogWhy]: https://bit.ly/wdywttt5
 [BlogHow]: https://bit.ly/wdywttt7
 
-[Packer]: https://www.packer.io/
-[Vagrant]: https://www.vagrantup.com/
-[VirtualBox]: https://www.virtualbox.org/
+[Packer]: https://packer.io
+[Vagrant]: https://vagrantup.com
+[VirtualBox]: https://virtualbox.org
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[Azure]: https://azure.microsoft.com/
-[AWS]: https://aws.amazon.com/
-[Chef]: https://www.chef.sh/
+[Azure]: https://azure.microsoft.com
+[AWS]: https://aws.amazon.com
+[Chef]: https://chef.io
 
 ### Operating systems
 
@@ -71,45 +59,75 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
-- [Windows Server **2022 Standard Desktop**][windows-server-2022-standard-desktop-box]
-- [Windows Server **2022 Standard Core**][windows-server-2022-standard-core-box]
-- [Windows Server **2019 Standard Desktop**][windows-server-2019-standard-desktop-box]
-- [Windows Server **2019 Standard Core**][windows-server-2019-standard-core-box]
-- [Windows Server **2016 Standard Desktop**][windows-server-2016-standard-desktop-box]
-- [Windows Server **2016 Standard Core**][windows-server-2016-standard-core-box]
-- [Windows Server **vNext Standard Desktop Insider Preview**][windows-server-standard-desktop-insider-preview-box]
-- [Windows Server **vNext Standard Core Insider Preview**][windows-server-standard-core-insider-preview-box]
+[Sample usage][windows-server-sample-usage]
+
+- [Windows Server][windows-server-default-box]
+- [Windows Server **2022 Standard**][windows-server-2022-standard-box]
+- [Windows Server **2022 Standard** No Configuration Management][windows-server-2022-standard-nocm-box]
+- [Windows Server **2019 Standard**][windows-server-2019-standard-box]
+- [Windows Server **Insider Preview Standard**][windows-server-insider-preview-standard-box]
+
+[windows-server-sample-usage]: ./samples/windows-server/
 
 [windows-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
-[windows-server-2022-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-desktop/
+[windows-server-2022-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard/
+[windows-server-2022-standard-nocm-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-nocm/
+[windows-server-2019-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
+[windows-server-insider-preview-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard/
+
+##### Windows Server Core
+
+[Sample usage][windows-server-core-sample-usage]
+
+- [Windows Server Core][windows-server-core-default-box]
+- [Windows Server **2022 Standard** Core][windows-server-2022-standard-core-box]
+- [Windows Server **2019 Standard** Core][windows-server-2019-standard-core-box]
+- [Windows Server **Insider Preview Standard** Core][windows-server-insider-preview-standard-core-box]
+
+[windows-server-core-sample-usage]: ./samples/windows-server-core/
+
+[windows-server-core-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core/
 [windows-server-2022-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core/
-[windows-server-2019-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-desktop/
 [windows-server-2019-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
-[windows-server-2016-standard-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-desktop/
-[windows-server-2016-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2016-standard-core/
-[windows-server-standard-desktop-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-desktop-insider-preview/
-[windows-server-standard-core-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-standard-core-insider-preview/
+[windows-server-insider-preview-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core/
 
 ##### Windows 11
 
-- [Windows 11 **Version 21H2 Enterprise**][windows-11-enterprise-box]
-- [Windows 11 **Version 21H2 Enterprise Insider Preview**][windows-11-enterprise-insider-preview-box]
+[Sample usage][windows-11-sample-usage]
+
+- [Windows 11][windows-11-default-box]
+- [Windows 11 **Version 22H2 Enterprise**][windows-11-22h2-enterprise-box]
+- [Windows 11 **Version 21H2 Enterprise**][windows-11-21h2-enterprise-box]
+- [Windows 11 **Insider Preview Enterprise**][windows-11-insider-preview-enterprise-box]
+
+[windows-11-sample-usage]: ./samples/windows-11/
 
 [windows-11-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11/
-[windows-11-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-enterprise/
-[windows-11-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-enterprise-insider-preview/
-
+[windows-11-22h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-22h2-enterprise/
+[windows-11-21h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-21h2-enterprise/
+[windows-11-insider-preview-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-11-insider-preview-enterprise/
 
 ##### Windows 10
 
-- [Windows 10 **Version 21H1 and 20H2 Enterprise**][windows-10-enterprise-box]
-- [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-enterprise-ltsc-box]
-- [Windows 10 **Version 21H2 Enterprise Insider Preview**][windows-10-enterprise-insider-preview-box]
+[Sample usage][windows-10-sample-usage]
+
+- [Windows 10][windows-10-default-box]
+- [Windows 10 **Version 22H2 Enterprise**][windows-10-22h2-enterprise-box]
+- [Windows 10 **Version 22H2 Enterprise** No Configuration Management][windows-10-22h2-enterprise-nocm-box]
+- [Windows 10 **Version 21H2 Enterprise**][windows-10-21h2-enterprise-box]
+- [Windows 10 **Version 21H2 Enterprise LTSC**][windows-10-21h2-enterprise-ltsc-box]
+- [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-1809-enterprise-ltsc-box]
+- [Windows 10 **Insider Preview Enterprise**][windows-10-insider-preview-enterprise-box]
+
+[windows-10-sample-usage]: ./samples/windows-10/
 
 [windows-10-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
-[windows-10-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise/
-[windows-10-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-ltsc/
-[windows-10-enterprise-insider-preview-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-enterprise-insider-preview/
+[windows-10-22h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-22h2-enterprise/
+[windows-10-22h2-enterprise-nocm-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-22h2-enterprise-nocm/
+[windows-10-21h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise/
+[windows-10-21h2-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise-ltsc/
+[windows-10-1809-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
+[windows-10-insider-preview-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
 
 #### Ubuntu
 
@@ -117,21 +135,31 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Ubuntu Server
 
+[Sample usage][ubuntu-server-sample-usage]
+
+- [Ubuntu Server][ubuntu-server-default-box]
+- [Ubuntu Server **20.04 LTS**][ubuntu-server-2004-lts-box]
 - [Ubuntu Server **18.04 LTS**][ubuntu-server-1804-lts-box]
-- [Ubuntu Server **16.04 LTS**][ubuntu-server-1604-lts-box]
+
+[ubuntu-server-sample-usage]: ./samples/ubuntu-server/
 
 [ubuntu-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
+[ubuntu-server-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2004-lts/
 [ubuntu-server-1804-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1804-lts/
-[ubuntu-server-1604-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1604-lts/
 
 ##### Ubuntu Desktop
 
+[Sample usage][ubuntu-desktop-sample-usage]
+
+- [Ubuntu Desktop][ubuntu-desktop-default-box]
+- [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
 - [Ubuntu Desktop **18.04 LTS with Xfce**][ubuntu-desktop-1804-lts-xfce-box]
-- [Ubuntu Desktop **16.04 LTS with Xfce**][ubuntu-desktop-1604-lts-xfce-box]
+
+[ubuntu-desktop-sample-usage]: ./samples/ubuntu-desktop/
 
 [ubuntu-desktop-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
+[ubuntu-desktop-2004-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
 [ubuntu-desktop-1804-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1804-lts-xfce/
-[ubuntu-desktop-1604-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1604-lts-xfce/
 
 ### Hosting
 
@@ -143,45 +171,53 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 [Docker]: #docker
 
-##### Docker Windows
+[Sample usage][docker-sample-usage]
 
-- [Docker **Enterprise on Windows Server Desktop**][docker-enterprise-windows-server-desktop-box]
-- [Docker **Enterprise on Windows Server Core**][docker-enterprise-windows-server-core-box]
-- [Docker **Desktop on Windows 10**][docker-desktop-windows-10-box]
+- [Docker Windows][docker-windows-default-box]
+- [Docker **Community** on **Windows Server**][docker-community-windows-server-box]
+- [Docker **Community** on **Windows Server Core**][docker-community-windows-server-core-box]
+- [Docker Linux][docker-linux-default-box]
+- [Docker **Community** on **Ubuntu Server**][docker-community-ubuntu-server-box]
+
+[docker-sample-usage]: ./samples/docker/
 
 [docker-windows-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
-[docker-enterprise-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server-desktop/
-[docker-enterprise-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-enterprise-windows-server-core/
-[docker-desktop-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-10/
-
-##### Docker Linux
-
-- [Docker **Community on Ubuntu Server**][docker-community-ubuntu-server-box]
-- [Docker **Community on Ubuntu Desktop**][docker-community-ubuntu-desktop-box]
-
+[docker-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server/
+[docker-community-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server-core/
 [docker-linux-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-server/
-[docker-community-ubuntu-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-desktop/
 
 #### IIS
 
-- [IIS **with .NET on Windows Server Desktop**][iis-windows-server-desktop-box]
-- [IIS **with .NET on Windows Server Core**][iis-windows-server-core-box]
+[Sample usage][iis-sample-usage]
+
+- [IIS][iis-default-box]
+- [IIS on **Windows Server**][iis-windows-server-box]
+- [IIS on **Windows Server Core**][iis-windows-server-core-box]
 
 [IIS]: #iis
 
+[iis-sample-usage]: ./samples/iis/
+
 [iis-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis/
-[iis-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-desktop/
+[iis-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server/
 [iis-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-core/
 
 #### SQL Server
 
-- [SQL Server **2019 and 2017 Developer with Management Studio on Windows Server**][sql-server-developer-windows-server-desktop-box]
+[Sample usage][sql-server-sample-usage]
+
+- [SQL Server][sql-server-default-box]
+- [SQL Server **2019 Developer** on **Windows Server**][sql-server-2019-developer-windows-server-box]
+- [SQL Server **2019 Developer** on **Windows Server Core**][sql-server-2019-developer-windows-server-core-box]
 
 [SQL Server]: #sql-server
 
+[sql-server-sample-usage]: ./samples/sql-server/
+
 [sql-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server/
-[sql-server-developer-windows-server-desktop-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-developer-windows-server-desktop/
+[sql-server-2019-developer-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server/
+[sql-server-2019-developer-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server-core/
 
 ### Development
 
@@ -189,16 +225,39 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 [Development]: #development
 
+#### Docker Desktop
+
+[Sample usage][docker-desktop-sample-usage]
+
+- [Docker Desktop on **Windows 11**][docker-desktop-windows-11-box]
+- [Docker Desktop on **Windows 10**][docker-desktop-windows-10-box]
+
+[Docker Desktop]: #docker-desktop
+
+[docker-desktop-sample-usage]: ./samples/docker-desktop/
+
+[docker-desktop-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-11/
+[docker-desktop-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-10/
+
 #### Visual Studio
 
-- [Visual Studio **2019 and 2017 Community with Docker Desktop on Windows 10**][visual-studio-community-windows-10-box]
-- [Visual Studio **2019 and 2017 Professional with Docker Desktop on Windows 10**][visual-studio-professional-windows-10-box]
+[Sample usage][visual-studio-sample-usage]
+
+- [Visual Studio][visual-studio-default-box]
+- [Visual Studio **2022 Community** on **Windows 11**][visual-studio-2022-community-windows-11-box]
+- [Visual Studio **2022 Community** on **Windows 10**][visual-studio-2022-community-windows-10-box]
+- [Visual Studio **2019 Community** on **Windows 11**][visual-studio-2019-community-windows-11-box]
+- [Visual Studio **2019 Community** on **Windows 10**][visual-studio-2019-community-windows-10-box]
 
 [Visual Studio]: #visual-studio
 
+[visual-studio-sample-usage]: ./samples/visual-studio/
+
 [visual-studio-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio/
-[visual-studio-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-community-windows-10/
-[visual-studio-professional-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-professional-windows-10/
+[visual-studio-2022-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-11/
+[visual-studio-2022-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2022-community-windows-10/
+[visual-studio-2019-community-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-11/
+[visual-studio-2019-community-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/visual-studio-2019-community-windows-10/
 
 ## Getting started
 
@@ -263,30 +322,30 @@ The output will be contain the section `info` with the list of the templates:
 info
 ========================================
 ...
-ws2019s-virtualbox-core: Info
-ws2019s-virtualbox-vagrant: Info
-ws2019s-hyperv-core: Info
-ws2019s-hyperv-vagrant: Info
+ws2022s-virtualbox-core: Info
+ws2022s-virtualbox-vagrant: Info
+ws2022s-hyperv-core: Info
+ws2022s-hyperv-vagrant: Info
 ...
-w102101e-virtualbox-core: Info
-w102101e-virtualbox-vagrant: Info
-w102101e-hyperv-core: Info
-w102101e-hyperv-vagrant: Info
+w1022h2e-virtualbox-core: Info
+w1022h2e-virtualbox-vagrant: Info
+w1022h2e-hyperv-core: Info
+w1022h2e-hyperv-vagrant: Info
 ...
-ws2019s-iis-virtualbox-core: Info
-ws2019s-iis-virtualbox-vagrant: Info
-ws2019s-iis-hyperv-core: Info
-ws2019s-iis-hyperv-vagrant: Info
+ws2022s-iis-virtualbox-core: Info
+ws2022s-iis-virtualbox-vagrant: Info
+ws2022s-iis-hyperv-core: Info
+ws2022s-iis-hyperv-vagrant: Info
 ...
 ```
 
-You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2019 Standard` image, invoke the `info` command with the `ws2019s` argument:
+You can filter this further to list only the templates for a given virtual machine image type. For example, to list the templates based on the `Windows Server 2022 Standard` image, invoke the `info` command with the `ws2022s` argument:
 
 ```shell
-$ dotnet cake [--target=info] --configuration=ws2019s
+$ dotnet cake [--target=info] --configuration=ws2022s
 ```
 
-You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2019s`, `w102101e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`) easily.  
+You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2022s`, `w1022h2e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`) easily.  
 
 The output will contain only the matching templates:
 
@@ -295,10 +354,10 @@ The output will contain only the matching templates:
 ========================================
 info
 ========================================
-ws2019s-virtualbox-core: Info
-ws2019s-virtualbox-vagrant: Info
-ws2019s-hyperv-core: Info
-ws2019s-hyperv-vagrant: Info
+ws2022s-virtualbox-core: Info
+ws2022s-virtualbox-vagrant: Info
+ws2022s-hyperv-core: Info
+ws2022s-hyperv-vagrant: Info
 ...
 ```
 
@@ -307,16 +366,16 @@ This means that this configuration supports building native base images (`virtua
 Now, invoke the `restore` command with the name of the template you want to build to create the resources required by Packer. For example, for VirtualBox, type the following command:
 
 ```shell
-$ dotnet cake --target=restore --configuration=ws2019s-virtualbox-core
+$ dotnet cake --target=restore --configuration=ws2022s-virtualbox-core
 ``` 
 
-This will create the folder `build/ws2019s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
+This will create the folder `build/ws2022s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-virtualbox-core
+$ dotnet cake --target=build --configuration=ws2022s-virtualbox-core
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2019s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider on the host machine.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2022s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider on the host machine.
 
 [Building base images]: #building-base-images
 
@@ -327,19 +386,19 @@ This will trigger the Packer build process, which usually requires only patience
 As mentioned above, based on Packer's support for starting builds from some virtualization providers' native image format, builds can reuse the output of a previous build. To build and image which can be distributed (e.g. after applying [Sysprep] as well), type the following command:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-virtualbox-vagrant
+$ dotnet cake --target=build --configuration=ws2022s-virtualbox-vagrant
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2019s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `build/ws2019s/virtualbox-vagrant/output` folder.
+Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2022s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `build/ws2022s/virtualbox-vagrant/output` folder.
 
 The same approach works for Hyper-V as well:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-hyperv-core
-$ dotnet cake --target=build --configuration=ws2019s-hyperv-vagrant
+$ dotnet cake --target=build --configuration=ws2022s-hyperv-core
+$ dotnet cake --target=build --configuration=ws2022s-hyperv-vagrant
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `builds/ws2019s` folder as well, this time under the `hyperv-vagrant/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `builds/ws2022s` folder as well, this time under the `hyperv-vagrant/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [Building images for distribution]: #building-images-for-distribution
 
@@ -348,31 +407,31 @@ As you can expect, for these samples the build artifacts will be created in the 
 
 ### Chaining builds further
 
-Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2019 Standard` with `IIS` can be built like this:
+Similarly to the process above, you can use build chaining to build more complex boxes. For example, the configuration for `Windows Server 2022 Standard` with `IIS` can be built like this:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-virtualbox-core
-$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-core
-$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant
+$ dotnet cake --target=build --configuration=ws2022s-virtualbox-core
+$ dotnet cake --target=build --configuration=ws2022s-iis-virtualbox-core
+$ dotnet cake --target=build --configuration=ws2022s-iis-virtualbox-vagrant
 ```
 
-As in the previous `ws2019s` sample, for this configuration the `ws2019s-iis-virtualbox-core` build will start from the output of `ws2019s-virtualbox-core` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build images with any number of components very effectively.
+As in the previous `ws2022s` sample, for this configuration the `ws2022s-iis-virtualbox-core` build will start from the output of `ws2022s-virtualbox-core` instead of starting with the core OS installation. Chanining builds like this has no limitations, so you can use this approach to build images with any number of components very effectively.
 
 Note that the script can invoke the build of the dependencies automatically, so for the previous example you can simply type:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-iis-virtualbox-vagrant
+$ dotnet cake --target=build --configuration=ws2022s-iis-virtualbox-vagrant --recursive true
 ```
 
-This will in turn invoke the `restore` and `build` stages for the `ws2019s-virtualbox-core` and `ws2019s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
+This will in turn invoke the `restore` and `build` stages for the `ws2022s-virtualbox-core` and `ws2022s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
 
 Again, this works for Hyper-V as well:
 
 ```shell
-$ dotnet cake --target=build --configuration=ws2019s-iis-hyperv-vagrant
+$ dotnet cake --target=build --configuration=ws2022s-iis-hyperv-vagrant --recursive true
 ```
 
-Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hyperv-core` images first if they are missing.
+Similarly, this will in turn build the `ws2022s-hyperv-core` and `ws2022s-iis-hyperv-core` images first if they are missing.
 
 [Chaining builds further]: #chaining-builds-further
 
@@ -380,13 +439,13 @@ Similarly, this will in turn build the `ws2019s-hyperv-core` and `ws2019s-iis-hy
 
 To help testing the build results, the reposiory contains a simple [Vagrantfile] to create virtual machines using directly the build outputs. You can play around with the [Vagrant CLI][VagrantCLI] yourself, or let the build script manage it for you.
 
-For example, to test the `ws2019s` configuration, from the root of your clone you can type the following command to use the box files in the `build\ws2019s` folder:
+For example, to test the `ws2022s` configuration, from the root of your clone you can type the following command to use the box files in the `build\ws2022s` folder:
 
 ```shell
-$ dotnet cake --target=test --configuration=ws2019s-virtualbox-vagrant
+$ dotnet cake --target=test --configuration=ws2022s-virtualbox-vagrant
 ```
 
-This will import the locally built Vagrant box temporarily with the name `ws2019s-build` and will use that to spin up a new virtual machine. It also outputs some basic diagnostics information to help quickly checking the installations.
+This will import the locally built Vagrant box temporarily with the name `ws2022s-build` and will use that to spin up a new virtual machine. It also outputs some basic diagnostics information to help quickly checking the installations.
 
 [Testing]: #testing
 
@@ -398,7 +457,7 @@ This will import the locally built Vagrant box temporarily with the name `ws2019
 Though the `build` folders are excluded by default from the repository, they can consume significant disk space. You can manually delete the folders, but the build script provides support for this as well:
 
 ```shell
-$ dotnet cake --target=clean --configuration=ws2019s-iis-virtualbox-vagrant
+$ dotnet cake --target=clean --configuration=ws2022s-iis-virtualbox-vagrant
 ```
 
 Using the filtering, to clean up the artifacts of all the VirtualBox builds, you can type:
