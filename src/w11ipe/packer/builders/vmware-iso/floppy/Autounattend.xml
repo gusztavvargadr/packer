@@ -16,7 +16,7 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Description>Disable Windows 11 checks</Description>
-                    <Path>E:\setup.cmd</Path>
+                    <Path>A:\setup.cmd</Path>
                 </RunSynchronousCommand>
             </RunSynchronous>
             <DiskConfiguration>
@@ -44,6 +44,12 @@
             </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                            <Key>/IMAGE/NAME </Key>
+                            <Value>Windows 11 Enterprise</Value>
+                        </MetaData>
+                    </InstallFrom>
                     <InstallTo>
                         <DiskID>0</DiskID>
                         <PartitionID>3</PartitionID>

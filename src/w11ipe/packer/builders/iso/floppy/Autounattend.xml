@@ -16,11 +16,6 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Description>Disable Windows 11 checks</Description>
-                    <Path>A:\setup.cmd</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>2</Order>
-                    <Description>Disable Windows 11 checks</Description>
                     <Path>E:\setup.cmd</Path>
                 </RunSynchronousCommand>
             </RunSynchronous>

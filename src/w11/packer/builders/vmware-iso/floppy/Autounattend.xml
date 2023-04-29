@@ -16,7 +16,7 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Description>Disable Windows 11 checks</Description>
-                    <Path>E:\setup.cmd</Path>
+                    <Path>A:\setup.cmd</Path>
                 </RunSynchronousCommand>
             </RunSynchronous>
             <DiskConfiguration>
