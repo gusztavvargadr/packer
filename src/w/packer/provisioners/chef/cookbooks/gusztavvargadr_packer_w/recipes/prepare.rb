@@ -122,3 +122,15 @@ if vbox?
     end
   end
 end
+
+if vmware?
+  reboot 'vmware' do
+    action :nothing
+  end
+
+  chocolatey_package 'vmware-tools' do
+    returns [0, 2, 3010]
+    action :install
+    notifies :request_reboot, 'reboot[vmware]'
+  end
+end

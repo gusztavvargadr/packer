@@ -108,6 +108,9 @@ void PackerTemplate_Test(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
+  if (provider == "vmware") {
+    provider = "vmware_desktop";
+  }
   var vmName = $"{template.Name}-test";
   var boxName = $"gusztavvargadr/{template.Name}-test";
   var boxUrl = $"file://{template.GetBuildDirectory()}/output/package/vagrant.box";
@@ -127,6 +130,9 @@ void PackerTemplate_Publish(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
+  if (provider == "vmware") {
+    provider = "vmware_desktop";
+  }
 
   var boxChecksum = string.Empty;
   var checksumFile = $"{template.GetBuildDirectory()}/output/package/checksum.sha256";
@@ -173,6 +179,9 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
+  if (provider == "vmware") {
+    provider = "vmware_desktop";
+  }
 
   try {
     PackerTemplate_Vagrant(template, $"box add gusztavvargadr/{template.GroupName} --box-version {template.GroupVersion} --provider {provider}");
@@ -214,6 +223,9 @@ void PackerTemplate_Clean(PackerTemplate template) {
   }
 
   var provider = template.Type.Split('-')[0];
+  if (provider == "vmware") {
+    provider = "vmware_desktop";
+  }
 
   try {
     var vmName = $"{template.Name}-test";
@@ -319,6 +331,10 @@ void PackerTemplate_MergeJson(PackerTemplate template) {
     if (template.Builders.Any(item => item.IsMatching("hyperv"))) {
       var parentBuildOutputDirectory = parentBuildDirectory + "/output/build";
       jsonTemplateVariables["hyperv_clone_from_vmcx_path"] = parentBuildOutputDirectory;
+    }
+    if (template.Builders.Any(item => item.IsMatching("vmware"))) {
+      var parentBuildOutputFile = File(parentBuildDirectory + "/" + manifest["builds"][0]["files"][3]["name"].ToString());
+      jsonTemplateVariables["vmware_source_path"] = buildDirectory.GetRelativePath(parentBuildOutputFile).ToString();
     }
     if (template.Builders.Any(item => item.IsMatching("azure"))) {
       var artifactId = manifest["builds"][0]["artifact_id"].ToString();
