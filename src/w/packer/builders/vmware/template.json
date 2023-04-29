@@ -1,0 +1,29 @@
+{
+  "variables": {
+    "builder_source": "builders",
+    "builder_destination": "C:/Windows/Temp/packer",
+    "elevated_user": "Administrator",
+    "elevated_password": "Packer42-",
+    "vmware_headless": "true",
+    "vmware_memory": "8192",
+    "vmware_cpus": "4",
+    "vmware_boot_wait": "1s",
+    "vmware_communicator": "ssh",
+    "vmware_communicator_username": "Administrator",
+    "vmware_communicator_password": "Packer42-",
+    "vmware_communicator_timeout": "30m",
+    "vmware_shutdown_command": "C:/Windows/Temp/packer/shutdown.cmd",
+    "vmware_shutdown_timeout": "10m"
+  },
+  "provisioners": [
+    {
+      "type": "powershell",
+      "script": "{{user `builder_source`}}/{{build_type}}/scripts/prepare.ps1"
+    },
+    {
+      "type": "file",
+      "source": "{{user `builder_source`}}/{{build_type}}/upload/",
+      "destination": "{{user `builder_destination`}}"
+    }
+  ]
+}

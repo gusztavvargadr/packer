@@ -1,0 +1,6 @@
+{
+  "variables": {
+    "vagrant_vagrantfile_template": "postprocessors/vagrant-vmware/Vagrantfile",
+    "vmware_vmx_remove_ethernet_interfaces": "true"
+  }
+}

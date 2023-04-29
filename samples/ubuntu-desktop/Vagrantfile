@@ -1,0 +1,19 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "default", primary: true do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/ubuntu-desktop"
+  end
+
+  config.vm.define "2004-lts-xfce", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/ubuntu-desktop-2004-lts-xfce"
+  end
+
+  config.vm.define "1804-lts-xfce", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/ubuntu-desktop-1804-lts-xfce"
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    uname -a
+    lsb_release -a
+    lshw
+  EOH
+end

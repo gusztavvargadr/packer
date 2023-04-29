@@ -40,7 +40,7 @@ end
 
 powershell_script 'Zeroing volume' do
   code <<-EOH
-    sdelete -nobanner -z C:
+    sdelete -accepteula -nobanner -z C:
   EOH
   action :run
   not_if { reboot_pending? }

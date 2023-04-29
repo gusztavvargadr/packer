@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: w1022h2e-virtualbox-core
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: w1022h2e-nocm
+      provider: virtualbox
+      configuration: core
+      parent: w1022h2e

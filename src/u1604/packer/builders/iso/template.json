@@ -1,7 +1,0 @@
-{
-  "variables": {
-    "iso_url_local": "{{user `download_directory`}}/ubuntu-16.04.6-server-amd64.iso",
-    "iso_url_remote": "https://old-releases.ubuntu.com/releases/16.04.6/ubuntu-16.04.6-server-amd64.iso",
-    "iso_checksum": "sha256:16afb1375372c57471ea5e29803a89a5a6bd1f6aabea2e5e34ac1ab7eb9786ac"
-  }
-}

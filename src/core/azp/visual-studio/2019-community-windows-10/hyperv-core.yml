@@ -4,12 +4,12 @@ pr: none
 resources:
   pipelines:
     - pipeline: parent
-      source: w1021h2e-dd-hyperv-core
+      source: w1022h2e-hyperv-core
 
 stages:
   - template: ../../ci-stages.yml
     parameters:
-      image: w1021h2e-dd-vs19c
+      image: w1022h2e-vs19c
       provider: hyperv
       configuration: core
-      parent: w1021h2e-dd
+      parent: w1022h2e

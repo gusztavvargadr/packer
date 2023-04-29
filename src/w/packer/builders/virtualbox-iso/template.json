@@ -3,7 +3,7 @@
     "virtualbox_guest_os_type": "",
     "virtualbox_disk_size": "130048",
     "virtualbox_cd_files": "builders/virtualbox-iso/floppy/*",
-    "virtualbox_boot_command": "<enter><wait>,<enter><wait>,<enter><wait>"
+    "virtualbox_boot_command": "<enter><wait><enter><wait><enter>"
   },
   "builders": [
     {
@@ -35,12 +35,14 @@
         "{{user `virtualbox_cd_files`}}"
       ],
       "boot_wait": "{{user `virtualbox_boot_wait`}}",
-      "boot_command": "{{ user `virtualbox_boot_command` }}",
-      "boot_keygroup_interval": "1s",
+      "boot_command": [ "{{ user `virtualbox_boot_command` }}" ],
       "communicator": "{{user `virtualbox_communicator`}}",
-      "ssh_username": "{{user `virtualbox_ssh_username`}}",
-      "ssh_password": "{{user `virtualbox_ssh_password`}}",
-      "ssh_timeout": "{{user `virtualbox_ssh_timeout`}}",
+      "ssh_username": "{{user `virtualbox_communicator_username`}}",
+      "ssh_password": "{{user `virtualbox_communicator_password`}}",
+      "ssh_timeout": "{{user `virtualbox_communicator_timeout`}}",
+      "winrm_username": "{{user `virtualbox_communicator_username`}}",
+      "winrm_password": "{{user `virtualbox_communicator_password`}}",
+      "winrm_timeout": "{{user `virtualbox_communicator_timeout`}}",
       "guest_additions_mode": "{{user `virtualbox_guest_additions_mode`}}",
       "shutdown_command": "{{user `virtualbox_shutdown_command`}}",
       "shutdown_timeout": "{{user `virtualbox_shutdown_timeout`}}",
