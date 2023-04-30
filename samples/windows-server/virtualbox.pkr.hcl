@@ -6,25 +6,26 @@ locals {
   hard_drive_interface = "sata"
   gfx_controller       = "vboxsvga"
   gfx_vram_size        = 64
-  post_shutdown_delay  = "5s"
+
+  post_shutdown_delay = "5s"
 }
 
-source "virtualbox-iso" "default" {
-  vm_name  = local.vm_name
-  cpus     = local.cpus
-  memory   = local.memory
-  headless = local.headless
-
+source "virtualbox-iso" "core" {
+  vm_name      = local.vm_name
+  headless     = local.headless
+  cpus         = local.cpus
+  memory       = local.memory
   disk_size    = local.disk_size
   iso_urls     = local.iso_urls
   iso_checksum = local.iso_checksum
   cd_content   = local.cd_content
-
-  boot_wait              = local.boot_wait
-  boot_command           = local.boot_command
-  boot_keygroup_interval = local.boot_keygroup_interval
+  boot_wait    = local.boot_wait
+  boot_command = local.boot_command
 
   communicator   = local.communicator_type
+  ssh_username   = local.communicator_username
+  ssh_password   = local.communicator_password
+  ssh_timeout    = local.communicator_timeout
   winrm_username = local.communicator_username
   winrm_password = local.communicator_password
   winrm_timeout  = local.communicator_timeout
