@@ -1,3 +1,7 @@
+variables {
+  hyperv_switch_name = "Default Switch"
+}
+
 locals {
   generation                       = 2
   configuration_version            = "9.0"
@@ -5,13 +9,15 @@ locals {
   enable_dynamic_memory            = false
   enable_secure_boot               = true
   secure_boot_template             = "MicrosoftWindows"
-  switch_name                      = "Default Switch"
+  switch_name                      = var.hyperv_switch_name
   enable_mac_spoofing              = true
 }
 
 source "hyperv-iso" "core" {
-  vm_name      = local.vm_name
-  headless     = local.headless
+  vm_name          = local.vm_name
+  headless         = local.headless
+  output_directory = local.core_output_directory
+
   cpus         = local.cpus
   memory       = local.memory
   disk_size    = local.disk_size

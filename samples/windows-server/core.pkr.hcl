@@ -7,13 +7,19 @@ variables {
   download_directory = "${env("HOME")}/Downloads"
 }
 
+variable "provider" {
+  type = string
+}
+
 locals {
   timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
 }
 
 locals {
-  vm_name   = "${var.author}-${var.name}-${var.version}-${local.timestamp}"
-  headless  = true
+  vm_name               = "${var.author}-${var.name}-${var.version}-${local.timestamp}"
+  headless              = true
+  core_output_directory = "${path.root}/build/${var.name}/${var.provider}-core"
+
   cpus      = 4
   memory    = 8192
   disk_size = 130048
@@ -37,7 +43,6 @@ locals {
   shutdown_command = "shutdown /s /t 10"
   shutdown_timeout = "10m"
 
-  artifacts_directory = "${path.root}/build"
   // clone_from_vmcx_path = "output/hyperv-core/image"
 }
 
@@ -53,9 +58,7 @@ build {
   name        = "${var.name}-core"
   description = "${var.description} Core"
 
-  source "virtualbox-iso.core" {
-    output_directory = "${local.artifacts_directory}/${var.name}/core"
-  }
+  sources = ["${var.provider}-iso.core"]
 
   provisioner "powershell" {
     script = "${path.root}/chef/prepare.ps1"
@@ -72,11 +75,11 @@ build {
   }
 
   post-processor "manifest" {
-    output = "${local.artifacts_directory}/${var.name}/core/manifest.json"
+    output = "${local.core_output_directory}/manifest.json"
   }
 
   post-processor "checksum" {
     checksum_types = ["sha256"]
-    output         = "${local.artifacts_directory}/${var.name}/core/checksum.{{ .ChecksumType }}"
+    output         = "${local.core_output_directory}/checksum.{{ .ChecksumType }}"
   }
 }

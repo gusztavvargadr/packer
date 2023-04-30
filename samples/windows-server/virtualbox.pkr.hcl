@@ -11,8 +11,10 @@ locals {
 }
 
 source "virtualbox-iso" "core" {
-  vm_name      = local.vm_name
-  headless     = local.headless
+  vm_name          = local.vm_name
+  headless         = local.headless
+  output_directory = local.core_output_directory
+
   cpus         = local.cpus
   memory       = local.memory
   disk_size    = local.disk_size
