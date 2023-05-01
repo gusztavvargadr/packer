@@ -16,7 +16,7 @@ locals {
 source "hyperv-iso" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
-  output_directory = local.core_output_directory
+  output_directory = "${local.core_output_directory}/image"
 
   cpus         = local.cpus
   memory       = local.memory

@@ -16,9 +16,8 @@ locals {
 }
 
 locals {
-  vm_name               = "${var.author}-${var.name}-${var.version}-${local.timestamp}"
-  headless              = true
-  core_output_directory = "${path.root}/build/${var.name}/${var.provider}-core"
+  vm_name  = "${var.author}-${var.name}-${var.version}-${local.timestamp}"
+  headless = true
 
   cpus      = 4
   memory    = 8192
@@ -42,21 +41,15 @@ locals {
 
   shutdown_command = "shutdown /s /t 10"
   shutdown_timeout = "10m"
-
-  // clone_from_vmcx_path = "output/hyperv-core/image"
 }
 
-// locals {
-//   chef_host_directory     = "provisioners/chef"
-//   chef_guest_directory    = "C:/Windows/Temp/packer/${local.chef_host_directory}"
-//   chef_policies_directory = "policies"
-
-//   windows_restart_timeout = "30m"
-// }
+locals {
+  core_output_directory    = "${path.root}/build/${var.name}/${var.provider}-core"
+  vagrant_output_directory = "${path.root}/build/${var.name}/${var.provider}-vagrant"
+}
 
 build {
-  name        = "${var.name}-core"
-  description = "${var.description} Core"
+  name = "core"
 
   sources = ["${var.provider}-iso.core"]
 
@@ -81,5 +74,38 @@ build {
   post-processor "checksum" {
     checksum_types = ["sha256"]
     output         = "${local.core_output_directory}/checksum.{{ .ChecksumType }}"
+  }
+}
+
+source "null" "vagrant" {
+  communicator = "none"
+}
+
+build {
+  name        = "vagrant"
+  description = "${var.description} Vagrant"
+
+  sources = ["null.vagrant"]
+
+  post-processors {
+    post-processor "artifice" {
+      files = fileset(".", "${local.core_output_directory}/image/**")
+    }
+
+    post-processor "vagrant" {
+      provider_override    = "${var.provider}"
+      keep_input_artifact  = true
+      vagrantfile_template = "${path.root}/${var.provider}.Vagrantfile"
+      output               = "${local.vagrant_output_directory}/vagrant.box"
+    }
+
+    post-processor "manifest" {
+      output = "${local.vagrant_output_directory}/manifest.json"
+    }
+
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output         = "${local.vagrant_output_directory}/checksum.{{ .ChecksumType }}"
+    }
   }
 }
