@@ -55,7 +55,7 @@ source "hyperv-vmcx" "vagrant" {
 
   cpus                 = local.cpus
   memory               = local.memory
-  clone_from_vmcx_path = "${local.core_output_directory}/image/"
+  clone_from_vmcx_path = "${join("", fileset(path.root, "${local.core_output_directory}/image/*.vmcx"))}"
   boot_wait            = local.boot_wait // -1
 
   communicator   = local.communicator_type

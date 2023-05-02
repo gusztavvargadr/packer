@@ -45,13 +45,16 @@ locals {
 
 locals {
   core_output_directory    = "${path.root}/build/${var.name}/${var.provider}-core"
-  vagrant_output_directory = "${path.root}/build/${var.name}/${var.provider}-vagrant"
+  core_sources = {
+    virtualbox = "virtualbox-iso.core"
+    hyperv = "hyperv-iso.core"
+  }
 }
 
 build {
   name = "core"
 
-  sources = ["${var.provider}-iso.core"]
+  sources = ["${lookup(local.core_sources, var.provider, "")}"]
 
   provisioner "powershell" {
     script = "${path.root}/chef/prepare.ps1"
@@ -77,16 +80,23 @@ build {
   }
 }
 
+locals {
+  vagrant_output_directory = "${path.root}/build/${var.name}/${var.provider}-vagrant"
+  vagrant_sources = {
+    virtualbox = "virtualbox-ovf.vagrant"
+    hyperv = "hyperv-vmcx.vagrant"
+  }
+}
+
 build {
   name        = "vagrant"
 
-  sources = ["${var.provider}-ovf.vagrant"]
+  sources = ["${lookup(local.vagrant_sources, var.provider, "")}"]
 
   post-processors {
     post-processor "vagrant" {
-      keep_input_artifact  = true
       vagrantfile_template = "${path.root}/${var.provider}.Vagrantfile"
-      output               = "${local.vagrant_output_directory}/image/vagrant.box"
+      output               = "${local.vagrant_output_directory}/vagrant.box"
     }
 
     post-processor "manifest" {

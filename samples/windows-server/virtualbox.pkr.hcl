@@ -50,7 +50,7 @@ source "virtualbox-ovf" "vagrant" {
   output_directory = "${local.vagrant_output_directory}/image"
 
   vboxmanage   = [["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"], ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"]]
-  source_path = "${local.core_output_directory}/image/"
+  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/image/*.ovf"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type
