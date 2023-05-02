@@ -15,8 +15,7 @@ source "virtualbox-iso" "core" {
   headless         = local.headless
   output_directory = "${local.core_output_directory}/image"
 
-  cpus         = local.cpus
-  memory       = local.memory
+  vboxmanage   = [["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"], ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"]]
   disk_size    = local.disk_size
   iso_urls     = local.iso_urls
   iso_checksum = local.iso_checksum
@@ -42,5 +41,29 @@ source "virtualbox-iso" "core" {
   hard_drive_interface = local.hard_drive_interface
   gfx_controller       = local.gfx_controller
   gfx_vram_size        = local.gfx_vram_size
+  post_shutdown_delay  = local.post_shutdown_delay
+}
+
+source "virtualbox-ovf" "vagrant" {
+  vm_name          = local.vm_name
+  headless         = local.headless
+  output_directory = "${local.vagrant_output_directory}/image"
+
+  vboxmanage   = [["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"], ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"]]
+  source_path = "${local.core_output_directory}/image/"
+  boot_wait   = local.boot_wait
+
+  communicator   = local.communicator_type
+  ssh_username   = local.communicator_username
+  ssh_password   = local.communicator_password
+  ssh_timeout    = local.communicator_timeout
+  winrm_username = local.communicator_username
+  winrm_password = local.communicator_password
+  winrm_timeout  = local.communicator_timeout
+
+  shutdown_command = local.shutdown_command
+  shutdown_timeout = local.shutdown_timeout
+
+  guest_additions_mode = local.guest_additions_mode
   post_shutdown_delay  = local.post_shutdown_delay
 }

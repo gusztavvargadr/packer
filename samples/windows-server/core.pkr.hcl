@@ -1,7 +1,7 @@
 variables {
   author      = "gusztavvargadr"
   name        = "ws2022sc"
-  description = "Windows Server 2022 Standard Core"
+  // description = "Windows Server 2022 Standard Core"
   version     = "2304.0.0"
 
   download_directory = "${env("HOME")}/Downloads"
@@ -77,26 +77,16 @@ build {
   }
 }
 
-source "null" "vagrant" {
-  communicator = "none"
-}
-
 build {
   name        = "vagrant"
-  description = "${var.description} Vagrant"
 
-  sources = ["null.vagrant"]
+  sources = ["${var.provider}-ovf.vagrant"]
 
   post-processors {
-    post-processor "artifice" {
-      files = fileset(".", "${local.core_output_directory}/image/**")
-    }
-
     post-processor "vagrant" {
-      provider_override    = "${var.provider}"
       keep_input_artifact  = true
       vagrantfile_template = "${path.root}/${var.provider}.Vagrantfile"
-      output               = "${local.vagrant_output_directory}/vagrant.box"
+      output               = "${local.vagrant_output_directory}/image/vagrant.box"
     }
 
     post-processor "manifest" {
