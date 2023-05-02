@@ -48,6 +48,7 @@ locals {
   core_sources = {
     virtualbox = "virtualbox-iso.core"
     hyperv = "hyperv-iso.core"
+    vmware = "vmware-iso.core"
   }
 }
 
@@ -85,6 +86,7 @@ locals {
   vagrant_sources = {
     virtualbox = "virtualbox-ovf.vagrant"
     hyperv = "hyperv-vmcx.vagrant"
+    vmware = "vmware-vmx.vagrant"
   }
 }
 

@@ -1,16 +1,16 @@
 locals {
-  guest_os_type        = "Windows2019_64"
-  guest_additions_mode = "disable"
-  firmware             = "efi"
-  nested_virt          = true
-  hard_drive_interface = "sata"
-  gfx_controller       = "vboxsvga"
-  gfx_vram_size        = 64
-
-  post_shutdown_delay = "5s"
+  vmware_version = 16
+  vmware_guest_os_type        = "windows2019srv-64"
+  vmware_disk_type_id = 0
+  vmware_disk_adapter_type = "nvme"
+  vmware_vmx_data = {
+    firmware     = "efi"
+    "vhv.enable" = "TRUE"
+  }
+  vmware_vmx_remove_ethernet_interfaces = true // for vagrant
 }
 
-source "virtualbox-iso" "core" {
+source "vmware-iso" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.core_output_directory}/image"
@@ -35,22 +35,19 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_os_type        = local.guest_os_type
-  guest_additions_mode = local.guest_additions_mode
-  firmware             = local.firmware
-  nested_virt          = local.nested_virt
-  hard_drive_interface = local.hard_drive_interface
-  gfx_controller       = local.gfx_controller
-  gfx_vram_size        = local.gfx_vram_size
-  post_shutdown_delay  = local.post_shutdown_delay
+  version = local.vmware_version
+  guest_os_type        = local.vmware_guest_os_type
+  disk_type_id = local.vmware_disk_type_id
+  disk_adapter_type = local.vmware_disk_adapter_type
+  vmx_data = local.vmware_vmx_data
 }
 
-source "virtualbox-ovf" "vagrant" {
+source "vmware-vmx" "vagrant" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.ovf"))}"
+  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.vmx"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type
@@ -64,6 +61,5 @@ source "virtualbox-ovf" "vagrant" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_additions_mode = local.guest_additions_mode
-  post_shutdown_delay  = local.post_shutdown_delay
+  vmx_remove_ethernet_interfaces = local.vmware_vmx_remove_ethernet_interfaces
 }
