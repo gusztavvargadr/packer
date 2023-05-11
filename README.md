@@ -22,7 +22,7 @@ This repository contains [Packer] sample templates for the following virtualizat
 
   - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
   - [Hosting] using [Docker], [IIS] and [SQL Server].
-  - [Development] using [Docker Desktop] and [Visual Studio].
+  - [Development] using [Visual Studio].
 
 The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
 
@@ -224,20 +224,6 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 The following Vagrant boxes can be used for development scenarios including setting up [virtual workstations]. They contain the respective development tools with the common configuration and are based on the core [operating systems].
 
 [Development]: #development
-
-#### Docker Desktop
-
-[Sample usage][docker-desktop-sample-usage]
-
-- [Docker Desktop on **Windows 11**][docker-desktop-windows-11-box]
-- [Docker Desktop on **Windows 10**][docker-desktop-windows-10-box]
-
-[Docker Desktop]: #docker-desktop
-
-[docker-desktop-sample-usage]: ./samples/docker-desktop/
-
-[docker-desktop-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-11/
-[docker-desktop-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-10/
 
 #### Visual Studio
 
