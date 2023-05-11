@@ -5,7 +5,10 @@ HOME_DIR="${HOME_DIR:-/home/vagrant}";
 
 case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso)
-    VER="`cat $HOME_DIR/.vbox_version`";
+    apt-get -y update;
+
+    # VER="`cat $HOME_DIR/.vbox_version`";
+    VER="7.0.6";
     ISO="VBoxGuestAdditions_$VER.iso";
     wget http://download.virtualbox.org/virtualbox/$VER/$ISO
     mkdir -p /tmp/vbox;
