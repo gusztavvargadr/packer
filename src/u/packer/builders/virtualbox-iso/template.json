@@ -49,8 +49,8 @@
       "firmware": "efi",
       "gfx_controller": "vmsvga",
       "gfx_vram_size": 64,
-      "hard_drive_interface": "sata",
-      "hard_drive_nonrotational": true
+      "nested_virt": "true",
+      "hard_drive_interface": "sata"
     }
   ]
 }
