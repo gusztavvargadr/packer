@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url_local": "{{user `download_directory`}}/Windows_InsiderPreview_Server_vNext_en-us_25346.iso",
-    "iso_url_remote": "https://bit.ly/3oR1m5u",
-    "iso_checksum": "sha256:2d2ecc76bcaeddcf9b79c73facda2cd051376a1c4d7ef095392b1b18aac03140"
+    "iso_url_local": "{{user `download_directory`}}/Windows_InsiderPreview_Server_vNext_en-us_25357.iso",
+    "iso_url_remote": "https://bit.ly/3O3RUpR",
+    "iso_checksum": "sha256:a72f9b09a7857728349415591a3f2c1052430af6cc308f32b769815dee69ef35"
   }
 }
