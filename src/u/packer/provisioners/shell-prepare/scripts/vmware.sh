@@ -4,9 +4,9 @@ major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
 
 case "$PACKER_BUILDER_TYPE" in
 vmware-iso)
-  apt-get -y update;
+  # apt-get -y update;
 
-  apt-get -y install open-vm-tools;
+  # apt-get -y install open-vm-tools;
 
-  reboot
+  # reboot
 esac
