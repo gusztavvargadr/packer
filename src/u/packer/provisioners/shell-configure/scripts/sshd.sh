@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 case "$PACKER_BUILDER_TYPE" in
-virtualbox-iso|hyperv-iso)
+virtualbox-iso|hyperv-iso|vmware-iso)
     SSHD_CONFIG="/etc/ssh/sshd_config"
 
     # ensure that there is a trailing newline before attempting to concatenate

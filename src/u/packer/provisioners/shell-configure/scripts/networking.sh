@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 case "$PACKER_BUILDER_TYPE" in
-virtualbox-iso|hyperv-iso)
+virtualbox-iso|hyperv-iso|vmware-iso)
     ubuntu_version="`lsb_release -r | awk '{print $2}'`";
     major_version="`echo $ubuntu_version | awk -F. '{print $1}'`";
 
