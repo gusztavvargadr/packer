@@ -1,0 +1,25 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: parent
+      source: u2004d-vmware-core
+      trigger:
+        branches:
+          include:
+            - master
+
+stages:
+  - template: ../../ci-stages.yml
+    parameters:
+      image: u2004d
+      provider: vmware
+      configuration: vagrant
+      parent: u2004d
+
+  - template: ../../cd-stages.yml
+    parameters:
+      image: u2004d
+      provider: vmware
+      configuration: vagrant

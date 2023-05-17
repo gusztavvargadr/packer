@@ -127,6 +127,28 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string grou
   items.Add(hyperVCore);
   items.Add(hyperVVagrant);
 
+  var vmwareCore = PackerTemplate_Create(
+    name,
+    "vmware-core",
+    new [] { PackerBuilder_Create(parents == null ? "vmware-iso" : "vmware-vmx") },
+    new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
+    new [] { PackerPostProcessor_Create("manifest") },
+    parents != null ? parents.First(item => item.IsMatching("vmware-core")) : null
+  );
+  var vmwareVagrant = PackerTemplate_Create(
+    name,
+    "vmware-vagrant",
+    new [] { PackerBuilder_Create("vmware-vmx") },
+    new [] { PackerProvisioner_Create("shell-vagrant") },
+    new [] { PackerPostProcessor_Create("vagrant-vmware") },
+    vmwareCore,
+    groupName,
+    groupVersion,
+    aliases
+  );
+  items.Add(vmwareCore);
+  items.Add(vmwareVagrant);
+
   if (amazon) {
     var amazonCore = PackerTemplate_Create(
       name,

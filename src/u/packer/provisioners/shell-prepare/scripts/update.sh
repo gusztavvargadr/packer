@@ -2,7 +2,7 @@
 export DEBIAN_FRONTEND=noninteractive
 
 case "$PACKER_BUILDER_TYPE" in
-virtualbox-iso|hyperv-iso|azure-arm)
+virtualbox-iso|hyperv-iso|vmware-iso|azure-arm)
   # Disable release-upgrades
   sed -i.bak 's/^Prompt=.*$/Prompt=never/' /etc/update-manager/release-upgrades;
 

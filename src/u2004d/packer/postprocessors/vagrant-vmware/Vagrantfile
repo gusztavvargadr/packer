@@ -1,0 +1,8 @@
+Vagrant.configure(2) do |config|
+  config.vm.provider 'vmware_desktop' do |provider|
+    provider.cpus = 2
+    provider.memory = 4096
+  end
+
+  config.vm.network :forwarded_port, guest: 3389, host: 53389, auto_correct: true
+end
