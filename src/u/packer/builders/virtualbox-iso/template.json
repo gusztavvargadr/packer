@@ -27,12 +27,6 @@
           "{{.Name}}",
           "--cpus",
           "{{user `virtualbox_cpus`}}"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--nat-localhostreachable1",
-          "on"
         ]
       ],
       "disk_size": "{{user `virtualbox_disk_size`}}",
