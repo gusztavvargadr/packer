@@ -8,7 +8,7 @@ virtualbox-iso)
     apt-get -y update;
 
     # VER="`cat $HOME_DIR/.vbox_version`";
-    VER="7.0.6";
+    VER="6.1.44";
     ISO="VBoxGuestAdditions_$VER.iso";
     wget http://download.virtualbox.org/virtualbox/$VER/$ISO
     mkdir -p /tmp/vbox;
