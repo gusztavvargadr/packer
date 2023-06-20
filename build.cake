@@ -3,7 +3,7 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
-var version = "230501";
+var version = "2306";
 
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
@@ -127,20 +127,20 @@ var u1804d = PackerTemplates_CreateLinux(
 var ws2022s_dc = PackerTemplates_CreateWindows(
   "ws2022s-dc",
   "docker-community-windows-server",
-  $"2010.2102.{version}",
+  $"2400.2102.{version}",
   ws2022s,
   aliases: new [] { "docker-windows" }
 );
 var ws2022sc_dc = PackerTemplates_CreateWindows(
   "ws2022sc-dc",
   "docker-community-windows-server-core",
-  $"2010.2102.{version}",
+  $"2400.2102.{version}",
   ws2022sc
 );
 var u2004s_dc = PackerTemplates_CreateLinux(
   "u2004s-dc",
   "docker-community-ubuntu-server",
-  $"2010.2004.{version}",
+  $"2400.2004.{version}",
   u2004s,
   aliases: new [] { "docker-linux" }
 );

@@ -7,8 +7,7 @@ case "$PACKER_BUILDER_TYPE" in
 virtualbox-iso)
     apt-get -y update;
 
-    # VER="`cat $HOME_DIR/.vbox_version`";
-    VER="6.1.44";
+    VER="`cat $HOME_DIR/.vbox_version`";
     ISO="VBoxGuestAdditions_$VER.iso";
     wget http://download.virtualbox.org/virtualbox/$VER/$ISO
     mkdir -p /tmp/vbox;
