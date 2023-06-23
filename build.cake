@@ -104,11 +104,6 @@ var u2004s = PackerTemplates_CreateLinux(
   $"2004.0.{version}",
   aliases: new [] { "ubuntu-server" }
 );
-var u1804s = PackerTemplates_CreateLinux(
-  "u1804s",
-  "ubuntu-server-1804-lts",
-  $"1804.0.{version}"
-);
 
 var u2004d = PackerTemplates_CreateLinux(
   "u2004d",
@@ -116,12 +111,6 @@ var u2004d = PackerTemplates_CreateLinux(
   $"2004.0.{version}",
   u2004s,
   aliases: new [] { "ubuntu-desktop" }
-);
-var u1804d = PackerTemplates_CreateLinux(
-  "u1804d",
-  "ubuntu-desktop-1804-lts-xfce",
-  $"1804.0.{version}",
-  u1804s
 );
 
 var ws2022s_dc = PackerTemplates_CreateWindows(
