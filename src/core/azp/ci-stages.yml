@@ -12,18 +12,10 @@ stages:
       - job: build
         displayName: Build ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
-        ${{ if eq(parameters.provider, 'virtualbox') }}:
-          pool:
-            name: ubuntu-virtualbox
-        ${{ elseif eq(parameters.provider, 'hyperv') }}:
-          pool:
-            name: windows-hyperv
-        ${{ elseif eq(parameters.provider, 'vmware') }}:
-          pool:
-            name: ubuntu-vmware
-        ${{ else }}:
-          pool:
-            name: ubuntu-core
+        pool:
+          name: default
+          demands:
+            - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
 
         timeoutInMinutes: 150
 

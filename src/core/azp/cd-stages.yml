@@ -13,7 +13,7 @@ stages:
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: ubuntu-core
+          name: default
 
         variables:
           - group: environment-vagrantcloud
@@ -57,7 +57,7 @@ stages:
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: ubuntu-core
+          name: default
 
         dependsOn: publish
 
