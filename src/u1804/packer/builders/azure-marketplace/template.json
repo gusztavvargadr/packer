@@ -1,7 +1,0 @@
-{
-  "variables": {
-    "azure_image_publisher": "Canonical",
-    "azure_image_offer": "UbuntuServer",
-    "azure_image_sku": "18.04-LTS"
-  }
-}

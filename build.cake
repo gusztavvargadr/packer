@@ -3,7 +3,7 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
-var version = "2304";
+var version = "2307";
 
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
@@ -104,11 +104,6 @@ var u2004s = PackerTemplates_CreateLinux(
   $"2004.0.{version}",
   aliases: new [] { "ubuntu-server" }
 );
-var u1804s = PackerTemplates_CreateLinux(
-  "u1804s",
-  "ubuntu-server-1804-lts",
-  $"1804.0.{version}"
-);
 
 var u2004d = PackerTemplates_CreateLinux(
   "u2004d",
@@ -117,30 +112,24 @@ var u2004d = PackerTemplates_CreateLinux(
   u2004s,
   aliases: new [] { "ubuntu-desktop" }
 );
-var u1804d = PackerTemplates_CreateLinux(
-  "u1804d",
-  "ubuntu-desktop-1804-lts-xfce",
-  $"1804.0.{version}",
-  u1804s
-);
 
 var ws2022s_dc = PackerTemplates_CreateWindows(
   "ws2022s-dc",
   "docker-community-windows-server",
-  $"2010.2102.{version}",
+  $"2400.2102.{version}",
   ws2022s,
   aliases: new [] { "docker-windows" }
 );
 var ws2022sc_dc = PackerTemplates_CreateWindows(
   "ws2022sc-dc",
   "docker-community-windows-server-core",
-  $"2010.2102.{version}",
+  $"2400.2102.{version}",
   ws2022sc
 );
 var u2004s_dc = PackerTemplates_CreateLinux(
   "u2004s-dc",
   "docker-community-ubuntu-server",
-  $"2010.2004.{version}",
+  $"2400.2004.{version}",
   u2004s,
   aliases: new [] { "docker-linux" }
 );

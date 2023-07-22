@@ -31,28 +31,6 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
 
-  var hyperVCore = PackerTemplate_Create(
-    name,
-    "hyperv-core",
-    new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("chef") },
-    new [] { PackerPostProcessor_Create("manifest") },
-    parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
-  );
-  var hyperVVagrant = PackerTemplate_Create(
-    name,
-    "hyperv-vagrant",
-    new [] { PackerBuilder_Create("hyperv-vmcx") },
-    new [] { PackerProvisioner_Create("vagrant") },
-    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
-    hyperVCore,
-    groupName,
-    groupVersion,
-    aliases
-  );
-  items.Add(hyperVCore);
-  items.Add(hyperVVagrant);
-
   var vmwareCore = PackerTemplate_Create(
     name,
     "vmware-core",
@@ -74,6 +52,28 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateWindows(string name, string gr
   );
   items.Add(vmwareCore);
   items.Add(vmwareVagrant);
+
+  var hyperVCore = PackerTemplate_Create(
+    name,
+    "hyperv-core",
+    new [] { PackerBuilder_Create(parents == null ? "hyperv-iso" : "hyperv-vmcx") },
+    new [] { PackerProvisioner_Create("chef") },
+    new [] { PackerPostProcessor_Create("manifest") },
+    parents != null ? parents.First(item => item.IsMatching("hyperv-core")) : null
+  );
+  var hyperVVagrant = PackerTemplate_Create(
+    name,
+    "hyperv-vagrant",
+    new [] { PackerBuilder_Create("hyperv-vmcx") },
+    new [] { PackerProvisioner_Create("vagrant") },
+    new [] { PackerPostProcessor_Create("vagrant-hyperv") },
+    hyperVCore,
+    groupName,
+    groupVersion,
+    aliases
+  );
+  items.Add(hyperVCore);
+  items.Add(hyperVVagrant);
 
   packerTemplates.AddRange(items);
 
@@ -104,6 +104,28 @@ IEnumerable<PackerTemplate> PackerTemplates_CreateLinux(string name, string grou
   );
   items.Add(virtualBoxCore);
   items.Add(virtualBoxVagrant);
+
+  var vmwareCore = PackerTemplate_Create(
+    name,
+    "vmware-core",
+    new [] { PackerBuilder_Create(parents == null ? "vmware-iso" : "vmware-vmx") },
+    new [] { PackerProvisioner_Create("shell-prepare"), PackerProvisioner_Create("shell-configure"), PackerProvisioner_Create("shell-install"), PackerProvisioner_Create("shell-cleanup") },
+    new [] { PackerPostProcessor_Create("manifest") },
+    parents != null ? parents.First(item => item.IsMatching("vmware-core")) : null
+  );
+  var vmwareVagrant = PackerTemplate_Create(
+    name,
+    "vmware-vagrant",
+    new [] { PackerBuilder_Create("vmware-vmx") },
+    new [] { PackerProvisioner_Create("shell-vagrant") },
+    new [] { PackerPostProcessor_Create("vagrant-vmware") },
+    vmwareCore,
+    groupName,
+    groupVersion,
+    aliases
+  );
+  items.Add(vmwareCore);
+  items.Add(vmwareVagrant);
 
   var hyperVCore = PackerTemplate_Create(
     name,

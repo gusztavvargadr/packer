@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains [Packer] samples for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [Hyper-V], [Azure] and [AWS], provisioned with [Chef].
+This repository contains [Packer] samples for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [VMware] and [Hyper-V], provisioned with [Chef].
 
 ## TL;DR
 
@@ -22,9 +22,9 @@ This repository contains [Packer] sample templates for the following virtualizat
 
   - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
   - [Hosting] using [Docker], [IIS] and [SQL Server].
-  - [Development] using [Docker Desktop] and [Visual Studio].
+  - [Development] using [Visual Studio].
 
-The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hyper-V], [Azure] and [AWS], and are provisioned using [Chef].
+The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [VMware] and [Hyper-V], and are provisioned using [Chef].
 
 > **Note** All the components, including the core operating systems, share the following characteristics:
 > 
@@ -42,9 +42,8 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [Hype
 [Packer]: https://packer.io
 [Vagrant]: https://vagrantup.com
 [VirtualBox]: https://virtualbox.org
+[VMware]: https://www.vmware.com/products/workstation-pro.html
 [Hyper-V]: https://en.wikipedia.org/wiki/Hyper-V
-[Azure]: https://azure.microsoft.com
-[AWS]: https://aws.amazon.com
 [Chef]: https://chef.io
 
 ### Operating systems
@@ -139,13 +138,11 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 - [Ubuntu Server][ubuntu-server-default-box]
 - [Ubuntu Server **20.04 LTS**][ubuntu-server-2004-lts-box]
-- [Ubuntu Server **18.04 LTS**][ubuntu-server-1804-lts-box]
 
 [ubuntu-server-sample-usage]: ./samples/ubuntu-server/
 
 [ubuntu-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server/
 [ubuntu-server-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2004-lts/
-[ubuntu-server-1804-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-1804-lts/
 
 ##### Ubuntu Desktop
 
@@ -153,13 +150,11 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 - [Ubuntu Desktop][ubuntu-desktop-default-box]
 - [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
-- [Ubuntu Desktop **18.04 LTS with Xfce**][ubuntu-desktop-1804-lts-xfce-box]
 
 [ubuntu-desktop-sample-usage]: ./samples/ubuntu-desktop/
 
 [ubuntu-desktop-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
 [ubuntu-desktop-2004-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
-[ubuntu-desktop-1804-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-1804-lts-xfce/
 
 ### Hosting
 
@@ -225,20 +220,6 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 [Development]: #development
 
-#### Docker Desktop
-
-[Sample usage][docker-desktop-sample-usage]
-
-- [Docker Desktop on **Windows 11**][docker-desktop-windows-11-box]
-- [Docker Desktop on **Windows 10**][docker-desktop-windows-10-box]
-
-[Docker Desktop]: #docker-desktop
-
-[docker-desktop-sample-usage]: ./samples/docker-desktop/
-
-[docker-desktop-windows-11-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-11/
-[docker-desktop-windows-10-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-desktop-windows-10/
-
 #### Visual Studio
 
 [Sample usage][visual-studio-sample-usage]
@@ -271,6 +252,7 @@ Follow the steps below to install the required tools:
 1. Install [Packer][PackerInstallation] and [Vagrant][VagrantInstallation].
 1. Install the tools for the virtualization provider you want to use.
     - **VirtualBox** Install [VirtualBox][VirtualBoxInstallation].
+    - **VMware** Install [VMware][VMwareInstallation].
     - **Hyper-V** Enable [Hyper-V][HyperVEnabling].
 1. Install [Chef Workstation][ChefWorkstationInstallation].
 
@@ -288,6 +270,7 @@ You are now ready to build a virtual machine image and a Vagrant box.
 [PackerInstallation]: https://www.packer.io/docs/install/index.html
 [VagrantInstallation]: https://www.vagrantup.com/docs/installation/
 [VirtualBoxInstallation]: https://www.virtualbox.org/wiki/Downloads/
+[VMwareInstallation]: https://kb.vmware.com/s/article/2057907
 [HyperVEnabling]: https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 [ChefWorkstationInstallation]: https://downloads.chef.io/chef-workstation/
 
@@ -324,16 +307,22 @@ info
 ...
 ws2022s-virtualbox-core: Info
 ws2022s-virtualbox-vagrant: Info
+ws2022s-vmware-core: Info
+ws2022s-vmware-vagrant: Info
 ws2022s-hyperv-core: Info
 ws2022s-hyperv-vagrant: Info
 ...
 w1022h2e-virtualbox-core: Info
 w1022h2e-virtualbox-vagrant: Info
+w1022h2e-vmware-core: Info
+w1022h2e-vmware-vagrant: Info
 w1022h2e-hyperv-core: Info
 w1022h2e-hyperv-vagrant: Info
 ...
 ws2022s-iis-virtualbox-core: Info
 ws2022s-iis-virtualbox-vagrant: Info
+ws2022s-iis-vmware-core: Info
+ws2022s-iis-vmware-vagrant: Info
 ws2022s-iis-hyperv-core: Info
 ws2022s-iis-hyperv-vagrant: Info
 ...
@@ -345,7 +334,7 @@ You can filter this further to list only the templates for a given virtual machi
 $ dotnet cake [--target=info] --configuration=ws2022s
 ```
 
-You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2022s`, `w1022h2e`, `iis`, etc.) or providers (`virtualbox`, `hyperv`) easily.  
+You can use this filtering with all the `dotnet cake` commands below as well. It selects all the templates which contain the specified argument as a substring, so you can filter for components (`ws2022s`, `w1022h2e`, `iis`, etc.) or providers (`virtualbox`, `vmware`, `hyperv`) easily.  
 
 The output will contain only the matching templates:
 
@@ -356,12 +345,14 @@ info
 ========================================
 ws2022s-virtualbox-core: Info
 ws2022s-virtualbox-vagrant: Info
+ws2022s-vmware-core: Info
+ws2022s-vmware-vagrant: Info
 ws2022s-hyperv-core: Info
 ws2022s-hyperv-vagrant: Info
 ...
 ```
 
-This means that this configuration supports building native base images (`virtualbox-core`, `hyperv-core`) mainly for reusing them in other configurations, and also, Vagrant boxes for distribution (`virtualbox-vagrant`, `hyperv-vagrant`). Under the hood, the `vagrant` configurations will simply start from the output of the `core` ones, so build times can be reduced significantly.
+This means that this configuration supports building native base images (`virtualbox-core`, `vmware-core`, `hyperv-core`) mainly for reusing them in other configurations, and also, Vagrant boxes for distribution (`virtualbox-vagrant`, `vmware-vagrant`, `hyperv-vagrant`). Under the hood, the `vagrant` configurations will simply start from the output of the `core` ones, so build times can be reduced significantly.
 
 Now, invoke the `restore` command with the name of the template you want to build to create the resources required by Packer. For example, for VirtualBox, type the following command:
 
@@ -391,7 +382,7 @@ $ dotnet cake --target=build --configuration=ws2022s-virtualbox-vagrant
 
 Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2022s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `build/ws2022s/virtualbox-vagrant/output` folder.
 
-The same approach works for Hyper-V as well:
+The same approach works for VMware and Hyper-V as well:
 
 ```shell
 $ dotnet cake --target=build --configuration=ws2022s-hyperv-core
@@ -425,7 +416,7 @@ $ dotnet cake --target=build --configuration=ws2022s-iis-virtualbox-vagrant --re
 
 This will in turn invoke the `restore` and `build` stages for the `ws2022s-virtualbox-core` and `ws2022s-iis-virtualbox-core` images as well. By default, `restore` and `build` is skipped if the output from a previous build exists. You can force the build to run again using the `rebuild` command instead, which will `clean` the build directories first.
 
-Again, this works for Hyper-V as well:
+Again, this works for VMware and Hyper-V as well:
 
 ```shell
 $ dotnet cake --target=build --configuration=ws2022s-iis-hyperv-vagrant --recursive true
@@ -499,9 +490,8 @@ This repository could not exist without the following great technologies:
 - [Packer]
 - [Vagrant]
 - [VirtualBox]
+- [VMware]
 - [Hyper-V]
-- [Azure]
-- [AWS]
 - [Chef]
 
 This repository borrows awesome ideas and solutions from the following sources:
