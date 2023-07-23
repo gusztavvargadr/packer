@@ -1,24 +1,24 @@
 packer {
-  required_version = "~> 1.8.0"
+  required_version = "~> 1.9"
 
   required_plugins {
     virtualbox = {
-      version = "~> 1.0.0"
+      version = "~> 1.0"
       source  = "github.com/hashicorp/virtualbox"
     }
 
-    hyperv = {
-      version = "~> 1.0.0"
-      source  = "github.com/hashicorp/hyperv"
-    }
-
     vmware = {
-      version = "~> 1.0.0"
+      version = "~> 1.0"
       source  = "github.com/hashicorp/vmware"
     }
 
+    hyperv = {
+      version = "~> 1.1"
+      source  = "github.com/hashicorp/hyperv"
+    }
+
     vagrant = {
-      version = "~> 1.0.0"
+      version = "~> 1.0"
       source  = "github.com/hashicorp/vagrant"
     }
   }

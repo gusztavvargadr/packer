@@ -40,7 +40,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
-                            <Value>Windows Server 2022 SERVERSTANDARDCORE</Value>
+                            <Value>Windows Server 2022 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                     <InstallTo>
@@ -116,7 +116,7 @@
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -Command "Set-ExecutionPolicy Bypass -Force; E:\autounattend-first-logon.ps1"</CommandLine>
+                    <CommandLine>C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe -Command "Set-ExecutionPolicy Bypass -Force; A:\autounattend-first-logon.ps1; E:\autounattend-first-logon.ps1"</CommandLine>
                     <Description>First Logon</Description>
                     <Order>1</Order>
                     <RequiresUserInput>true</RequiresUserInput>

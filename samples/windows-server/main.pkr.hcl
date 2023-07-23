@@ -1,8 +1,8 @@
 variables {
   author      = "gusztavvargadr"
-  name        = "ws2022sc"
-  // description = "Windows Server 2022 Standard Core"
-  version     = "2304.0.0"
+  name        = "ws2022s"
+  description = "Windows Server 2022 Standard"
+  version     = "2307.0.0"
 
   download_directory = "${env("HOME")}/Downloads"
 }
@@ -43,22 +43,53 @@ locals {
   shutdown_timeout = "10m"
 }
 
+variable "chef_destination" {
+  type    = string
+  default = "C:/Windows/Temp/chef"
+}
+
+variable "chef_max_retries" {
+  type    = string
+  default = "10"
+}
+
+variable "chef_start_retry_timeout" {
+  type    = string
+  default = "30m"
+}
+
 locals {
-  core_output_directory    = "${path.root}/build/${var.name}/${var.provider}-core"
+  core_output_directory = "${path.root}/build/${var.name}/${var.provider}-core"
   core_sources = {
     virtualbox = "virtualbox-iso.core"
-    hyperv = "hyperv-iso.core"
-    vmware = "vmware-iso.core"
+    vmware     = "vmware-iso.core"
+    hyperv     = "hyperv-iso.core"
   }
 }
 
 build {
-  name = "core"
+  name        = var.name
+  description = var.description
 
   sources = ["${lookup(local.core_sources, var.provider, "")}"]
 
   provisioner "powershell" {
     script = "${path.root}/chef/prepare.ps1"
+
+    elevated_user     = local.communicator_username
+    elevated_password = local.communicator_password
+  }
+
+  provisioner "file" {
+    destination = "${var.chef_destination}"
+    source      = "${path.root}/chef/.chef/"
+  }
+
+  provisioner "powershell" {
+    script              = "${path.root}/chef/run.ps1"
+    max_retries         = "${var.chef_max_retries}"
+    pause_before        = "30s"
+    start_retry_timeout = "${var.chef_start_retry_timeout}"
 
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password
@@ -85,13 +116,14 @@ locals {
   vagrant_output_directory = "${path.root}/build/${var.name}/${var.provider}-vagrant"
   vagrant_sources = {
     virtualbox = "virtualbox-ovf.vagrant"
-    hyperv = "hyperv-vmcx.vagrant"
-    vmware = "vmware-vmx.vagrant"
+    vmware     = "vmware-vmx.vagrant"
+    hyperv     = "hyperv-vmcx.vagrant"
   }
 }
 
 build {
-  name        = "vagrant"
+  name        = var.name
+  description = var.description
 
   sources = ["${lookup(local.vagrant_sources, var.provider, "")}"]
 

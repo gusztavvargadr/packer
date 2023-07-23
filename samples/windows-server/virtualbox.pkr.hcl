@@ -1,13 +1,12 @@
 locals {
-  guest_os_type        = "Windows2019_64"
-  guest_additions_mode = "disable"
-  firmware             = "efi"
-  nested_virt          = true
-  hard_drive_interface = "sata"
-  gfx_controller       = "vboxsvga"
-  gfx_vram_size        = 64
-
-  post_shutdown_delay = "5s"
+  virtualbox_guest_os_type        = "Windows2019_64"
+  virtualbox_guest_additions_mode = "disable"
+  virtualbox_firmware             = "efi"
+  virtualbox_nested_virt          = false
+  virtualbox_hard_drive_interface = "sata"
+  virtualbox_gfx_controller       = "vboxsvga"
+  virtualbox_gfx_vram_size        = 64
+  virtualbox_post_shutdown_delay  = "5s"
 }
 
 source "virtualbox-iso" "core" {
@@ -35,14 +34,14 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_os_type        = local.guest_os_type
-  guest_additions_mode = local.guest_additions_mode
-  firmware             = local.firmware
-  nested_virt          = local.nested_virt
-  hard_drive_interface = local.hard_drive_interface
-  gfx_controller       = local.gfx_controller
-  gfx_vram_size        = local.gfx_vram_size
-  post_shutdown_delay  = local.post_shutdown_delay
+  guest_os_type        = local.virtualbox_guest_os_type
+  guest_additions_mode = local.virtualbox_guest_additions_mode
+  firmware             = local.virtualbox_firmware
+  nested_virt          = local.virtualbox_nested_virt
+  hard_drive_interface = local.virtualbox_hard_drive_interface
+  gfx_controller       = local.virtualbox_gfx_controller
+  gfx_vram_size        = local.virtualbox_gfx_vram_size
+  post_shutdown_delay  = local.virtualbox_post_shutdown_delay
 }
 
 source "virtualbox-ovf" "vagrant" {
@@ -64,6 +63,6 @@ source "virtualbox-ovf" "vagrant" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_additions_mode = local.guest_additions_mode
-  post_shutdown_delay  = local.post_shutdown_delay
+  guest_additions_mode = local.virtualbox_guest_additions_mode
+  post_shutdown_delay  = local.virtualbox_post_shutdown_delay
 }
