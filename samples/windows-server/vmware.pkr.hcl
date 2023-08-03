@@ -43,7 +43,7 @@ source "vmware-iso" "core" {
   vmx_data          = local.vmware_vmx_data
 }
 
-source "vmware-vmx" "vagrant" {
+source "vmware-vmx" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"

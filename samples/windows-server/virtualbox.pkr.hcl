@@ -44,7 +44,7 @@ source "virtualbox-iso" "core" {
   post_shutdown_delay  = local.virtualbox_post_shutdown_delay
 }
 
-source "virtualbox-ovf" "vagrant" {
+source "virtualbox-ovf" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"

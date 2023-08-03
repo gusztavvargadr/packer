@@ -50,7 +50,7 @@ source "hyperv-iso" "core" {
   enable_mac_spoofing              = local.hyperv_enable_mac_spoofing
 }
 
-source "hyperv-vmcx" "vagrant" {
+source "hyperv-vmcx" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"

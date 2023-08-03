@@ -68,8 +68,7 @@ locals {
 }
 
 build {
-  name        = var.name
-  description = var.description
+  name        = "core"
 
   sources = ["${lookup(local.core_sources, var.provider, "")}"]
 
@@ -115,15 +114,14 @@ build {
 locals {
   vagrant_output_directory = "${path.root}/build/${var.name}/${var.provider}-vagrant"
   vagrant_sources = {
-    virtualbox = "virtualbox-ovf.vagrant"
-    vmware     = "vmware-vmx.vagrant"
-    hyperv     = "hyperv-vmcx.vagrant"
+    virtualbox = "virtualbox-ovf.core"
+    vmware     = "vmware-vmx.core"
+    hyperv     = "hyperv-vmcx.core"
   }
 }
 
 build {
-  name        = var.name
-  description = var.description
+  name        = "vagrant"
 
   sources = ["${lookup(local.vagrant_sources, var.provider, "")}"]
 
