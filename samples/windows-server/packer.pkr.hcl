@@ -21,5 +21,10 @@ packer {
       version = "~> 1.0"
       source  = "github.com/hashicorp/vagrant"
     }
+
+    amazon = {
+      version = "~> 1.2"
+      source  = "github.com/hashicorp/amazon"
+    }
   }
 }

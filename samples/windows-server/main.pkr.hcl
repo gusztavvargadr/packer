@@ -64,11 +64,12 @@ locals {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
     hyperv     = "hyperv-iso.core"
+    amazon     = "source.amazon-ebs.core"
   }
 }
 
 build {
-  name        = "core"
+  name = "core"
 
   sources = ["${lookup(local.core_sources, var.provider, "")}"]
 
@@ -117,11 +118,12 @@ locals {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
+    amazon     = "source.amazon-ebs.core"
   }
 }
 
 build {
-  name        = "vagrant"
+  name = "vagrant"
 
   sources = ["${lookup(local.vagrant_sources, var.provider, "")}"]
 
