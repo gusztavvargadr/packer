@@ -118,10 +118,6 @@ void PackerTemplate_Test(PackerTemplate template) {
   PackerTemplate_Vagrant(template, $"up {vmName} --provider {provider}", vmName, boxName, boxUrl);
 }
 
-void PackerTemplate_Package(PackerTemplate template) {
-  PackerTemplate_Log(template, "Package");
-}
-
 void PackerTemplate_Publish(PackerTemplate template) {
   PackerTemplate_Log(template, "Publish");
 

@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: w1022h2e-vmware-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml

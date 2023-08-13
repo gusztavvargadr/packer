@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: w101809eltsc-virtualbox-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml

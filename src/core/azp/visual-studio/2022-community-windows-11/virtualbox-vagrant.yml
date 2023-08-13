@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: w1122h2e-vs22c-virtualbox-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml

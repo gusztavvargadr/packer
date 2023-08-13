@@ -13,7 +13,7 @@ stages:
         displayName: Publish ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: default
+          vmImage: 'ubuntu-20.04'
 
         variables:
           - group: environment-vagrantcloud
@@ -21,6 +21,14 @@ stages:
         steps:
           - checkout: self
             submodules: recursive
+
+          - script: |
+              mkdir tmp
+              cd tmp
+              git clone https://gist.github.com/1f0d7dddc7f48549368eaaedf19bfe55.git chef-gist
+              cd chef-gist
+              POLICY_NAME=vagrant bash build.sh
+            displayName: Initialize agent
 
           - script: |
               dotnet --info
@@ -57,13 +65,21 @@ stages:
         displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
 
         pool:
-          name: default
+          vmImage: 'ubuntu-20.04'
 
         dependsOn: publish
 
         steps:
           - checkout: self
             submodules: recursive
+
+          - script: |
+              mkdir tmp
+              cd tmp
+              git clone https://gist.github.com/1f0d7dddc7f48549368eaaedf19bfe55.git chef-gist
+              cd chef-gist
+              POLICY_NAME=vagrant bash build.sh
+            displayName: Initialize agent
 
           - script: |
               dotnet --info
