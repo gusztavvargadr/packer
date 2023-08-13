@@ -147,7 +147,6 @@ void PackerTemplate_Publish(PackerTemplate template) {
   PackerTemplate_Vagrant(template, "cloud publish --force"
     + $" --checksum-type sha256"
     + $" --checksum {boxChecksum}"
-    + $" --release"
     + $" gusztavvargadr/{template.GroupName}"
     + $" {template.GroupVersion}"
     + $" {provider}"
@@ -161,7 +160,6 @@ void PackerTemplate_Publish(PackerTemplate template) {
       PackerTemplate_Vagrant(template, "cloud publish --force"
         + $" --checksum-type sha256"
         + $" --checksum {boxChecksum}"
-        + $" --release"
         + $" --url {boxUrl}"
         + $" gusztavvargadr/{alias}"
         + $" {template.GroupVersion}"
@@ -171,8 +169,8 @@ void PackerTemplate_Publish(PackerTemplate template) {
   }
 }
 
-void PackerTemplate_Download(PackerTemplate template) {
-  PackerTemplate_Log(template, "Download");
+void PackerTemplate_Release(PackerTemplate template) {
+  PackerTemplate_Log(template, "Release");
 
   if (!template.Type.Contains("vagrant")) {
     return;
@@ -184,24 +182,34 @@ void PackerTemplate_Download(PackerTemplate template) {
   }
 
   try {
+    PackerTemplate_Vagrant(template, "cloud version release --force"
+      + $" gusztavvargadr/{template.GroupName}"
+      + $" {template.GroupVersion}"
+    );
+
     PackerTemplate_Vagrant(template, $"box add gusztavvargadr/{template.GroupName} --box-version {template.GroupVersion} --provider {provider}");
   } finally {
     try {
       PackerTemplate_Vagrant(template, $"box remove gusztavvargadr/{template.GroupName} --box-version {template.GroupVersion} --provider {provider}");
     } catch (Exception ex) {
-      PackerTemplate_Log(template, $"Error cleaning up download: '{ex.Message}'.");
+      PackerTemplate_Log(template, $"Error cleaning up release: '{ex.Message}'.");
     }
   }
 
   if (template.Aliases?.Any() == true) {
     foreach (var alias in template.Aliases) {
       try {
+        PackerTemplate_Vagrant(template, "cloud version release --force"
+          + $" gusztavvargadr/{alias}"
+          + $" {template.GroupVersion}"
+        );
+
         PackerTemplate_Vagrant(template, $"box add gusztavvargadr/{alias} --box-version {template.GroupVersion} --provider {provider}");
       } finally {
         try {
           PackerTemplate_Vagrant(template, $"box remove gusztavvargadr/{alias} --box-version {template.GroupVersion} --provider {provider}");
         } catch (Exception ex) {
-          PackerTemplate_Log(template, $"Error cleaning up download: '{ex.Message}'.");
+          PackerTemplate_Log(template, $"Error cleaning up release: '{ex.Message}'.");
         }
       }
     }

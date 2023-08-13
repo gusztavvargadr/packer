@@ -3,7 +3,7 @@
 var target = Argument("target", "default");
 var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
-var version = "2307";
+var version = "2308";
 
 var buildDirectory = Argument("build-directory", "./build");
 PackerTemplate.BuildDirectory = buildDirectory;
@@ -236,9 +236,9 @@ Task("publish")
     PackerTemplates_ForEach(configuration, PackerTemplate_Publish);
   });
 
-Task("download")
+Task("release")
   .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Download);
+    PackerTemplates_ForEach(configuration, PackerTemplate_Release);
   });
 
 Task("clean")
