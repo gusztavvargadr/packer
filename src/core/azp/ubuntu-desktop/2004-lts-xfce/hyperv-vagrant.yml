@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: u2004d-hyperv-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml

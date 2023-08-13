@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: u2004s-dc-virtualbox-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml

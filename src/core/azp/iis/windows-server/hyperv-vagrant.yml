@@ -5,10 +5,7 @@ resources:
   pipelines:
     - pipeline: parent
       source: ws2022s-iis-hyperv-core
-      trigger:
-        branches:
-          include:
-            - master
+      trigger: true
 
 stages:
   - template: ../../ci-stages.yml
