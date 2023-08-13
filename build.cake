@@ -225,20 +225,14 @@ Task("test")
     PackerTemplates_ForEach(configuration, PackerTemplate_Test);
   });
 
-Task("package")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Package);
-  });
-
 Task("publish")
-  .IsDependentOn("package")
   .Does(() => {
     PackerTemplates_ForEach(configuration, PackerTemplate_Publish);
   });
 
-Task("release")
+Task("download")
   .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Release);
+    PackerTemplates_ForEach(configuration, PackerTemplate_Download);
   });
 
 Task("clean")
