@@ -6,7 +6,6 @@ parameters:
 stages:
   - stage: cd
     displayName: CD
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
     jobs:
       - job: publish
@@ -53,8 +52,9 @@ stages:
             displayName: Build - Clean
             condition: always()
 
-      - job: download
-        displayName: Download ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+      - job: release
+        displayName: Release ${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         pool:
           name: default
