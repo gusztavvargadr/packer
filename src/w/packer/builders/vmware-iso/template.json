@@ -18,7 +18,7 @@
       "headless": "{{user `vmware_headless`}}",
       "vmx_data": {
         "firmware": "efi",
-        "vhv.enable": "TRUE"
+        "vhv.enable": "FALSE"
       },
       "version": "16",
       "disk_type_id": 0,
