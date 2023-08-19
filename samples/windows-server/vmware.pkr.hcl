@@ -1,11 +1,21 @@
+packer {
+  required_plugins {
+    vmware = {
+      version = "~> 1.0"
+      source  = "github.com/hashicorp/vmware"
+    }
+  }
+}
+
 locals {
   vmware_version           = 16
   vmware_guest_os_type     = "windows2019srv-64"
   vmware_disk_type_id      = 0
   vmware_disk_adapter_type = "nvme"
   vmware_vmx_data = {
-    firmware     = "efi"
-    "vhv.enable" = "FALSE"
+    firmware        = "efi"
+    "vhv.enable"    = "FALSE"
+    "sata1.present" = "TRUE"
   }
 
   vmware_vmx_remove_ethernet_interfaces = true
@@ -16,14 +26,14 @@ source "vmware-iso" "core" {
   headless         = local.headless
   output_directory = "${local.core_output_directory}/image"
 
-  cpus           = local.cpus
-  memory         = local.memory
-  disk_size      = local.disk_size
-  iso_urls       = local.iso_urls
-  iso_checksum   = local.iso_checksum
-  floppy_content = local.cd_content
-  boot_wait      = local.boot_wait
-  boot_command   = local.boot_command
+  cpus         = local.cpus
+  memory       = local.memory
+  disk_size    = local.disk_size
+  iso_urls     = local.iso_urls
+  iso_checksum = local.iso_checksum
+  cd_content   = local.cd_content
+  boot_wait    = local.boot_wait
+  boot_command = local.boot_command
 
   communicator   = local.communicator_type
   ssh_username   = local.communicator_username

@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    virtualbox = {
+      version = "~> 1.0"
+      source  = "github.com/hashicorp/virtualbox"
+    }
+  }
+}
+
 locals {
   virtualbox_guest_os_type        = "Windows2019_64"
   virtualbox_guest_additions_mode = "disable"

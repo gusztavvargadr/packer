@@ -6,7 +6,7 @@ packer init .
 
 pushd ./chef/
 chef install
-chef export ./.chef/
+chef export ./.chef/ --force
 popd
 
-packer validate -var provider=$1 -only=core.* .
+packer validate -var provider="$1" -only="core.*" .

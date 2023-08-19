@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    hyperv = {
+      version = "~> 1.1"
+      source  = "github.com/hashicorp/hyperv"
+    }
+  }
+}
+
 variables {
   hyperv_switch_name = "Default Switch"
 }
@@ -55,8 +64,6 @@ source "hyperv-vmcx" "core" {
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  cpus                 = local.cpus
-  memory               = local.memory
   clone_from_vmcx_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.vmcx"))}"
   boot_wait            = local.hyperv_boot_wait
 

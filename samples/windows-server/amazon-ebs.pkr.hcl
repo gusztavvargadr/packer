@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    amazon = {
+      version = "~> 1.2"
+      source  = "github.com/hashicorp/amazon"
+    }
+  }
+}
+
 locals {
   amazon_user_data = "<powershell>\r\n${file("${path.root}/autounattend-first-logon.ps1")}\r\n</powershell>"
 }
@@ -22,8 +31,8 @@ source "amazon-ebs" "core" {
     "packer" = ""
   }
 
-  spot_price = "auto"
-  spot_instance_types      = ["t3.xlarge"]
+  spot_price          = "auto"
+  spot_instance_types = ["t3.xlarge"]
 
   source_ami    = data.amazon-ami.core.id
   ebs_optimized = true
@@ -41,9 +50,9 @@ source "amazon-ebs" "core" {
   user_data = local.amazon_user_data
 
   launch_block_device_mappings {
-    device_name = "/dev/sda1"
-    volume_size = "31"
-    volume_type = "gp3"
+    device_name           = "/dev/sda1"
+    volume_size           = "31"
+    volume_type           = "gp3"
     delete_on_termination = true
   }
 

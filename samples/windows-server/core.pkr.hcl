@@ -1,8 +1,19 @@
+packer {
+  required_version = "~> 1.9"
+
+  required_plugins {
+    vagrant = {
+      version = "~> 1.0"
+      source  = "github.com/hashicorp/vagrant"
+    }
+  }
+}
+
 variables {
   author      = "gusztavvargadr"
   name        = "ws2022s"
   description = "Windows Server 2022 Standard"
-  version     = "2307.0.0"
+  version     = "2308.1.0"
 
   download_directory = "${env("HOME")}/Downloads"
 }
@@ -88,7 +99,7 @@ build {
   provisioner "powershell" {
     script              = "${path.root}/chef/run.ps1"
     max_retries         = "${var.chef_max_retries}"
-    pause_before        = "30s"
+    pause_before        = "1m0s"
     start_retry_timeout = "${var.chef_start_retry_timeout}"
 
     elevated_user     = local.communicator_username
