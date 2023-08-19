@@ -92,11 +92,6 @@ var w101809eltsc = PackerTemplates_CreateWindows(
   "windows-10-1809-enterprise-ltsc",
   $"1809.0.{version}"
 );
-var w10ipe = PackerTemplates_CreateWindows(
-  "w10ipe",
-  "windows-10-insider-preview-enterprise",
-  $"2202.0.{version}"
-);
 
 var u2004s = PackerTemplates_CreateLinux(
   "u2004s",
