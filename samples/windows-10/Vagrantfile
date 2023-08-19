@@ -23,10 +23,6 @@ Vagrant.configure("2") do |config|
     config_vm.vm.box = "gusztavvargadr/windows-10-1809-enterprise-ltsc"
   end
 
-  config.vm.define "insider-preview-enterprise", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-insider-preview-enterprise"
-  end
-
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
     systeminfo
