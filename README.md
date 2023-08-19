@@ -116,7 +116,6 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 - [Windows 10 **Version 21H2 Enterprise**][windows-10-21h2-enterprise-box]
 - [Windows 10 **Version 21H2 Enterprise LTSC**][windows-10-21h2-enterprise-ltsc-box]
 - [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-1809-enterprise-ltsc-box]
-- [Windows 10 **Insider Preview Enterprise**][windows-10-insider-preview-enterprise-box]
 
 [windows-10-sample-usage]: ./samples/windows-10/
 
@@ -126,7 +125,6 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 [windows-10-21h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise/
 [windows-10-21h2-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise-ltsc/
 [windows-10-1809-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
-[windows-10-insider-preview-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-insider-preview-enterprise/
 
 #### Ubuntu
 
