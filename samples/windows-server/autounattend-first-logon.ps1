@@ -1,5 +1,4 @@
 Write-Host "Configure PowerShell"
-Set-ExecutionPolicy RemoteSigned -Force
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 

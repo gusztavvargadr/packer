@@ -69,7 +69,7 @@ source "vmware-vmx" "core" {
   winrm_password = local.communicator_password
   winrm_timeout  = local.communicator_timeout
 
-  shutdown_command = local.shutdown_command
+  shutdown_command = local.vagrant_shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
   vmx_remove_ethernet_interfaces = local.vmware_vmx_remove_ethernet_interfaces

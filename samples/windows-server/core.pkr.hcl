@@ -51,6 +51,7 @@ locals {
   communicator_timeout  = "30m"
 
   shutdown_command = "shutdown /s /t 10"
+  vagrant_shutdown_command = "C:\\Windows\\Temp\\packer\\shutdown.cmd"
   shutdown_timeout = "10m"
 }
 
@@ -67,6 +68,11 @@ variable "chef_max_retries" {
 variable "chef_start_retry_timeout" {
   type    = string
   default = "30m"
+}
+
+variable "packer_destination" {
+  type    = string
+  default = "C:/Windows/Temp/packer"
 }
 
 locals {
@@ -137,6 +143,18 @@ build {
   name = "vagrant"
 
   sources = ["${lookup(local.vagrant_sources, var.provider, "")}"]
+
+  provisioner "powershell" {
+    inline              = ["mkdir -Force C:\\Windows\\Temp\\packer"]
+
+    elevated_user     = local.communicator_username
+    elevated_password = local.communicator_password
+  }
+
+  provisioner "file" {
+    destination = "${var.packer_destination}"
+    source      = "${path.root}/vagrant/"
+  }
 
   post-processors {
     post-processor "vagrant" {

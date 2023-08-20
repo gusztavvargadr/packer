@@ -11,20 +11,20 @@ locals {
   amazon_user_data = "<powershell>\r\n${file("${path.root}/autounattend-first-logon.ps1")}\r\n</powershell>"
 }
 
-data "amazon-ami" "core" {
-  filters = {
-    name                = "Windows_Server-2022-English-Full-Base-*"
-    virtualization-type = "hvm"
-    root-device-type    = "ebs"
-  }
-
-  owners = ["amazon"]
-
-  most_recent = true
-}
-
 source "amazon-ebs" "core" {
   ami_name = local.vm_name
+
+  source_ami_filter {
+    filters = {
+      name                = "Windows_Server-2022-English-Full-Base-*"
+      virtualization-type = "hvm"
+      root-device-type    = "ebs"
+    }
+
+    owners = ["amazon"]
+
+    most_recent = true
+  }
 
   tags = {
     "Name"   = local.vm_name
@@ -34,7 +34,6 @@ source "amazon-ebs" "core" {
   spot_price          = "auto"
   spot_instance_types = ["t3.xlarge"]
 
-  source_ami    = data.amazon-ami.core.id
   ebs_optimized = true
 
   run_tags = {
