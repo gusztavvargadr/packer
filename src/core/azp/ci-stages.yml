@@ -45,7 +45,7 @@ stages:
               - task: DownloadPipelineArtifact@2
                 inputs:
                   artifact: build
-                  path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+                  path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.parent }}/${{ parameters.provider }}-core
                   source: specific
                   project: $(System.TeamProjectId)
                   pipeline: $(resources.pipeline.parent.pipelineID)
@@ -57,7 +57,7 @@ stages:
               - task: DownloadPipelineArtifact@2
                 inputs:
                   artifact: build
-                  path: $(System.DefaultWorkingDirectory)/build/${{ parameters.parent }}/${{ parameters.provider }}-core
+                  path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.parent }}/${{ parameters.provider }}-core
                   source: specific
                   project: $(System.TeamProjectId)
                   pipeline: $(resources.pipeline.parent.pipelineID)
@@ -77,7 +77,7 @@ stages:
               dotnet cake build.cake --target=test --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Build - Test
 
-          - publish: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+          - publish: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
             artifact: build
             displayName: Artifacts - Publish
 

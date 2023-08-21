@@ -5,7 +5,7 @@ var configuration = Argument("configuration", string.Empty);
 var recursive = Argument("recursive", false);
 var version = "2308";
 
-var buildDirectory = Argument("build-directory", "./build");
+var buildDirectory = Argument("build-directory", "./artifacts");
 PackerTemplate.BuildDirectory = buildDirectory;
 
 var ws2022s = PackerTemplates_CreateWindows(

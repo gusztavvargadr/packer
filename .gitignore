@@ -1,7 +1,5 @@
 tools
-build
 
 *.lock.json
-.chef
-
+artifacts
 .vagrant

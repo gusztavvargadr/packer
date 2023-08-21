@@ -47,7 +47,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs:
               artifact: build
-              path: $(System.DefaultWorkingDirectory)/build/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
+              path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.image }}/${{ parameters.provider }}-${{ parameters.configuration }}
             displayName: Artifacts - Download
 
           - script: |

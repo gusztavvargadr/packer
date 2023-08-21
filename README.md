@@ -358,13 +358,13 @@ Now, invoke the `restore` command with the name of the template you want to buil
 $ dotnet cake --target=restore --configuration=ws2022s-virtualbox-core
 ``` 
 
-This will create the folder `build/ws2022s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
+This will create the folder `artifacts/ws2022s/virtualbox-core` in the root of your clone with all the files required to invoke the Packer build. This setup is self-contained, so you can adjust the parameters manually in `template.json` or the other resources and / or even copy it to a different machine and simply invoke `packer build template.json` there. Most of the time though, you just simply want to build as it is, as the templates are already preconfigured with some reasonable defaults. This can be done of course with the build script as well:
 
 ```shell
 $ dotnet cake --target=build --configuration=ws2022s-virtualbox-core
 ```
 
-This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `build/ws2022s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider on the host machine.
+This will trigger the Packer build process, which usually requires only patience. Depending on the selected configuration, a few minutes or hours later, the build output will be created, in this case in the `artifacts/ws2022s/virtualbox-core/output` directory in the root of your clone. Virtual machine images like this can be directly used with the respective virtualization provider on the host machine.
 
 [Building base images]: #building-base-images
 
@@ -378,7 +378,7 @@ As mentioned above, based on Packer's support for starting builds from some virt
 $ dotnet cake --target=build --configuration=ws2022s-virtualbox-vagrant
 ```
 
-Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2022s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `build/ws2022s/virtualbox-vagrant/output` folder.
+Note that this will include restoring the build folder with the template and the related resources automatically, and then invoking the build process in a single step. It will also reuse the output of the `ws2022s-virtualbox-core` build, so it does not need to do the same steps for a Vagrant box the original build already included (e.g. the core OS installation itself, installing Windows updates, etc.). Once the build completes, the Vagrant box will be available in the `artifacts/ws2022s/virtualbox-vagrant/output` folder.
 
 The same approach works for VMware and Hyper-V as well:
 
@@ -387,7 +387,7 @@ $ dotnet cake --target=build --configuration=ws2022s-hyperv-core
 $ dotnet cake --target=build --configuration=ws2022s-hyperv-vagrant
 ```
 
-As you can expect, for these samples the build artifacts will be created in the `builds/ws2022s` folder as well, this time under the `hyperv-vagrant/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
+As you can expect, for these samples the build artifacts will be created in the `artifacts/ws2022s` folder as well, this time under the `hyperv-vagrant/output` subfolder. You can use the standard options to [distribute them][VagrantDistribute] to be consumed in Vagrant.
 
 [Building images for distribution]: #building-images-for-distribution
 

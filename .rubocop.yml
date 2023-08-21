@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - ./build/**/*
+    - ./artifacts/**/*
     - ./lib/**/*
 
 Layout/EndOfLine:
