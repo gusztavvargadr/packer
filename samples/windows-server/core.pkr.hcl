@@ -36,7 +36,7 @@ variable "userprofile_directory" {
 
 locals {
   timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
-  download_directory = coalesce(var.home_directory, var.userprofile_directory)
+  downloads_directory = "${coalesce(var.home_directory, var.userprofile_directory)}/Downloads"
 
   options = var.options[var.configuration]
 
@@ -50,7 +50,7 @@ locals {
   memory    = 8192
   disk_size = 130048
   iso_urls = [
-    "${local.download_directory}/${local.options.iso_url_local}",
+    "${local.downloads_directory}/${local.options.iso_url_local}",
     local.options.iso_url_remote
   ]
   iso_checksum = local.options.iso_checksum
@@ -109,7 +109,10 @@ build {
   sources = ["${lookup(local.core_sources, var.provider, "")}"]
 
   provisioner "powershell" {
-    inline = ["mkdir -Force ${var.chef_destination}"]
+    script = "${path.root}/chef/initialize.ps1"
+
+    elevated_user     = local.communicator_username
+    elevated_password = local.communicator_password
   }
 
   provisioner "file" {
@@ -118,7 +121,7 @@ build {
   }
 
   provisioner "powershell" {
-    script              = "${path.root}/chef/run.ps1"
+    script              = "${path.root}/chef/execute.ps1"
     max_retries         = "${var.chef_max_retries}"
     pause_before         = "1m0s"
     start_retry_timeout = "${var.chef_start_retry_timeout}"
@@ -128,7 +131,7 @@ build {
   }
 
   provisioner "powershell" {
-    script = "${path.root}/chef/clean.ps1"
+    script = "${path.root}/chef/cleanup.ps1"
 
     elevated_user     = local.communicator_username
     elevated_password = local.communicator_password

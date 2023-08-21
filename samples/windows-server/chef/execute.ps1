@@ -1,4 +1,6 @@
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
-rm -Recurse -Force C:/Windows/Temp/chef
+cd C:/Windows/Temp/chef
+
+chef-client --local-mode
