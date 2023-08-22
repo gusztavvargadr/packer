@@ -58,43 +58,39 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 ##### Windows Server
 
+##### Windows Server Core
+
 [Sample usage][windows-server-sample-usage]
 
-- [Windows Server][windows-server-default-box]
+- [Windows Server **Default**][windows-server-default-box]
+- [Windows Server **Default Core**][windows-server-default-core-box]
 - [Windows Server **2022 Standard**][windows-server-2022-standard-box]
 - [Windows Server **2022 Standard** No Configuration Management][windows-server-2022-standard-nocm-box]
+- [Windows Server **2022 Standard Core**][windows-server-2022-standard-core-box]
 - [Windows Server **2019 Standard**][windows-server-2019-standard-box]
+- [Windows Server **2019 Standard Core**][windows-server-2019-standard-core-box]
 - [Windows Server **Insider Preview Standard**][windows-server-insider-preview-standard-box]
+- [Windows Server **Insider Preview Standard Core**][windows-server-insider-preview-standard-core-box]
 
 [windows-server-sample-usage]: ./samples/windows-server/
 
 [windows-server-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server/
+[windows-server-default-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core/
 [windows-server-2022-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard/
 [windows-server-2022-standard-nocm-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-nocm/
-[windows-server-2019-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
-[windows-server-insider-preview-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard/
-
-##### Windows Server Core
-
-[Sample usage][windows-server-core-sample-usage]
-
-- [Windows Server Core][windows-server-core-default-box]
-- [Windows Server **2022 Standard** Core][windows-server-2022-standard-core-box]
-- [Windows Server **2019 Standard** Core][windows-server-2019-standard-core-box]
-- [Windows Server **Insider Preview Standard** Core][windows-server-insider-preview-standard-core-box]
-
-[windows-server-core-sample-usage]: ./samples/windows-server-core/
-
-[windows-server-core-default-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core/
 [windows-server-2022-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core/
+[windows-server-2019-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard/
 [windows-server-2019-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core/
+[windows-server-insider-preview-standard-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard/
 [windows-server-insider-preview-standard-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core/
+
+
 
 ##### Windows 11
 
 [Sample usage][windows-11-sample-usage]
 
-- [Windows 11][windows-11-default-box]
+- [Windows 11 **Default**][windows-11-default-box]
 - [Windows 11 **Version 22H2 Enterprise**][windows-11-22h2-enterprise-box]
 - [Windows 11 **Version 21H2 Enterprise**][windows-11-21h2-enterprise-box]
 - [Windows 11 **Insider Preview Enterprise**][windows-11-insider-preview-enterprise-box]
@@ -110,7 +106,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 [Sample usage][windows-10-sample-usage]
 
-- [Windows 10][windows-10-default-box]
+- [Windows 10 **Default**][windows-10-default-box]
 - [Windows 10 **Version 22H2 Enterprise**][windows-10-22h2-enterprise-box]
 - [Windows 10 **Version 22H2 Enterprise** No Configuration Management][windows-10-22h2-enterprise-nocm-box]
 - [Windows 10 **Version 21H2 Enterprise**][windows-10-21h2-enterprise-box]
@@ -134,7 +130,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 [Sample usage][ubuntu-server-sample-usage]
 
-- [Ubuntu Server][ubuntu-server-default-box]
+- [Ubuntu Server **Default**][ubuntu-server-default-box]
 - [Ubuntu Server **20.04 LTS**][ubuntu-server-2004-lts-box]
 
 [ubuntu-server-sample-usage]: ./samples/ubuntu-server/
@@ -146,7 +142,7 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 [Sample usage][ubuntu-desktop-sample-usage]
 
-- [Ubuntu Desktop][ubuntu-desktop-default-box]
+- [Ubuntu Desktop **Default**][ubuntu-desktop-default-box]
 - [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
 
 [ubuntu-desktop-sample-usage]: ./samples/ubuntu-desktop/
@@ -166,10 +162,10 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 [Sample usage][docker-sample-usage]
 
-- [Docker Windows][docker-windows-default-box]
+- [Docker Windows **Default**][docker-windows-default-box]
 - [Docker **Community** on **Windows Server**][docker-community-windows-server-box]
 - [Docker **Community** on **Windows Server Core**][docker-community-windows-server-core-box]
-- [Docker Linux][docker-linux-default-box]
+- [Docker Linux **Default**][docker-linux-default-box]
 - [Docker **Community** on **Ubuntu Server**][docker-community-ubuntu-server-box]
 
 [docker-sample-usage]: ./samples/docker/
@@ -184,7 +180,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 [Sample usage][iis-sample-usage]
 
-- [IIS][iis-default-box]
+- [IIS **Default**][iis-default-box]
 - [IIS on **Windows Server**][iis-windows-server-box]
 - [IIS on **Windows Server Core**][iis-windows-server-core-box]
 
@@ -200,7 +196,7 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 
 [Sample usage][sql-server-sample-usage]
 
-- [SQL Server][sql-server-default-box]
+- [SQL Server **Default**][sql-server-default-box]
 - [SQL Server **2019 Developer** on **Windows Server**][sql-server-2019-developer-windows-server-box]
 - [SQL Server **2019 Developer** on **Windows Server Core**][sql-server-2019-developer-windows-server-core-box]
 
@@ -222,7 +218,7 @@ The following Vagrant boxes can be used for development scenarios including sett
 
 [Sample usage][visual-studio-sample-usage]
 
-- [Visual Studio][visual-studio-default-box]
+- [Visual Studio **Default**][visual-studio-default-box]
 - [Visual Studio **2022 Community** on **Windows 11**][visual-studio-2022-community-windows-11-box]
 - [Visual Studio **2022 Community** on **Windows 10**][visual-studio-2022-community-windows-10-box]
 - [Visual Studio **2019 Community** on **Windows 11**][visual-studio-2019-community-windows-11-box]

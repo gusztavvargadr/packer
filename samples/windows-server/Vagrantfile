@@ -1,27 +1,50 @@
+provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
+
 Vagrant.configure("2") do |config|
   config.vm.define "default", primary: true do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server"
   end
 
+  config.vm.define "default-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/windows-server-core"
+  end
+  
   config.vm.define "2022-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server-2022-standard"
   end
 
-  config.vm.define "2022-standard-local-vmware", autostart: false do |config_vm|
+  config.vm.define "local-2022-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-2022-standard"
-    config_vm.vm.box_url = "file://./artifacts/ws2022s/vmware-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2022s/#{provider}-vagrant/vagrant.box"
   end
 
   config.vm.define "2022-standard-nocm", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server-2022-standard-nocm"
   end
 
+  config.vm.define "2022-standard-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/windows-server-2022-standard-core"
+  end
+
+  config.vm.define "local-2022-standard-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-server-2022-standard-core"
+    config_vm.vm.box_url = "file://./artifacts/ws2022sc/#{provider}-vagrant/vagrant.box"
+  end
+
   config.vm.define "2019-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server-2019-standard"
   end
 
+  config.vm.define "2019-standard-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/windows-server-2019-standard-core"
+  end
+
   config.vm.define "insider-preview-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server-insider-preview-standard"
+  end
+
+  config.vm.define "insider-preview-standard-core", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr/windows-server-insider-preview-standard-core"
   end
 
   config.vm.provision "shell", inline: <<-EOH

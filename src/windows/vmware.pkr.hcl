@@ -1,24 +1,27 @@
 packer {
   required_plugins {
-    virtualbox = {
+    vmware = {
       version = "~> 1.0"
-      source  = "github.com/hashicorp/virtualbox"
+      source  = "github.com/hashicorp/vmware"
     }
   }
 }
 
 locals {
-  virtualbox_guest_os_type        = "Windows2019_64"
-  virtualbox_guest_additions_mode = "disable"
-  virtualbox_firmware             = "efi"
-  virtualbox_nested_virt          = false
-  virtualbox_hard_drive_interface = "sata"
-  virtualbox_gfx_controller       = "vboxsvga"
-  virtualbox_gfx_vram_size        = 64
-  virtualbox_post_shutdown_delay  = "5s"
+  vmware_version           = 16
+  vmware_guest_os_type     = local.options.vmware_guest_os_type
+  vmware_disk_type_id      = 0
+  vmware_disk_adapter_type = "nvme"
+  vmware_vmx_data = {
+    firmware        = "efi"
+    "vhv.enable"    = "FALSE"
+    "sata1.present" = "TRUE"
+  }
+
+  vmware_vmx_remove_ethernet_interfaces = true
 }
 
-source "virtualbox-iso" "core" {
+source "vmware-iso" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.core_output_directory}/image"
@@ -43,22 +46,19 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_os_type        = local.virtualbox_guest_os_type
-  guest_additions_mode = local.virtualbox_guest_additions_mode
-  firmware             = local.virtualbox_firmware
-  nested_virt          = local.virtualbox_nested_virt
-  hard_drive_interface = local.virtualbox_hard_drive_interface
-  gfx_controller       = local.virtualbox_gfx_controller
-  gfx_vram_size        = local.virtualbox_gfx_vram_size
-  post_shutdown_delay  = local.virtualbox_post_shutdown_delay
+  version           = local.vmware_version
+  guest_os_type     = local.vmware_guest_os_type
+  disk_type_id      = local.vmware_disk_type_id
+  disk_adapter_type = local.vmware_disk_adapter_type
+  vmx_data          = local.vmware_vmx_data
 }
 
-source "virtualbox-ovf" "core" {
+source "vmware-vmx" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.ovf"))}"
+  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.vmx"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type
@@ -72,6 +72,5 @@ source "virtualbox-ovf" "core" {
   shutdown_command = local.vagrant_shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_additions_mode = local.virtualbox_guest_additions_mode
-  post_shutdown_delay  = local.virtualbox_post_shutdown_delay
+  vmx_remove_ethernet_interfaces = local.vmware_vmx_remove_ethernet_interfaces
 }

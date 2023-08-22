@@ -35,11 +35,13 @@ variable "userprofile_directory" {
 }
 
 locals {
-  timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
-  downloads_directory = "${coalesce(var.home_directory, var.userprofile_directory)}/Downloads"
-
   options = var.options[var.configuration]
 
+  timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
+  downloads_directory = "${coalesce(var.home_directory, var.userprofile_directory)}/Downloads"
+}
+
+locals {
   name        = local.options.name
   description = local.options.description
 
@@ -56,7 +58,7 @@ locals {
   iso_checksum = local.options.iso_checksum
   cd_content = {
     "autounattend.xml" = templatefile("${path.root}/autounattend.xml", {
-      image_name = local.options.iso_image_name
+      image_name = local.options.image_name
     })
     "autounattend-first-logon.ps1" = file("${path.root}/autounattend-first-logon.ps1")
   }
@@ -94,7 +96,7 @@ variable "packer_destination" {
 }
 
 locals {
-  core_output_directory = "${path.root}/artifacts/${local.name}/${var.provider}-core"
+  core_output_directory = "${path.cwd}/artifacts/${local.name}/${var.provider}-core"
   core_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
@@ -116,7 +118,7 @@ build {
   }
 
   provisioner "file" {
-    source      = "${path.root}/chef/artifacts/"
+    source      = "${path.cwd}/artifacts/chef/"
     destination = "${var.chef_destination}"
   }
 
@@ -148,7 +150,7 @@ build {
 }
 
 locals {
-  vagrant_output_directory = "${path.root}/artifacts/${local.name}/${var.provider}-vagrant"
+  vagrant_output_directory = "${path.cwd}/artifacts/${local.name}/${var.provider}-vagrant"
   vagrant_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"

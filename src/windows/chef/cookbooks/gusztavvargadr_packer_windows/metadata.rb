@@ -1,4 +1,4 @@
-name 'gusztavvargadr_packer_w'
+name 'gusztavvargadr_packer_windows'
 description 'Installs/Configures Packer Windows'
 license 'Unlicense'
 maintainer 'Gusztáv Varga'
