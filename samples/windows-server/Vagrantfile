@@ -1,5 +1,7 @@
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
 
+load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
+
 Vagrant.configure("2") do |config|
   config.vm.define "default", primary: true do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-server"

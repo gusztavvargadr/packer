@@ -1,3 +1,7 @@
+provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
+
+load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
+
 Vagrant.configure("2") do |config|
   config.vm.define "default", primary: true do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-10"
@@ -21,6 +25,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "1809-enterprise-ltsc", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-10-1809-enterprise-ltsc"
+  end
+
+  config.vm.define "local-22h2-enterprise", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-10-22h2-enterprise"
+    config_vm.vm.box_url = "file://./artifacts/w1022h2e/#{provider}-vagrant/vagrant.box"
   end
 
   config.vm.provision "shell", inline: <<-EOH
