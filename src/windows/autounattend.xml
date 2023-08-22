@@ -37,12 +37,14 @@
             </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
+%{ for image_name in image_names ~}
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
                             <Value>${image_name}</Value>
                         </MetaData>
                     </InstallFrom>
+%{ endfor ~}
                     <InstallTo>
                         <DiskID>0</DiskID>
                         <PartitionID>3</PartitionID>
@@ -52,6 +54,9 @@
             <UserData>
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
+%{ for product_key in product_keys ~}
+                    <Key>${product_key}</Key>
+%{ endfor ~}
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Administrator</FullName>

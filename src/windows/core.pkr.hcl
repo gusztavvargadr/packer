@@ -37,7 +37,7 @@ variable "userprofile_directory" {
 locals {
   options = var.options[var.configuration]
 
-  timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
+  timestamp           = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
   downloads_directory = "${coalesce(var.home_directory, var.userprofile_directory)}/Downloads"
 }
 
@@ -58,7 +58,8 @@ locals {
   iso_checksum = local.options.iso_checksum
   cd_content = {
     "autounattend.xml" = templatefile("${path.root}/autounattend.xml", {
-      image_name = local.options.image_name
+      image_names  = compact([lookup(local.options, "image_name", "")])
+      product_keys = compact([lookup(local.options, "product_key", "")])
     })
     "autounattend-first-logon.ps1" = file("${path.root}/autounattend-first-logon.ps1")
   }
@@ -125,7 +126,7 @@ build {
   provisioner "powershell" {
     script              = "${path.root}/chef/execute.ps1"
     max_retries         = "${var.chef_max_retries}"
-    pause_before         = "1m0s"
+    pause_before        = "1m0s"
     start_retry_timeout = "${var.chef_start_retry_timeout}"
 
     elevated_user     = local.communicator_username

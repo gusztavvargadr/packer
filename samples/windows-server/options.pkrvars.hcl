@@ -54,4 +54,34 @@ options = {
     virtualbox_guest_os_type = "Windows2019_64"
     vmware_guest_os_type     = "windows2019srv-64"
   }
+
+  "insider-preview-standard" = {
+    name        = "wsips"
+    description = "Windows Server Insider Preview Standard"
+
+    iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_25931.iso"
+    iso_url_remote = "https://bit.ly/3QLt7s1"
+    iso_checksum   = "sha256:025b7f0dc0013645277173ef890981d3f2d420ded02b14a5fe2f2a9cb1861c80"
+
+    image_name  = "Windows Server 2022 SERVERSTANDARD"
+    product_key = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
+
+    virtualbox_guest_os_type = "Windows2019_64"
+    vmware_guest_os_type     = "windows2019srv-64"
+  }
+
+  "insider-preview-standard-core" = {
+    name        = "wsipsc"
+    description = "Windows Server Insider Preview Standard Core"
+
+    iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_25931.iso"
+    iso_url_remote = "https://bit.ly/3QLt7s1"
+    iso_checksum   = "sha256:025b7f0dc0013645277173ef890981d3f2d420ded02b14a5fe2f2a9cb1861c80"
+
+    image_name  = "Windows Server 2022 SERVERSTANDARDCORE"
+    product_key = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
+
+    virtualbox_guest_os_type = "Windows2019_64"
+    vmware_guest_os_type     = "windows2019srv-64"
+  }
 }
