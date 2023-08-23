@@ -58,7 +58,7 @@ source "virtualbox-ovf" "core" {
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.ovf"))}"
+  source_path = "${local.core_output_directory}/${join("", fileset(local.core_output_directory, "**/*.ovf"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type

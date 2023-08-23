@@ -58,7 +58,7 @@ source "vmware-vmx" "core" {
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  source_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.vmx"))}"
+  source_path = "${local.core_output_directory}/${join("", fileset(local.core_output_directory, "**/*.vmx"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type

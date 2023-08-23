@@ -64,7 +64,7 @@ source "hyperv-vmcx" "core" {
   headless         = local.headless
   output_directory = "${local.vagrant_output_directory}/image"
 
-  clone_from_vmcx_path = "${join("", fileset(path.root, "${local.core_output_directory}/**/*.vmcx"))}"
+  clone_from_vmcx_path = "${local.core_output_directory}/${join("", fileset(local.core_output_directory, "**/*.vmcx"))}"
   boot_wait            = local.hyperv_boot_wait
 
   communicator   = local.communicator_type
