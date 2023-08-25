@@ -14,6 +14,6 @@ packer init $SCRIPT_DIRECTORY
 chef install
 chef export ./artifacts/chef/ --force
 
-packer validate -var-file="${WORK_DIRECTORY}/options.pkrvars.hcl" -var configuration="${CONFIGURATION}" -var provider="${PROVIDER}" -only="${BUILD}.*" $SCRIPT_DIRECTORY
+packer validate -var-file="${WORK_DIRECTORY}/options.pkrvars.hcl" -var configuration="${CONFIGURATION}" -var provider="${PROVIDER}" -var build="${BUILD}" -except "*.null.*" $SCRIPT_DIRECTORY
 
-packer build -var-file="${WORK_DIRECTORY}/options.pkrvars.hcl" -var configuration="${CONFIGURATION}" -var provider="${PROVIDER}" -only="${BUILD}.*" -force $SCRIPT_DIRECTORY
+packer build -var-file="${WORK_DIRECTORY}/options.pkrvars.hcl" -var configuration="${CONFIGURATION}" -var provider="${PROVIDER}" -var build="${BUILD}" -except "*.null.*" -force $SCRIPT_DIRECTORY

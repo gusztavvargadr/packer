@@ -8,7 +8,6 @@ packer {
 }
 
 locals {
-  virtualbox_guest_os_type        = local.options.virtualbox_guest_os_type
   virtualbox_guest_additions_mode = "disable"
   virtualbox_firmware             = "efi"
   virtualbox_nested_virt          = false
@@ -21,7 +20,7 @@ locals {
 source "virtualbox-iso" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
-  output_directory = "${local.core_output_directory}/image"
+  output_directory = "${local.artifacts_directory}/image"
 
   cpus         = local.cpus
   memory       = local.memory
@@ -43,7 +42,7 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
-  guest_os_type        = local.virtualbox_guest_os_type
+  guest_os_type        = local.options.virtualbox_guest_os_type
   guest_additions_mode = local.virtualbox_guest_additions_mode
   firmware             = local.virtualbox_firmware
   nested_virt          = local.virtualbox_nested_virt
@@ -56,9 +55,9 @@ source "virtualbox-iso" "core" {
 source "virtualbox-ovf" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
-  output_directory = "${local.vagrant_output_directory}/image"
+  output_directory = "${local.artifacts_directory}/image"
 
-  source_path = "${local.core_output_directory}/${join("", fileset(local.core_output_directory, "**/*.ovf"))}"
+  source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.ovf"))}"
   boot_wait   = local.boot_wait
 
   communicator   = local.communicator_type
@@ -69,7 +68,7 @@ source "virtualbox-ovf" "core" {
   winrm_password = local.communicator_password
   winrm_timeout  = local.communicator_timeout
 
-  shutdown_command = local.vagrant_shutdown_command
+  shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
   guest_additions_mode = local.virtualbox_guest_additions_mode

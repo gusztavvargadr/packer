@@ -27,7 +27,7 @@ locals {
 source "hyperv-iso" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
-  output_directory = "${local.core_output_directory}/image"
+  output_directory = "${local.artifacts_directory}/image"
 
   cpus         = local.cpus
   memory       = local.memory
@@ -62,9 +62,9 @@ source "hyperv-iso" "core" {
 source "hyperv-vmcx" "core" {
   vm_name          = local.vm_name
   headless         = local.headless
-  output_directory = "${local.vagrant_output_directory}/image"
+  output_directory = "${local.artifacts_directory}/image"
 
-  clone_from_vmcx_path = "${local.core_output_directory}/${join("", fileset(local.core_output_directory, "**/*.vmcx"))}"
+  clone_from_vmcx_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.vmcx"))}"
   boot_wait            = local.hyperv_boot_wait
 
   communicator   = local.communicator_type
@@ -75,7 +75,7 @@ source "hyperv-vmcx" "core" {
   winrm_password = local.communicator_password
   winrm_timeout  = local.communicator_timeout
 
-  shutdown_command = local.vagrant_shutdown_command
+  shutdown_command = local.shutdown_command
   shutdown_timeout = local.shutdown_timeout
 
   generation                       = local.hyperv_generation
