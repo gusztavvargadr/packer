@@ -17,7 +17,7 @@ locals {
     "sata1.present" = "TRUE"
   }
 
-  vmware_vmx_remove_ethernet_interfaces = true
+  vmware_vmx_remove_ethernet_interfaces = local.core_build ? false : true
 }
 
 source "vmware-iso" "core" {
