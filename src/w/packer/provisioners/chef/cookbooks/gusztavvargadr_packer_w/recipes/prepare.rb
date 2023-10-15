@@ -24,7 +24,7 @@ registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\
 end
 
 gusztavvargadr_windows_updates '' do
-  action [:configure]
+  action [:initialize]
 end
 
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
