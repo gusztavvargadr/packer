@@ -19,7 +19,7 @@ Vagrant.configure('2') do |config|
       cmd /c ver
       chef-client --version
       Get-ComputerInfo
-      choco list -li
+      choco list -i
     EOF
   else
     config.vm.provision 'shell', inline: <<-EOF

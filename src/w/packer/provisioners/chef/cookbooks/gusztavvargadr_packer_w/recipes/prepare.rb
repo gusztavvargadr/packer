@@ -24,7 +24,7 @@ registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\
 end
 
 gusztavvargadr_windows_updates '' do
-  action [:configure]
+  action [:initialize]
 end
 
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
@@ -77,7 +77,7 @@ remote_file sdelete_executable_target do
 end
 
 if vbox?
-  vbox_guest_additions_installed = powershell_out('choco list -li').stdout.downcase.include? 'virtualbox'
+  vbox_guest_additions_installed = powershell_out('choco list -i').stdout.downcase.include? 'virtualbox'
   unless vbox_guest_additions_installed
     reboot 'vbox' do
       action :nothing
