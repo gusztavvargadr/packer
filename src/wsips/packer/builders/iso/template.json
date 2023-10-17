@@ -1,7 +1,7 @@
 {
   "variables": {
     "iso_url_local": "{{user `download_directory`}}/Windows_InsiderPreview_Server_vNext_en-us_25967.iso",
-    "iso_url_remote": "https://bit.ly/3RWqdB5",
+    "iso_url_remote": "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2102.0.2310/providers/iso-hosted/amd64/vagrant.box",
     "iso_checksum": "sha256:e20547ac8bcca26866b2882dcbee3616851a134b0387225bebabfb87bbf1b003"
   }
 }
