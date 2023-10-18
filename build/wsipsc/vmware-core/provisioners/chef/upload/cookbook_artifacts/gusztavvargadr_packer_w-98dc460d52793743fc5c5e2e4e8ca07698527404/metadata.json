@@ -1,0 +1,44 @@
+{
+  "name": "gusztavvargadr_packer_w",
+  "description": "Installs/Configures Packer Windows",
+  "long_description": "",
+  "maintainer": "Gusztáv Varga",
+  "maintainer_email": "mail@gusztavvargadr.me",
+  "license": "Unlicense",
+  "platforms": {
+    "windows": ">= 0.0.0"
+  },
+  "dependencies": {
+    "gusztavvargadr_windows": ">= 0.0.0"
+  },
+  "providing": {
+    "gusztavvargadr_packer_w::cleanup": ">= 0.0.0",
+    "gusztavvargadr_packer_w": ">= 0.0.0",
+    "gusztavvargadr_packer_w::install": ">= 0.0.0",
+    "gusztavvargadr_packer_w::patch": ">= 0.0.0",
+    "gusztavvargadr_packer_w::prepare": ">= 0.0.0"
+  },
+  "recipes": {
+    "gusztavvargadr_packer_w::cleanup": "",
+    "gusztavvargadr_packer_w": "",
+    "gusztavvargadr_packer_w::install": "",
+    "gusztavvargadr_packer_w::patch": "",
+    "gusztavvargadr_packer_w::prepare": ""
+  },
+  "version": "0.0.0",
+  "source_url": "",
+  "issues_url": "",
+  "privacy": false,
+  "chef_versions": [
+    [
+      ">= 16.0"
+    ]
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ],
+  "eager_load_libraries": true
+}

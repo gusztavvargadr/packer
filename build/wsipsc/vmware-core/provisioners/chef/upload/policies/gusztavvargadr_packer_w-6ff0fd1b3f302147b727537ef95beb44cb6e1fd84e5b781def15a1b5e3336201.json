@@ -1,0 +1,83 @@
+{
+  "revision_id": "6ff0fd1b3f302147b727537ef95beb44cb6e1fd84e5b781def15a1b5e3336201",
+  "name": "gusztavvargadr_packer_w",
+  "run_list": [
+    "recipe[gusztavvargadr_packer_w::default]"
+  ],
+  "included_policy_locks": [
+
+  ],
+  "cookbook_locks": {
+    "gusztavvargadr_packer_w": {
+      "version": "0.0.0",
+      "identifier": "98dc460d52793743fc5c5e2e4e8ca07698527404",
+      "dotted_decimal_identifier": "43026389889349943.19136297086897804.176431222125572",
+      "source": "cookbooks/gusztavvargadr_packer_w",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "https://github.com/gusztavvargadr/packer.git",
+        "revision": "060cc18634bc7a49dfdd82c4d1efd4fc16f2d235",
+        "working_tree_clean": true,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "cookbooks/gusztavvargadr_packer_w"
+      }
+    },
+    "gusztavvargadr_windows": {
+      "version": "0.0.0",
+      "identifier": "2d34178de328a25c306c400fa2ecc0c40171a7e5",
+      "dotted_decimal_identifier": "12723649721346210.25948939346748140.211948070348773",
+      "source": "../../../../../lib/gusztavvargadr/chef/samples/cookbooks/windows",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": null,
+        "revision": "c231104f445c0e01b539c8ccedbd1b3d3486ec29",
+        "working_tree_clean": true,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "../../../../../lib/gusztavvargadr/chef/samples/cookbooks/windows"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "gusztavvargadr_packer_w",
+        "= 0.0.0"
+      ],
+      [
+        "gusztavvargadr_windows",
+        "= 0.0.0"
+      ]
+    ],
+    "dependencies": {
+      "gusztavvargadr_packer_w (0.0.0)": [
+        [
+          "gusztavvargadr_windows",
+          ">= 0.0.0"
+        ]
+      ],
+      "gusztavvargadr_windows (0.0.0)": [
+
+      ]
+    }
+  }
+}
