@@ -23,11 +23,7 @@ stages:
             submodules: recursive
 
           - script: |
-              mkdir tmp
-              cd tmp
-              git clone https://gist.github.com/1f0d7dddc7f48549368eaaedf19bfe55.git chef-gist
-              cd chef-gist
-              POLICY_NAME=vagrant bash build.sh
+              curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/deploy.sh | sudo POLICY_NAME="vagrant" bash -s
             displayName: Initialize agent
 
           - script: |
@@ -74,14 +70,12 @@ stages:
             submodules: recursive
 
           - script: |
+              df -h
               sudo rm -Rf /usr/local/lib/android
+              sudo rm -Rf /usr/local/lib/node_modules
               df -h
 
-              mkdir tmp
-              cd tmp
-              git clone https://gist.github.com/1f0d7dddc7f48549368eaaedf19bfe55.git chef-gist
-              cd chef-gist
-              POLICY_NAME=vagrant bash build.sh
+              curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/deploy.sh | sudo POLICY_NAME="vagrant" bash -s
             displayName: Initialize agent
 
           - script: |

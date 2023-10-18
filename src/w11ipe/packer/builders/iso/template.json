@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url_local": "{{user `download_directory`}}/Windows11_InsiderPreview_EnterpriseVL_x64_en-us_25931.iso",
-    "iso_url_remote": "https://bit.ly/45lfR1w",
-    "iso_checksum": "sha256:05f4f9374845ab2a04a007e22dc3340e3a4fe5068cda1cb3c1be8193f361f836"
+    "iso_url_local": "{{user `download_directory`}}/Windows11_InsiderPreview_EnterpriseVL_x64_en-us_25951.iso",
+    "iso_url_remote": "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-11-insider-preview/versions/2202.0.2310/providers/iso-hosted/amd64/vagrant.box",
+    "iso_checksum": "sha256:e771769bc27aec3361bae30ef86addc1f9934553270fea83a38f33d54475dc73"
   }
 }

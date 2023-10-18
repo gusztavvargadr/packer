@@ -1,7 +1,5 @@
 include_recipe 'gusztavvargadr_packer_w::prepare'
 
-gusztavvargadr_visualstudio_ide '' do
-  version '2022'
-  edition 'community'
-  action :prepare
+gusztavvargadr_visualstudio_tool 'ide:2022-community' do
+  action :initialize
 end
