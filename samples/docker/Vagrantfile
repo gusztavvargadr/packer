@@ -4,6 +4,7 @@ ENV["VAGRANT_PROVIDER_MEMORY"] = ""
 load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
 
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
+provider = provider == "vmware_desktop" ? "vmware" : provider
 
 Vagrant.configure("2") do |config|
   config.vm.define "windows", autostart: false do |config_vm|

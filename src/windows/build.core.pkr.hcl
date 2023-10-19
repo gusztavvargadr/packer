@@ -33,7 +33,7 @@ build {
   }
 
   provisioner "powershell" {
-    script              = "${path.root}/chef/execute.ps1"
+    script              = "${path.root}/chef/provision.ps1"
     max_retries         = local.chef_max_retries
     pause_before        = "1m0s"
     start_retry_timeout = local.chef_start_retry_timeout

@@ -8,7 +8,7 @@ packer {
 }
 
 locals {
-  amazon_user_data = "<powershell>\r\n${file("${path.root}/autounattend-first-logon.ps1")}\r\n</powershell>"
+  amazon_user_data = "<powershell>\r\n${file("${path.root}/boot/autounattend-first-logon.ps1")}\r\n</powershell>"
 }
 
 source "amazon-ebs" "core" {

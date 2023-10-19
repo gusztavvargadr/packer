@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     vagrant = {
-      version = "~> 1.0"
+      version = "~> 1.1"
       source  = "github.com/hashicorp/vagrant"
     }
   }

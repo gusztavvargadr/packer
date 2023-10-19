@@ -10,7 +10,7 @@ end
 windows_uac '' do
   enable_uac false
   action :configure
-  notifies :request_reboot, 'reboot[windows-uac]'
+  notifies :request_reboot, 'reboot[windows-uac]', :immediately
 end
 
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System' do
@@ -24,7 +24,7 @@ registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\
 end
 
 gusztavvargadr_windows_updates '' do
-  action [:configure]
+  action :initialize
 end
 
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
@@ -112,7 +112,7 @@ if vbox?
       EOH
       cwd 'Z:'
       action :run
-      notifies :request_reboot, 'reboot[vbox]'
+      notifies :request_reboot, 'reboot[vbox]', :immediately
     end
 
     gusztavvargadr_windows_iso '' do
@@ -131,6 +131,11 @@ if vmware?
   chocolatey_package 'vmware-tools' do
     returns [0, 2, 3010]
     action :install
-    notifies :request_reboot, 'reboot[vmware]'
+    notifies :request_reboot, 'reboot[vmware]', :immediately
   end
+end
+
+reboot 'initialize' do
+  action :reboot_now
+  only_if { reboot_pending? }
 end

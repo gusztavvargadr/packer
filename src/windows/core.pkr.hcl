@@ -4,7 +4,7 @@ packer {
 
 variables {
   author  = "gusztavvargadr"
-  version = "2308.1.0"
+  version = "2310v2"
 }
 
 variable "options" {
@@ -24,10 +24,12 @@ variable "build" {
 }
 
 variable "home_directory" {
+  type = string
   default = env("HOME")
 }
 
 variable "userprofile_directory" {
+  type = string
   default = env("USERPROFILE")
 }
 
@@ -35,7 +37,7 @@ locals {
   author  = var.author
   version = var.version
 
-  options  = var.options[var.configuration]
+  options  = var.options[var.configuration] 
   provider = var.provider
   build    = var.build
 

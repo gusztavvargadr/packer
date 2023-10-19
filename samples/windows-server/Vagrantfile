@@ -4,6 +4,7 @@ ENV["VAGRANT_PROVIDER_MEMORY"] = ""
 load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
 
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
+provider = provider == "vmware_desktop" ? "vmware" : provider
 
 Vagrant.configure("2") do |config|
   config.vm.define "default", primary: true do |config_vm|
@@ -44,32 +45,32 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "local-2022-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-2022-standard"
-    config_vm.vm.box_url = "file://./artifacts/ws2022s/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2022s/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.define "local-2022-standard-core", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-2022-standard-core"
-    config_vm.vm.box_url = "file://./artifacts/ws2022sc/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2022sc/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.define "local-2019-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-2019-standard"
-    config_vm.vm.box_url = "file://./artifacts/ws2019s/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2019s/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.define "local-2019-standard-core", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-2019-standard-core"
-    config_vm.vm.box_url = "file://./artifacts/ws2019sc/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2019sc/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.define "local-insider-preview-standard", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-insider-preview-standard"
-    config_vm.vm.box_url = "file://./artifacts/wsips/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/wsips/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.define "local-insider-preview-standard-core", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-server-insider-preview-standard-core"
-    config_vm.vm.box_url = "file://./artifacts/wsipsc/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/wsipsc/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.provision "shell", inline: <<-EOH

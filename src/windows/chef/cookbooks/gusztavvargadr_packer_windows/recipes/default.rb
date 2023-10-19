@@ -1,4 +1,4 @@
-include_recipe 'gusztavvargadr_packer_windows::prepare'
-include_recipe 'gusztavvargadr_packer_windows::install'
-include_recipe 'gusztavvargadr_packer_windows::patch'
+include_recipe 'gusztavvargadr_packer_windows::initialize'
+include_recipe 'gusztavvargadr_packer_windows::provision'
+include_recipe 'gusztavvargadr_packer_windows::deploy'
 include_recipe 'gusztavvargadr_packer_windows::cleanup'

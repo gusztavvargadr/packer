@@ -5,9 +5,9 @@ name 'gusztavvargadr_packer_windows_docker'
 gusztavvargadr_packer_windows_sources
 
 run_list(
-  'recipe[gusztavvargadr_packer_windows::prepare]',
-  'recipe[gusztavvargadr_packer_windows::install]',
-  'recipe[gusztavvargadr_packer_windows::patch]',
+  'recipe[gusztavvargadr_packer_windows::initialize]',
+  'recipe[gusztavvargadr_packer_windows::provision]',
+  'recipe[gusztavvargadr_packer_windows::deploy]',
   'recipe[gusztavvargadr_docker::default]',
   'recipe[gusztavvargadr_packer_windows::cleanup]'
 )
