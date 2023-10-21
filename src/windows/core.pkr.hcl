@@ -87,7 +87,7 @@ locals {
     iso_checksum = local.image_options.core.iso_checksum
     cd_content = {
       "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", { core = local.image_options.core })
-      "autounattend-first-logon.ps1" = file("${path.root}/boot/autounattend-first-logon.ps1")
+      "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", { core = local.image_options.core })
     }
 
     boot_command     = local.core_build ? ["<enter><wait><enter><wait><enter>"] : []
