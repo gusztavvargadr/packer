@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "local-community-windows-server", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/docker-community-windows-server"
-    config_vm.vm.box_url = "file://./artifacts/ws2022s-dc/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2022s-dc/#{provider}-vagrant/vagrant/vagrant.box"
 
     config_vm.vm.provision "shell", inline: <<-EOH
       cmd /c ver
@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "local-community-windows-server-core", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/docker-community-windows-server-core"
-    config_vm.vm.box_url = "file://./artifacts/ws2022sc-dc/#{provider}-vagrant/vagrant.box"
+    config_vm.vm.box_url = "file://./artifacts/ws2022sc-dc/#{provider}-vagrant/vagrant/vagrant.box"
 
     config_vm.vm.provision "shell", inline: <<-EOH
       cmd /c ver

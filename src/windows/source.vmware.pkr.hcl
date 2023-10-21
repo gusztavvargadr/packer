@@ -8,68 +8,79 @@ packer {
 }
 
 locals {
-  vmware_version           = 16
-  vmware_disk_type_id      = 0
-  vmware_disk_adapter_type = "nvme"
-  vmware_vmx_data = {
-    firmware        = "efi"
-    "vhv.enable"    = "FALSE"
-    "sata1.present" = "TRUE"
+  vmware_source_options = {
+    version           = 20
+    disk_type_id      = 0
+    disk_adapter_type = "nvme"
+    vmx_data = {
+      firmware        = "efi"
+      "vhv.enable"    = "FALSE"
+      "sata1.present" = "TRUE"
+    }
+    vmx_remove_ethernet_interfaces = local.core_build ? false : true
   }
+}
 
-  vmware_vmx_remove_ethernet_interfaces = local.core_build ? false : true
+locals {
+  vmware_iso_source_options = merge(local.core_source_options, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
 }
 
 source "vmware-iso" "core" {
-  vm_name          = local.vm_name
-  headless         = local.headless
-  output_directory = "${local.artifacts_directory}/image"
+  vm_name          = local.vmware_iso_source_options.vm_name
+  headless         = local.vmware_iso_source_options.headless
+  output_directory = local.vmware_iso_source_options.output_directory
 
-  cpus         = local.cpus
-  memory       = local.memory
-  disk_size    = local.disk_size
-  iso_urls     = local.iso_urls
-  iso_checksum = local.iso_checksum
-  cd_content   = local.cd_content
-  boot_wait    = local.boot_wait
-  boot_command = local.boot_command
+  cpus         = local.vmware_iso_source_options.cpus
+  memory       = local.vmware_iso_source_options.memory
+  disk_size    = local.vmware_iso_source_options.disk_size
+  iso_urls     = local.vmware_iso_source_options.iso_urls
+  iso_checksum = local.vmware_iso_source_options.iso_checksum
+  cd_content   = local.vmware_iso_source_options.cd_content
 
-  communicator   = local.communicator_type
-  ssh_username   = local.communicator_username
-  ssh_password   = local.communicator_password
-  ssh_timeout    = local.communicator_timeout
-  winrm_username = local.communicator_username
-  winrm_password = local.communicator_password
-  winrm_timeout  = local.communicator_timeout
+  version                        = local.vmware_iso_source_options.version
+  guest_os_type                  = local.vmware_iso_source_options.guest_os_type
+  disk_type_id                   = local.vmware_iso_source_options.disk_type_id
+  disk_adapter_type              = local.vmware_iso_source_options.disk_adapter_type
+  vmx_data                       = local.vmware_iso_source_options.vmx_data
+  vmx_remove_ethernet_interfaces = local.vmware_iso_source_options.vmx_remove_ethernet_interfaces
 
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = local.shutdown_timeout
+  boot_command     = local.vmware_iso_source_options.boot_command
+  boot_wait        = local.vmware_iso_source_options.boot_wait
+  shutdown_command = local.vmware_iso_source_options.shutdown_command
+  shutdown_timeout = local.vmware_iso_source_options.shutdown_timeout
 
-  version           = local.vmware_version
-  guest_os_type     = local.options.vmware_guest_os_type
-  disk_type_id      = local.vmware_disk_type_id
-  disk_adapter_type = local.vmware_disk_adapter_type
-  vmx_data          = local.vmware_vmx_data
+  communicator   = local.communicator.type
+  ssh_username   = local.communicator.username
+  ssh_password   = local.communicator.password
+  ssh_timeout    = local.communicator.timeout
+  winrm_username = local.communicator.username
+  winrm_password = local.communicator.password
+  winrm_timeout  = local.communicator.timeout
+}
+
+locals {
+  vmware_vmx_source_options = merge(local.core_source_options, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
 }
 
 source "vmware-vmx" "core" {
-  vm_name          = local.vm_name
-  headless         = local.headless
-  output_directory = "${local.artifacts_directory}/image"
+  vm_name          = local.vmware_vmx_source_options.vm_name
+  headless         = local.vmware_vmx_source_options.headless
+  output_directory = local.vmware_vmx_source_options.output_directory
 
   source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.vmx"))}"
-  boot_wait   = local.boot_wait
 
-  communicator   = local.communicator_type
-  ssh_username   = local.communicator_username
-  ssh_password   = local.communicator_password
-  ssh_timeout    = local.communicator_timeout
-  winrm_username = local.communicator_username
-  winrm_password = local.communicator_password
-  winrm_timeout  = local.communicator_timeout
+  vmx_remove_ethernet_interfaces = local.vmware_vmx_source_options.vmx_remove_ethernet_interfaces
 
-  shutdown_command = local.shutdown_command
-  shutdown_timeout = local.shutdown_timeout
+  boot_command     = local.vmware_vmx_source_options.boot_command
+  boot_wait        = local.vmware_vmx_source_options.boot_wait
+  shutdown_command = local.vmware_vmx_source_options.shutdown_command
+  shutdown_timeout = local.vmware_vmx_source_options.shutdown_timeout
 
-  vmx_remove_ethernet_interfaces = local.vmware_vmx_remove_ethernet_interfaces
+  communicator   = local.communicator.type
+  ssh_username   = local.communicator.username
+  ssh_password   = local.communicator.password
+  ssh_timeout    = local.communicator.timeout
+  winrm_username = local.communicator.username
+  winrm_password = local.communicator.password
+  winrm_timeout  = local.communicator.timeout
 }

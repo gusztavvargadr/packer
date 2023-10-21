@@ -7,10 +7,6 @@ packer {
   }
 }
 
-locals {
-  amazon_user_data = "<powershell>\r\n${file("${path.root}/boot/autounattend-first-logon.ps1")}\r\n</powershell>"
-}
-
 source "amazon-ebs" "core" {
   ami_name = local.vm_name
 
@@ -46,7 +42,7 @@ source "amazon-ebs" "core" {
     "packer" = ""
   }
 
-  user_data = local.amazon_user_data
+  user_data = "<powershell>\r\n${file("${path.root}/boot/autounattend-first-logon.ps1")}\r\n</powershell>"
 
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
@@ -55,11 +51,11 @@ source "amazon-ebs" "core" {
     delete_on_termination = true
   }
 
-  communicator   = local.communicator_type
-  ssh_username   = local.communicator_username
-  ssh_password   = local.communicator_password
-  ssh_timeout    = local.communicator_timeout
-  winrm_username = local.communicator_username
-  winrm_password = local.communicator_password
-  winrm_timeout  = local.communicator_timeout
+  communicator   = local.communicator.type
+  ssh_username   = local.communicator.username
+  ssh_password   = local.communicator.password
+  ssh_timeout    = local.communicator.timeout
+  winrm_username = local.communicator.username
+  winrm_password = local.communicator.password
+  winrm_timeout  = local.communicator.timeout
 }

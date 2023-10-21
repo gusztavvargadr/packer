@@ -13,22 +13,33 @@ locals {
 }
 
 build {
-  name = "core"
+  name = "chef"
 
   source "null.core" {
   }
 
-  sources = local.core_build ? (local.core_iso ? compact([lookup(local.core_iso_sources, local.provider, "")]) : compact([lookup(local.core_import_sources, local.provider, "")])) : []
+  provisioner "shell-local" {
+    inline = [
+      "chef install",
+      "chef export ${local.artifacts_directory}/chef --force"
+    ]
+  }
+}
+
+build {
+  name = "core"
+
+  sources = local.core_build ? (local.core_iso ? compact([lookup(local.core_iso_sources, local.provider, "")]) : compact([lookup(local.core_import_sources, local.provider, "")])) : [ "null.core" ]
 
   provisioner "powershell" {
     script = "${path.root}/chef/initialize.ps1"
 
-    elevated_user     = local.communicator_username
-    elevated_password = local.communicator_password
+    elevated_user     = local.communicator.username
+    elevated_password = local.communicator.password
   }
 
   provisioner "file" {
-    source      = "${path.cwd}/artifacts/chef/"
+    source      = "${local.artifacts_directory}/chef/"
     destination = local.chef_destination
   }
 
@@ -38,15 +49,15 @@ build {
     pause_before        = "1m0s"
     start_retry_timeout = local.chef_start_retry_timeout
 
-    elevated_user     = local.communicator_username
-    elevated_password = local.communicator_password
+    elevated_user     = local.communicator.username
+    elevated_password = local.communicator.password
   }
 
   provisioner "powershell" {
     script = "${path.root}/chef/cleanup.ps1"
 
-    elevated_user     = local.communicator_username
-    elevated_password = local.communicator_password
+    elevated_user     = local.communicator.username
+    elevated_password = local.communicator.password
   }
 
   post-processor "manifest" {

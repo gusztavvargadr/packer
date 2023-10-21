@@ -8,11 +8,10 @@ $ProgressPreference = 'SilentlyContinue'
   "$env:windir\Temp\\Chef",
   "$env:programdata\Microsoft\Windows Defender\Scans\*"
 ) | % {
-  Write-Host "Removing $_"
   try {
-    Takeown /d Y /R /f $_
-    Icacls $_ /GRANT:r administrators:F /T /c /q  2>&1 | Out-Null
-    Remove-Item $_ -Recurse -Force | Out-Null
+    Takeown /d Y /R /f $_ 2>&1 | Out-Null
+    Icacls $_ /GRANT:r administrators:F /T /c /q 2>&1 | Out-Null
+    Remove-Item $_ -Recurse -Force 2>&1 | Out-Null
   } catch { $global:error.RemoveAt(0) }
 }
 
@@ -21,4 +20,4 @@ $app.Uninstall()
 
 Optimize-Volume -DriveLetter C -Analyze -Defrag
 
-sdelete -accepteula -nobanner -z C:
+sdelete -accepteula -nobanner -q -z C:

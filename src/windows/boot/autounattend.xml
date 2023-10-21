@@ -37,7 +37,7 @@
             </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
-%{ for image_name in image_names ~}
+%{ for image_name in compact([lookup(core, "image_name", "")]) ~}
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
@@ -54,7 +54,7 @@
             <UserData>
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
-%{ for product_key in product_keys ~}
+%{ for product_key in compact([lookup(core, "product_key", "")]) ~}
                     <Key>${product_key}</Key>
 %{ endfor ~}
                 </ProductKey>

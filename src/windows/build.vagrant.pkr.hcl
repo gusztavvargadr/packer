@@ -18,10 +18,7 @@ locals {
 build {
   name = "vagrant"
 
-  source "null.core" {
-  }
-
-  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.provider, "")]) : []
+  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.provider, "")]) : [ "null.core" ]
 
   provisioner "powershell" {
     inline = ["mkdir -Force ${local.packer_destination}"]
