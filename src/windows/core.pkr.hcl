@@ -85,10 +85,12 @@ locals {
       local.image_options.core.iso_url_remote
     ]
     iso_checksum = local.image_options.core.iso_checksum
-    cd_content = {
+    cd_content = merge({
       "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", { core = local.image_options.core })
       "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", { core = local.image_options.core })
-    }
+    }, {
+      for setup_script in compact([lookup(local.image_options.core, "setup_script", "")]) : setup_script => file("${path.cwd}/${setup_script}")
+    })
 
     boot_command     = local.core_build ? ["<enter><wait><enter><wait><enter>"] : []
     boot_wait        = "1s"

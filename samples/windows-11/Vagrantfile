@@ -1,3 +1,6 @@
+provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
+provider = provider == "vmware_desktop" ? "vmware" : provider
+
 Vagrant.configure("2") do |config|
   config.vm.define "default", primary: true do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-11"
@@ -13,6 +16,21 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "insider-preview-enterprise", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr/windows-11-insider-preview-enterprise"
+  end
+
+  config.vm.define "local-22h2-enterprise", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-11-22h2-enterprise"
+    config_vm.vm.box_url = "file://./artifacts/w1122h2e/#{provider}-vagrant/vagrant/vagrant.box"
+  end
+
+  config.vm.define "local-21h2-enterprise", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-11-21h2-enterprise"
+    config_vm.vm.box_url = "file://./artifacts/w1121h2e/#{provider}-vagrant/vagrant/vagrant.box"
+  end
+
+  config.vm.define "local-insider-preview-enterprise", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-11-insider-preview-enterprise"
+    config_vm.vm.box_url = "file://./artifacts/w11ipe/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.provision "shell", inline: <<-EOH

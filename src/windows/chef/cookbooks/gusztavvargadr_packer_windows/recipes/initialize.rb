@@ -77,7 +77,10 @@ remote_file sdelete_executable_target do
 end
 
 if vbox?
-  vbox_guest_additions_installed = powershell_out('(Get-WmiObject -Class Win32_Product | Where-Object -Property Name -Like "*VirtualBox*").Count').stdout.strip != '0'
+  chocolatey_version = powershell_out('choco --version').stdout.strip
+  chocolatey_list_command = chocolatey_version.start_with?('1') ? 'choco list -li' : 'choco list -i'
+  vbox_guest_additions_installed = powershell_out(chocolatey_list_command).stdout.downcase.include? 'virtualbox'
+
   unless vbox_guest_additions_installed
     reboot 'vbox' do
       action :nothing

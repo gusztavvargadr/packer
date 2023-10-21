@@ -1,8 +1,3 @@
-ENV["VAGRANT_PROVIDER_CPUS"] = ""
-ENV["VAGRANT_PROVIDER_MEMORY"] = ""
-
-load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
-
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
 provider = provider == "vmware_desktop" ? "vmware" : provider
 

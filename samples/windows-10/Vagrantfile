@@ -1,8 +1,3 @@
-ENV["VAGRANT_PROVIDER_CPUS"] = ""
-ENV["VAGRANT_PROVIDER_MEMORY"] = ""
-
-load "#{File.dirname(__FILE__)}/../../lib/gusztavvargadr/chef/src/kitchen.Vagrantfile"
-
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
 provider = provider == "vmware_desktop" ? "vmware" : provider
 
@@ -34,6 +29,21 @@ Vagrant.configure("2") do |config|
   config.vm.define "local-22h2-enterprise", autostart: false do |config_vm|
     config_vm.vm.box = "gusztavvargadr-local/windows-10-22h2-enterprise"
     config_vm.vm.box_url = "file://./artifacts/w1022h2e/#{provider}-vagrant/vagrant/vagrant.box"
+  end
+
+  config.vm.define "local-21h2-enterprise", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-10-21h2-enterprise"
+    config_vm.vm.box_url = "file://./artifacts/w1021h2e/#{provider}-vagrant/vagrant/vagrant.box"
+  end
+
+  config.vm.define "local-21h2-enterprise-ltsc", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-10-21h2-enterprise-ltsc"
+    config_vm.vm.box_url = "file://./artifacts/w1021h2eltsc/#{provider}-vagrant/vagrant/vagrant.box"
+  end
+
+  config.vm.define "local-1809-enterprise-ltsc", autostart: false do |config_vm|
+    config_vm.vm.box = "gusztavvargadr-local/windows-10-1809-enterprise-ltsc"
+    config_vm.vm.box_url = "file://./artifacts/w101809eltsc/#{provider}-vagrant/vagrant/vagrant.box"
   end
 
   config.vm.provision "shell", inline: <<-EOH
