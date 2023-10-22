@@ -1,3 +1,5 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
 provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
 provider = provider == "vmware_desktop" ? "vmware" : provider
 
@@ -36,5 +38,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
     systeminfo
+    Get-ComputerInfo
+    choco list -i
   EOH
 end
