@@ -80,11 +80,11 @@ locals {
     cpus      = 4
     memory    = 8192
     disk_size = 130048
-    iso_urls = [
+    iso_urls = local.core_iso ? [
       "${local.downloads_directory}/${local.image_options.core.iso_url_local}",
       local.image_options.core.iso_url_remote
-    ]
-    iso_checksum = local.image_options.core.iso_checksum
+    ] : []
+    iso_checksum = local.core_iso ? local.image_options.core.iso_checksum : ""
     cd_content = merge({
       "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", { core = local.image_options.core })
       "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", { core = local.image_options.core })
@@ -119,7 +119,7 @@ locals {
 }
 
 locals {
-  core_build_import_directory    = local.core_build ? "${path.cwd}/../${lookup(local.image_options.core, "parent_type", "")}/artifacts/${lookup(local.image_options.core, "parent_configuration", "")}/${local.provider}-core" : ""
+  core_build_import_directory    = local.core_build ? "${path.cwd}/../${lookup(local.image_options.core, "import_directory", "")}/artifacts/${lookup(local.image_options.core, "import_image", "")}/${local.provider}-core" : ""
   vagrant_build_import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${local.name}/${local.provider}-core" : ""
   import_directory               = coalesce(local.core_build_import_directory, local.vagrant_build_import_directory)
 }

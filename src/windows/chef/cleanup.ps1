@@ -5,7 +5,7 @@ $ProgressPreference = 'SilentlyContinue'
   "$env:localappdata\temp\*",
   "$env:windir\logs",
   "$env:windir\panther",
-  "$env:windir\Temp\\Chef",
+  "$env:windir\Temp\Chef",
   "$env:programdata\Microsoft\Windows Defender\Scans\*"
 ) | % {
   try {
