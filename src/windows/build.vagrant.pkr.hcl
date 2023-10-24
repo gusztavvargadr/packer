@@ -15,10 +15,21 @@ locals {
   }
 }
 
-build {
-  name = "vagrant"
+source "file" "Vagrantfile" {
+  content = templatefile("${path.root}/vagrant/${local.provider}.Vagrantfile", { core = local.core_source_options })
+  target = "${local.artifacts_directory}/Vagrantfile"
+}
 
-  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.provider, "")]) : [ "null.core" ]
+build {
+  name = "vagrant-restore"
+
+  sources = ["file.Vagrantfile"]
+}
+
+build {
+  name = "vagrant-image"
+
+  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.provider, "")]) : ["null.core"]
 
   provisioner "powershell" {
     inline = ["mkdir -Force ${local.packer_destination}"]
@@ -31,7 +42,7 @@ build {
 
   post-processors {
     post-processor "vagrant" {
-      vagrantfile_template = "${path.root}/vagrant/${local.provider}.Vagrantfile"
+      vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
       output               = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
 

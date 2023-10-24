@@ -14,8 +14,8 @@ packer init $scriptDirectory
 # packer console  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" $scriptDirectory
 # exit
 
-packer validate  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "chef.*" $scriptDirectory
-packer build  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "chef.*" -force $scriptDirectory
+packer validate -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build)-restore.*" $scriptDirectory
+packer build  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build)-restore.*" -force $scriptDirectory
 
-packer validate -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build).*" $scriptDirectory
-packer build  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build).*" -force $scriptDirectory
+packer validate -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build)-image.*" $scriptDirectory
+packer build  -var-file="$($workDirectory)/images.pkrvars.hcl" -var image="$($image)" -var provider="$($provider)" -var build="$($build)" -only "$($build)-image.*" -force $scriptDirectory

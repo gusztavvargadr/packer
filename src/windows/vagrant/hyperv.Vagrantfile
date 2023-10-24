@@ -6,8 +6,8 @@ Vagrant.configure(2) do |config|
   config.winssh.shell = 'powershell'
 
   config.vm.provider 'hyperv' do |h|
-    h.cpus = 2
-    h.memory = 2048
+    h.cpus = ${core.cpus}
+    h.memory = ${core.memory}
     h.ip_address_timeout = 600
   end
 end

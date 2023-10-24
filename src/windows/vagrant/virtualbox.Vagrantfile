@@ -6,8 +6,8 @@ Vagrant.configure(2) do |config|
   config.winssh.shell = 'powershell'
 
   config.vm.provider 'virtualbox' do |vb|
-    vb.cpus = 2
-    vb.memory = 2048
+    vb.cpus = ${core.cpus}
+    vb.memory = ${core.memory}
   end
 
   config.vm.network :forwarded_port, guest: 3389, host: 53389, auto_correct: true

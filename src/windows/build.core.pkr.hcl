@@ -13,10 +13,9 @@ locals {
 }
 
 build {
-  name = "chef"
+  name = "core-restore"
 
-  source "null.core" {
-  }
+  sources = ["null.core"]
 
   provisioner "shell-local" {
     inline = [
@@ -27,9 +26,9 @@ build {
 }
 
 build {
-  name = "core"
+  name = "core-image"
 
-  sources = local.core_build ? (local.core_iso ? compact([lookup(local.core_iso_sources, local.provider, "")]) : compact([lookup(local.core_import_sources, local.provider, "")])) : [ "null.core" ]
+  sources = local.core_build ? (local.core_iso ? compact([lookup(local.core_iso_sources, local.provider, "")]) : compact([lookup(local.core_import_sources, local.provider, "")])) : ["null.core"]
 
   provisioner "powershell" {
     script = "${path.root}/chef/initialize.ps1"
