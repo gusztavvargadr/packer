@@ -6,9 +6,11 @@ Vagrant.configure(2) do |config|
   config.winssh.shell = 'powershell'
 
   config.vm.provider 'vmware_desktop' do |vw|
-    vw.cpus = ${core.cpus}
-    vw.memory = ${core.memory}
+    vw.cpus = ${options.cpus}
+    vw.memory = ${options.memory}
   end
 
-  config.vm.network :forwarded_port, guest: 3389, host: 53389, auto_correct: true
+%{ for port in options.ports ~}
+  config.vm.network :forwarded_port, guest: ${port}, host: ${50000 + port}, auto_correct: true
+%{ endfor ~}
 end

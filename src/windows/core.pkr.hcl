@@ -88,7 +88,7 @@ locals {
     cd_content = merge({
       "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", { core = local.image_options.core })
       "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", { core = local.image_options.core })
-    }, {
+      }, {
       for setup_script in compact([lookup(local.image_options.core, "setup_script", "")]) : setup_script => file("${path.cwd}/${setup_script}")
     })
 
@@ -97,6 +97,16 @@ locals {
     shutdown_command = local.core_build ? local.core_shutdown_command : local.vagrant_shutdown_command
     shutdown_timeout = "10m"
   }
+}
+
+locals {
+  vagrant_options_core = {
+    cpus   = 2
+    memory = 2048
+    ports  = [3389]
+  }
+  vagrant_options_image = lookup(local.image_options, "vagrant", {})
+  vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
 }
 
 locals {

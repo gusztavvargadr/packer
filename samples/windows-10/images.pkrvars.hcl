@@ -16,6 +16,10 @@ images = {
     vmware = {
       guest_os_type = "windows9-64"
     }
+
+    vagrant = {
+      memory = 4096
+    }
   }
 
   "21h2-enterprise" = {
@@ -34,6 +38,10 @@ images = {
 
     vmware = {
       guest_os_type = "windows9-64"
+    }
+
+    vagrant = {
+      memory = 4096
     }
   }
 
@@ -55,6 +63,10 @@ images = {
     vmware = {
       guest_os_type = "windows9-64"
     }
+
+    vagrant = {
+      memory = 4096
+    }
   }
 
   "1809-enterprise-ltsc" = {
@@ -74,6 +86,10 @@ images = {
 
     vmware = {
       guest_os_type = "windows9-64"
+    }
+
+    vagrant = {
+      memory = 4096
     }
   }
 }

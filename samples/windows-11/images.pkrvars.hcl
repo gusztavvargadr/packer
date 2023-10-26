@@ -17,6 +17,10 @@ images = {
     vmware = {
       guest_os_type = "windows11-64"
     }
+
+    vagrant = {
+      memory = 4096
+    }
   }
 
   "21h2-enterprise" = {
@@ -36,6 +40,10 @@ images = {
 
     vmware = {
       guest_os_type = "windows11-64"
+    }
+
+    vagrant = {
+      memory = 4096
     }
   }
 
@@ -57,6 +65,10 @@ images = {
 
     vmware = {
       guest_os_type = "windows11-64"
+    }
+
+    vagrant = {
+      memory = 4096
     }
   }
 }
