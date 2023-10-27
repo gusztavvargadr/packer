@@ -1,0 +1,20 @@
+#cloud-config
+autoinstall:
+  version: 1
+  storage:
+    layout:
+      name: lvm
+  apt:
+    primary:
+    - arches:
+      - default
+      uri: http://archive.ubuntu.com/ubuntu/
+  debconf-selections: |
+    choose-mirror-bin mirror/http/proxy string
+    tasksel tasksel/first multiselect standard, server
+  identity:
+    hostname: vagrant
+    username: vagrant
+    password: "$6$salt$Wn.xJNirqsUcUr6sujSSgg/mQwPqgPA2s0xrz3/.mYqDoLIvQGhMCNEY4cpdhM7Vlsn8hKKhDw1M7SLmyBqoE1"
+  ssh:
+    install-server: true

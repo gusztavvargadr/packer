@@ -15,7 +15,7 @@ locals {
     vmx_data = {
       firmware        = "efi"
       "vhv.enable"    = "FALSE"
-      "sata1.present" = "TRUE"
+      // "sata1.present" = "TRUE"
     }
     vmx_remove_ethernet_interfaces = local.core_build ? false : true
   }

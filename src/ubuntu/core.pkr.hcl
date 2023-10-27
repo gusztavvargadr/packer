@@ -83,10 +83,24 @@ locals {
       local.image_options.core.iso_url_remote
     ] : []
     iso_checksum   = local.core_iso ? local.image_options.core.iso_checksum : ""
-    http_directory = "${path.root}/boot/http"
+    http_directory = "${path.root}/boot"
 
-    boot_command     = local.core_build ? ["<wait><esc><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/${local.provider}.preseed.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=vagrant fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"] : []
-    boot_wait        = "5s"
+    // boot_command     = local.core_build ? ["<wait><esc><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/${local.provider}.preseed.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=vagrant fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"] : []
+    // boot_command     = local.core_build ? [
+    //   "<esc><wait>",
+    //   "set gfxpayload=keep<enter><wait>",
+	  //   "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
+    // 	"initrd /casper/initrd<enter><wait>",
+    //   "boot<enter>wait>",
+    // ] : []
+    boot_command     = local.core_build ? [
+      "<esc><wait>c<wait>",
+      "set gfxpayload=keep<enter><wait>",
+	    "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
+    	"initrd /casper/initrd<enter><wait>",
+      "boot<enter>wait>",
+    ] : []
+    boot_wait        = "2s"
     shutdown_command    = "echo 'vagrant' | sudo -S shutdown -P now"
     shutdown_timeout = "5m"
   }
