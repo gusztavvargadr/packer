@@ -1,27 +1,30 @@
 Vagrant.configure("2") do |config|
-  config.vm.define "default", primary: true do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/visual-studio"
+  config.vm.define "latest", primary: true do |config|
+    config.vm.box = "gusztavvargadr/visual-studio"
   end
 
-  config.vm.define "2022-community-windows-11", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/visual-studio-2022-community-windows-11"
+  config.vm.define "2022-community-windows-11", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/visual-studio-2022-community-windows-11"
   end
 
-  config.vm.define "2022-community-windows-10", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/visual-studio-2022-community-windows-10"
+  config.vm.define "2022-community-windows-10", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/visual-studio-2022-community-windows-10"
   end
 
-  config.vm.define "2019-community-windows-11", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/visual-studio-2019-community-windows-11"
+  config.vm.define "2019-community-windows-11", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/visual-studio-2019-community-windows-11"
   end
 
-  config.vm.define "2019-community-windows-10", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/visual-studio-2019-community-windows-10"
+  config.vm.define "2019-community-windows-10", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/visual-studio-2019-community-windows-10"
   end
 
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
     systeminfo
+    Get-ComputerInfo
+    choco list -i
+
     dotnet --info
   EOH
 end

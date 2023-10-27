@@ -1,95 +1,71 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
-provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
-provider = provider == "vmware_desktop" ? "vmware" : provider
-
 Vagrant.configure("2") do |config|
-  config.vm.define "windows", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-windows"
+  config.vm.define "windows", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-windows"
 
-    config_vm.vm.provision "shell", inline: <<-EOH
+    config.vm.provision "shell", inline: <<-EOH
       cmd /c ver
       systeminfo
       Get-ComputerInfo
       choco list -i
+
       docker version
       docker compose version
     EOH
   end
 
-  config.vm.define "community-windows-server", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server"
+  config.vm.define "community-windows-server", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-community-windows-server"
 
-    config_vm.vm.provision "shell", inline: <<-EOH
+    config.vm.provision "shell", inline: <<-EOH
       cmd /c ver
       systeminfo
       Get-ComputerInfo
       choco list -i
+
       docker version
       docker compose version
     EOH
   end
 
-  config.vm.define "community-windows-server-core", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-community-windows-server-core"
+  config.vm.define "community-windows-server-core", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-community-windows-server-core"
 
-    config_vm.vm.provision "shell", inline: <<-EOH
+    config.vm.provision "shell", inline: <<-EOH
       cmd /c ver
       systeminfo
       Get-ComputerInfo
       choco list -i
+
       docker version
       docker compose version
     EOH
   end
 
-  config.vm.define "local-community-windows-server", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/docker-community-windows-server"
-    config_vm.vm.box_url = "file://./artifacts/ws2022s-dc/#{provider}-vagrant/vagrant/vagrant.box"
+  config.vm.define "linux", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-linux"
 
-    config_vm.vm.provision "shell", inline: <<-EOH
-      cmd /c ver
-      systeminfo
-      Get-ComputerInfo
-      choco list -i
-      docker version
-      docker compose version
-    EOH
-  end
-
-  config.vm.define "local-community-windows-server-core", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/docker-community-windows-server-core"
-    config_vm.vm.box_url = "file://./artifacts/ws2022sc-dc/#{provider}-vagrant/vagrant/vagrant.box"
-
-    config_vm.vm.provision "shell", inline: <<-EOH
-      cmd /c ver
-      systeminfo
-      Get-ComputerInfo
-      choco list -i
-      docker version
-      docker compose version
-    EOH
-  end
-
-  config.vm.define "linux", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-linux"
-
-    config_vm.vm.provision "shell", inline: <<-EOH
+    config.vm.provision "shell", inline: <<-EOH
       uname -a
       lsb_release -a
-      lshw
+      lshw -short
+      apt list --installed
+
       docker version
       docker compose version
     EOH
   end
 
-  config.vm.define "community-ubuntu-server", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/docker-community-ubuntu-server"
+  config.vm.define "community-ubuntu-server", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-community-ubuntu-server"
 
-    config_vm.vm.provision "shell", inline: <<-EOH
+    config.vm.provision "shell", inline: <<-EOH
       uname -a
       lsb_release -a
-      lshw
+      lshw -short
+      apt list --installed
+
       docker version
       docker compose version
     EOH

@@ -1,51 +1,28 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
-provider = ENV["VAGRANT_DEFAULT_PROVIDER"]
-provider = provider == "vmware_desktop" ? "vmware" : provider
-
 Vagrant.configure("2") do |config|
-  config.vm.define "default", primary: true do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10"
+  config.vm.define "latest", primary: true do |config|
+    config.vm.box = "gusztavvargadr/windows-10"
   end
 
-  config.vm.define "22h2-enterprise", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-22h2-enterprise"
+  config.vm.define "22h2-enterprise", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/windows-10-22h2-enterprise"
   end
 
-  config.vm.define "22h2-enterprise-nocm", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-22h2-enterprise-nocm"
+  config.vm.define "22h2-enterprise-nocm", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/windows-10-22h2-enterprise-nocm"
   end
 
-  config.vm.define "21h2-enterprise", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-21h2-enterprise"
+  config.vm.define "21h2-enterprise", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/windows-10-21h2-enterprise"
   end
 
-  config.vm.define "21h2-enterprise-ltsc", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-21h2-enterprise-ltsc"
+  config.vm.define "21h2-enterprise-ltsc", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/windows-10-21h2-enterprise-ltsc"
   end
 
-  config.vm.define "1809-enterprise-ltsc", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-10-1809-enterprise-ltsc"
-  end
-
-  config.vm.define "local-22h2-enterprise", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/windows-10-22h2-enterprise"
-    config_vm.vm.box_url = "file://./artifacts/w1022h2e/#{provider}-vagrant/vagrant/vagrant.box"
-  end
-
-  config.vm.define "local-21h2-enterprise", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/windows-10-21h2-enterprise"
-    config_vm.vm.box_url = "file://./artifacts/w1021h2e/#{provider}-vagrant/vagrant/vagrant.box"
-  end
-
-  config.vm.define "local-21h2-enterprise-ltsc", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/windows-10-21h2-enterprise-ltsc"
-    config_vm.vm.box_url = "file://./artifacts/w1021h2eltsc/#{provider}-vagrant/vagrant/vagrant.box"
-  end
-
-  config.vm.define "local-1809-enterprise-ltsc", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr-local/windows-10-1809-enterprise-ltsc"
-    config_vm.vm.box_url = "file://./artifacts/w101809eltsc/#{provider}-vagrant/vagrant/vagrant.box"
+  config.vm.define "1809-enterprise-ltsc", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/windows-10-1809-enterprise-ltsc"
   end
 
   config.vm.provision "shell", inline: <<-EOH

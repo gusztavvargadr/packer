@@ -16,7 +16,7 @@ locals {
 }
 
 source "file" "Vagrantfile" {
-  content = templatefile("${path.root}/vagrant/${local.provider}.Vagrantfile", { options = local.vagrant_options })
+  content = templatefile("${path.root}/vagrant/template.Vagrantfile", { options = local.vagrant_options })
   target  = "${local.artifacts_directory}/Vagrantfile"
 }
 

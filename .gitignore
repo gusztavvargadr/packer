@@ -3,3 +3,4 @@ tools
 *.lock.json
 artifacts
 .vagrant
+.kitchen
