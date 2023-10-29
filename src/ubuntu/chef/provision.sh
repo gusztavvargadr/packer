@@ -1,6 +1,7 @@
-$ErrorActionPreference = 'Stop'
-$ProgressPreference = 'SilentlyContinue'
+#!/usr/bin/env bash
 
-cd C:/Windows/Temp/chef
+set -euo pipefail
 
-chef-client --local-mode
+cd /opt/packer-build/chef
+
+sudo CHEF_LICENSE="accept-silent" chef-client --local-mode

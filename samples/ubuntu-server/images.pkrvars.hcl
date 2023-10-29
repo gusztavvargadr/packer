@@ -10,7 +10,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Ubuntu_64"
     }
 
     vmware = {
@@ -29,7 +29,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Ubuntu_64"
     }
 
     vmware = {

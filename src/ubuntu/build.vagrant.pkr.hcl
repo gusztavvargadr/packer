@@ -35,22 +35,12 @@ build {
     environment_vars = [
       "HOME_DIR=/home/vagrant"
     ]
-    execute_command = "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
+    execute_command = "{{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     expect_disconnect = true
     scripts = [
-      "${path.root}/chef/scripts/shell-vagrant/sudoers.sh",
-      "${path.root}/chef/scripts/shell-vagrant/vagrant.sh"
+      "${path.root}/vagrant/vagrant.sh"
     ]
   }
-
-  // provisioner "powershell" {
-  //   inline = ["mkdir -Force ${local.packer_destination}"]
-  // }
-
-  // provisioner "file" {
-  //   source      = "${path.root}/vagrant/"
-  //   destination = local.packer_destination
-  // }
 
   post-processors {
     post-processor "vagrant" {

@@ -1,144 +1,54 @@
-windows_defender_exclusion '' do
-  paths ['C:\\']
-  action :add
-end
-
-reboot 'windows-uac' do
-  action :nothing
-end
-
-windows_uac '' do
-  enable_uac false
-  action :configure
-  notifies :request_reboot, 'reboot[windows-uac]', :immediately
-end
-
-registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System' do
-  values [{
-    name: 'LocalAccountTokenFilterPolicy',
-    type: :dword,
-    data: 1,
-  }]
-  recursive true
-  action :create
-end
-
-gusztavvargadr_windows_updates '' do
-  action :initialize
-end
-
-registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\Maintenance' do
-  values [{
-    name: 'MaintenanceDisabled',
-    type: :dword,
-    data: 1,
-  }]
-  recursive true
-  action :create
-end
-
-registry_key 'HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server' do
-  values [{
-    name: 'fDenyTSConnections',
-    type: :dword,
-    data: 0,
-  }]
-  recursive true
-  action :create
-end
-
-windows_firewall_rule 'Remote Desktop' do
-  direction :inbound
-  local_port '3389'
-  protocol 'TCP'
-  firewall_action :allow
-  action :create
-end
-
-sdelete_archive_source = 'https://download.sysinternals.com/files/SDelete.zip'
-sdelete_archive_target = "#{Chef::Config['file_cache_path']}/SDelete.zip"
-sdelete_archive_destination = "#{Chef::Config['file_cache_path']}/sdelete"
-sdelete_executable_source = "file:///#{Chef::Config['file_cache_path']}/sdelete/sdelete64.exe"
-sdelete_executable_target = "#{powershell_out('$env:SystemRoot').stdout.strip}/System32/sdelete.exe"
-
-remote_file sdelete_archive_target do
-  source sdelete_archive_source
-  action :create
-end
-
-archive_file sdelete_archive_target do
-  destination sdelete_archive_destination
-  action :extract
-end
-
-remote_file sdelete_executable_target do
-  source sdelete_executable_source
-  action :create
+if guest?
+  apt_update '' do
+    action :update
+  end
 end
 
 if vbox?
-  chocolatey_version = powershell_out('choco --version').stdout.strip
-  chocolatey_list_command = chocolatey_version.start_with?('1') ? 'choco list -li' : 'choco list -i'
-  vbox_guest_additions_installed = powershell_out(chocolatey_list_command).stdout.downcase.include? 'virtualbox'
+  apt_package [ 'build-essential', 'cryptsetup', 'libssl-dev', 'libreadline-dev', 'zlib1g-dev', 'linux-source', 'dkms', 'linux-headers-generic' ] do
+    action :install
+    notifies :run, 'bash[guest-additions]', :immediately
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
+  end
 
-  unless vbox_guest_additions_installed
-    reboot 'vbox' do
-      action :nothing
-    end
-
-    vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
-    vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
-    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
-
-    remote_file vbox_guest_additions_path do
-      source vbox_guest_additions_source
-      action :create
-    end
-
-    gusztavvargadr_windows_iso '' do
-      iso_path vbox_guest_additions_path
-      iso_drive_letter 'Z'
-      action :mount
-    end
-
-    powershell_script 'Install VirtualBox certificates' do
-      code <<-EOH
-        Start-Process "VBoxCertUtil.exe" "add-trusted-publisher vbox*.cer --root vbox*.cer" -Wait
-      EOH
-      cwd 'Z:/cert'
-      action :run
-    end
-
-    powershell_script 'Install VirtualBox Guest Additions' do
-      code <<-EOH
-        Start-Process "VBoxWindowsAdditions.exe" "/S" -Wait
-      EOH
-      cwd 'Z:'
-      action :run
-      notifies :request_reboot, 'reboot[vbox]', :immediately
-    end
-
-    gusztavvargadr_windows_iso '' do
-      iso_path vbox_guest_additions_path
-      iso_drive_letter 'Z'
-      action :dismount
-    end
+  bash 'guest-additions' do
+    code <<-EOH
+      HOME_DIR="${HOME_DIR:-/home/vagrant}";
+      VER="`cat $HOME_DIR/.vbox_version`";
+      ISO="VBoxGuestAdditions_$VER.iso";
+      wget http://download.virtualbox.org/virtualbox/$VER/$ISO
+      mkdir -p /tmp/vbox;
+      mount -o loop $HOME_DIR/$ISO /tmp/vbox;
+      sh /tmp/vbox/VBoxLinuxAdditions.run \
+          || echo "VBoxLinuxAdditions.run exited $? and is suppressed." \
+              "For more read https://www.virtualbox.org/ticket/12479";
+      umount /tmp/vbox;
+      rm -rf /tmp/vbox;
+      rm -f $HOME_DIR/*.iso;
+EOH
+    action :nothing
   end
 end
 
 if vmware?
-  reboot 'vmware' do
-    action :nothing
-  end
-
-  chocolatey_package 'vmware-tools' do
-    returns [0, 2, 3010]
+  apt_package [ 'open-vm-tools', 'open-vm-tools-desktop' ] do
     action :install
-    notifies :request_reboot, 'reboot[vmware]', :immediately
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end
 end
 
-reboot 'initialize' do
+if guest? && !vbox? && !vmware?
+  apt_package [ 'linux-image-virtual', 'linux-tools-virtual', 'linux-cloud-tools-virtual' ] do
+    action :install
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
+  end
+end
+
+reboot 'gusztavvargadr_packer_ubuntu' do
+  action :nothing
+end
+
+reboot 'gusztavvargadr_packer_ubuntu::initialize' do
   action :reboot_now
   only_if { reboot_pending? }
 end

@@ -7,10 +7,3 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure
 apt-get install -y xrdp
 systemctl enable xrdp
 usermod -aG ssl-cert xrdp
-
-case "$PACKER_BUILDER_TYPE" in
-vmware-iso)
-  apt-get -y install open-vm-tools-desktop;
-
-  reboot
-esac

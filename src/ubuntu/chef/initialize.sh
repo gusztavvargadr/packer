@@ -1,11 +1,13 @@
-$ErrorActionPreference = 'Stop'
-$ProgressPreference = 'SilentlyContinue'
+#!/usr/bin/env bash
 
-mkdir -Force C:/Windows/Temp/chef
+set -euo pipefail
 
-If ((Get-Command "chef-client" -ErrorAction Ignore).Count -eq 0) {
-  . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef -version 18.3.0
-  [Environment]::SetEnvironmentVariable("CHEF_LICENSE", "accept-silent", "Machine")
-}
+sudo mkdir -p /opt/packer-build/chef
+sudo chown -R ${SUDO_USER:-${USER}} /opt/packer-build/chef
 
-shutdown /r /t 10
+if ! [ -x "$(command -v chef-client)" ]; then
+  curl -Ls https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chef -v 18.3.0
+  sudo apt-mark hold chef
+fi
+
+sudo reboot

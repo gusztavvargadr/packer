@@ -12,9 +12,20 @@ autoinstall:
   debconf-selections: |
     choose-mirror-bin mirror/http/proxy string
     tasksel tasksel/first multiselect standard, server
+  packages:
+    - apt-transport-https
+    - linux-tools-generic
+    - linux-cloud-tools-generic
+    - linux-cloud-tools-common
   identity:
     hostname: vagrant
     username: vagrant
-    password: "$6$salt$Wn.xJNirqsUcUr6sujSSgg/mQwPqgPA2s0xrz3/.mYqDoLIvQGhMCNEY4cpdhM7Vlsn8hKKhDw1M7SLmyBqoE1"
+    password: "$6$vagrant$aYdZwu4306HGdE39rROOrbSnB8G1Jser5zc9VMESSr8PouIZdgoO.OYQsFTOHXRXSYzB1oCD7571llAG6WR15."
   ssh:
     install-server: true
+  user-data:
+    users:
+      - name: vagrant
+        shell: /bin/bash
+        groups: sudo
+        sudo: ALL=(ALL) NOPASSWD:ALL

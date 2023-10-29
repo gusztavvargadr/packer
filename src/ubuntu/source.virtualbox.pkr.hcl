@@ -13,7 +13,7 @@ locals {
     firmware             = "efi"
     nested_virt          = false
     hard_drive_interface = "sata"
-    gfx_controller       = "vboxsvga"
+    gfx_controller       = "vmsvga"
     gfx_vram_size        = 64
     post_shutdown_delay  = "5s"
   }
@@ -28,12 +28,12 @@ source "virtualbox-iso" "core" {
   headless         = local.virtualbox_iso_source_options.headless
   output_directory = local.virtualbox_iso_source_options.output_directory
 
-  cpus         = local.virtualbox_iso_source_options.cpus
-  memory       = local.virtualbox_iso_source_options.memory
-  disk_size    = local.virtualbox_iso_source_options.disk_size
-  iso_urls     = local.virtualbox_iso_source_options.iso_urls
-  iso_checksum = local.virtualbox_iso_source_options.iso_checksum
-  cd_content   = local.virtualbox_iso_source_options.cd_content
+  cpus           = local.virtualbox_iso_source_options.cpus
+  memory         = local.virtualbox_iso_source_options.memory
+  disk_size      = local.virtualbox_iso_source_options.disk_size
+  iso_urls       = local.virtualbox_iso_source_options.iso_urls
+  iso_checksum   = local.virtualbox_iso_source_options.iso_checksum
+  http_directory = local.virtualbox_iso_source_options.http_directory
 
   guest_os_type        = local.virtualbox_iso_source_options.guest_os_type
   guest_additions_mode = local.virtualbox_iso_source_options.guest_additions_mode
@@ -42,7 +42,6 @@ source "virtualbox-iso" "core" {
   hard_drive_interface = local.virtualbox_iso_source_options.hard_drive_interface
   gfx_controller       = local.virtualbox_iso_source_options.gfx_controller
   gfx_vram_size        = local.virtualbox_iso_source_options.gfx_vram_size
-  post_shutdown_delay  = local.virtualbox_iso_source_options.post_shutdown_delay
 
   boot_command     = local.virtualbox_iso_source_options.boot_command
   boot_wait        = local.virtualbox_iso_source_options.boot_wait
@@ -53,9 +52,6 @@ source "virtualbox-iso" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }
 
 locals {
@@ -70,7 +66,6 @@ source "virtualbox-ovf" "core" {
   source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.ovf"))}"
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
-  post_shutdown_delay  = local.virtualbox_ovf_source_options.post_shutdown_delay
 
   boot_command     = local.virtualbox_ovf_source_options.boot_command
   boot_wait        = local.virtualbox_ovf_source_options.boot_wait
@@ -81,7 +76,4 @@ source "virtualbox-ovf" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }

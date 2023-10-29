@@ -67,8 +67,8 @@ locals {
 }
 
 locals {
-  artifacts_directory      = "${path.cwd}/artifacts/${local.name}/${local.provider}-${local.build}"
-  iso_name                 = lookup(local.image_options.core, "iso_name", "")
+  artifacts_directory = "${path.cwd}/artifacts/${local.name}/${local.provider}-${local.build}"
+  iso_name            = lookup(local.image_options.core, "iso_name", "")
 
   core_source_options = {
     vm_name          = "${local.author}-${local.name}-${local.version}-${local.timestamp}"
@@ -85,23 +85,15 @@ locals {
     iso_checksum   = local.core_iso ? local.image_options.core.iso_checksum : ""
     http_directory = "${path.root}/boot"
 
-    // boot_command     = local.core_build ? ["<wait><esc><wait>set gfxpayload=1024x768<enter>linux /install/vmlinuz preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/${local.provider}.preseed.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=vagrant fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <enter>initrd /install/initrd.gz<enter>boot<enter>"] : []
-    // boot_command     = local.core_build ? [
-    //   "<esc><wait>",
-    //   "set gfxpayload=keep<enter><wait>",
-	  //   "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
-    // 	"initrd /casper/initrd<enter><wait>",
-    //   "boot<enter>wait>",
-    // ] : []
-    boot_command     = local.core_build ? [
-      "<esc><wait>c<wait>",
+    boot_command = local.core_build ? [
+      "c<wait>",
       "set gfxpayload=keep<enter><wait>",
-	    "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
-    	"initrd /casper/initrd<enter><wait>",
+      "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
+      "initrd /casper/initrd<enter><wait>",
       "boot<enter>wait>",
     ] : []
     boot_wait        = "2s"
-    shutdown_command    = "echo 'vagrant' | sudo -S shutdown -P now"
+    shutdown_command = "echo 'vagrant' | sudo -S shutdown -P now"
     shutdown_timeout = "5m"
   }
 }
@@ -126,13 +118,13 @@ locals {
 }
 
 locals {
-  chef_destination         = "C:/Windows/Temp/chef/"
+  chef_destination         = "/opt/packer-build/chef/"
   chef_max_retries         = 10
   chef_start_retry_timeout = "30m"
 }
 
 locals {
-  packer_destination = "C:/Windows/Temp/packer/"
+  packer_destination = "/opt/packer-build/core/"
 }
 
 locals {
