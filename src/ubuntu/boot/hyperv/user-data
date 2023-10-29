@@ -5,18 +5,12 @@ autoinstall:
     layout:
       name: lvm
   apt:
-    primary:
-    - arches:
-      - default
-      uri: http://archive.ubuntu.com/ubuntu/
-  debconf-selections: |
-    choose-mirror-bin mirror/http/proxy string
-    tasksel tasksel/first multiselect standard, server
+    geoip: false
   packages:
-    - apt-transport-https
-    - linux-tools-generic
-    - linux-cloud-tools-generic
-    - linux-cloud-tools-common
+    - net-tools
+    - linux-image-virtual
+    - linux-tools-virtual
+    - linux-cloud-tools-virtual
   identity:
     hostname: vagrant
     username: vagrant
