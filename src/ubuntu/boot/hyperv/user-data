@@ -7,7 +7,6 @@ autoinstall:
   apt:
     geoip: false
   packages:
-    - net-tools
     - linux-image-virtual
     - linux-tools-virtual
     - linux-cloud-tools-virtual

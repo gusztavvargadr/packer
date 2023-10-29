@@ -7,7 +7,6 @@ autoinstall:
   apt:
     geoip: false
   packages:
-    - net-tools
   identity:
     hostname: vagrant
     username: vagrant

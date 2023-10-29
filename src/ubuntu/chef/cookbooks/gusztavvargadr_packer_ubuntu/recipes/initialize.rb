@@ -6,7 +6,7 @@ end
 
 if vbox?
   apt_package [ 'build-essential', 'cryptsetup', 'libssl-dev', 'libreadline-dev', 'zlib1g-dev', 'linux-source', 'dkms', 'linux-headers-generic' ] do
-    action :install
+    action :upgrade
     notifies :run, 'bash[guest-additions]', :immediately
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end
@@ -32,14 +32,19 @@ end
 
 if vmware?
   apt_package [ 'open-vm-tools', 'open-vm-tools-desktop' ] do
-    action :install
+    action :upgrade
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end
 end
 
 if guest? && !vbox? && !vmware?
   apt_package [ 'linux-image-virtual', 'linux-tools-virtual', 'linux-cloud-tools-virtual' ] do
-    action :install
+    action :upgrade
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
+  end
+
+  apt_package [ 'linux-tools-generic', 'linux-cloud-tools-generic' ] do
+    action :upgrade
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end
 end
