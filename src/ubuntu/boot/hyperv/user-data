@@ -4,14 +4,17 @@ autoinstall:
   storage:
     layout:
       name: lvm
+      sizing-policy: all
   apt:
     geoip: false
   packages:
     - linux-image-virtual
     - linux-tools-virtual
     - linux-cloud-tools-virtual
+  timezone: UTC
   identity:
     hostname: vagrant
+    realname: vagrant
     username: vagrant
     password: "$6$vagrant$aYdZwu4306HGdE39rROOrbSnB8G1Jser5zc9VMESSr8PouIZdgoO.OYQsFTOHXRXSYzB1oCD7571llAG6WR15."
   ssh:

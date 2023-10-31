@@ -36,7 +36,7 @@ EOH
   action :run
 end
 
-apt_package [ 'net-tools', 'apt-transport-https', 'ntp', 'rsync', 'cifs-utils', 'nfs-common', 'perl',  'software-properties-common', 'ifupdown', 'build-essential' ] do
+apt_package [ 'net-tools', 'apt-transport-https', 'ntp', 'rsync', 'cifs-utils', 'nfs-common', 'perl', 'software-properties-common', 'ifupdown', 'build-essential' ] do
   action :upgrade
 end
 
