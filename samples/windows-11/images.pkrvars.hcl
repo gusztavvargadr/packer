@@ -11,7 +11,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows10_64"
+      guest_os_type = "Windows11_64"
     }
 
     vmware = {
@@ -35,7 +35,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows10_64"
+      guest_os_type = "Windows11_64"
     }
 
     vmware = {
@@ -59,7 +59,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows10_64"
+      guest_os_type = "Windows11_64"
     }
 
     vmware = {
@@ -84,7 +84,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows10_64"
+      guest_os_type = "Windows11_64"
     }
 
     vmware = {
