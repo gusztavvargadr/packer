@@ -1,6 +1,12 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
 Vagrant.configure("2") do |config|
   config.vm.define "latest", primary: true do |config|
     config.vm.box = "gusztavvargadr/ubuntu-server"
+  end
+
+  config.vm.define "2204-lts", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/ubuntu-server-2204-lts"
   end
 
   config.vm.define "2004-lts", autostart: false do |config|

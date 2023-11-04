@@ -13,18 +13,17 @@ if vbox?
 
   bash 'guest-additions' do
     code <<-EOH
-      HOME_DIR="${HOME_DIR:-/home/vagrant}";
-      VER="`cat $HOME_DIR/.vbox_version`";
+      VER="`cat /home/vagrant/.vbox_version`";
       ISO="VBoxGuestAdditions_$VER.iso";
       wget http://download.virtualbox.org/virtualbox/$VER/$ISO
       mkdir -p /tmp/vbox;
-      mount -o loop $HOME_DIR/$ISO /tmp/vbox;
+      mount -o loop $ISO /tmp/vbox;
       sh /tmp/vbox/VBoxLinuxAdditions.run \
           || echo "VBoxLinuxAdditions.run exited $? and is suppressed." \
               "For more read https://www.virtualbox.org/ticket/12479";
       umount /tmp/vbox;
       rm -rf /tmp/vbox;
-      rm -f $HOME_DIR/*.iso;
+      rm -f *.iso;
 EOH
     action :nothing
   end
