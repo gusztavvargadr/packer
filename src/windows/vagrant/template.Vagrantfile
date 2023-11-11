@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}
 
-%{ for port in options.ports ~}
+%{ for port in compact(split(",", options.ports)) ~}
     override.vm.network :forwarded_port, guest: ${port}, host: ${50000 + port}, auto_correct: true
 %{ endfor ~}
   end
@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}
 
-%{ for port in options.ports ~}
+%{ for port in compact(split(",", options.ports)) ~}
     override.vm.network :forwarded_port, guest: ${port}, host: ${50000 + port}, auto_correct: true
 %{ endfor ~}
   end

@@ -9,7 +9,7 @@ variable "author" {
 
 variable "version" {
   type    = string
-  default = "2310v2"
+  default = "2311"
 }
 
 variable "image" {
@@ -85,13 +85,14 @@ locals {
     iso_checksum   = local.core_iso ? local.image_options.core.iso_checksum : ""
     http_directory = "${path.root}/boot"
 
-    boot_command = local.core_build ? [
+    # only if parent is iso
+    boot_command = local.core_build ? (local.core_iso ? [
       "c<wait>",
       "set gfxpayload=keep<enter><wait>",
       "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
       "initrd /casper/initrd<enter><wait>",
       "boot<enter>wait>",
-    ] : []
+    ] : []) : []
     boot_wait        = "2s"
     shutdown_command = "echo 'vagrant' | sudo -S shutdown -P now"
     shutdown_timeout = "5m"
@@ -100,9 +101,9 @@ locals {
 
 locals {
   vagrant_options_core = {
-    cpus   = 2
-    memory = 2048
-    ports  = []
+    cpus   = "2"
+    memory = "2048"
+    ports  = ""
   }
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)

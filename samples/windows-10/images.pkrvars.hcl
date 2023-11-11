@@ -18,7 +18,7 @@ images = {
     }
 
     vagrant = {
-      memory = 4096
+      memory = "4096"
     }
   }
 
@@ -41,7 +41,7 @@ images = {
     }
 
     vagrant = {
-      memory = 4096
+      memory = "4096"
     }
   }
 
@@ -65,7 +65,7 @@ images = {
     }
 
     vagrant = {
-      memory = 4096
+      memory = "4096"
     }
   }
 
@@ -89,7 +89,7 @@ images = {
     }
 
     vagrant = {
-      memory = 4096
+      memory = "4096"
     }
   }
 }

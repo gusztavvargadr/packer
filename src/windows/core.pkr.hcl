@@ -9,7 +9,7 @@ variable "author" {
 
 variable "version" {
   type    = string
-  default = "2310v2"
+  default = "2311"
 }
 
 variable "image" {
@@ -92,7 +92,7 @@ locals {
       for setup_script in compact([lookup(local.image_options.core, "setup_script", "")]) : setup_script => file("${path.cwd}/${setup_script}")
     })
 
-    boot_command     = local.core_build ? ["<enter><wait><enter><wait><enter>"] : []
+    boot_command     = local.core_build ? (local.core_iso ? ["<enter><wait><enter><wait><enter>"] : []) : []
     boot_wait        = "1s"
     shutdown_command = local.core_build ? local.core_shutdown_command : local.vagrant_shutdown_command
     shutdown_timeout = "10m"
@@ -101,9 +101,9 @@ locals {
 
 locals {
   vagrant_options_core = {
-    cpus   = 2
-    memory = 2048
-    ports  = [3389]
+    cpus   = "2"
+    memory = "2048"
+    ports  = "3389"
   }
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
