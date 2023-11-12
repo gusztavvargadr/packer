@@ -1,3 +1,3 @@
-gusztavvargadr_windows_updates '' do
+gusztavvargadr_windows_update '' do
   action :install
 end

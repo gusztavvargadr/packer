@@ -43,7 +43,7 @@ build {
   provisioner "shell" {
     script              = "${path.root}/chef/provision.sh"
     max_retries         = local.chef_max_retries
-    pause_before        = "30s"
+    pause_before        = "1m"
     start_retry_timeout = local.chef_start_retry_timeout
   }
 

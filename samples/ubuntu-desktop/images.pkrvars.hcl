@@ -10,7 +10,7 @@ images = {
 
     vagrant = {
       memory = "4096"
-      ports = "3389"
+      ports  = "3389"
     }
   }
 
@@ -25,7 +25,7 @@ images = {
 
     vagrant = {
       memory = "4096"
-      ports = "3389"
+      ports  = "3389"
     }
   }
 }

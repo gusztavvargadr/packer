@@ -18,7 +18,7 @@ powershell_script 'Clearing temporary files' do
   not_if { reboot_pending? }
 end
 
-gusztavvargadr_windows_updates '' do
+gusztavvargadr_windows_update '' do
   action :cleanup
   not_if { reboot_pending? }
 end

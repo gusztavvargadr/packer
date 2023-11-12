@@ -45,7 +45,7 @@ build {
   provisioner "powershell" {
     script              = "${path.root}/chef/provision.ps1"
     max_retries         = local.chef_max_retries
-    pause_before        = "1m0s"
+    pause_before        = "1m"
     start_retry_timeout = local.chef_start_retry_timeout
 
     elevated_user     = local.communicator.username

@@ -23,7 +23,7 @@ registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\
   action :create
 end
 
-gusztavvargadr_windows_updates '' do
+gusztavvargadr_windows_update '' do
   action :initialize
 end
 

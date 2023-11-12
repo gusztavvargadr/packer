@@ -72,6 +72,8 @@ source "hyperv-vmcx" "core" {
   headless         = local.hyperv_vmcx_source_options.headless
   output_directory = local.hyperv_vmcx_source_options.output_directory
 
+  cpus                 = local.hyperv_vmcx_source_options.cpus
+  memory               = local.hyperv_vmcx_source_options.memory
   clone_from_vmcx_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.vmcx"))}"
 
   generation                       = local.hyperv_vmcx_source_options.generation
