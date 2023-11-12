@@ -2,7 +2,7 @@
 
 **Contents** [TL;DR] | [Overview] | [Getting started] | [Usage] | [Next steps] | [Contributing] | [Resources]  
 
-This repository contains [Packer] samples for [Docker], [IIS], [SQL Server] and [Visual Studio] on [Windows] and [Ubuntu], building virtual machine images and [Vagrant] boxes for [VirtualBox], [VMware] and [Hyper-V], provisioned with [Chef].
+This repository contains [Packer] samples for creating [Windows] and [Ubuntu] images in various development scenarios.
 
 ## TL;DR
 
@@ -18,7 +18,7 @@ This repository contains [Packer] samples for [Docker], [IIS], [SQL Server] and 
 
 > **Note** This section covers the details of the published [Vagrant boxes] this repository builds. See the [Getting started] section to build your own virtual machine images. See [virtual workstations] for samples of automating the configuration of your development environments using them and [these][BlogWhy] [blogs][BlogHow] for more background and motivation.  
 
-This repository contains [Packer] sample templates for the following virtualization scenarios:
+This repository contains [Packer] samples for:
 
   - [Operating systems] for generic experiments with [Windows] and [Ubuntu].
   - [Hosting] using [Docker], [IIS] and [SQL Server].
@@ -62,8 +62,8 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 [Sample usage][windows-server-sample-usage]
 
-- [Windows Server **Default**][windows-server-default-box]
-- [Windows Server **Default Core**][windows-server-default-core-box]
+- [Windows Server **Latest**][windows-server-default-box]
+- [Windows Server **Latest Core**][windows-server-default-core-box]
 - [Windows Server **2022 Standard**][windows-server-2022-standard-box]
 - [Windows Server **2022 Standard** No Configuration Management][windows-server-2022-standard-nocm-box]
 - [Windows Server **2022 Standard Core**][windows-server-2022-standard-core-box]

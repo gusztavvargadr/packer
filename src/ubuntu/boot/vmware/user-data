@@ -5,6 +5,7 @@ autoinstall:
     layout:
       name: lvm
       sizing-policy: all
+      # check this for 2004
   apt:
     geoip: false
   packages:
