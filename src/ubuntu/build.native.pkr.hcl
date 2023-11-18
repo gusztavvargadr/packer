@@ -52,6 +52,7 @@ locals {
   chef_destination         = "/opt/packer-build/chef/"
   chef_max_retries         = 10
   chef_start_retry_timeout = "30m"
+  chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
 }
 
 build {
@@ -69,16 +70,26 @@ build {
     destination = local.chef_destination
   }
 
+  provisioner "file" {
+    sources      = fileset(path.cwd, "attributes.*.json")
+    destination = local.chef_destination
+  }
+
   provisioner "shell" {
     script              = "${path.root}/chef/provision.sh"
     max_retries         = local.chef_max_retries
     pause_before        = "1m"
     start_retry_timeout = local.chef_start_retry_timeout
+
+    env = {
+      CHEF_ATTRIBUTES = local.chef_attributes
+    }
   }
 
   provisioner "shell" {
     execute_command   = "{{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     expect_disconnect = true
+
     scripts = [
       "${path.root}/chef/scripts/shell-configure/sshd.sh",
       "${path.root}/chef/scripts/shell-configure/networking.sh",
@@ -88,6 +99,7 @@ build {
   provisioner "shell" {
     execute_command   = "{{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     expect_disconnect = true
+
     scripts = [
       "${path.root}/chef/scripts/shell-cleanup/cleanup.sh",
       "${path.root}/chef/scripts/shell-cleanup/minimize.sh",

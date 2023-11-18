@@ -106,7 +106,6 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 - [Windows 10 **Latest**][windows-10-latest-box]
 - [Windows 10 **Version 22H2 Enterprise**][windows-10-22h2-enterprise-box]
-- [Windows 10 **Version 22H2 Enterprise** No Configuration Management][windows-10-22h2-enterprise-nocm-box]
 - [Windows 10 **Version 21H2 Enterprise**][windows-10-21h2-enterprise-box]
 - [Windows 10 **Version 21H2 Enterprise LTSC**][windows-10-21h2-enterprise-ltsc-box]
 - [Windows 10 **Version 1809 Enterprise LTSC**][windows-10-1809-enterprise-ltsc-box]
@@ -115,7 +114,6 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 
 [windows-10-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10/
 [windows-10-22h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-22h2-enterprise/
-[windows-10-22h2-enterprise-nocm-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-22h2-enterprise-nocm/
 [windows-10-21h2-enterprise-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise/
 [windows-10-21h2-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise-ltsc/
 [windows-10-1809-enterprise-ltsc-box]: https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-1809-enterprise-ltsc/
@@ -168,22 +166,22 @@ The following Vagrant boxes can be used for hosting scenarios. They contain the 
 - [Docker **Community** on **Windows Server**][docker-community-windows-server-box]
 - [Docker **Community** on **Windows Server Core**][docker-community-windows-server-core-box]
 
-[docker-sample-usage]: ./samples/docker/
+[docker-windows-sample-usage]: ./samples/docker-windows/
 
 [docker-windows-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows/
 [docker-community-windows-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server/
 [docker-community-windows-server-core-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server-core/
 
-##### Docker Ubuntu
+##### Docker Linux
 
-[Sample usage][docker-sample-usage]
+[Sample usage][docker-linux-sample-usage]
 
-- [Docker Ubuntu **Latest**][docker-ubuntu-latest-box]
+- [Docker Linux **Latest**][docker-linux-latest-box]
 - [Docker **Community** on **Ubuntu Server**][docker-community-ubuntu-server-box]
 
-[docker-sample-usage]: ./samples/docker/
+[docker-linux-sample-usage]: ./samples/docker-linux/
 
-[docker-ubuntu-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
+[docker-linux-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-linux/
 [docker-community-ubuntu-server-box]: https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-ubuntu-server/
 
 #### IIS
