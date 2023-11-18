@@ -24,6 +24,5 @@ Vagrant.configure(2) do |config|
   config.vm.provider 'hyperv' do |provider, _override|
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}
-    provider.ip_address_timeout = 300
   end
 end

@@ -16,9 +16,9 @@ locals {
 
   communicator = {
     type     = "ssh"
-    username = "vagramt"
+    username = "vagrant"
     password = "vagrant"
-    timeout  = "15m"
+    timeout  = "30m"
   }
 
   native_build  = var.build == "native"
