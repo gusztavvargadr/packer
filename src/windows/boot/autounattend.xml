@@ -12,7 +12,7 @@
             <UserLocale>en-US</UserLocale>
         </component>
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-%{ for setup_script in compact([lookup(core, "setup_script", "")]) ~}
+%{ for setup_script in compact([lookup(boot, "boot_setup_script", "")]) ~}
             <RunSynchronous>
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
@@ -46,7 +46,7 @@
             </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
-%{ for image_name in compact([lookup(core, "image_name", "")]) ~}
+%{ for image_name in compact([lookup(boot, "boot_image_name", "")]) ~}
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME </Key>
@@ -63,7 +63,7 @@
             <UserData>
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
-%{ for product_key in compact([lookup(core, "product_key", "")]) ~}
+%{ for product_key in compact([lookup(boot, "boot_product_key", "")]) ~}
                     <Key>${product_key}</Key>
 %{ endfor ~}
                 </ProductKey>

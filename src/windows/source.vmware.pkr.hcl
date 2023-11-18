@@ -17,12 +17,12 @@ locals {
       "vhv.enable"    = "FALSE"
       "sata1.present" = "TRUE"
     }
-    vmx_remove_ethernet_interfaces = local.core_build ? false : true
+    vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
 }
 
 locals {
-  vmware_iso_source_options = merge(local.core_source_options, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
 }
 
 source "vmware-iso" "core" {
@@ -53,13 +53,10 @@ source "vmware-iso" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }
 
 locals {
-  vmware_vmx_source_options = merge(local.core_source_options, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_vmx_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
 }
 
 source "vmware-vmx" "core" {
@@ -67,7 +64,7 @@ source "vmware-vmx" "core" {
   headless         = local.vmware_vmx_source_options.headless
   output_directory = local.vmware_vmx_source_options.output_directory
 
-  source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.vmx"))}"
+  source_path = "${local.vmware_vmx_source_options.import_directory}/${join("", fileset(local.vmware_vmx_source_options.import_directory, "**/*.vmx"))}"
 
   vmx_remove_ethernet_interfaces = local.vmware_vmx_source_options.vmx_remove_ethernet_interfaces
 
@@ -80,7 +77,4 @@ source "vmware-vmx" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }

@@ -20,7 +20,7 @@ locals {
 }
 
 locals {
-  virtualbox_iso_source_options = merge(local.core_source_options, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_iso_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
 }
 
 source "virtualbox-iso" "core" {
@@ -53,13 +53,10 @@ source "virtualbox-iso" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }
 
 locals {
-  virtualbox_ovf_source_options = merge(local.core_source_options, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_ovf_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
 }
 
 source "virtualbox-ovf" "core" {
@@ -67,7 +64,7 @@ source "virtualbox-ovf" "core" {
   headless         = local.virtualbox_ovf_source_options.headless
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
-  source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.ovf"))}"
+  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "**/*.ovf"))}"
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
   post_shutdown_delay  = local.virtualbox_ovf_source_options.post_shutdown_delay
@@ -81,7 +78,4 @@ source "virtualbox-ovf" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }

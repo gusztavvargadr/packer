@@ -28,7 +28,7 @@ locals {
 }
 
 locals {
-  hyperv_iso_source_options = merge(local.core_source_options, local.hyperv_source_options, lookup(local.image_options, "hyperv", {}))
+  hyperv_iso_source_options = merge(local.source_options_build, local.hyperv_source_options, lookup(local.image_options, "hyperv", {}))
 }
 
 source "hyperv-iso" "core" {
@@ -61,13 +61,10 @@ source "hyperv-iso" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }
 
 locals {
-  hyperv_vmcx_source_options = merge(local.core_source_options, local.hyperv_source_options, lookup(local.image_options, "hyperv", {}))
+  hyperv_vmcx_source_options = merge(local.source_options_build, local.hyperv_source_options, lookup(local.image_options, "hyperv", {}))
 }
 
 source "hyperv-vmcx" "core" {
@@ -77,7 +74,7 @@ source "hyperv-vmcx" "core" {
 
   cpus                 = local.hyperv_vmcx_source_options.cpus
   memory               = local.hyperv_vmcx_source_options.memory
-  clone_from_vmcx_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.vmcx"))}"
+  clone_from_vmcx_path = "${local.hyperv_vmcx_source_options.import_directory}/${join("", fileset(local.hyperv_vmcx_source_options.import_directory, "**/*.vmcx"))}"
 
   generation                       = local.hyperv_vmcx_source_options.generation
   configuration_version            = local.hyperv_vmcx_source_options.configuration_version
@@ -97,7 +94,4 @@ source "hyperv-vmcx" "core" {
   ssh_username   = local.communicator.username
   ssh_password   = local.communicator.password
   ssh_timeout    = local.communicator.timeout
-  winrm_username = local.communicator.username
-  winrm_password = local.communicator.password
-  winrm_timeout  = local.communicator.timeout
 }

@@ -13,6 +13,27 @@ locals {
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
   }
+
+  source_options_vagrant = {
+    iso_urls = []
+    iso_checksum = ""
+    cd_content = {}
+
+    import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${var.image}/${local.image_provider}-native" : ""
+
+    boot_command     = [ "" ]
+    shutdown_command = "C:/Windows/Temp/packer/shutdown.cmd"
+  }
+}
+
+locals {
+  vagrant_options_core = {
+    cpus   = "2"
+    memory = "2048"
+    ports  = "3389"
+  }
+  vagrant_options_image = lookup(local.image_options, "vagrant", {})
+  vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
 }
 
 source "file" "Vagrantfile" {
@@ -26,10 +47,14 @@ build {
   sources = ["file.Vagrantfile"]
 }
 
+locals {
+  packer_destination = "C:/Windows/Temp/packer/"
+}
+
 build {
   name = "vagrant-image"
 
-  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.provider, "")]) : ["null.core"]
+  sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.image_provider, "")]) : ["null.core"]
 
   provisioner "powershell" {
     inline = ["mkdir -Force ${local.packer_destination}"]

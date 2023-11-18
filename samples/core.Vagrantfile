@@ -2,7 +2,12 @@ box_url = ENV["VAGRANT_BOX_URL"]
 hyperv_network_bridge = ENV["VAGRANT_HYPERV_NETWORK_BRIDGE"] || "Default Switch"
 
 Vagrant.configure("2") do |config|
-  config.vm.box_url = box_url unless box_url.to_s.empty?
+  unless box_url.to_s.empty?
+    config.vm.define "local", primary: true do |config|
+      config.vm.box = "gusztavvargadr/local"
+      config.vm.box_url = box_url
+    end
+  end
 
   config.vm.provider "virtualbox" do |provider, _override|
     provider.linked_clone = false

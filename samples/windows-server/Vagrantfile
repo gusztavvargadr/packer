@@ -13,10 +13,6 @@ Vagrant.configure("2") do |config|
     config.vm.box = "gusztavvargadr/windows-server-2022-standard"
   end
 
-  config.vm.define "2022-standard-nocm", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/windows-server-2022-standard-nocm"
-  end
-
   config.vm.define "2022-standard-core", autostart: false do |config|
     config.vm.box = "gusztavvargadr/windows-server-2022-standard-core"
   end

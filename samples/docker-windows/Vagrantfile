@@ -1,0 +1,25 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "latest", primary: true do |config|
+    config.vm.box = "gusztavvargadr/docker-windows"
+  end
+
+  config.vm.define "community-windows-server", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-community-windows-server"
+  end
+
+  config.vm.define "community-windows-server-core", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/docker-community-windows-server-core"
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    cmd /c ver
+    systeminfo
+    Get-ComputerInfo
+    choco list -i
+
+    docker version
+    docker compose version
+  EOH
+end
