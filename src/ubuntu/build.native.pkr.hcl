@@ -1,19 +1,42 @@
 locals {
-  core_iso_sources = {
+  native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
     hyperv     = "hyperv-iso.core"
   }
 
-  core_import_sources = {
+  native_import_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
   }
+
+  native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")
+  downloads_directory = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
+
+  source_options_native = {
+    iso_urls = local.native_iso ? [
+      "${local.downloads_directory}/${local.image_options.native.source_iso_url_local}",
+      local.image_options.native.source_iso_url_remote
+    ] : []
+    iso_checksum   = local.native_iso ? local.image_options.native.source_iso_checksum : ""
+    http_directory = "${path.root}/boot"
+
+    import_directory = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}-native" : ""
+
+    boot_command = local.native_iso ? [
+      "c<wait>",
+      "set gfxpayload=keep<enter><wait>",
+      "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.image_provider}/'<enter><wait>",
+      "initrd /casper/initrd<enter><wait>",
+      "boot<enter>wait>",
+    ] : []
+    shutdown_command = "sudo -S shutdown -P now"
+  }
 }
 
 build {
-  name = "core-restore"
+  name = "native-restore"
 
   sources = ["null.core"]
 
@@ -25,10 +48,16 @@ build {
   }
 }
 
-build {
-  name = "core-image"
+locals {
+  chef_destination         = "/opt/packer-build/chef/"
+  chef_max_retries         = 10
+  chef_start_retry_timeout = "30m"
+}
 
-  sources = local.core_build ? (local.core_iso ? compact([lookup(local.core_iso_sources, local.provider, "")]) : compact([lookup(local.core_import_sources, local.provider, "")])) : ["null.core"]
+build {
+  name = "native-image"
+
+  sources = local.native_build ? (local.native_iso ? compact([lookup(local.native_iso_sources, local.image_provider, "")]) : compact([lookup(local.native_import_sources, local.image_provider, "")])) : ["null.core"]
 
   provisioner "shell" {
     script            = "${path.root}/chef/initialize.sh"

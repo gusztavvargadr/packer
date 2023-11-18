@@ -15,8 +15,6 @@ packer init $SCRIPT_DIRECTORY
 # packer console -var-file="${WORK_DIRECTORY}/images.pkrvars.hcl" -var image="${IMAGE}" -var provider="${PROVIDER}" -var build="${BUILD}" $SCRIPT_DIRECTORY
 # exit
 
-# CHEF-LICENSE
-
 packer validate -var-file="${WORK_DIRECTORY}/images.pkrvars.hcl" -var image="${IMAGE}" -var provider="${PROVIDER}" -var build="${BUILD}" -only "${BUILD}-restore.*" $SCRIPT_DIRECTORY
 packer build -var-file="${WORK_DIRECTORY}/images.pkrvars.hcl" -var image="${IMAGE}" -var provider="${PROVIDER}" -var build="${BUILD}" -only "${BUILD}-restore.*" -force $SCRIPT_DIRECTORY
 

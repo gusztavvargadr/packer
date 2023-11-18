@@ -2,14 +2,6 @@ packer {
   required_version = "~> 1.9"
 }
 
-// buids: native, vagrant
-// source: iso, native, (ami), (vagrant?)
-// organization: core, builds, providers
-// build steps: init, restore, build, test, publish
-// local vs variable names
-// check todos in notes
-// simplify compact ? : conditionals (move to multi-line?)
-
 variable "author" {
   type    = string
   default = "gusztavvargadr"

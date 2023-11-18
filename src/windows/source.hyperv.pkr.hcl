@@ -57,10 +57,10 @@ source "hyperv-iso" "core" {
   shutdown_command = local.hyperv_iso_source_options.shutdown_command
   shutdown_timeout = local.hyperv_iso_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }
 
 locals {
@@ -90,8 +90,8 @@ source "hyperv-vmcx" "core" {
   shutdown_command = local.hyperv_vmcx_source_options.shutdown_command
   shutdown_timeout = local.hyperv_vmcx_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

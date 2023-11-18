@@ -20,7 +20,7 @@ locals {
 }
 
 locals {
-  virtualbox_iso_source_options = merge(local.core_source_options, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_iso_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
 }
 
 source "virtualbox-iso" "core" {
@@ -48,14 +48,14 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout = local.virtualbox_iso_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }
 
 locals {
-  virtualbox_ovf_source_options = merge(local.core_source_options, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_ovf_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
 }
 
 source "virtualbox-ovf" "core" {
@@ -63,7 +63,7 @@ source "virtualbox-ovf" "core" {
   headless         = local.virtualbox_ovf_source_options.headless
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
-  source_path = "${local.import_directory}/${join("", fileset(local.import_directory, "**/*.ovf"))}"
+  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "**/*.ovf"))}"
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
 
@@ -72,8 +72,8 @@ source "virtualbox-ovf" "core" {
   shutdown_command = local.virtualbox_ovf_source_options.shutdown_command
   shutdown_timeout = local.virtualbox_ovf_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

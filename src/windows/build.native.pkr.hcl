@@ -27,9 +27,11 @@ locals {
       for setup_script in compact([lookup(local.image_options.native, "boot_setup_script", "")]) : setup_script => file("${path.cwd}/${setup_script}")
     })
 
-    import_directory  = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}-native" : ""
+    import_directory = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}-native" : ""
 
-    boot_command     = local.native_iso ? ["<enter><wait><enter><wait><enter>"] : [ "" ]
+    boot_command = local.native_iso ? [
+      "<enter><wait><enter><wait><enter>"
+    ] : []
     shutdown_command = "shutdown /s /t 10"
   }
 }

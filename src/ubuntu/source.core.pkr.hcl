@@ -10,15 +10,15 @@ locals {
     memory    = 8192
     disk_size = 130048
 
-    boot_wait        = "1s"
-    shutdown_timeout = "10m"
+    boot_wait        = "2s"
+    shutdown_timeout = "5m"
   }
 
   communicator = {
     type     = "ssh"
-    username = "Administrator"
-    password = "Packer42-"
-    timeout  = "30m"
+    username = "vagramt"
+    password = "vagrant"
+    timeout  = "15m"
   }
 
   native_build  = var.build == "native"

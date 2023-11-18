@@ -15,13 +15,13 @@ locals {
   }
 
   source_options_vagrant = {
-    iso_urls = []
+    iso_urls     = []
     iso_checksum = ""
-    cd_content = {}
+    cd_content   = {}
 
     import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${var.image}/${local.image_provider}-native" : ""
 
-    boot_command     = [ "" ]
+    boot_command     = compact([])
     shutdown_command = "C:/Windows/Temp/packer/shutdown.cmd"
   }
 }

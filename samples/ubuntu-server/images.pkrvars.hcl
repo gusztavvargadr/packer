@@ -1,12 +1,15 @@
 images = {
   "2204-lts" = {
     core = {
-      name        = "u2204s"
-      description = "Ubuntu Server 22.04 LTS"
+      image_name        = "ubuntu-server-2204-lts"
+      image_description = "Ubuntu Server 22.04 LTS"
+      image_version     = "2204.0"
+    }
 
-      iso_url_local  = "ubuntu-22.04.3-live-server-amd64.iso"
-      iso_url_remote = "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso"
-      iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
+    native = {
+      source_iso_url_local  = "ubuntu-22.04.3-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
     }
 
     virtualbox = {
@@ -20,12 +23,15 @@ images = {
 
   "2004-lts" = {
     core = {
-      name        = "u2004s"
-      description = "Ubuntu Server 20.04 LTS"
+      image_name        = "ubuntu-server-2004-lts"
+      image_description = "Ubuntu Server 20.04 LTS"
+      image_version     = "2004.0"
+    }
 
-      iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
-      iso_url_remote = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.4-live-server-amd64.iso"
-      iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
+    native = {
+      source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
     }
 
     virtualbox = {

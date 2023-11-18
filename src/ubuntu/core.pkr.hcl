@@ -12,6 +12,10 @@ variable "version" {
   default = "2311"
 }
 
+variable "images" {
+  type = map(map(map(string)))
+}
+
 variable "image" {
   type = string
 }
@@ -24,8 +28,9 @@ variable "build" {
   type = string
 }
 
-variable "images" {
-  type = map(map(map(string)))
+variable "userprofile_directory" {
+  type    = string
+  default = env("USERPROFILE")
 }
 
 variable "home_directory" {
@@ -33,107 +38,13 @@ variable "home_directory" {
   default = env("HOME")
 }
 
-variable "userprofile_directory" {
-  type    = string
-  default = env("USERPROFILE")
-}
-
 locals {
-  author   = var.author
-  version  = var.version
-  image    = var.image
-  provider = var.provider
-  build    = var.build
+  image_options = var.images[var.image]
 
-  image_options = var.images[local.image]
+  image_name        = local.image_options.core.image_name
+  image_description = local.image_options.core.image_description
+  image_version     = "${local.image_options.core.image_version}.${var.version}"
+  image_provider    = var.provider
 
-  downloads_directory = "${coalesce(var.home_directory, var.userprofile_directory)}/Downloads"
-
-  timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
-}
-
-locals {
-  core_build    = local.build == "core"
-  vagrant_build = local.build == "vagrant"
-}
-
-locals {
-  core_iso = contains(keys(local.image_options.core), "iso_checksum")
-}
-
-locals {
-  name        = local.image_options.core.name
-  description = local.image_options.core.description
-}
-
-locals {
-  artifacts_directory = "${path.cwd}/artifacts/${local.name}/${local.provider}-${local.build}"
-  iso_name            = lookup(local.image_options.core, "iso_name", "")
-
-  core_source_options = {
-    vm_name          = "${local.author}-${local.name}-${local.version}-${local.timestamp}"
-    headless         = true
-    output_directory = "${local.artifacts_directory}/image"
-
-    cpus      = 4
-    memory    = 8192
-    disk_size = 130048
-    iso_urls = local.core_iso ? [
-      "${local.downloads_directory}/${local.image_options.core.iso_url_local}",
-      local.image_options.core.iso_url_remote
-    ] : []
-    iso_checksum   = local.core_iso ? local.image_options.core.iso_checksum : ""
-    http_directory = "${path.root}/boot"
-
-    # only if parent is iso
-    boot_command = local.core_build ? (local.core_iso ? [
-      "c<wait>",
-      "set gfxpayload=keep<enter><wait>",
-      "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.provider}/'<enter><wait>",
-      "initrd /casper/initrd<enter><wait>",
-      "boot<enter>wait>",
-    ] : []) : []
-    boot_wait        = "2s"
-    shutdown_command = "echo 'vagrant' | sudo -S shutdown -P now"
-    shutdown_timeout = "5m"
-  }
-}
-
-locals {
-  vagrant_options_core = {
-    cpus   = "2"
-    memory = "2048"
-    ports  = ""
-  }
-  vagrant_options_image = lookup(local.image_options, "vagrant", {})
-  vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
-}
-
-locals {
-  communicator = {
-    type     = "ssh"
-    username = "vagrant"
-    password = "vagrant"
-    timeout  = "15m"
-  }
-}
-
-locals {
-  chef_destination         = "/opt/packer-build/chef/"
-  chef_max_retries         = 10
-  chef_start_retry_timeout = "30m"
-}
-
-locals {
-  packer_destination = "/opt/packer-build/core/"
-}
-
-locals {
-  core_build_import_directory    = local.core_build ? "${path.cwd}/../${lookup(local.image_options.core, "import_directory", "")}/artifacts/${lookup(local.image_options.core, "import_image", "")}/${local.provider}-core" : ""
-  vagrant_build_import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${local.name}/${local.provider}-core" : ""
-  import_directory               = coalesce(local.core_build_import_directory, local.vagrant_build_import_directory)
-}
-
-source "null" "core" {
-  communicator = "none"
+  artifacts_directory = "${path.cwd}/artifacts/${var.image}/${local.image_provider}-${var.build}"
 }

@@ -49,10 +49,10 @@ source "virtualbox-iso" "core" {
   shutdown_command = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout = local.virtualbox_iso_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }
 
 locals {
@@ -74,8 +74,8 @@ source "virtualbox-ovf" "core" {
   shutdown_command = local.virtualbox_ovf_source_options.shutdown_command
   shutdown_timeout = local.virtualbox_ovf_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

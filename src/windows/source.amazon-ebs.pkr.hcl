@@ -51,8 +51,8 @@ source "amazon-ebs" "core" {
     "packer" = ""
   }
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

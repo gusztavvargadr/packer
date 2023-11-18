@@ -1,11 +1,14 @@
 images = {
   "2204-lts" = {
     core = {
-      name        = "u2204d"
-      description = "Ubuntu Desktop 22.04 LTS"
+      image_name        = "ubuntu-desktop-2204-lts"
+      image_description = "Ubuntu Desktop 22.04 LTS"
+      image_version     = "2204"
+    }
 
-      import_directory = "ubuntu-server"
-      import_image     = "u2204s"
+    native = {
+      source_image_type = "ubuntu-server"
+      source_image_name = "2204-lts"
     }
 
     vagrant = {
@@ -16,11 +19,14 @@ images = {
 
   "2004-lts" = {
     core = {
-      name        = "u2004d"
-      description = "Ubuntu Desktop 20.04 LTS"
+      image_name        = "ubuntu-desktop-2004-lts"
+      image_description = "Ubuntu Desktop 20.04 LTS"
+      image_version     = "2004"
+    }
 
-      import_directory = "ubuntu-server"
-      import_image     = "u2004s"
+    native = {
+      source_image_type = "ubuntu-server"
+      source_image_name = "2004-lts"
     }
 
     vagrant = {
