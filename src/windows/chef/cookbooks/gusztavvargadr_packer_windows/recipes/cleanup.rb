@@ -1,3 +1,8 @@
+reboot 'gusztavvargadr_packer_windows::cleanup' do
+  action :reboot_now
+  only_if { reboot_pending? }
+end
+
 powershell_script 'Clearing temporary files' do
   code <<-EOH
     @(
@@ -15,15 +20,8 @@ powershell_script 'Clearing temporary files' do
         }
   EOH
   action :run
-  not_if { reboot_pending? }
 end
 
 gusztavvargadr_windows_update '' do
   action :cleanup
-  not_if { reboot_pending? }
-end
-
-reboot 'cleanup' do
-  action :reboot_now
-  only_if { reboot_pending? }
 end

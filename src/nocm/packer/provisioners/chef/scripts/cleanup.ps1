@@ -1,11 +1,3 @@
-Write-Host "Clean up"
-Remove-Item -Recurse -Force C:/Windows/Temp/chef
-
-$app = Get-WmiObject -Class Win32_Product | Where-Object -Property Name -Match "Chef Infra Client"
-$app.Uninstall()
-
-choco uninstall -y openssh --params "/SSHServerFeature"
-
 $userKey = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment',$true)
 $userPath = $userKey.GetValue('PATH', [string]::Empty, 'DoNotExpandEnvironmentNames').ToString()
 
@@ -59,8 +51,3 @@ if ($env:ChocolateyToolsLocation -and (Test-Path $env:ChocolateyToolsLocation)) 
 foreach ($scope in 'User', 'Machine') {
     [Environment]::SetEnvironmentVariable('ChocolateyToolsLocation', [string]::Empty, $scope)
 }
-
-Optimize-Volume -DriveLetter C -Analyze -Defrag
-
-sdelete -accepteula -nobanner -z C:
-rm -Force "${env:SystemRoot}\System32\sdelete.exe"

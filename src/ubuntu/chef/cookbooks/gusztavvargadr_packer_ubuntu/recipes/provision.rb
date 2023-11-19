@@ -41,6 +41,7 @@ apt_package [ 'net-tools', 'apt-transport-https', 'ntp', 'rsync', 'cifs-utils', 
 end
 
 reboot 'gusztavvargadr_packer_ubuntu::provision' do
+  delay_mins 1
   action :reboot_now
   only_if { reboot_pending? }
 end

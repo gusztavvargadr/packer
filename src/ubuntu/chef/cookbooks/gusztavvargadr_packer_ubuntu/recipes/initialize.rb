@@ -53,6 +53,7 @@ reboot 'gusztavvargadr_packer_ubuntu' do
 end
 
 reboot 'gusztavvargadr_packer_ubuntu::initialize' do
+  delay_mins 1
   action :reboot_now
   only_if { reboot_pending? }
 end

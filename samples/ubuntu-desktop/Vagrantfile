@@ -5,7 +5,19 @@ Vagrant.configure("2") do |config|
     config.vm.box = "gusztavvargadr/ubuntu-desktop"
   end
 
-  config.vm.define "2004-lts-xfce", autostart: false do |config|
+  config.vm.define "2204-lts-ubuntu", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/ubuntu-desktop-2204-lts"
+  end
+
+  config.vm.define "2204-lts-xubuntu", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/xubuntu-desktop-2204-lts"
+  end
+
+  config.vm.define "2004-lts-ubuntu", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/ubuntu-desktop-2004-lts"
+  end
+
+  config.vm.define "2004-lts-xubuntu", autostart: false do |config|
     config.vm.box = "gusztavvargadr/ubuntu-desktop-2004-lts-xfce"
   end
 

@@ -3,14 +3,10 @@ windows_defender_exclusion '' do
   action :add
 end
 
-reboot 'windows-uac' do
-  action :nothing
-end
-
 windows_uac '' do
   enable_uac false
   action :configure
-  notifies :request_reboot, 'reboot[windows-uac]', :immediately
+  notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
 end
 
 registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System' do
@@ -82,10 +78,6 @@ if vbox?
   vbox_guest_additions_installed = powershell_out(chocolatey_list_command).stdout.downcase.include? 'virtualbox'
 
   unless vbox_guest_additions_installed
-    reboot 'vbox' do
-      action :nothing
-    end
-
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
     vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
@@ -115,7 +107,7 @@ if vbox?
       EOH
       cwd 'Z:'
       action :run
-      notifies :request_reboot, 'reboot[vbox]', :immediately
+      gusztavvargadr_packer_windowss :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
     end
 
     gusztavvargadr_windows_iso '' do
@@ -127,18 +119,18 @@ if vbox?
 end
 
 if vmware?
-  reboot 'vmware' do
-    action :nothing
-  end
-
   chocolatey_package 'vmware-tools' do
     returns [0, 2, 3010]
     action :install
-    notifies :request_reboot, 'reboot[vmware]', :immediately
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
   end
 end
 
-reboot 'initialize' do
+reboot 'gusztavvargadr_packer_windows' do
+  action :nothing
+end
+
+reboot 'gusztavvargadr_packer_windows::initialize' do
   action :reboot_now
   only_if { reboot_pending? }
 end

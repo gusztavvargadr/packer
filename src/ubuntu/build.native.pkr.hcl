@@ -71,14 +71,23 @@ build {
   }
 
   provisioner "file" {
-    sources      = fileset(path.cwd, "attributes.*.json")
+    sources     = fileset(path.cwd, "attributes.*.json")
     destination = local.chef_destination
+  }
+
+  provisioner "shell" {
+    script            = "${path.root}/chef/provision.sh"
+    valid_exit_codes = [0, 35]
+
+    env = {
+      CHEF_ATTRIBUTES = local.chef_attributes
+    }
   }
 
   provisioner "shell" {
     script              = "${path.root}/chef/provision.sh"
     max_retries         = local.chef_max_retries
-    pause_before        = "1m"
+    pause_before        = "90s"
     start_retry_timeout = local.chef_start_retry_timeout
 
     env = {

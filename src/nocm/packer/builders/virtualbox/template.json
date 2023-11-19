@@ -1,5 +1,0 @@
-{
-  "variables": {
-    "virtualbox_communicator": "winrm"
-  }
-}
