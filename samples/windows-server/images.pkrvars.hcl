@@ -14,9 +14,6 @@ images = {
       boot_image_name = "Windows Server 2022 SERVERSTANDARD"
     }
 
-    vagrant = {
-    }
-
     virtualbox = {
       guest_os_type = "Windows2019_64"
     }

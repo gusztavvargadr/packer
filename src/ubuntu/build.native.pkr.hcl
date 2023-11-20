@@ -76,15 +76,6 @@ build {
   }
 
   provisioner "shell" {
-    script            = "${path.root}/chef/provision.sh"
-    valid_exit_codes = [0, 35]
-
-    env = {
-      CHEF_ATTRIBUTES = local.chef_attributes
-    }
-  }
-
-  provisioner "shell" {
     script              = "${path.root}/chef/provision.sh"
     max_retries         = local.chef_max_retries
     pause_before        = "90s"

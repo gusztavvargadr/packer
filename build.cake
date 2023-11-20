@@ -1,90 +1,73 @@
-#load "src/core/cake/core.cake"
-
 var target = Argument("target", "default");
-var configuration = Argument("configuration", string.Empty);
-var recursive = Argument("recursive", false);
-var version = "2310";
 
-var buildDirectory = Argument("build-directory", "./artifacts");
-PackerTemplate.BuildDirectory = buildDirectory;
+var sample = Argument<string>("sample");
+var platform = Argument("platform", "");
+var image = Argument<string>("image");
+var provider = Argument<string>("provider");
+var build = Argument<string>("build");
 
-var w1122h2e_vs22c = PackerTemplates_CreateWindows(
-  "w1122h2e-vs22c",
-  "visual-studio-2022-community-windows-11",
-  $"2022.2202.{version}",
-  w1122h2e,
-  aliases: new [] { "visual-studio" }
-);
-var w1022h2e_vs22c = PackerTemplates_CreateWindows(
-  "w1022h2e-vs22c",
-  "visual-studio-2022-community-windows-10",
-  $"2022.2202.{version}",
-  w1022h2e
-);
-var w1122h2e_vs19c = PackerTemplates_CreateWindows(
-  "w1122h2e-vs19c",
-  "visual-studio-2019-community-windows-11",
-  $"2019.2202.{version}",
-  w1122h2e
-);
-var w1022h2e_vs19c = PackerTemplates_CreateWindows(
-  "w1022h2e-vs19c",
-  "visual-studio-2019-community-windows-10",
-  $"2019.2202.{version}",
-  w1022h2e
-);
+var version = "2311";
 
-Task("default")
-  .IsDependentOn("info");
+if (string.IsNullOrEmpty(platform)) {
+  platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu" : "windows";
+}
 
-Task("info")
+var sampleDirectory = Directory($"samples/{sample}");
+var platformDirectory = Directory($"../../src/{platform}");
+
+Task("init")
   .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Info);
-  });
-
-Task("version")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Version);
+    PackerInit();
   });
 
 Task("restore")
-  .IsDependentOn("version")
+  .IsDependentOn("init")
   .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Restore);
+    PackerBuild("restore");
   });
 
 Task("build")
   .IsDependentOn("restore")
   .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Build);
+    PackerBuild("image");
   });
 
-Task("rebuild")
-  .IsDependentOn("clean")
-  .IsDependentOn("build")
-  .Does(() => {
-  });
-
-Task("test")
-  .IsDependentOn("build")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Test);
-  });
-
-Task("publish")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Publish);
-  });
-
-Task("download")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Download);
-  });
-
-Task("clean")
-  .IsDependentOn("version")
-  .Does(() => {
-    PackerTemplates_ForEach(configuration, PackerTemplate_Clean);
-  });
+Task("default")
+  .IsDependentOn("build");
 
 RunTarget(target);
+
+void PackerInit() {
+  var arguments = new ProcessArgumentBuilder();
+
+  arguments.Append("init");
+  arguments.Append(platformDirectory);
+
+  Packer(arguments.Render());
+}
+
+void PackerBuild(string stage) {
+  var arguments = new ProcessArgumentBuilder();
+
+  arguments.Append("build");
+  arguments.Append($"-var-file=\"images.pkrvars.hcl\"");
+  arguments.Append($"-var image=\"{image}\"");
+  arguments.Append($"-var provider=\"{provider}\"");
+  arguments.Append($"-var build=\"{build}\"");
+  arguments.Append($"-only \"{build}-{stage}.*\"");
+  arguments.Append("-force");
+  arguments.Append(platformDirectory);
+
+  Packer(arguments.Render());
+}
+
+void Packer(string arguments) {
+  var result = StartProcess("packer", new ProcessSettings {
+    Arguments = arguments,
+    WorkingDirectory = sampleDirectory
+  });
+  
+  if (result != 0) {
+    throw new Exception($"Packer failed with code {result} .");
+  }
+}

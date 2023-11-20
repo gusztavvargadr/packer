@@ -19,7 +19,7 @@ images = {
   "windows-server-core" = {
     core = {
       image_name        = "iis-windows-server-core"
-      image_description = "SIIS on Windows Server Core"
+      image_description = "IIS on Windows Server Core"
       image_version     = "2102.0"
     }
 
