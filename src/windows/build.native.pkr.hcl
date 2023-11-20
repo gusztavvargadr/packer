@@ -80,7 +80,7 @@ build {
 
   provisioner "powershell" {
     script           = "${path.root}/chef/provision.ps1"
-    valid_exit_codes = [0, 35]
+    valid_exit_codes = [0, 35, 267014]
 
     env = {
       CHEF_ATTRIBUTES = local.chef_attributes

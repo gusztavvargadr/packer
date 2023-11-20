@@ -28,7 +28,7 @@ The virtual machine images and [Vagrant] boxes are built for [VirtualBox], [VMwa
 
 > **Note** All the components, including the core operating systems, share the following characteristics:
 > 
-> * They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows or Visual Studio license) to start or keep using them after their evaluation periods expire.
+> * They are based on their publicly available versions. You might need to provide your own license(s) (for example, a valid Windows license) to keep using them after their evaluation periods expire.
 > * They are installed using their latest available versions. The latest patches (for example, all the Windows Updates) are applied as well.
 > * Unless noted otherwise, they are installed using the default configuration options.
 

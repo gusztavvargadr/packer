@@ -18,7 +18,7 @@ images = {
     }
   }
 
-  "2019-developer-server-core" = {
+  "2019-developer-windows-server-core" = {
     core = {
       image_name        = "sql-server-2019-developer-windows-server-core"
       image_description = "SQL Server 2019 Developer on Windows Server Core"
