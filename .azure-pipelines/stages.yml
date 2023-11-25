@@ -1,8 +1,8 @@
 parameters:
-  sample: ""
-  image: ""
-  provider: ""
-  source: ""
+  sample: ''
+  image: ''
+  provider: ''
+  source: ''
 
 stages:
   - stage: native

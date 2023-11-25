@@ -1,9 +1,9 @@
 parameters:
-  sample: ""
-  image: ""
-  provider: ""
-  build: ""
-  source: ""
+  sample: ''
+  image: ''
+  provider: ''
+  build: ''
+  source: ''
 
 jobs:
   - job: build
