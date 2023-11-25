@@ -38,6 +38,10 @@ jobs:
           vagrant global-status --prune
         displayName: Initialize Vagrant
 
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init --exclusive
+        displayName: Execute build target init
+
       # - ${{ if parameters.source }}:
       #     - task: DownloadPipelineArtifact@2
       #       inputs:
@@ -63,10 +67,6 @@ jobs:
       #       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init --exclusive
-        displayName: Execute build target init
-
-      - script: |
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore --exclusive
         displayName: Execute build target restore
 
@@ -78,7 +78,7 @@ jobs:
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
         displayName: Execute build target test
 
-      - publish: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      - publish: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
         artifact: ${{ parameters.build }}-build
         displayName: Publish artifacts
 
