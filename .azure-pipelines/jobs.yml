@@ -48,7 +48,7 @@ jobs:
           artifactName: native-build
           targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
         displayName: Download artifacts
-        condition: and(succeeded(), eq("${{ parameters.build }}", "vagrant"))
+        condition: and(succeeded(), eq('${{ parameters.build }}', 'vagrant'))
 
       # - ${{ if parameters.source }}:
       #     - task: DownloadPipelineArtifact@2
