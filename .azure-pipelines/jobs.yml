@@ -39,8 +39,16 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init --exclusive
-        displayName: Execute build target init
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore
+        displayName: Restore
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: current
+          artifactName: native-build
+          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
+        displayName: Download artifacts
+        condition: and(succeeded(), eq(${{ parameters.build }}, "vagrant"))
 
       # - ${{ if parameters.source }}:
       #     - task: DownloadPipelineArtifact@2
@@ -67,16 +75,12 @@ jobs:
       #       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore --exclusive
-        displayName: Execute build target restore
-
-      - script: |
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target build --exclusive
-        displayName: Execute build target build
+        displayName: Build
 
       - script: |
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
-        displayName: Execute build target test
+        displayName: Test
 
       - publish: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
         artifact: ${{ parameters.build }}-build
