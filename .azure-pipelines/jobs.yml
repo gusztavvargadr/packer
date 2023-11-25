@@ -1,0 +1,84 @@
+parameters:
+  sample: ""
+  image: ""
+  provider: ""
+  build: ""
+  source: ""
+
+jobs:
+  - job: build
+    displayName: Build ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+
+    pool:
+      name: default
+      demands:
+        - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+
+    timeoutInMinutes: 150
+
+    steps:
+      - checkout: self
+        submodules: recursive
+
+      - script: |
+          dotnet --info
+
+          dotnet tool restore
+        displayName: Initialize build
+
+      - script: |
+          packer --version
+        displayName: Initialize Packer
+
+      - script: |
+          vagrant --version
+          vagrant plugin list
+
+          vagrant box list
+          vagrant global-status --prune
+        displayName: Initialize Vagrant
+
+      # - ${{ if parameters.source }}:
+      #     - task: DownloadPipelineArtifact@2
+      #       inputs:
+      #         artifact: build
+      #         path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.source }}/${{ parameters.provider }}-core
+      #         source: specific
+      #         project: $(System.TeamProjectId)
+      #         pipeline: $(resources.pipeline.parent.pipelineID)
+      #         runVersion: latestFromBranch
+      #         runBranch: $(Build.SourceBranch)
+      #       displayName: Artifacts - Download
+      #       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+      #     - task: DownloadPipelineArtifact@2
+      #       inputs:
+      #         artifact: build
+      #         path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.source }}/${{ parameters.provider }}-core
+      #         source: specific
+      #         project: $(System.TeamProjectId)
+      #         pipeline: $(resources.pipeline.parent.pipelineID)
+      #         runVersion: latest
+      #       displayName: Artifacts - Download
+      #       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init --exclusive
+        displayName: Execute build target init
+
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target build --exclusive
+        displayName: Execute build target build
+
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
+        displayName: Execute build target test
+
+      - publish: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+        artifact: ${{ parameters.build }}-build
+        displayName: Publish artifacts
+
+      # - script: |
+      #     dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }} --recursive true
+      #   displayName: Build - Clean
+      #   condition: always()

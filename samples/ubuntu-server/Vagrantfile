@@ -16,7 +16,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-EOH
     uname -a
     lsb_release -a
+
     lshw -short
+    lscpu
+    lsmem
+
     apt list --installed
   EOH
 end

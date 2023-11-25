@@ -1,0 +1,30 @@
+parameters:
+  sample: ""
+  image: ""
+  provider: ""
+  source: ""
+
+stages:
+  - stage: native
+    displayName: Native
+
+    jobs:
+      - template: ./jobs.yml
+        parameters:
+          sample: ${{ parameters.sample }}
+          image: ${{ parameters.image }}
+          provider: ${{ parameters.provider }}
+          build: native
+          source: ${{ parameters.source }}
+
+  - stage: vagrant
+    displayName: Vagrant
+
+    jobs:
+      - template: ./jobs.yml
+        parameters:
+          sample: ${{ parameters.sample }}
+          image: ${{ parameters.image }}
+          provider: ${{ parameters.provider }}
+          build: vagrant
+          source: ${{ parameters.source }}
