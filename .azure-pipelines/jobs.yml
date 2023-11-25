@@ -67,6 +67,10 @@ jobs:
         displayName: Execute build target init
 
       - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore --exclusive
+        displayName: Execute build target restore
+
+      - script: |
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target build --exclusive
         displayName: Execute build target build
 
