@@ -22,7 +22,7 @@ locals {
     iso_checksum   = local.native_iso ? local.image_options.native.source_iso_checksum : ""
     http_directory = "${path.root}/boot"
 
-    import_directory = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}-native" : ""
+    import_directory = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}/native" : ""
 
     boot_command = local.native_iso ? [
       "c<wait>",
@@ -43,8 +43,13 @@ build {
   provisioner "shell-local" {
     inline = [
       "chef install",
+      "chef update --attributes",
       "chef export ${local.artifacts_directory}/chef --force"
     ]
+
+    env = {
+      CHEF_LICENSE = "accept-silent"
+    }
   }
 }
 
@@ -56,7 +61,7 @@ locals {
 }
 
 build {
-  name = "native-image"
+  name = "native-build"
 
   sources = local.native_build ? (local.native_iso ? compact([lookup(local.native_iso_sources, local.image_provider, "")]) : compact([lookup(local.native_import_sources, local.image_provider, "")])) : ["null.core"]
 
@@ -121,4 +126,16 @@ build {
     checksum_types = ["sha256"]
     output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
   }
+}
+
+build {
+  name = "native-test"
+
+  sources = ["null.core"]
+}
+
+build {
+  name = "native-publish"
+
+  sources = ["null.core"]
 }

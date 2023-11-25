@@ -29,7 +29,19 @@ Task("restore")
 Task("build")
   .IsDependentOn("restore")
   .Does(() => {
-    PackerBuild("image");
+    PackerBuild("build");
+  });
+
+Task("test")
+  .IsDependentOn("build")
+  .Does(() => {
+    PackerBuild("test");
+  });
+
+Task("publish")
+  .IsDependentOn("test")
+  .Does(() => {
+    PackerBuild("publish");
   });
 
 Task("default")

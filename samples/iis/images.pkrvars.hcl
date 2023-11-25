@@ -12,7 +12,7 @@ images = {
     }
 
     vagrant = {
-      ports = "3389,80,443"
+      ports = "3389,80"
     }
   }
 
@@ -29,7 +29,7 @@ images = {
     }
 
     vagrant = {
-      ports = "3389,80,443"
+      ports = "3389,80"
     }
   }
 }

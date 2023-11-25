@@ -19,7 +19,7 @@ locals {
     iso_checksum   = ""
     http_directory = ""
 
-    import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${var.image}/${local.image_provider}-native" : ""
+    import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${var.image}/${local.image_provider}/native" : ""
 
     boot_command     = compact([])
     shutdown_command = "sudo -S shutdown -P now"
@@ -52,7 +52,7 @@ locals {
 }
 
 build {
-  name = "vagrant-image"
+  name = "vagrant-build"
 
   sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.image_provider, "")]) : ["null.core"]
 
@@ -80,6 +80,68 @@ build {
     post-processor "checksum" {
       checksum_types = ["sha256"]
       output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+    }
+  }
+}
+
+build {
+  name = "vagrant-test"
+
+  sources = ["null.core"]
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant destroy -f local",
+      "vagrant box remove gusztavvargadr/local"
+    ]
+
+    valid_exit_codes = [0, 1]
+
+    env = {
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+    }
+  }
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant up local"
+    ]
+
+    max_retries = 1
+
+    env = {
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+    }
+  }
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant destroy -f local",
+      "vagrant box remove gusztavvargadr/local"
+    ]
+
+    valid_exit_codes = [0, 1]
+
+    env = {
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+    }
+  }
+}
+
+build {
+  name = "vagrant-publish"
+
+  sources = ["null.core"]
+
+  post-processors {
+    post-processor "artifice" {
+      files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
+    }
+
+    post-processor "vagrant-cloud" {
+      box_tag    = "${var.author}/${local.image_name}"
+      version    = local.image_version
+      no_release = true
     }
   }
 }
