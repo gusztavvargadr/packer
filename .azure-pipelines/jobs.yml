@@ -23,8 +23,8 @@ jobs:
         submodules: recursive
 
       - script: |
-          echo $(resources.pipeline.source.projectID)
-          echo $(resources.pipeline.source.projectName)
+          echo $(resources.pipeline.source.pipelineID)
+          echo $(resources.pipeline.source.pipelineName)
         displayName: Diagnostics
 
       - script: |
