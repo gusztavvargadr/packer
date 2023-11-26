@@ -18,6 +18,7 @@ jobs:
     variables:
       sourcePipelineID: $[variables['resources.pipeline.source.pipelineID']]
       sourcePipelineName: $[variables['resources.pipeline.source.pipelineName']]
+      sourcePipelineName1: $[length(variables['resources.pipeline.source.pipelineName'])]
 
     steps:
       - checkout: self
@@ -29,8 +30,7 @@ jobs:
 
           echo $(resources.pipeline.source.pipelineName)
           echo $(sourcePipelineName)
-
-          echo $[variables['sourcePipelineName']]
+          echo $(sourcePipelineName1)
         displayName: Diagnostics
         condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
