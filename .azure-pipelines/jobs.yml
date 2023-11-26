@@ -3,7 +3,6 @@ parameters:
   image: ''
   provider: ''
   build: ''
-  source: ''
 
 jobs:
   - job: build
@@ -44,35 +43,23 @@ jobs:
 
       - task: DownloadPipelineArtifact@2
         inputs:
-          buildType: current
-          artifactName: native-build
+          source: specific
+          artifact: native-build
+          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
+          project: $(System.TeamProjectId)
+          pipeline: $(resources.pipeline.source.pipelineID)
+          runVersion: latestFromBranch
+          runBranch: $(Build.SourceBranch)
+        displayName: Download artifacts
+        condition: and(succeeded(), eq('${{ parameters.build }}', 'native'), $(resources.pipeline.source))
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          source: current
+          artifact: native-build
           targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
         displayName: Download artifacts
         condition: and(succeeded(), eq('${{ parameters.build }}', 'vagrant'))
-
-      # - ${{ if parameters.source }}:
-      #     - task: DownloadPipelineArtifact@2
-      #       inputs:
-      #         artifact: build
-      #         path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.source }}/${{ parameters.provider }}-core
-      #         source: specific
-      #         project: $(System.TeamProjectId)
-      #         pipeline: $(resources.pipeline.parent.pipelineID)
-      #         runVersion: latestFromBranch
-      #         runBranch: $(Build.SourceBranch)
-      #       displayName: Artifacts - Download
-      #       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-      #     - task: DownloadPipelineArtifact@2
-      #       inputs:
-      #         artifact: build
-      #         path: $(System.DefaultWorkingDirectory)/artifacts/${{ parameters.source }}/${{ parameters.provider }}-core
-      #         source: specific
-      #         project: $(System.TeamProjectId)
-      #         pipeline: $(resources.pipeline.parent.pipelineID)
-      #         runVersion: latest
-      #       displayName: Artifacts - Download
-      #       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       - script: |
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target build --exclusive

@@ -2,7 +2,6 @@ parameters:
   sample: ''
   image: ''
   provider: ''
-  source: ''
 
 stages:
   - stage: native
@@ -15,7 +14,6 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           build: native
-          source: ${{ parameters.source }}
 
   - stage: vagrant
     displayName: Vagrant
@@ -27,4 +25,3 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           build: vagrant
-          source: ${{ parameters.source }}
