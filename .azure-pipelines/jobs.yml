@@ -4,9 +4,6 @@ parameters:
   provider: ''
   build: ''
 
-variables:
-  source1: $[split(variables['resources.pipeline.source.pipelineName'], '--')[0]]
-
 jobs:
   - job: build
     displayName: Build ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
@@ -17,6 +14,9 @@ jobs:
         - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
 
     timeoutInMinutes: 150
+
+    variables:
+      source1: $[split(variables['resources.pipeline.source.pipelineName'], '--')[0]]
 
     steps:
       - checkout: self
