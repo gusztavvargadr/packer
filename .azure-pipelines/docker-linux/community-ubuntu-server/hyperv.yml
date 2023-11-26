@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server--2204-lts--hyperv
+      source: ubuntu-server-2204-lts-hyperv
 
 stages:
   - template: ../../stages.yml
@@ -12,3 +12,6 @@ stages:
       sample: docker-linux
       image: community-ubuntu-server
       provider: hyperv
+      source:
+        sample: ubuntu-server
+        image: 2204-lts

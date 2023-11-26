@@ -3,6 +3,9 @@ parameters:
   image: ''
   provider: ''
   build: ''
+  source:
+    sample: ''
+    image: ''
 
 jobs:
   - job: build
@@ -15,24 +18,9 @@ jobs:
 
     timeoutInMinutes: 150
 
-    variables:
-      sourcePipelineID: $[variables['resources.pipeline.source.pipelineID']]
-      sourcePipelineName: $[variables['resources.pipeline.source.pipelineName']]
-      sourcePipelineName1: $[split(variables['resources.pipeline.source.pipelineName'],'lts')[0]]
-
     steps:
       - checkout: self
         submodules: recursive
-
-      - script: |
-          echo $(resources.pipeline.source.pipelineID)
-          echo $(sourcePipelineID)
-
-          echo $(resources.pipeline.source.pipelineName)
-          echo $(sourcePipelineName)
-          echo $(sourcePipelineName1)
-        displayName: Diagnostics
-        condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
       - script: |
           dotnet --info
@@ -60,7 +48,7 @@ jobs:
         inputs:
           source: specific
           artifact: native-build
-          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
+          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.source.sample }}/artifacts/${{ parameters.source.image }}/${{ parameters.provider }}/native
           project: $(System.TeamProjectId)
           pipeline: $(resources.pipeline.source.pipelineID)
           runVersion: latestFromBranch
