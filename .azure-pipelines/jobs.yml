@@ -23,6 +23,11 @@ jobs:
         submodules: recursive
 
       - script: |
+          echo $(resources.pipeline.source.projectID)
+          echo $(resources.pipeline.source.projectName)
+        displayName: Diagnostics
+
+      - script: |
           dotnet --info
 
           dotnet tool restore
