@@ -16,7 +16,8 @@ jobs:
     timeoutInMinutes: 150
 
     variables:
-      source1: $[split(variables['resources.pipeline.source.pipelineName'], '--')[0]]
+      sourcePipelineID: $[variables['resources.pipeline.source.pipelineID']]
+      sourcePipelineName: $[variables['resources.pipeline.source.pipelineName']]
 
     steps:
       - checkout: self
@@ -24,8 +25,12 @@ jobs:
 
       - script: |
           echo $(resources.pipeline.source.pipelineID)
+          echo $(sourcePipelineID)
+
           echo $(resources.pipeline.source.pipelineName)
+          echo $(sourcePipelineName)
         displayName: Diagnostics
+        condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
       - script: |
           dotnet --info
@@ -59,7 +64,7 @@ jobs:
           runVersion: latestFromBranch
           runBranch: $(Build.SourceBranch)
         displayName: Download artifacts
-        condition: and(succeeded(), eq('${{ parameters.build }}', 'native'), variables['resources.pipeline.source.pipelineID'])
+        condition: and(succeeded(), eq('${{ parameters.build }}', 'native'), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
       - task: DownloadPipelineArtifact@2
         inputs:
