@@ -51,7 +51,7 @@ jobs:
           runVersion: latestFromBranch
           runBranch: $(Build.SourceBranch)
         displayName: Download artifacts
-        condition: and(succeeded(), eq('${{ parameters.build }}', 'native'), variables['resources.pipeline.source'])
+        condition: and(succeeded(), eq('${{ parameters.build }}', 'native'), variables['resources.pipeline.source.pipelineID'])
 
       - task: DownloadPipelineArtifact@2
         inputs:
