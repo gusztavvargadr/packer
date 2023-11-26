@@ -18,7 +18,7 @@ jobs:
     variables:
       sourcePipelineID: $[variables['resources.pipeline.source.pipelineID']]
       sourcePipelineName: $[variables['resources.pipeline.source.pipelineName']]
-      sourcePipelineName1: $[length(variables['resources.pipeline.source.pipelineName'])]
+      sourcePipelineName1: $[split(variables['resources.pipeline.source.pipelineName'],'lts')[0]]
 
     steps:
       - checkout: self
