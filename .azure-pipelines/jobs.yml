@@ -30,8 +30,8 @@ jobs:
           echo $(resources.pipeline.source.pipelineName)
           echo $(sourcePipelineName)
 
-          echo ${{ split(variables.sourcePipelineName, '--')[0] }}
-          echo ${{ split(variables.sourcePipelineName, '--')[1] }}
+          echo ${{ split(variables.sourcePipelineName, '-')[0] }}
+          echo ${{ split(variables.sourcePipelineName, '-')[1] }}
         displayName: Diagnostics
         condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
