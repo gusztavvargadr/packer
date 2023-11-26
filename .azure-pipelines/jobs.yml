@@ -45,7 +45,7 @@ jobs:
         inputs:
           source: specific
           artifact: native-build
-          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
+          targetPath: $(System.DefaultWorkingDirectory)/samples/$(split(resources.pipeline.source.pipelineName, '--')[0])/artifacts/${{ parameters.image }}/${{ parameters.provider }}/native
           project: $(System.TeamProjectId)
           pipeline: $(resources.pipeline.source.pipelineID)
           runVersion: latestFromBranch
