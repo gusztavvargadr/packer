@@ -30,7 +30,7 @@ jobs:
           echo $(resources.pipeline.source.pipelineName)
           echo $(sourcePipelineName)
 
-          echo $[ variables['sourcePipelineName'] ]
+          echo $[variables['sourcePipelineName']]
         displayName: Diagnostics
         condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
 
