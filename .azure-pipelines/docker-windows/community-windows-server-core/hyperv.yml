@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-server-2022-standard-core-hyperv
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: docker-windows
+      image: community-windows-server-core
+      provider: hyperv
+      source:
+        sample: windows-server
+        image: 2022-standard-core

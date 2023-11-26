@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-server-2022-standard-core-vmware
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: docker-windows
+      image: community-windows-server-core
+      provider: vmware
+      source:
+        sample: windows-server
+        image: 2022-standard-core
