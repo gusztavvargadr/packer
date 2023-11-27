@@ -41,6 +41,7 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
+          echo ${{ variables['resources.pipeline.source.pipelineName'] }}
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore
         displayName: Restore
 
@@ -48,7 +49,7 @@ jobs:
         inputs:
           source: specific
           artifact: native-build
-          targetPath: $(System.DefaultWorkingDirectory)/samples/${{ parameters.source.sample }}/artifacts/${{ parameters.source.image }}/${{ parameters.provider }}/native
+          targetPath: ./samples/${{ parameters.source.sample }}/artifacts/${{ parameters.source.image }}/${{ parameters.provider }}/native
           project: $(System.TeamProjectId)
           pipeline: $(resources.pipeline.source.pipelineID)
           runVersion: latestFromBranch
@@ -72,7 +73,7 @@ jobs:
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
         displayName: Test
 
-      - publish: $(System.DefaultWorkingDirectory)/samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      - publish: ./samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
         artifact: ${{ parameters.build }}-build
         displayName: Publish artifacts
 
