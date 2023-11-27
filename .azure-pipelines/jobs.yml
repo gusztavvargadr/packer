@@ -19,7 +19,7 @@ jobs:
     timeoutInMinutes: 150
 
     variables:
-      sourcePipelineName: $[variables['resources.pipeline.source.pipelineName']]
+      sourcePipelineName: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
 
     steps:
       - checkout: self
