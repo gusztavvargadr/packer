@@ -41,7 +41,7 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          echo ${{ variables['resources.pipeline.source.pipelineName'] }}
+          echo $[variables['resources.pipeline.source.pipelineName']]
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore
         displayName: Restore
 
