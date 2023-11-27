@@ -19,7 +19,7 @@ jobs:
     timeoutInMinutes: 150
 
     variables:
-      sourcePipelineName: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
+      sourcePipelineName: $[ split(variables['resources.pipeline.source.pipelineName'], '.')[0] ]
 
     steps:
       - checkout: self
@@ -76,7 +76,7 @@ jobs:
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
         displayName: Test
 
-      - publish: ./samples/${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      - publish: ./${{ parameters.sample }}/artifacts/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
         artifact: ${{ parameters.build }}-build
         displayName: Publish artifacts
 
