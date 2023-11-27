@@ -18,6 +18,9 @@ jobs:
 
     timeoutInMinutes: 150
 
+    variables:
+      sourcePipelineName: ${{ variables['resources.pipeline.source.pipelineName'] }}
+
     steps:
       - checkout: self
         submodules: recursive
@@ -41,7 +44,7 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          echo $[variables['resources.pipeline.source.pipelineName']]
+          echo $(sourcePipelineName)
           dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore
         displayName: Restore
 
