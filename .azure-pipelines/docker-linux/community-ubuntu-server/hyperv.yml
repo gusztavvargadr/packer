@@ -12,6 +12,3 @@ stages:
       sample: docker-linux
       image: community-ubuntu-server
       provider: hyperv
-      source:
-        sample: ubuntu-server
-        image: 2204-lts

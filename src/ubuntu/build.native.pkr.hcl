@@ -22,7 +22,7 @@ locals {
     iso_checksum   = local.native_iso ? local.image_options.native.source_iso_checksum : ""
     http_directory = "${path.root}/boot"
 
-    import_directory = local.native_build ? "${path.cwd}/../${lookup(local.image_options.native, "source_image_type", "")}/artifacts/${lookup(local.image_options.native, "source_image_name", "")}/${local.image_provider}/native" : ""
+    import_directory = local.native_build ? "${path.cwd}/../../artifacts/${lookup(local.image_options.native, "source_image", "")}/${local.image_provider}/native" : ""
 
     boot_command = local.native_iso ? [
       "c<wait>",
