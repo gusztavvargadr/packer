@@ -46,5 +46,5 @@ locals {
   image_version     = "${local.image_options.core.image_version}.${var.version}"
   image_provider    = var.provider
 
-  artifacts_directory = "${path.cwd}/artifacts/${var.image}/${local.image_provider}/${var.build}"
+  artifacts_directory = "${path.cwd}/../../artifacts/${local.image_name}/${local.image_provider}/${var.build}"
 }

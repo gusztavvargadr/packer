@@ -12,6 +12,3 @@ stages:
       sample: docker-windows
       image: community-windows-server-core
       provider: vmware
-      source:
-        sample: windows-server
-        image: 2022-standard-core

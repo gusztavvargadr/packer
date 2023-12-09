@@ -19,7 +19,7 @@ locals {
     iso_checksum = ""
     cd_content   = {}
 
-    import_directory = local.vagrant_build ? "${path.cwd}/artifacts/${var.image}/${local.image_provider}/native" : ""
+    import_directory = local.vagrant_build ? "${local.artifacts_directory}/../native" : ""
 
     boot_command     = compact([])
     shutdown_command = "C:/Windows/Temp/packer/shutdown.cmd"
@@ -137,7 +137,7 @@ build {
     }
 
     post-processor "vagrant-cloud" {
-      box_tag    = "${var.author}/${local.image_name}"
+      box_tag    = "${var.author}/${replace(local.image_name, "/", "-")}"
       version    = local.image_version
       no_release = true
     }

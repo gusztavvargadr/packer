@@ -1,7 +1,7 @@
 images = {
   "2022-standard" = {
     core = {
-      image_name        = "windows-server-2022-standard"
+      image_name        = "windows-server/2022-standard"
       image_description = "Windows Server 2022 Standard"
       image_version     = "2102.0"
     }
@@ -25,7 +25,7 @@ images = {
 
   "2022-standard-core" = {
     core = {
-      image_name        = "windows-server-2022-standard-core"
+      image_name        = "windows-server/2022-standard-core"
       image_description = "Windows Server 2022 Standard Core"
       image_version     = "2102.0"
     }
@@ -49,7 +49,7 @@ images = {
 
   "2019-standard" = {
     core = {
-      image_name        = "windows-server-2019-standard"
+      image_name        = "windows-server/2019-standard"
       image_description = "Windows Server 2019 Standard"
       image_version     = "1809.0"
     }
@@ -74,7 +74,7 @@ images = {
 
   "2019-standard-core" = {
     core = {
-      image_name        = "windows-server-2019-standard-core"
+      image_name        = "windows-server/2019-standard-core"
       image_description = "Windows Server 2019 Standard Core"
       image_version     = "1809.0"
     }
@@ -99,7 +99,7 @@ images = {
 
   "insider-preview-standard" = {
     core = {
-      image_name        = "windows-server-insider-preview-standard"
+      image_name        = "windows-server/insider-preview-standard"
       image_description = "Windows Server Insider Preview Standard"
       image_version     = "2102.0"
     }
@@ -124,7 +124,7 @@ images = {
 
   "insider-preview-standard-core" = {
     core = {
-      image_name        = "windows-server-insider-preview-standard-core"
+      image_name        = "windows-server/insider-preview-standard-core"
       image_description = "Windows Server Insider Preview Standard Core"
       image_version     = "2102.0"
     }
