@@ -9,6 +9,10 @@ images = {
     native = {
       source_image = "windows-server/2022-standard"
     }
+
+    vagrant = {
+      box_name = "docker-community-windows-server"
+    }
   }
 
   "community-windows-server-core" = {
@@ -20,6 +24,10 @@ images = {
 
     native = {
       source_image = "windows-server/2022-standard-core"
+    }
+
+    vagrant = {
+      box_name = "docker-community-windows-server-core"
     }
   }
 }

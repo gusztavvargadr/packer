@@ -9,7 +9,7 @@ variable "author" {
 
 variable "version" {
   type    = string
-  default = "2311"
+  default = "2312"
 }
 
 variable "images" {

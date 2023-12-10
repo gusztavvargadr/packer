@@ -139,7 +139,7 @@ build {
     }
 
     post-processor "vagrant-cloud" {
-      box_tag    = "${var.author}/${replace(local.image_name, "/", "-")}"
+      box_tag    = "${var.author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
       version    = local.image_version
       no_release = true
     }

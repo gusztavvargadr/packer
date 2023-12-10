@@ -1,7 +1,7 @@
 images = {
   "22h2-enterprise" = {
     core = {
-      image_name        = "w1022h2e"
+      image_name        = "windows-10/22h2-enterprise"
       image_description = "Windows 10 Version 22H2 Enterprise"
       image_version     = "2202.0"
     }
@@ -27,7 +27,7 @@ images = {
 
   "21h2-enterprise" = {
     core = {
-      image_name        = "w1021h2e"
+      image_name        = "windows-10/21h2-enterprise"
       image_description = "Windows 10 Version 21H2 Enterprise"
       image_version     = "2102.0"
     }
@@ -53,7 +53,7 @@ images = {
 
   "21h2-enterprise-ltsc" = {
     core = {
-      image_name        = "w1021h2eltsc"
+      image_name        = "windows-10/21h2-enterprise-ltsc"
       image_description = "Windows 10 Version 21H2 Enterprise LTSC"
       image_version     = "2102.0"
     }
@@ -81,7 +81,7 @@ images = {
 
   "1809-enterprise-ltsc" = {
     core = {
-      image_name        = "w101809eltsc"
+      image_name        = "windows-10/1809-enterprise-ltsc"
       image_description = "Windows 10 Version 1809 Enterprise LTSC"
       image_version     = "1809.0"
     }

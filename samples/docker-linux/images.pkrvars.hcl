@@ -9,5 +9,9 @@ images = {
     native = {
       source_image = "ubuntu-server/2204-lts"
     }
+
+    vagrant = {
+      box_name = "docker-community-ubuntu-server"
+    }
   }
 }
