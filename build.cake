@@ -1,16 +1,11 @@
 var target = Argument("target", "default");
 
 var sample = Argument<string>("sample");
-var platform = Argument("platform", "");
 var image = Argument<string>("image");
 var provider = Argument<string>("provider");
 var build = Argument<string>("build");
 
-var version = "2311";
-
-if (string.IsNullOrEmpty(platform)) {
-  platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu" : "windows";
-}
+var platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu" : "windows";
 
 var sampleDirectory = Directory($"samples/{sample}");
 var platformDirectory = Directory($"../../src/{platform}");
@@ -45,7 +40,7 @@ Task("publish")
   });
 
 Task("default")
-  .IsDependentOn("build");
+  .IsDependentOn("test");
 
 RunTarget(target);
 

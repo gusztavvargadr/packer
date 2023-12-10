@@ -28,23 +28,15 @@ variable "build" {
   type = string
 }
 
-variable "userprofile_directory" {
-  type    = string
-  default = env("USERPROFILE")
-}
-
-variable "home_directory" {
-  type    = string
-  default = env("HOME")
-}
-
 locals {
   image_options = var.images[var.image]
 
-  image_name        = local.image_options.core.image_name
+  image_author      = var.author
+  image_name        = "${basename(path.cwd)}/${var.image}"
   image_description = local.image_options.core.image_description
   image_version     = "${local.image_options.core.image_version}.${var.version}"
   image_provider    = var.provider
+  image_build       = var.build
 
   artifacts_directory = "${path.cwd}/../../artifacts/${local.image_name}/${local.image_provider}/${var.build}"
 }

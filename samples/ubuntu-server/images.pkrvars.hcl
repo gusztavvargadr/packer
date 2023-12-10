@@ -1,7 +1,6 @@
 images = {
   "2204-lts" = {
     core = {
-      image_name        = "ubuntu-server/2204-lts"
       image_description = "Ubuntu Server 22.04 LTS"
       image_version     = "2204.0"
     }
@@ -23,7 +22,6 @@ images = {
 
   "2004-lts" = {
     core = {
-      image_name        = "ubuntu-server/2004-lts"
       image_description = "Ubuntu Server 20.04 LTS"
       image_version     = "2004.0"
     }

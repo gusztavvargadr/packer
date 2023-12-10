@@ -21,8 +21,8 @@ locals {
     timeout  = "30m"
   }
 
-  native_build  = var.build == "native"
-  vagrant_build = var.build == "vagrant"
+  native_build  = local.image_build == "native"
+  vagrant_build = local.image_build == "vagrant"
 }
 
 locals {

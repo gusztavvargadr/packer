@@ -1,3 +1,13 @@
+variable "userprofile_directory" {
+  type    = string
+  default = env("USERPROFILE")
+}
+
+variable "home_directory" {
+  type    = string
+  default = env("HOME")
+}
+
 locals {
   native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
