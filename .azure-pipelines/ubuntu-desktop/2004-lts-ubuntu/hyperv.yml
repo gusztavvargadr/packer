@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2004-lts.hyperv
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: ubuntu-desktop
+      image: 2004-lts-ubuntu
+      provider: hyperv
