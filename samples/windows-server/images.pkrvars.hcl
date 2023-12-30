@@ -13,6 +13,10 @@ images = {
       boot_image_name = "Windows Server 2022 SERVERSTANDARD"
     }
 
+    vagrant = {
+      box_alias = "windows-server"
+    }
+
     virtualbox = {
       guest_os_type = "Windows2019_64"
     }
@@ -34,6 +38,10 @@ images = {
       source_iso_checksum   = "sha256:3e4fa6d8507b554856fc9ca6079cc402df11a8b79344871669f0251535255325"
 
       boot_image_name = "Windows Server 2022 SERVERSTANDARDCORE"
+    }
+
+    vagrant = {
+      box_alias = "windows-server-core"
     }
 
     virtualbox = {

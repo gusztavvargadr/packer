@@ -13,8 +13,9 @@ images = {
     }
 
     vagrant = {
-      cpus   = "4"
-      memory = "8192"
+      cpus      = "4"
+      memory    = "8192"
+      box_alias = "visual-studio"
     }
   }
 

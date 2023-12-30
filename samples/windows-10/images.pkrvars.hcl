@@ -13,7 +13,8 @@ images = {
     }
 
     vagrant = {
-      memory = "4096"
+      memory    = "4096"
+      box_alias = "windows-10"
     }
 
     virtualbox = {
@@ -63,7 +64,7 @@ images = {
       source_iso_url_remote = "https://software-download.microsoft.com/download/db/444969d5-f34g-4e03-ac9d-1f9786c69161/19044.1288.211006-0501.21h2_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
       source_iso_checksum   = "sha256:e4ab2e3535be5748252a8d5d57539a6e59be8d6726345ee10e7afd2cb89fefb5"
 
-      boot_image_name     = "Windows 10 Enterprise LTSC 2021 Evaluation"
+      boot_image_name = "Windows 10 Enterprise LTSC 2021 Evaluation"
     }
 
     vagrant = {
@@ -87,9 +88,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local      = "17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
-      source_iso_url_remote     = "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
-      source_iso_checksum       = "sha256:668fe1af70c2f7416328aee3a0bb066b12dc6bbd2576f40f812b95741e18bc3a"
+      source_iso_url_local  = "17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
+      source_iso_url_remote = "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
+      source_iso_checksum   = "sha256:668fe1af70c2f7416328aee3a0bb066b12dc6bbd2576f40f812b95741e18bc3a"
 
       boot_chocolatey_version = "1.4.0"
     }

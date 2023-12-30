@@ -10,7 +10,8 @@ images = {
     }
 
     vagrant = {
-      box_name = "docker-community-ubuntu-server"
+      box_name  = "docker-community-ubuntu-server"
+      box_alias = "docker-linux"
     }
   }
 }

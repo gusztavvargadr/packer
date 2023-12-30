@@ -11,6 +11,10 @@ images = {
       source_iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
     }
 
+    vagrant = {
+      box_alias = "ubuntu-server"
+    }
+
     virtualbox = {
       guest_os_type = "Ubuntu_64"
     }

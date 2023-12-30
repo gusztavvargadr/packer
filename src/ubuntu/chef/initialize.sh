@@ -10,3 +10,5 @@ if ! [ -x "$(command -v chef-client)" ]; then
   sudo apt-mark hold chef
 fi
 chef-client --version
+
+sudo lvextend -l +100%FREE -r /dev/mapper/ubuntu--vg-ubuntu--lv

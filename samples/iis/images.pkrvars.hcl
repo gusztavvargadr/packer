@@ -11,7 +11,8 @@ images = {
     }
 
     vagrant = {
-      ports = "3389,80"
+      ports     = "3389,80"
+      box_alias = "iis"
     }
   }
 

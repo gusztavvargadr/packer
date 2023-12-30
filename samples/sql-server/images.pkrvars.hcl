@@ -13,7 +13,8 @@ images = {
     }
 
     vagrant = {
-      ports = "3389,1433"
+      ports     = "3389,1433"
+      box_alias = "sql-server"
     }
   }
 

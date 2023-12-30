@@ -10,7 +10,8 @@ images = {
     }
 
     vagrant = {
-      box_name = "docker-community-windows-server"
+      box_name  = "docker-community-windows-server"
+      box_alias = "docker-windows"
     }
   }
 

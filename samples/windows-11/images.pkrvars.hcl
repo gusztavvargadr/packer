@@ -15,7 +15,8 @@ images = {
     }
 
     vagrant = {
-      memory = "4096"
+      memory    = "4096"
+      box_alias = "windows-11"
     }
 
     virtualbox = {

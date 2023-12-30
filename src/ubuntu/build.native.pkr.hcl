@@ -106,27 +106,15 @@ build {
     expect_disconnect = true
 
     scripts = [
-      "${path.root}/chef/scripts/shell-configure/sshd.sh",
-      "${path.root}/chef/scripts/shell-configure/networking.sh",
+      "${path.root}/chef/scripts/sshd.sh",
+      "${path.root}/chef/scripts/networking.sh",
     ]
   }
 
   provisioner "shell" {
-    execute_command   = "{{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
+    script            = "${path.root}/chef/cleanup.sh"
     expect_disconnect = true
-
-    scripts = [
-      "${path.root}/chef/scripts/shell-cleanup/cleanup.sh",
-      "${path.root}/chef/scripts/shell-cleanup/minimize.sh",
-    ]
   }
-
-  // provisioner "powershell" {
-  //   script = "${path.root}/chef/cleanup.ps1"
-
-  //   elevated_user     = local.communicator.username
-  //   elevated_password = local.communicator.password
-  // }
 
   post-processor "manifest" {
     output = "${local.artifacts_directory}/manifest.json"
