@@ -85,6 +85,7 @@ jobs:
   - ${{ if eq(parameters.build, 'vagrant') }}:
     - job: publish
       displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      dependsOn: build
 
       pool:
         vmImage: ubuntu-22.04
@@ -98,9 +99,9 @@ jobs:
 
         - script: |
             df -h
-            sudo rm -Rf /usr/local/lib/android
-            sudo rm -Rf /usr/local/lib/node_modules
-            df -h
+            # sudo rm -Rf /usr/local/lib/android
+            # sudo rm -Rf /usr/local/lib/node_modules
+            # df -h
 
             curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/deploy.sh | sudo POLICY_NAME="vagrant" bash -s
             sudo apt-get -y install packer
