@@ -76,7 +76,7 @@ jobs:
         artifact: ${{ parameters.build }}-build
         displayName: Publish artifacts
 
-      # - script: |
-      #     dotnet cake build.cake --target=clean --configuration=${{ parameters.image }}-${{ parameters.provider }}-${{ parameters.configuration }} --recursive true
-      #   displayName: Build - Clean
-      #   condition: always()
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target clean
+        displayName: Clean
+        condition: always()

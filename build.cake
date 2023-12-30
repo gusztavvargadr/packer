@@ -9,6 +9,7 @@ var platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu
 
 var sampleDirectory = Directory($"samples/{sample}");
 var platformDirectory = Directory($"../../src/{platform}");
+var artifactsDirectory = Directory($"artifacts");
 
 Task("init")
   .Does(() => {
@@ -37,6 +38,11 @@ Task("publish")
   .IsDependentOn("test")
   .Does(() => {
     PackerBuild("publish");
+  });
+
+Task("clean")
+  .Does(() => {
+    CleanDirectory(artifactsDirectory);
   });
 
 Task("default")
