@@ -26,7 +26,7 @@ jobs:
           dotnet --info
 
           dotnet tool restore
-        displayName: Initialize build
+        displayName: Initialize .NET
 
       - script: |
           packer --version
@@ -41,7 +41,11 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init
+        displayName: Init
+
+      - script: |
+          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore --exclusive
         displayName: Restore
 
       - ${{ if eq(parameters.build, 'native') }}:
@@ -111,7 +115,11 @@ jobs:
             dotnet --info
 
             dotnet tool restore
-          displayName: Initialize build
+          displayName: Initialize .NET
+
+        - script: |
+            packer --version
+          displayName: Initialize Packer
 
         - script: |
             vagrant --version
@@ -122,9 +130,8 @@ jobs:
           displayName: Initialize Vagrant
 
         - script: |
-
-            packer --version
-          displayName: Initialize Packer
+            dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init
+          displayName: Init
 
         - task: DownloadPipelineArtifact@2
           inputs:
