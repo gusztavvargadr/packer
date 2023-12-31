@@ -146,8 +146,8 @@ build {
       box_tag              = "${local.image_author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
       version              = local.image_version
       box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-      architecture         = "amd64"
-      default_architecture = "amd64"
+      architecture         = "unknown"
+      default_architecture = "unknown"
       no_release           = true
     }
   }
@@ -163,10 +163,10 @@ build {
       post-processor "vagrant-cloud" {
         box_tag              = "${local.image_author}/${post-processors.value}"
         version              = local.image_version
-        box_download_url     = "https://app.vagrantup.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/amd64/vagrant.box"
+        box_download_url     = "https://app.vagrantup.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}.box"
         box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-        architecture         = "amd64"
-        default_architecture = "amd64"
+        architecture         = "unknown"
+        default_architecture = "unknown"
         no_release           = true
       }
     }
