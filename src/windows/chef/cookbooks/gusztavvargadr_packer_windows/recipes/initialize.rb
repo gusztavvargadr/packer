@@ -107,7 +107,7 @@ if vbox?
       EOH
       cwd 'Z:'
       action :run
-      gusztavvargadr_packer_windowss :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
+      gusztavvargadr_packer_windows :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
     end
 
     gusztavvargadr_windows_iso '' do
