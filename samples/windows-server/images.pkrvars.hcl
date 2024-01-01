@@ -104,12 +104,12 @@ images = {
   "insider-preview-standard" = {
     core = {
       image_description = "Windows Server Insider Preview Standard"
-      image_version     = "2102.0"
+      image_version     = "2302.0"
     }
 
     native = {
       source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26010.iso"
-      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2102.0.2312/providers/iso/amd64/vagrant.box"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2312/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:474c791bd2d2bc8ce183635bf9ca9d9556c59b738cbc247d854854811cf73741"
 
       boot_image_name     = "Windows Server 2022 SERVERSTANDARD"
@@ -128,12 +128,12 @@ images = {
   "insider-preview-standard-core" = {
     core = {
       image_description = "Windows Server Insider Preview Standard Core"
-      image_version     = "2102.0"
+      image_version     = "2302.0"
     }
 
     native = {
       source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26010.iso"
-      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2102.0.2312/providers/iso/amd64/vagrant.box"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2312/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:474c791bd2d2bc8ce183635bf9ca9d9556c59b738cbc247d854854811cf73741"
 
       boot_image_name     = "Windows Server 2022 SERVERSTANDARDCORE"
