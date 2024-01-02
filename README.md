@@ -141,12 +141,18 @@ The following Vagrant boxes can be used for generic experiments on the respectiv
 [Sample usage][ubuntu-desktop-sample-usage]
 
 - [Ubuntu Desktop **Latest**][ubuntu-desktop-latest-box]
-- [Ubuntu Desktop **20.04 LTS with Xfce**][ubuntu-desktop-2004-lts-xfce-box]
+- [**Ubuntu** Desktop **22.04 LTS**][ubuntu-desktop-2204-lts-box]
+- [**Xubuntu** Desktop **22.04 LTS**][xubuntu-desktop-2204-lts-box]
+- [**Ubuntu** Desktop **20.04 LTS**][ubuntu-desktop-2004-lts-box]
+- [**Xubuntu** Desktop **20.04 LTS**][xubuntu-desktop-2004-lts-box]
 
 [ubuntu-desktop-sample-usage]: ./samples/ubuntu-desktop/
 
 [ubuntu-desktop-latest-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop/
-[ubuntu-desktop-2004-lts-xfce-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
+[ubuntu-desktop-2204-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2204-lts/
+[xubuntu-desktop-2204-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/xubuntu-desktop-2204-lts/
+[ubuntu-desktop-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts/
+[xubuntu-desktop-2004-lts-box]: https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce/
 
 ### Hosting
 
