@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-server.2022-standard.vmware
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: iis
+      image: windows-server
+      provider: vmware
