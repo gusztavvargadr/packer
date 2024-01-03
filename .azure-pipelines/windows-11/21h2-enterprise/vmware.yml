@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: windows-11
+      image: 21h2-enterprise
+      provider: vmware

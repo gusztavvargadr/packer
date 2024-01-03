@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: windows-server
+      image: 2019-standard
+      provider: vmware
