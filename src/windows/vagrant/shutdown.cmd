@@ -1,4 +1,4 @@
-powershell -C "Get-AppxPackage -Name ""*OneDriveSync*"" | Remove-AppxPackage"
+powershell -C "Get-AppxPackage -Name \"*OneDriveSync*\" | Remove-AppxPackage"
 
 sc.exe config winrm start= disabled
 sc.exe config sshd start= disabled
