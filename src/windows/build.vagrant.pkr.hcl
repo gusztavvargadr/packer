@@ -71,6 +71,13 @@ build {
     destination = local.packer_destination
   }
 
+  provisioner "powershell" {
+    script = "${path.root}/vagrant/cleanup.ps1"
+
+    elevated_user     = local.communicator.username
+    elevated_password = local.communicator.password
+  }
+
   post-processors {
     post-processor "vagrant" {
       vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
