@@ -34,9 +34,10 @@ locals {
 
 locals {
   vagrant_options_core = {
-    cpus   = "2"
-    memory = "2048"
-    ports  = "3389"
+    cpus         = "2"
+    memory       = "2048"
+    ports        = "3389"
+    architecture = "amd64"
   }
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
@@ -153,8 +154,8 @@ build {
       box_tag              = "${local.image_author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
       version              = local.image_version
       box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-      architecture         = "unknown"
-      default_architecture = "unknown"
+      architecture         = local.vagrant_options.architecture
+      default_architecture = local.vagrant_options.architecture
       no_release           = true
     }
   }
@@ -170,10 +171,10 @@ build {
       post-processor "vagrant-cloud" {
         box_tag              = "${local.image_author}/${post-processors.value}"
         version              = local.image_version
-        box_download_url     = "https://app.vagrantup.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}.box"
+        box_download_url     = "https://app.vagrantup.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
         box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-        architecture         = "unknown"
-        default_architecture = "unknown"
+        architecture         = local.vagrant_options.architecture
+        default_architecture = local.vagrant_options.architecture
         no_release           = true
       }
     }
