@@ -1,0 +1,18 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "2022", autostart: false do |config|
+    config.vm.box = "gusztavvargadr/kitchen-windows-2022"
+  end
+
+  config.vm.provision "shell", inline: <<-EOH
+    cmd /c ver
+
+    systeminfo
+    Get-ComputerInfo
+
+    choco list -i
+
+    chef-client --version
+  EOH
+end

@@ -68,6 +68,7 @@ locals {
   chef_max_retries         = 10
   chef_start_retry_timeout = "30m"
   chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
+  chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
 }
 
 build {
@@ -114,6 +115,10 @@ build {
   provisioner "shell" {
     script            = "${path.root}/chef/cleanup.sh"
     expect_disconnect = true
+
+    env = {
+      CHEF_KEEP = local.chef_keep
+    }
   }
 
   post-processor "manifest" {

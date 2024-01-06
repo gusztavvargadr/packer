@@ -26,8 +26,10 @@ dpkg --list \
     | grep -- '-doc$' \
     | sudo xargs apt-get -y purge;
 
-sudo apt-mark unhold chef
-sudo apt-get -y purge chef
+if [ "${CHEF_KEEP}" != "true" ]; then
+    sudo apt-mark unhold chef
+    sudo apt-get -y purge chef
+fi
 
 sudo apt-get -y autoremove;
 sudo apt-get -y clean;
