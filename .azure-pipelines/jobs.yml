@@ -107,8 +107,8 @@ jobs:
             # sudo rm -Rf /usr/local/lib/node_modules
             # df -h
 
-            curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/deploy.sh | sudo POLICY_NAME="vagrant" bash -s
-            sudo apt-get -y install packer
+            curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/provision.sh | sudo CHEF_POLICY="vagrant" bash -s
+            # sudo apt-get -y install packer
           displayName: Initialize agent
 
         - script: |
