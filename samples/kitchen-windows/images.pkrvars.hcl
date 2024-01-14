@@ -1,7 +1,7 @@
 images = {
   "2022" = {
     core = {
-      image_description = "Test Kitchen target for Windows 2022"
+      image_description = "Test Kitchen target for windows-2022"
       image_version     = "2102.0"
     }
 
