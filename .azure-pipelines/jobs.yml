@@ -13,6 +13,9 @@ jobs:
       demands:
         - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
 
+    workspace:
+      clean: all
+
     timeoutInMinutes: 150
 
     variables:
@@ -41,11 +44,11 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
         displayName: Init
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target restore --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore --exclusive
         displayName: Restore
 
       - ${{ if eq(parameters.build, 'native') }}:
@@ -70,11 +73,11 @@ jobs:
           displayName: Download artifacts
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target build --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build --exclusive
         displayName: Build
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target test --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test --exclusive
         displayName: Test
 
       - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
@@ -82,7 +85,7 @@ jobs:
         displayName: Publish artifacts
 
       - script: |
-          dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target clean
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
         displayName: Clean
         condition: always()
 
@@ -106,9 +109,6 @@ jobs:
             # sudo rm -Rf /usr/local/lib/android
             # sudo rm -Rf /usr/local/lib/node_modules
             # df -h
-
-            curl -Ls https://gist.github.com/gusztavvargadr/1f0d7dddc7f48549368eaaedf19bfe55/raw/provision.sh | sudo CHEF_POLICY="vagrant" bash -s
-            # sudo apt-get -y install packer
           displayName: Initialize agent
 
         - script: |
@@ -122,15 +122,7 @@ jobs:
           displayName: Initialize Packer
 
         - script: |
-            vagrant --version
-            vagrant plugin list
-
-            vagrant box list
-            vagrant global-status --prune
-          displayName: Initialize Vagrant
-
-        - script: |
-            dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target init
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
           displayName: Init
 
         - task: DownloadPipelineArtifact@2
@@ -141,12 +133,12 @@ jobs:
           displayName: Download artifacts
 
         - script: |
-            dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target publish --exclusive
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish --exclusive
           displayName: Publish
           env:
             VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
 
         - script: |
-            dotnet cake --sample ${{ parameters.sample }} --image ${{ parameters.image }} --provider ${{ parameters.provider }} --build ${{ parameters.build }} --target clean
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
           displayName: Clean
           condition: always()

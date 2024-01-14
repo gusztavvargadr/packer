@@ -1,9 +1,14 @@
+var configuration = Argument("configuration", string.Empty);
 var target = Argument("target", "default");
 
-var sample = Argument<string>("sample");
-var image = Argument<string>("image");
-var provider = Argument<string>("provider");
-var build = Argument<string>("build");
+var author = Argument("author", "gusztavvargadr");
+var version = Argument("version", "2312");
+
+var configurationParts = configuration.Split('/', StringSplitOptions.RemoveEmptyEntries);
+var sample = configurationParts.ElementAtOrDefault(0) ?? Argument<string>("sample");
+var image = configurationParts.ElementAtOrDefault(1) ?? Argument<string>("image");
+var provider = configurationParts.ElementAtOrDefault(2) ?? Argument<string>("provider");
+var build = configurationParts.ElementAtOrDefault(3) ?? Argument<string>("build");
 
 var platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu" : "windows";
 
@@ -56,13 +61,15 @@ void PackerInit() {
   arguments.Append("init");
   arguments.Append(platformDirectory);
 
-  Packer(arguments.Render());
+  Packer(arguments);
 }
 
 void PackerBuild(string stage) {
   var arguments = new ProcessArgumentBuilder();
 
   arguments.Append("build");
+  arguments.Append($"-var author=\"{author}\"");
+  arguments.Append($"-var version=\"{version}\"");
   arguments.Append($"-var-file=\"images.pkrvars.hcl\"");
   arguments.Append($"-var image=\"{image}\"");
   arguments.Append($"-var provider=\"{provider}\"");
@@ -71,10 +78,10 @@ void PackerBuild(string stage) {
   arguments.Append("-force");
   arguments.Append(platformDirectory);
 
-  Packer(arguments.Render());
+  Packer(arguments);
 }
 
-void Packer(string arguments) {
+void Packer(ProcessArgumentBuilder arguments) {
   var result = StartProcess("packer", new ProcessSettings {
     Arguments = arguments,
     WorkingDirectory = sampleDirectory

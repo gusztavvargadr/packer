@@ -14,11 +14,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "vmware_desktop" do |provider, _override|
-    provider.linked_clone = true
+    provider.linked_clone = false
   end
 
   config.vm.provider "hyperv" do |provider, override|
-    provider.linked_clone = true
+    provider.linked_clone = false
 
     override.vm.network "private_network", bridge: hyperv_network_bridge
   end

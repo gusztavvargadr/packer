@@ -3,13 +3,11 @@ packer {
 }
 
 variable "author" {
-  type    = string
-  default = "gusztavvargadr"
+  type = string
 }
 
 variable "version" {
-  type    = string
-  default = "2312"
+  type = string
 }
 
 variable "images" {

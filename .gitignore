@@ -1,6 +1,4 @@
-tools
-
 *.lock.json
+packer_cache
 artifacts
 .vagrant
-.kitchen
