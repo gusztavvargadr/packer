@@ -110,21 +110,19 @@ build {
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_DEFAULT_PROVIDER = "${lookup(local.vagrant_providers, local.image_provider, "")}"
-      VAGRANT_BOX_URL          = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up local"
+      "vagrant up local --provider ${lookup(local.vagrant_providers, local.image_provider, "")}"
     ]
 
     max_retries = 1
 
     env = {
-      VAGRANT_DEFAULT_PROVIDER = "${lookup(local.vagrant_providers, local.image_provider, "")}"
-      VAGRANT_BOX_URL          = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
@@ -137,8 +135,7 @@ build {
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_DEFAULT_PROVIDER = "${lookup(local.vagrant_providers, local.image_provider, "")}"
-      VAGRANT_BOX_URL          = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 }

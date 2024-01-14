@@ -52,14 +52,10 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "chef install",
+      "chef install --chef-license accept-silent",
       "chef update --attributes",
       "chef export ${local.artifacts_directory}/chef --force"
     ]
-
-    env = {
-      CHEF_LICENSE = "accept-silent"
-    }
   }
 }
 
