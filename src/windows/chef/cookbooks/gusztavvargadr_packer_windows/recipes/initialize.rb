@@ -73,11 +73,9 @@ remote_file sdelete_executable_target do
 end
 
 if vbox?
-  chocolatey_version = powershell_out('choco --version').stdout.strip
-  chocolatey_list_command = chocolatey_version.start_with?('1') ? 'choco list -li' : 'choco list -i'
-  vbox_guest_additions_installed = powershell_out(chocolatey_list_command).stdout.downcase.include? 'virtualbox'
+  vbox_version = powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout.strip
 
-  unless vbox_guest_additions_installed
+  unless vbox_version.include?('6.')
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
     vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
@@ -119,10 +117,14 @@ if vbox?
 end
 
 if vmware?
-  chocolatey_package 'vmware-tools' do
-    returns [0, 2, 3010]
-    action :install
-    notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
+  vmware_version = powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout.strip
+
+  unless vmware_version.include?('12.')
+    chocolatey_package 'vmware-tools' do
+      returns [0, 2, 3010]
+      action :install
+      notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
+    end
   end
 end
 

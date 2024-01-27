@@ -60,8 +60,8 @@ build {
 }
 
 locals {
-  chef_destination         = "/opt/packer-build/chef/"
-  chef_max_retries         = 10
+  chef_destination         = "/var/tmp/packer-build/chef/"
+  chef_max_retries         = 5
   chef_start_retry_timeout = "30m"
   chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
@@ -74,7 +74,6 @@ build {
 
   provisioner "shell" {
     script            = "${path.root}/chef/initialize.sh"
-    expect_disconnect = true
   }
 
   provisioner "file" {
@@ -88,7 +87,7 @@ build {
   }
 
   provisioner "shell" {
-    script              = "${path.root}/chef/provision.sh"
+    script              = "${path.root}/chef/apply.sh"
     max_retries         = local.chef_max_retries
     pause_before        = "90s"
     start_retry_timeout = local.chef_start_retry_timeout

@@ -6,8 +6,7 @@ gusztavvargadr_packer_windows_sources
 
 run_list(
   'recipe[gusztavvargadr_packer_windows::initialize]',
-  'recipe[gusztavvargadr_packer_windows::provision]',
-  'recipe[gusztavvargadr_packer_windows::deploy]',
+  'recipe[gusztavvargadr_packer_windows::apply]',
   'recipe[gusztavvargadr_iis::default]',
   'recipe[gusztavvargadr_packer_windows::cleanup]'
 )

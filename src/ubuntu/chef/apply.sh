@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-cd /opt/packer-build/chef
+cd /var/tmp/packer-build/chef
 
 RUN_OPTIONS="--local-mode"
 if ! [ -z ${CHEF_ATTRIBUTES} ]; then

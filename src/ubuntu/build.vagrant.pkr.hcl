@@ -54,10 +54,6 @@ build {
   sources = ["file.Vagrantfile"]
 }
 
-locals {
-  packer_destination = "/opt/packer-build/core/"
-}
-
 build {
   name = "vagrant-build"
 

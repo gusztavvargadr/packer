@@ -62,7 +62,7 @@ build {
 
 locals {
   chef_destination         = "C:/Windows/Temp/chef/"
-  chef_max_retries         = 10
+  chef_max_retries         = 5
   chef_start_retry_timeout = "30m"
   chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
@@ -91,7 +91,7 @@ build {
   }
 
   provisioner "powershell" {
-    script              = "${path.root}/chef/provision.ps1"
+    script              = "${path.root}/chef/apply.ps1"
     max_retries         = local.chef_max_retries
     pause_before        = "60s"
     start_retry_timeout = local.chef_start_retry_timeout
