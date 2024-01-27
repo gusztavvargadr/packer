@@ -3,7 +3,7 @@ apt_update '' do
 end
 
 if vbox?
-  vbox_version = shell_out('VBoxControl -v').stdout.strip
+  vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
 
   unless vbox_version.include?('6.')
     apt_package [ 'build-essential', 'cryptsetup', 'libssl-dev', 'libreadline-dev', 'zlib1g-dev', 'linux-source', 'dkms', 'linux-headers-generic' ] do
@@ -32,7 +32,7 @@ EOH
 end
 
 if vmware?
-  vmware_version = shell_out('vmware-toolbox-cmd -v').stdout.strip
+  vmware_version = (shell_out('vmware-toolbox-cmd -v').stdout rescue '').strip
 
   unless vmware_version.include?('12.')
     apt_package [ 'open-vm-tools', 'open-vm-tools-desktop' ] do

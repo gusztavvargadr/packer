@@ -73,7 +73,7 @@ remote_file sdelete_executable_target do
 end
 
 if vbox?
-  vbox_version = powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout.strip
+  vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout rescue '').strip
 
   unless vbox_version.include?('6.')
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
@@ -117,7 +117,7 @@ if vbox?
 end
 
 if vmware?
-  vmware_version = powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout.strip
+  vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
 
   unless vmware_version.include?('12.')
     chocolatey_package 'vmware-tools' do

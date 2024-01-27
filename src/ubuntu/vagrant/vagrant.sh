@@ -18,8 +18,8 @@ virtualbox-ovf|hyperv-vmcx|vmware-vmx)
     echo "blank netplan machine-id (DUID) so machines get unique ID generated on boot"
     truncate -s 0 /etc/machine-id
 
-    echo "remove the contents of /tmp and /var/tmp"
-    rm -rf /tmp/* /var/tmp/*
+    echo "remove the contents of /tmp"
+    rm -rf /tmp/*
 
     echo "force a new random seed to be generated"
     rm -f /var/lib/systemd/random-seed
