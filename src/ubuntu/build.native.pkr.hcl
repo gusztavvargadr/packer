@@ -98,16 +98,6 @@ build {
   }
 
   provisioner "shell" {
-    execute_command   = "{{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
-    expect_disconnect = true
-
-    scripts = [
-      "${path.root}/chef/scripts/sshd.sh",
-      "${path.root}/chef/scripts/networking.sh",
-    ]
-  }
-
-  provisioner "shell" {
     script            = "${path.root}/chef/cleanup.sh"
     expect_disconnect = true
 
