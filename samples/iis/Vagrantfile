@@ -1,17 +1,9 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.define "latest", primary: true do |config|
-    config.vm.box = "gusztavvargadr/iis"
-  end
-
-  config.vm.define "windows-server", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/iis-windows-server"
-  end
-
-  config.vm.define "windows-server-core", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/iis-windows-server-core"
-  end
+  config_vm_define config, "latest", "iis"
+  config_vm_define config, "windows-server", "iis-windows-server"
+  config_vm_define config, "windows-server-core", "iis-windows-server-core"
 
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver

@@ -1,9 +1,7 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.define "2022", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/kitchen-windows-2022"
-  end
+  config_vm_define config, "2022", "kitchen-windows-2022"
 
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver

@@ -1,9 +1,7 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.define "2204", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/kitchen-ubuntu-2204"
-  end
+  config_vm_define config, "2204", "kitchen-ubuntu-2204"
 
   config.vm.provision "shell", inline: <<-EOH
     uname -a

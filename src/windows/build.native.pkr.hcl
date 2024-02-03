@@ -62,7 +62,7 @@ build {
 
 locals {
   chef_destination         = "C:/Windows/Temp/chef/"
-  chef_max_retries         = 5
+  chef_max_retries         = 10
   chef_start_retry_timeout = "30m"
   chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
