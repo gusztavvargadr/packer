@@ -50,7 +50,6 @@ if !vbox? && !vmware?
 
   apt_package [ 'linux-tools-generic', 'linux-cloud-tools-generic' ] do
     action :upgrade
-    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end
 end
 
@@ -76,6 +75,29 @@ bash 'sshd' do
     fi
 EOH
   action :run
+end
+
+
+file '/etc/netplan/01-netcfg.yaml' do
+  content <<-EOH
+    network:
+      version: 2
+      ethernets:
+        eth0:
+          dhcp4: true
+EOH
+  action :create
+  notifies :run, 'bash[netcfg]', :immediately
+end
+
+bash 'netcfg' do
+  code <<-EOH
+    sed -i 's/GRUB_CMDLINE_LINUX="\\(.*\\)"/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0 \\1"/g' /etc/default/grub
+    sed -i "/recordfail_broken=/{s/1/0/}" /etc/grub.d/00_header
+    update-grub
+EOH
+  action :nothing
+  notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
 end
 
 reboot 'gusztavvargadr_packer_ubuntu' do
