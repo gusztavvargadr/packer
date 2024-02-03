@@ -103,8 +103,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f local",
-      "vagrant box remove gusztavvargadr/local"
+      "vagrant destroy -f ${var.image}",
     ]
 
     valid_exit_codes = [0, 1]
@@ -116,7 +115,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up local --provider ${lookup(local.vagrant_providers, local.image_provider, "")}"
+      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
     ]
 
     max_retries = 1
@@ -128,8 +127,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f local",
-      "vagrant box remove gusztavvargadr/local"
+      "vagrant destroy -f ${var.image}",
     ]
 
     valid_exit_codes = [0, 1]
@@ -156,7 +154,6 @@ build {
       box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.vagrant_options.architecture
       default_architecture = local.vagrant_options.architecture
-      no_release           = true
     }
   }
 
@@ -175,7 +172,6 @@ build {
         box_checksum         = "sha256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
         architecture         = local.vagrant_options.architecture
         default_architecture = local.vagrant_options.architecture
-        no_release           = true
       }
     }
   }

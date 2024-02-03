@@ -1,25 +1,11 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config.vm.define "latest", primary: true do |config|
-    config.vm.box = "gusztavvargadr/windows-11"
-  end
-
-  config.vm.define "23h2-enterprise", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/windows-11-23h2-enterprise"
-  end
-
-  config.vm.define "22h2-enterprise", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/windows-11-22h2-enterprise"
-  end
-
-  config.vm.define "21h2-enterprise", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/windows-11-21h2-enterprise"
-  end
-
-  config.vm.define "insider-preview-enterprise", autostart: false do |config|
-    config.vm.box = "gusztavvargadr/windows-11-insider-preview-enterprise"
-  end
+  config_vm_define config, "latest", "windows-11"
+  config_vm_define config, "23h2-enterprise", "windows-11-23h2-enterprise"
+  config_vm_define config, "22h2-enterprise", "windows-11-22h2-enterprise"
+  config_vm_define config, "21h2-enterprise", "windows-11-21h2-enterprise"
+  config_vm_define config, "insider-preview-enterprise", "windows-11-insider-preview-enterprise"
 
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
