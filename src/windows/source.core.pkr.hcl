@@ -11,14 +11,14 @@ locals {
     disk_size = 130048
 
     boot_wait        = "1s"
-    shutdown_timeout = "10m"
+    shutdown_timeout = "5m"
   }
 
   communicator = {
     type     = "ssh"
     username = "Administrator"
     password = "Packer42-"
-    timeout  = "30m"
+    timeout  = "15m"
   }
 
   native_build  = local.image_build == "native"

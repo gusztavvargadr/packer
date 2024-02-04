@@ -18,7 +18,7 @@ locals {
     type     = "ssh"
     username = "vagrant"
     password = "vagrant"
-    timeout  = "30m"
+    timeout  = "15m"
   }
 
   native_build  = local.image_build == "native"
