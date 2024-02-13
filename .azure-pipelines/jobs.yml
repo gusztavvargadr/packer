@@ -106,9 +106,10 @@ jobs:
 
         - script: |
             df -h
-            # sudo rm -Rf /usr/local/lib/android
-            # sudo rm -Rf /usr/local/lib/node_modules
-            # df -h
+
+            sudo rm -Rf /usr/local/lib/android
+            sudo rm -Rf /usr/local/lib/node_modules
+            df -h
           displayName: Initialize agent
 
         - script: |
