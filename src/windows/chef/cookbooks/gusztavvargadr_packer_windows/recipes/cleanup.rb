@@ -25,3 +25,8 @@ end
 gusztavvargadr_windows_update '' do
   action :cleanup
 end
+
+reboot 'gusztavvargadr_packer_windows::cleanup' do
+  action :reboot_now
+  only_if { reboot_pending? }
+end
