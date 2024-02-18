@@ -13,6 +13,7 @@ This repository contains [Packer] templates for creating Windows and Ubuntu imag
 
 [PackerJSONToHCL]: https://developer.hashicorp.com/packer/docs/templates/json_to_hcl
 [LastJSONRelease]: https://github.com/gusztavvargadr/packer/tree/2310.0.0
+[Samples]: ./samples
 
 ## Overview
 
@@ -28,7 +29,7 @@ See the [documentation][WikiOverview] for more details on the available images.
 
 ## Usage
 
-Simple [Vagrant] environments demonstrating the capabilities of the published boxes are available [in this repository][WikiUsage].
+Simple [Vagrant] environments demonstrating the capabilities of the published boxes are available [in this repository][Samples].
 
 See the [documentation][WikiUsage] for more details on using the images.
 
@@ -39,6 +40,8 @@ See the [documentation][WikiUsage] for more details on using the images.
 ## Contributing
 
 To report bugs, request new features, propose changes or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
+
+[Packer] templates buulding the images and the published [Vagrant] boxes are avaialble [in this repository][Samples].
 
 See the [documentation][WikiContributing] for more details on building the images.
 
