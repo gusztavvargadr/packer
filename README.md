@@ -41,7 +41,7 @@ See the [documentation][WikiUsage] for more details on using the images.
 
 To report bugs, request new features, propose changes or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
 
-[Packer] templates buulding the images and the published [Vagrant] boxes are avaialble [in this repository][Samples].
+[Packer] templates building the published boxes are avaialble [in this repository][Samples].
 
 See the [documentation][WikiContributing] for more details on building the images.
 
