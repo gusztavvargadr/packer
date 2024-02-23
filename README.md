@@ -5,7 +5,7 @@
 This repository contains [Packer] templates for creating Windows and Ubuntu images in various development scenarios.
 
 > [!IMPORTANT]  
-> The templates have been upgraded from Packer's legacy JSON format to use the newer [HCL format][PackerJSONToHCL], resulting in breaking changes in the image build proces.  
+> The [templates have been upgraded][PackerJSONToHCL] from Packer's legacy JSON format to use the newer HCL format, resulting in breaking changes in the image build proces.  
 >  
 > To upgrade your fork or other customizations to the newer HCL format, please follow the documentation on [contributing]. Feature updates and bug fixes will be available only in this version in the future.
 >  
@@ -34,12 +34,13 @@ See the [documentation][WikiUsage] for more details on using the images.
 
 [Usage]: #usage
 
-[SamplesUsage]: ./samples
 [WikiUsage]: https://github.com/gusztavvargadr/packer/wiki#usage
 
 ## Contributing
 
 To report bugs, request new features, propose changes or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
+
+Complete [Packer] templates used for building the published boxes are available at the [samples][Samples].
 
 See the [documentation][WikiContributing] for more details on building the images.
 
@@ -84,3 +85,5 @@ This repository builds on awesome ideas and solutions from the following authors
 [Joe Fitzgerald]: https://github.com/joefitzgerald/packer-windows
 [Boxcutter]: https://github.com/boxcutter/windows
 [Bento]: https://github.com/chef/bento
+
+[Samples]: ./samples
