@@ -2,7 +2,7 @@
 
 [Overview] | [Usage] | [Contributing] | [Resources]  
 
-This repository contains [Packer] templates for creating Windows and Ubuntu images in various development scenarios.
+This repository contains [Packer] templates for building Windows and Ubuntu images in various development scenarios.
 
 > [!IMPORTANT]  
 > The [templates have been upgraded][PackerJSONToHCL] from Packer's legacy JSON format to use the newer HCL format, resulting in breaking changes in the image build proces.  
@@ -18,39 +18,39 @@ This repository contains [Packer] templates for creating Windows and Ubuntu imag
 
 Ready-to-use [Vagrant] boxes built using this repository are published on [Vagrant Cloud][VagrantCloudBoxes].
 
-See the [documentation][WikiOverview] for more details on the available images.
+See the [documentation][DocumentationOverview] for more details on the available images.
 
 [Overview]: #overview
 
 [VagrantCloudBoxes]: https://app.vagrantup.com/gusztavvargadr
 
-[WikiOverview]: https://github.com/gusztavvargadr/packer/wiki#overview
+[DocumentationOverview]: https://github.com/gusztavvargadr/packer/wiki#overview
 
 ## Usage
 
 Simple [Vagrant] environments demonstrating the capabilities of the published boxes are available at the [samples][Samples].
 
-See the [documentation][WikiUsage] for more details on using the images.
+See the [documentation][DocumentationUsage] for more details on using the images.
 
 [Usage]: #usage
 
-[WikiUsage]: https://github.com/gusztavvargadr/packer/wiki#usage
+[DocumentationUsage]: https://github.com/gusztavvargadr/packer/wiki#usage
 
 ## Contributing
 
-To report bugs, request new features, propose changes or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
-
 Complete [Packer] templates used for building the published boxes are available at the [samples][Samples].
 
-See the [documentation][WikiContributing] for more details on building the images.
+See the [documentation][DocumentationContributing] for more details on building the images.
+
+To report bugs, propose changes, request new features or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
 
 [Contributing]: #contributing
+
+[DocumentationContributing]: https://github.com/gusztavvargadr/packer/wiki#contributing
 
 [Discussions]: https://github.com/gusztavvargadr/packer/discussions
 [Issues]: https://github.com/gusztavvargadr/packer/issues
 [Pull requests]: https://github.com/gusztavvargadr/packer/pulls
-
-[WikiContributing]: https://github.com/gusztavvargadr/packer/wiki#contributing
 
 ## Resources
 
@@ -75,10 +75,10 @@ This repository builds on awesome ideas and solutions from the following authors
 
 [Packer]: https://www.packer.io
 [Vagrant]: https://www.vagrantup.com
-[Chef]: https://www.chef.io
 [Hyper-V]: https://learn.microsoft.com/en-us/virtualization/
 [VirtualBox]: https://www.virtualbox.org
 [VMware]: https://www.vmware.com/products/workstation-pro.html
+[Chef]: https://www.chef.io
 
 [Matt Wrock]: https://github.com/mwrock/packer-templates
 [Jacqueline]: https://github.com/jacqinthebox/packer-templates
