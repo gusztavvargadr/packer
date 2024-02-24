@@ -1,0 +1,146 @@
+parameters:
+  sample: ''
+  image: ''
+  provider: ''
+  build: ''
+
+jobs:
+  - job: build
+    displayName: Build ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+
+    pool:
+      name: default
+      demands:
+        - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+
+    workspace:
+      clean: all
+
+    timeoutInMinutes: 150
+
+    variables:
+      sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
+
+    steps:
+      - checkout: self
+        submodules: recursive
+
+      - script: |
+          dotnet --info
+
+          dotnet tool restore
+        displayName: Initialize .NET
+
+      - script: |
+          packer --version
+        displayName: Initialize Packer
+
+      - script: |
+          vagrant --version
+          vagrant plugin list
+
+          vagrant box list
+          vagrant global-status --prune
+        displayName: Initialize Vagrant
+
+      - script: |
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
+        displayName: Init
+
+      - script: |
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore --exclusive
+        displayName: Restore
+
+      - ${{ if eq(parameters.build, 'native') }}:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: specific
+            artifact: native-build
+            targetPath: ./artifacts/$(sourcePipelineArtifactsPath)/native
+            project: $(System.TeamProjectId)
+            pipeline: $(resources.pipeline.source.pipelineID)
+            runVersion: latestFromBranch
+            runBranch: $(Build.SourceBranch)
+          displayName: Download artifacts
+          condition: and(succeeded(), ne(variables['resources.pipeline.source.pipelineID'], ''))
+
+      - ${{ if eq(parameters.build, 'vagrant') }}:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: current
+            artifact: native-build
+            targetPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/native
+          displayName: Download artifacts
+
+      - script: |
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build --exclusive
+        displayName: Build
+
+      - script: |
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test --exclusive
+        displayName: Test
+
+      - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+        artifact: ${{ parameters.build }}-build
+        displayName: Publish artifacts
+
+      - script: |
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
+        displayName: Clean
+        condition: always()
+
+  - ${{ if eq(parameters.build, 'vagrant') }}:
+    - job: publish
+      displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      dependsOn: build
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+      pool:
+        vmImage: ubuntu-22.04
+
+      variables:
+        - group: environment-vagrantcloud
+
+      steps:
+        - checkout: self
+          submodules: recursive
+
+        - script: |
+            df -h
+
+            sudo rm -Rf /usr/local/lib/android
+            sudo rm -Rf /usr/local/lib/node_modules
+            df -h
+          displayName: Initialize agent
+
+        - script: |
+            dotnet --info
+
+            dotnet tool restore
+          displayName: Initialize .NET
+
+        - script: |
+            packer --version
+          displayName: Initialize Packer
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
+          displayName: Init
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: current
+            artifact: vagrant-build
+            targetPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant
+          displayName: Download artifacts
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish --exclusive
+          displayName: Publish
+          env:
+            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
+          displayName: Clean
+          condition: always()

@@ -1,15 +1,18 @@
-Vagrant.configure("2") do |config|
-  config.vm.define "default", primary: true do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/ubuntu-server"
-  end
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
-  config.vm.define "2004-lts", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/ubuntu-server-2004-lts"
-  end
+Vagrant.configure("2") do |config|
+  config_vm_define config, "latest", "ubuntu-server"
+  config_vm_define config, "2204-lts", "ubuntu-server-2204-lts"
+  config_vm_define config, "2004-lts", "ubuntu-server-2004-lts"
 
   config.vm.provision "shell", inline: <<-EOH
     uname -a
     lsb_release -a
-    lshw
+
+    lshw -short
+    lscpu
+    lsmem
+
+    apt list --installed
   EOH
 end

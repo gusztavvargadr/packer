@@ -1,0 +1,26 @@
+#cloud-config
+autoinstall:
+  version: 1
+  storage:
+    layout:
+      name: lvm
+      sizing-policy: all
+  apt:
+    geoip: false
+  packages:
+    - open-vm-tools
+    - open-vm-tools-desktop
+  timezone: UTC
+  identity:
+    hostname: vagrant
+    realname: vagrant
+    username: vagrant
+    password: "$6$vagrant$aYdZwu4306HGdE39rROOrbSnB8G1Jser5zc9VMESSr8PouIZdgoO.OYQsFTOHXRXSYzB1oCD7571llAG6WR15."
+  ssh:
+    install-server: true
+  user-data:
+    users:
+      - name: vagrant
+        shell: /bin/bash
+        groups: sudo
+        sudo: ALL=(ALL) NOPASSWD:ALL

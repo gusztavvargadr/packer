@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-10.22h2-enterprise.virtualbox
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: visual-studio
+      image: 2019-community-windows-10
+      provider: virtualbox

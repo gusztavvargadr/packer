@@ -1,0 +1,20 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config_vm_define config, "latest", "docker-linux"
+  config_vm_define config, "community-ubuntu-server", "docker-community-ubuntu-server"
+
+  config.vm.provision "shell", inline: <<-EOH
+    uname -a
+    lsb_release -a
+
+    lshw -short
+    lscpu
+    lsmem
+
+    apt list --installed
+
+    docker version
+    docker compose version
+  EOH
+end

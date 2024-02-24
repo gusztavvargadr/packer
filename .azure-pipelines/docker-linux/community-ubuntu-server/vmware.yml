@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2204-lts.vmware
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: docker-linux
+      image: community-ubuntu-server
+      provider: vmware

@@ -1,12 +1,4 @@
-tools
-build
-
-.vagrant
-vagrant.*override*.yml
-
 *.lock.json
-.chef
-Berksfile.lock
-
-**/.consul/
-**/.terraform/
+packer_cache
+artifacts
+.vagrant

@@ -1,26 +1,22 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
 Vagrant.configure("2") do |config|
-  config.vm.define "default", primary: true do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-server"
-  end
-
-  config.vm.define "2022-standard", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-server-2022-standard"
-  end
-
-  config.vm.define "2022-standard-nocm", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-server-2022-standard-nocm"
-  end
-
-  config.vm.define "2019-standard", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-server-2019-standard"
-  end
-
-  config.vm.define "insider-preview-standard", autostart: false do |config_vm|
-    config_vm.vm.box = "gusztavvargadr/windows-server-insider-preview-standard"
-  end
+  config_vm_define config, "latest", "windows-server"
+  config_vm_define config, "latest-core", "windows-server-core"
+  config_vm_define config, "2022-standard", "windows-server-2022-standard"
+  config_vm_define config, "2022-standard-core", "windows-server-2022-standard-core"
+  config_vm_define config, "2019-standard", "windows-server-2019-standard"
+  config_vm_define config, "2019-standard-core", "windows-server-2019-standard-core"
+  config_vm_define config, "insider-preview-standard", "windows-server-insider-preview-standard"
+  config_vm_define config, "insider-preview-standard-core", "windows-server-insider-preview-standard-core"
 
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
+
     systeminfo
+    Get-ComputerInfo
+
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    choco list -i
   EOH
 end

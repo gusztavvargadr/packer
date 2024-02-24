@@ -1,5 +1,0 @@
-{
-  "variables": {
-    "vagrant_vagrantfile_template": "postprocessors/vagrant-virtualbox/Vagrantfile"
-  }
-}
