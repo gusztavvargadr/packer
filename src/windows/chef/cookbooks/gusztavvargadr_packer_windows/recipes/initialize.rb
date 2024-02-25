@@ -120,9 +120,19 @@ if vmware?
   vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
 
   unless vmware_version.include?('12.')
-    chocolatey_package 'vmware-tools' do
-      returns [0, 2, 3010]
-      action :install
+    vmware_tools_source = 'https://packages.vmware.com/tools/releases/12.3.5/windows/x64/VMware-tools-12.3.5-22544099-x86_64.exe'
+    vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
+
+    remote_file vmware_tools_target do
+      source vmware_tools_source
+      action :create
+    end
+
+    powershell_script 'Install VMware Tools' do
+      code <<-EOH
+        Start-Process "#{vmware_tools_target}" "/S /v /qn REBOOT=R ADDLOCAL=ALL" -Wait
+      EOH
+      action :run
       notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
     end
   end
