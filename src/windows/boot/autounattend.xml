@@ -24,24 +24,51 @@
             <DiskConfiguration>
                 <Disk wcm:action="add">
                     <CreatePartitions>
-                       <CreatePartition wcm:action="add">
+                        <CreatePartition wcm:action="add">
                             <Order>1</Order>
+                            <Size>1000</Size>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
                             <Size>500</Size>
                             <Type>EFI</Type>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
-                            <Order>2</Order>
+                            <Order>3</Order>
                             <Size>128</Size>
                             <Type>MSR</Type>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
-                            <Order>3</Order>
+                            <Order>4</Order>
                             <Extend>true</Extend>
                             <Type>Primary</Type>
                         </CreatePartition>
                     </CreatePartitions>
                     <DiskID>0</DiskID>
                     <WillWipeDisk>true</WillWipeDisk>
+                    <ModifyPartitions>
+                        <ModifyPartition wcm:action="add">
+                            <Order>1</Order>
+                            <PartitionID>1</PartitionID>
+                            <Label>WINRE</Label>
+                            <Format>NTFS</Format>
+                            <TypeID>de94bba4-06d1-4d40-a16a-bfd50179d6ac</TypeID>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Order>2</Order>
+                            <PartitionID>2</PartitionID>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order> 
+                            <PartitionID>4</PartitionID> 
+                            <Label>Windows</Label> 
+                            <Letter>C</Letter> 
+                            <Format>NTFS</Format> 
+                        </ModifyPartition>
+                    </ModifyPartitions>
                 </Disk>
             </DiskConfiguration>
             <ImageInstall>
@@ -56,7 +83,7 @@
 %{ endfor ~}
                     <InstallTo>
                         <DiskID>0</DiskID>
-                        <PartitionID>3</PartitionID>
+                        <PartitionID>4</PartitionID>
                     </InstallTo>
                 </OSImage>
             </ImageInstall>
