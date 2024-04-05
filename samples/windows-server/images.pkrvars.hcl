@@ -112,7 +112,7 @@ images = {
       source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:c4d94b3daf0a36c7db1b29434381ed2d4f44a7ad45669927453ee7039e4df076"
 
-      boot_image_name     = "Windows Server 2022 SERVERSTANDARD"
+      boot_image_name     = "Windows Server 2025 SERVERSTANDARD"
       boot_product_key    = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
     }
 
@@ -136,7 +136,7 @@ images = {
       source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:c4d94b3daf0a36c7db1b29434381ed2d4f44a7ad45669927453ee7039e4df076"
 
-      boot_image_name     = "Windows Server 2022 SERVERSTANDARDCORE"
+      boot_image_name     = "Windows Server 2025 SERVERSTANDARDCORE"
       boot_product_key    = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
     }
 
