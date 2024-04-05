@@ -120,7 +120,7 @@ if vmware?
   vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
 
   unless vmware_version.include?('12.')
-    vmware_tools_source = 'https://packages.vmware.com/tools/releases/12.3.5/windows/x64/VMware-tools-12.3.5-22544099-x86_64.exe'
+    vmware_tools_source = 'https://packages.vmware.com/tools/releases/12.4.0/windows/x64/VMware-tools-12.4.0-23259341-x86_64.exe'
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 
     remote_file vmware_tools_target do
