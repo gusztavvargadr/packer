@@ -92,9 +92,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "Windows11_InsiderPreview_EnterpriseVL_x64_en-us_26040.iso"
-      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-11-insider-preview/versions/2302.0.2401/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:1cbe4d3a7c8435c9c3d87631c12d33eff585f73d79519f802fb1d83763d5f700"
+      source_iso_url_local  = "Windows11_InsiderPreview_EnterpriseVL_x64_en-us_26080.iso"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-11-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
+      source_iso_checksum   = "sha256:830cdf0b906780b52e22b20f32ca9ddcc10817616717ac239a9593378cc7a3a0"
 
       boot_setup_script = "setup.cmd"
       boot_image_name   = "Windows 11 Enterprise"
