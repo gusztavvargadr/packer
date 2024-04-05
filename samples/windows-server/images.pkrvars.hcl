@@ -104,7 +104,7 @@ images = {
   "insider-preview-standard" = {
     core = {
       image_description = "Windows Server Insider Preview Standard"
-      image_version     = "2302.0"
+      image_version     = "2402.0"
     }
 
     native = {
@@ -128,7 +128,7 @@ images = {
   "insider-preview-standard-core" = {
     core = {
       image_description = "Windows Server Insider Preview Standard Core"
-      image_version     = "2302.0"
+      image_version     = "2402.0"
     }
 
     native = {

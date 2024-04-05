@@ -88,7 +88,7 @@ images = {
     core = {
       image_name        = "windows-11/insider-preview-enterprise"
       image_description = "Windows 11 Insider Preview Enterprise"
-      image_version     = "2302.0"
+      image_version     = "2402.0"
     }
 
     native = {
