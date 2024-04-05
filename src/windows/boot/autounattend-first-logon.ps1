@@ -19,6 +19,7 @@ $sshd_config = "$($env:ProgramData)\ssh\sshd_config"
 (Get-Content $sshd_config).Replace("Match Group administrators", "# Match Group administrators") | Set-Content $sshd_config
 (Get-Content $sshd_config).Replace("AuthorizedKeysFile", "# AuthorizedKeysFile") | Set-Content $sshd_config
 net start sshd
+sc.exe config sshd start= auto
 
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block
@@ -36,3 +37,4 @@ netsh advfirewall firewall delete rule name="WinRM-Install"
 Write-Host "Configure WinRM"
 netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 net start winrm
+sc.exe config winrm start= auto
