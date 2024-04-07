@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-server.2022-standard-core.hyperv
+      source: windows-server.2022-standard.hyperv
 
 stages:
   - template: ../../stages.yml
