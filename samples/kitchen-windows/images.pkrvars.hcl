@@ -6,7 +6,7 @@ images = {
     }
 
     native = {
-      source_image = "windows-server/2022-standard-core"
+      source_image = "windows-server/2022-standard"
       chef_keep    = "true"
     }
   }
