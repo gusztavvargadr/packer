@@ -1,4 +1,4 @@
-# Packer templates for Windows Server
+# Packer samples for Windows Server
 
 This folder contains Packer templates for building `Windows Server` images.
 
@@ -13,74 +13,71 @@ See the links below for the details of the templates.
 - [Insider Preview Standard](#insider-preview-standard)
 - [Insider Preview Standard Core](#insider-preview-standard-core)
 
-### 2022 Standard
+### Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard) | [Vagrant box alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server)  
+All the templates below have the following contents.
 
-- Windows Server `2022 Standard Evaluation`
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
 - Windows Defender disabled
 - UAC disabled
 - Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
+
+### 2022 Standard
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard) | [Vagrant box alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server)  
+
+The template has the following contents.
+
+- [Core contents](#core)
+- Windows Server `2022 Standard Evaluation`
 
 ### 2022 Standard Core
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core) | [Vagrant box alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core)  
 
+The template has the following contents.
+
+- [Core contents](#core)
 - Windows Server `2022 Standard Core Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
 
 ### 2019 Standard
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard)  
 
+The template has the following contents.
+
+- [Core contents](#core)
 - Windows Server `2019 Standard Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
 
 ### 2019 Standard Core
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core)  
 
+The template has the following contents.
+
+- [Core contents](#core)
 - Windows Server `2019 Standard Core Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
 
 ### Insider Preview Standard
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard)  
 
+The template has the following contents.
+
+- [Core contents](#core)
 - Windows Server `Insider Preview Standard`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
 
 ### Insider Preview Standard Core
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core)  
 
+The template has the following contents.
+
+- [Core contents](#core)
 - Windows Server `Insider Preview Standard Core`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep

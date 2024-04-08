@@ -1,6 +1,6 @@
-# Packer templates
+# Packer samples
 
-This folder contains [Packer] templates for building `Windows` and `Ubuntu` images.
+This folder contains Packer templates for building `Windows` and `Ubuntu` images.
 
 ## Overview
 
@@ -311,21 +311,3 @@ azure devops samples
 > Please reach out at [mail@gv4c.com][MailTo] for more details.
 
 [MailTo]: mailto:mail@gv4c.com
-
-## Resources
-
-See the links below for the details of the tools and technologies used:
-
-- [Packer]
-- [Vagrant]
-- [Hyper-V]
-- [VirtualBox]
-- [VMware]
-- [Chef]
-
-[Packer]: https://www.packer.io
-[Vagrant]: https://www.vagrantup.com
-[Hyper-V]: https://learn.microsoft.com/en-us/virtualization/
-[VirtualBox]: https://www.virtualbox.org
-[VMware]: https://www.vmware.com/products/workstation-pro.html
-[Chef]: https://www.chef.io
