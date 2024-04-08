@@ -4,7 +4,7 @@ This folder contains Packer templates for building `Windows Server` images.
 
 ## Overview
 
-See the links below for the details of the templates.
+See the links below for the details of the available templates:
 
 - [2022 Standard](#2022-standard)
 - [2022 Standard Core](#2022-standard-core)
@@ -13,9 +13,63 @@ See the links below for the details of the templates.
 - [Insider Preview Standard](#insider-preview-standard)
 - [Insider Preview Standard Core](#insider-preview-standard-core)
 
+## 2022 Standard
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server)  
+
+The template has the following settings:
+
+- Windows Server `2022 Standard Evaluation`
+- [Core settings](#core)
+
+## 2022 Standard Core
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core)  
+
+The template has the following settings:
+
+- Windows Server `2022 Standard Core Evaluation`
+- [Core settings](#core)
+
+## 2019 Standard
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard)  
+
+The template has the following settings:
+
+- Windows Server `2019 Standard Evaluation`
+- [Core settings](#core)
+
+## 2019 Standard Core
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core)  
+
+The template has the following settings:
+
+- Windows Server `2019 Standard Core Evaluation`
+- [Core settings](#core)
+
+## Insider Preview Standard
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard)  
+
+The template has the following settings:
+
+- Windows Server `Insider Preview Standard`
+- [Core settings](#core)
+
+## Insider Preview Standard Core
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core)  
+
+The template has the following settings:
+
+- Windows Server `Insider Preview Standard Core`
+- [Core settings](#core)
+
 ## Core
 
-All the templates below have the following contents.
+All the templates above share the following settings:
 
 - OpenSSH Server and WinRM
 - Windows Updates disabled
@@ -27,57 +81,3 @@ All the templates below have the following contents.
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
-
-## 2022 Standard
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard) | [Vagrant box alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `2022 Standard Evaluation`
-
-## 2022 Standard Core
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core) | [Vagrant box alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `2022 Standard Core Evaluation`
-
-## 2019 Standard
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `2019 Standard Evaluation`
-
-## 2019 Standard Core
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `2019 Standard Core Evaluation`
-
-## Insider Preview Standard
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `Insider Preview Standard`
-
-## Insider Preview Standard Core
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core)  
-
-The template has the following contents.
-
-- [Core contents](#core)
-- Windows Server `Insider Preview Standard Core`
