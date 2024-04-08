@@ -10,6 +10,7 @@ This repository contains [Packer] templates for building Windows and Ubuntu imag
 > To continue using the version based on the legacy JSON format, use the tag of the [2310.0.0][LastJSONRelease] release. Feature updates and bug fixes will not be backported to this version in the future.
 
 [PackerJSONToHCL]: https://developer.hashicorp.com/packer/docs/templates/json_to_hcl
+[Contributing]: #contributing
 [LastJSONRelease]: https://github.com/gusztavvargadr/packer/tree/2310.0.0
 
 ## Overview
@@ -18,11 +19,9 @@ Ready-to-use [Vagrant] boxes built using this repository are published on [Vagra
 
 See the [documentation][DocumentationOverview] for more details on the available images for [Hyper-V], [VirtualBox] and [VMware].
 
-[Overview]: #overview
-
 [VagrantCloudBoxes]: https://app.vagrantup.com/gusztavvargadr
 
-[DocumentationOverview]: https://github.com/gusztavvargadr/packer/wiki#overview
+[DocumentationOverview]: ./samples/README.md#overview
 
 ## Usage
 
@@ -30,9 +29,7 @@ Simple [Vagrant] environments demonstrating the capabilities of the published bo
 
 See the [documentation][DocumentationUsage] for more details on using the images with [Hyper-V], [VirtualBox] and [VMware].
 
-[Usage]: #usage
-
-[DocumentationUsage]: https://github.com/gusztavvargadr/packer/wiki#usage
+[DocumentationUsage]: ./samples/README.md#usage
 
 ## Contributing
 
@@ -42,13 +39,26 @@ See the [documentation][DocumentationContributing] for more details on building 
 
 To report bugs, propose changes, request new features or provide feedback in general, please take a look at the [discussions] or [issues] first. [Pull requests] are also welcome and are greatly appreciated.
 
-[Contributing]: #contributing
-
-[DocumentationContributing]: https://github.com/gusztavvargadr/packer/wiki#contributing
+[DocumentationContributing]: ./samples/README.md#contributing
 
 [Discussions]: https://github.com/gusztavvargadr/packer/discussions
 [Issues]: https://github.com/gusztavvargadr/packer/issues
 [Pull requests]: https://github.com/gusztavvargadr/packer/pulls
+
+## Support
+
+> [!TIP]
+> Are you interested in more images and providers or deployments of custom environments based on them?  
+>  
+> The following services are also available on-demand in a professional setting:  
+>  
+> - Custom images with additional virtualization and cloud providers
+> - Custom build schedules with new versions published as soon as the official updates are available
+> - Custom environments like build agent pools, test matrices and deployment targets based on the images
+>  
+> Please reach out at [mail@gv4c.com][MailTo] for more details.
+
+[MailTo]: mailto:mail@gv4c.com
 
 ## Resources
 
@@ -85,16 +95,3 @@ This repository builds on awesome ideas and solutions from the following authors
 [Bento]: https://github.com/chef/bento
 
 [Samples]: ./samples
-
-> [!TIP]
-> Are you interested in more images and providers or deployments of custom environments based on them?  
->  
-> The following services are also available on-demand in a professional setting:  
->  
-> - Custom images with additional virtualization and cloud providers
-> - Custom build schedules with new versions published as soon as the official updates are available
-> - Custom environments like build agent pools, test matrices and deployment targets based on the images
->  
-> Please reach out at [mail@gv4c.com][MailTo] for more details.
-
-[MailTo]: mailto:mail@gv4c.com
