@@ -4,7 +4,7 @@ This folder contains Packer templates for building `Windows` and `Ubuntu` images
 
 ## Overview
 
-See the links below for the details of the available templates.
+See the links below for the details of the available images.
 
 ### Operating systems
 

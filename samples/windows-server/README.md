@@ -4,12 +4,12 @@ This folder contains Packer templates for building `Windows Server` images.
 
 ## Overview
 
-See the links below for the details of the available templates:
+See the links below for the details of the available images:
 
 - [2022 Standard](#2022-standard)
 - [2022 Standard Core](#2022-standard-core)
-- [2019 Standard](#2019-standard)
-- [2019 Standard Core](#2019-standard-core)
+- ~~[2019 Standard](#2019-standard) Deprecated~~
+- ~~[2019 Standard Core](#2019-standard-core) Deprecated~~
 - [Insider Preview Standard](#insider-preview-standard)
 - [Insider Preview Standard Core](#insider-preview-standard-core)
 
@@ -33,6 +33,8 @@ The template has the following settings:
 
 ## 2019 Standard
 
+**This template is ~~deprecated~~. Please use one of the other templates.**
+
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard)  
 
 The template has the following settings:
@@ -41,6 +43,8 @@ The template has the following settings:
 - [Core settings](#core)
 
 ## 2019 Standard Core
+
+**This template is ~~deprecated~~. Please use one of the other templates.**
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core)  
 

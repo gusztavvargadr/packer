@@ -1,0 +1,36 @@
+# Packer samples for IIS
+
+This folder contains Packer templates for building `IIS` images.
+
+## Overview
+
+See the links below for the details of the available images:
+
+- [Windows Server](#windows-server)
+- [Windows Server Core](#windows-server-core)
+
+## Windows Server
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/iis)  
+
+The template has the following settings:
+
+- [Windows Server `2022 Standard`](../windows-server/README.md#2022-standard)
+- [Core settings](#core)
+
+## Windows Server Core
+
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-core)  
+
+The template has the following settings:
+
+- [Windows Server `2022 Standard Core`](../windows-server/README.md#2022-standard-core)
+- [Core settings](#core)
+
+## Core
+
+All the templates above share the following settings:
+
+- IIS
+- .NET
+- .NET Framework
