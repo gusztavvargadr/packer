@@ -19,7 +19,9 @@ The template has the following settings:
 
 - [Ubuntu Server `22.04 LTS`](../ubuntu-server/README.md#2204-lts)
 - `ubuntu-desktop` package
-- [Core settings](#core)
+- `xrdp` package
+- Vagrant
+  - 4 GB RAM
 
 ## 22.04 LTS Xubuntu
 
@@ -29,7 +31,9 @@ The template has the following settings:
 
 - [Ubuntu Server `22.04 LTS`](../ubuntu-server/README.md#2204-lts)
 - `xubuntu-desktop` package
-- [Core settings](#core)
+- `xrdp` package
+- Vagrant
+  - 4 GB RAM
 
 ## 20.04 LTS Ubuntu
 
@@ -39,7 +43,9 @@ The template has the following settings:
 
 - [Ubuntu Server `20.04 LTS`](../ubuntu-server/README.md#2004-lts)
 - `ubuntu-desktop` package
-- [Core settings](#core)
+- `xrdp` package
+- Vagrant
+  - 4 GB RAM
 
 ## 20.04 LTS Xubuntu
 
@@ -49,12 +55,6 @@ The template has the following settings:
 
 - [Ubuntu Server `20.04 LTS`](../ubuntu-server/README.md#2004-lts)
 - `xubuntu-desktop` package
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
 - `xrdp` package
 - Vagrant
   - 4 GB RAM

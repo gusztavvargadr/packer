@@ -20,7 +20,16 @@ See the links below for the details of the available images:
 The template has the following settings:
 
 - Windows Server `2022 Standard Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
 
 ## 2022 Standard Core
 
@@ -29,7 +38,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows Server `2022 Standard Core Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
 
 ## 2019 Standard
 
@@ -40,7 +58,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows Server `2019 Standard Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
 
 ## 2019 Standard Core
 
@@ -51,7 +78,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows Server `2019 Standard Core Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
 
 ## Insider Preview Standard
 
@@ -60,7 +96,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows Server `Insider Preview Standard`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 2 GB RAM
 
 ## Insider Preview Standard Core
 
@@ -69,12 +114,6 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows Server `Insider Preview Standard Core`
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled

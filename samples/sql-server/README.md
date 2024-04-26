@@ -16,8 +16,12 @@ See the links below for the details of the available images:
 The template has the following settings:
 
 - [Windows Server `2022 Standard`](../windows-server/README.md#2022-standard)
+- SQL Server `2019 Developer`
+  - Database Engine
+      - Windows Authentication with user `vagrant`
+      - SQL Server Authentication with user `sa` and password `Vagrant42`
+  - FullText
 - SQL Server Management Studio
-- [Core settings](#core)
 
 ## 2019 Developer Windows Server Core
 
@@ -26,12 +30,6 @@ The template has the following settings:
 The template has the following settings:
 
 - [Windows Server `2022 Standard Core`](../windows-server/README.md#2022-standard-core)
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
 - SQL Server `2019 Developer`
   - Database Engine
       - Windows Authentication with user `vagrant`

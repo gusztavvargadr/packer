@@ -16,7 +16,7 @@ See the links below for the details of the available images:
 The template has the following settings:
 
 - [Windows Server `2022 Standard`](../windows-server/README.md#2022-standard)
-- [Core settings](#core)
+- [Docker Engine](https://docs.docker.com/engine/)
 
 ## Community Windows Server Core
 
@@ -25,10 +25,4 @@ The template has the following settings:
 The template has the following settings:
 
 - [Windows Server `2022 Standard Core`](../windows-server/README.md#2022-standard-core)
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
 - [Docker Engine](https://docs.docker.com/engine/)

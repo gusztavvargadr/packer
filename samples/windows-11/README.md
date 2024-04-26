@@ -18,7 +18,16 @@ See the links below for the details of the available images:
 The template has the following settings:
 
 - Windows 11 `Version 23H2 Enterprise Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 4 GB RAM
 
 ## 22H2 Enterprise
 
@@ -27,7 +36,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows 11 `Version 22H2 Enterprise Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 4 GB RAM
 
 ## 21H2 Enterprise
 
@@ -36,7 +54,16 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows 11 `Version 21H2 Enterprise Evaluation`
-- [Core settings](#core)
+- OpenSSH Server and WinRM
+- Windows Updates disabled
+- Maintenance tasks disabled
+- Windows Defender disabled
+- UAC disabled
+- Generalized with Sysprep
+- Vagrant
+  - User `vagrant` with password `vagrant` and Vagrant's insecure key
+  - 2 vCPUs
+  - 4 GB RAM
 
 ## Insider Preview Enterprise
 
@@ -45,12 +72,6 @@ The template has the following settings:
 The template has the following settings:
 
 - Windows 11 `Insider Preview Enterprise`
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
