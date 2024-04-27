@@ -14,11 +14,5 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- [Ubuntu Server `22.04 LTS`](../ubuntu-server/README.md#2204-lts)
-- [Core settings](#core)
-
-## Core
-
-All the templates above share the following settings:
-
-- [Docker Engine](https://docs.docker.com/engine/)
+- [**Ubuntu Server 22.04 LTS**](../ubuntu-server/README.md#2204-lts)
+- [**Docker Engine**](https://docs.docker.com/engine/)
