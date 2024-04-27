@@ -14,5 +14,5 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- [Ubuntu Server `22.04 LTS`](../ubuntu-server/README.md#2204-lts)
-- [Chef Infra Client](https://docs.chef.io/chef_client_overview/)
+- [**Ubuntu Server 22.04 LTS**](../ubuntu-server/README.md#2204-lts)
+- [**Chef Infra Client**](https://docs.chef.io/chef_client_overview/)

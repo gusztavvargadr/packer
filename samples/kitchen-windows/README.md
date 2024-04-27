@@ -14,5 +14,5 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- [Windows Server `2022 Standard`](../windows-server/README.md#2022-standard)
-- [Chef Infra Client](https://docs.chef.io/chef_client_overview/)
+- [**Windows Server 2022 Standard**](../windows-server/README.md#2022-standard)
+- [**Chef Infra Client**](https://docs.chef.io/chef_client_overview/)

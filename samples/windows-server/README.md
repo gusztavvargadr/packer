@@ -19,14 +19,14 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- Windows Server `2022 Standard Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server 2022 Standard** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
@@ -37,14 +37,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows Server `2022 Standard Core Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server 2022 Standard Core** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
@@ -57,14 +57,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows Server `2019 Standard Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server 2019 Standard** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
@@ -77,14 +77,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows Server `2019 Standard Core Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server 2019 Standard Core** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
@@ -95,14 +95,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows Server `Insider Preview Standard`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server Insider Preview Standard**
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM
@@ -113,14 +113,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows Server `Insider Preview Standard Core`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows Server Insider Preview Standard Core**
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 2 GB RAM

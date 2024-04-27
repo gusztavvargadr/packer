@@ -15,10 +15,10 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- [Windows Server `2022 Standard`](../windows-server/README.md#2022-standard)
-- IIS
-- .NET
-- .NET Framework
+- [**Windows Server 2022 Standard**](../windows-server/README.md#2022-standard)
+- **IIS**
+- **.NET**
+- **.NET Framework**
 
 ## Windows Server Core
 
@@ -26,7 +26,7 @@ The template has the following settings:
 
 The template has the following settings:
 
-- [Windows Server `2022 Standard Core`](../windows-server/README.md#2022-standard-core)
-- IIS
-- .NET
-- .NET Framework
+- [**Windows Server 2022 Standard Core**](../windows-server/README.md#2022-standard-core)
+- **IIS**
+- **.NET**
+- **.NET Framework**

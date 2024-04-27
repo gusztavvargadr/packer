@@ -17,14 +17,14 @@ See the links below for the details of the available images:
 
 The template has the following settings:
 
-- Windows 10 `Version 22H2 Enterprise Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows 10 Version 22H2 Enterprise** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 4 GB RAM
@@ -35,14 +35,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows 10 `Version 21H2 Enterprise Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows 10 Version 21H2 Enterprise** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 4 GB RAM
@@ -53,14 +53,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows 10 `Version 21H2 Enterprise LTSC Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows 10 Version 21H2 Enterprise LTSC** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 4 GB RAM
@@ -73,14 +73,14 @@ The template has the following settings:
 
 The template has the following settings:
 
-- Windows 10 `Version 1809 Enterprise LTSC Evaluation`
-- OpenSSH Server and WinRM
-- Windows Updates disabled
-- Maintenance tasks disabled
-- Windows Defender disabled
-- UAC disabled
-- Generalized with Sysprep
-- Vagrant
+- **Windows 10 Version 1809 Enterprise LTSC** Evaluation
+  - OpenSSH Server and WinRM
+  - Windows Updates disabled
+  - Maintenance tasks disabled
+  - Windows Defender disabled
+  - UAC disabled
+  - Generalized with Sysprep
+- **Vagrant**
   - User `vagrant` with password `vagrant` and Vagrant's insecure key
   - 2 vCPUs
   - 4 GB RAM
