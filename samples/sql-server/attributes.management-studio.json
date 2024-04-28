@@ -1,7 +1,7 @@
 {
   "gusztavvargadr_mssql": {
     "tools": {
-      "management-studio:19": {
+      "management-studio:latest": {
       }
     }
   }
