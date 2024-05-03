@@ -6,9 +6,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-22.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/22.04/ubuntu-22.04.4-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
+      source_iso_url_local  = "ubuntu-22.04.3-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
     }
 
     vagrant = {
@@ -31,9 +31,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-20.04.6-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:b8f31413336b9393ad5d8ef0282717b2ab19f007df2e9ed5196c13d8f9153c8b"
+      source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
     }
 
     virtualbox = {
