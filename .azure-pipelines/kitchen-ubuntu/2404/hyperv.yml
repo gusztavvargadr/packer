@@ -9,6 +9,6 @@ resources:
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: docker-linux
-      image: community-ubuntu-server
+      sample: kitchen-ubuntu
+      image: "2404"
       provider: hyperv
