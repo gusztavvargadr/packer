@@ -59,6 +59,7 @@ void PackerInit() {
   var arguments = new ProcessArgumentBuilder();
 
   arguments.Append("init");
+  arguments.Append("-upgrade");
   arguments.Append(platformDirectory);
 
   Packer(arguments);
@@ -76,6 +77,7 @@ void PackerBuild(string stage) {
   arguments.Append($"-var build=\"{build}\"");
   arguments.Append($"-only \"{build}-{stage}.*\"");
   arguments.Append("-force");
+  arguments.Append("-timestamp-ui");
   arguments.Append(platformDirectory);
 
   Packer(arguments);
