@@ -15,10 +15,10 @@ dpkg --list \
     | sudo xargs apt-get -y purge;
 
 # Delete development packages
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | sudo xargs apt-get -y purge;
+# dpkg --list \
+#     | awk '{ print $2 }' \
+#     | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
+#     | sudo xargs apt-get -y purge;
 
 # delete docs packages
 dpkg --list \
