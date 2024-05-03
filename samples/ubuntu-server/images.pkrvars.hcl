@@ -7,7 +7,7 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-22.04.3-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.iso"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/ubuntu-server/versions/2204.0.2404/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
     }
 
@@ -32,7 +32,7 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/20.04/ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/ubuntu-server/versions/2004.0.2404/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
     }
 
