@@ -1,4 +1,26 @@
 images = {
+  "2404-lts" = {
+    core = {
+      image_description = "Ubuntu Server 24.04 LTS"
+      image_version     = "2404.0"
+    }
+
+    native = {
+      source_iso_url_local  = "ubuntu-24.04-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:8762f7e74e4d64d72fceb5f70682e6b069932deedb4949c6975d0f0fe0a91be3"
+    }
+
+    virtualbox = {
+      guest_os_type = "Ubuntu_64"
+    }
+
+    vmware = {
+      guest_os_type = "ubuntu-64"
+    }
+  }
+
+
   "2204-lts" = {
     core = {
       image_description = "Ubuntu Server 22.04 LTS"
