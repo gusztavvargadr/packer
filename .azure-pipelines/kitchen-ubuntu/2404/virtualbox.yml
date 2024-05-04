@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2404-lts.virtualbox
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: kitchen-ubuntu
+      image: "2404"
+      provider: virtualbox
