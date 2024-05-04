@@ -1,4 +1,45 @@
 images = {
+  "2404-lts-ubuntu" = {
+    core = {
+      image_name        = "ubuntu-desktop/2404-lts-ubuntu"
+      image_description = "Ubuntu Desktop 24.04 LTS"
+      image_version     = "2404.0"
+    }
+
+    native = {
+      source_image = "ubuntu-server/2404-lts"
+
+      chef_attributes = "ubuntu"
+    }
+
+    vagrant = {
+      memory    = "4096"
+      ports     = "3389"
+      box_name  = "ubuntu-desktop-2404-lts"
+      box_alias = "ubuntu-desktop"
+    }
+  }
+
+  "2404-lts-xubuntu" = {
+    core = {
+      image_name        = "ubuntu-desktop/2404-lts-xubuntu"
+      image_description = "Xubuntu Desktop 24.04 LTS"
+      image_version     = "2404.0"
+    }
+
+    native = {
+      source_image = "ubuntu-server/2404-lts"
+
+      chef_attributes = "xubuntu"
+    }
+
+    vagrant = {
+      memory   = "4096"
+      ports    = "3389"
+      box_name = "xubuntu-desktop-2404-lts"
+    }
+  }
+
   "2204-lts-ubuntu" = {
     core = {
       image_name        = "ubuntu-desktop/2204-lts-ubuntu"
@@ -16,7 +57,6 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "ubuntu-desktop-2204-lts"
-      box_alias = "ubuntu-desktop"
     }
   }
 
