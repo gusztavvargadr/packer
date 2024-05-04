@@ -6,17 +6,7 @@ This folder contains Packer templates for building `Kitchen Ubuntu` images.
 
 See the links below for the details of the available images:
 
-- [2404](#2404)
 - [2204](#2204)
-
-## 2404
-
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/kitchen-ubuntu-2404)  
-
-The template has the following settings:
-
-- [**Ubuntu Server 24.04 LTS**](../ubuntu-server/README.md#2404-lts)
-- [**Chef Infra Client**](https://docs.chef.io/chef_client_overview/)
 
 ## 2204
 
