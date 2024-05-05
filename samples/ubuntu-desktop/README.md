@@ -6,7 +6,7 @@ This folder contains Packer templates for building `Ubuntu Desktop` images.
 
 See the links below for the details of the available images:
 
-- [22.04 LTS Ubuntu](#2404-lts-ubuntu)
+- [24.04 LTS Ubuntu](#2404-lts-ubuntu)
 - [24.04 LTS Xubuntu](#2404-lts-xubuntu)
 - [22.04 LTS Ubuntu](#2204-lts-ubuntu)
 - [22.04 LTS Xubuntu](#2204-lts-xubuntu)
