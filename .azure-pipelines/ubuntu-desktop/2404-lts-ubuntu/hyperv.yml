@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: ubuntu-desktop
+      image: 2404-lts-ubuntu
+      provider: hyperv
