@@ -3,7 +3,7 @@
 This repository contains [Packer] templates for building Windows and Ubuntu images in various development scenarios.
 
 > [!IMPORTANT]  
-> The templates [have been upgraded][PackerJSONToHCL] from Packer's legacy JSON format to use the newer HCL format, resulting in breaking changes in the image build proces.  
+> The templates [have been upgraded][PackerJSONToHCL] from Packer's legacy JSON format to use the newer HCL format, resulting in breaking changes in the image build process.  
 >  
 > To upgrade your fork or other customizations to the newer HCL format, please follow the documentation on [contributing]. Feature updates and bug fixes will be available only in this version in the future.
 >  
