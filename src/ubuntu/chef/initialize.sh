@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+sudo apt-get update -y
+sudo apt-get install -y curl
+
 mkdir -p /var/tmp/packer-build/chef
 
 if ! [ -x "$(command -v chef-client)" ]; then
