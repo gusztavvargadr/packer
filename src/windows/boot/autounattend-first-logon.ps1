@@ -3,7 +3,7 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 Write-Host "Install Chocolatey"
-%{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.2.2")]) ~}
+%{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.3.0")]) ~}
 $env:chocolateyVersion = '${chocolatey_version}'
 %{ endfor ~}
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression

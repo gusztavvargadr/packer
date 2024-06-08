@@ -7,7 +7,7 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-24.04-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04-live-server-amd64.iso"
+      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/ubuntu-server/versions/2404.0.2404/providers/iso/amd64/vagrant.box"
       source_iso_checksum   = "sha256:8762f7e74e4d64d72fceb5f70682e6b069932deedb4949c6975d0f0fe0a91be3"
     }
 
@@ -19,7 +19,6 @@ images = {
       guest_os_type = "ubuntu-64"
     }
   }
-
 
   "2204-lts" = {
     core = {
