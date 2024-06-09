@@ -5,7 +5,7 @@ end
 if vbox?
   vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
 
-  unless vbox_version.include?('7.')
+  unless vbox_version.include?('6.') || vbox_version.include?('7.')
     apt_package [ 'build-essential', 'cryptsetup', 'libssl-dev', 'libreadline-dev', 'zlib1g-dev', 'linux-source', 'dkms', 'linux-headers-generic' ] do
       action :upgrade
       notifies :run, 'bash[guest-additions]', :immediately
