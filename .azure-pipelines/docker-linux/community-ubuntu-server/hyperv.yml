@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server.2204-lts.hyperv
+      source: ubuntu-server.2404-lts.hyperv
 
 stages:
   - template: ../../stages.yml

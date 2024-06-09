@@ -18,6 +18,7 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "ubuntu-desktop-2404-lts"
+      box_alias = "ubuntu-desktop"
     }
 
     virtualbox = {
@@ -38,7 +39,7 @@ images = {
 
     native = {
       source_iso_url_local  = "xubuntu-24.04-desktop-amd64.iso"
-      source_iso_url_remote = "https://nl.archive.ubuntu.com/ubuntu-cdimage-xubuntu/releases/24.04/release/xubuntu-24.04-desktop-amd64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/24.04/release/xubuntu-24.04-desktop-amd64.iso"
       source_iso_checksum   = "sha256:8c47b15c4089473bcc58e369a472cabf83d137c7bf8ad7d9465ad086e7bd5272"
 
       chef_attributes = "xubuntu"
@@ -76,7 +77,6 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "ubuntu-desktop-2204-lts"
-      box_alias = "ubuntu-desktop"
     }
   }
 

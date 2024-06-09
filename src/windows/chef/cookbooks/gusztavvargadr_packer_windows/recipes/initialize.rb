@@ -75,7 +75,7 @@ end
 if vbox?
   vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout rescue '').strip
 
-  unless vbox_version.include?('6.')
+  unless vbox_version.include?('6.') || vbox_version.include?('7.')
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
     vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"

@@ -12,7 +12,7 @@ See the links below for the details of the available images:
 
 ## 24.04 LTS
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2404-lts)  
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2404-lts) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server)  
 
 The template has the following settings:
 
@@ -25,7 +25,7 @@ The template has the following settings:
 
 ## 22.04 LTS
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2204-lts) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server)  
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-server-2204-lts)  
 
 The template has the following settings:
 
