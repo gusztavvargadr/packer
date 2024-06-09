@@ -15,7 +15,7 @@ See the links below for the details of the available images:
 
 ## 24.04 LTS Ubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2404-lts)  
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2404-lts) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop)  
 
 The template has the following settings:
 
@@ -41,7 +41,7 @@ The template has the following settings:
 
 ## 22.04 LTS Ubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2204-lts) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop)  
+[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2204-lts)  
 
 The template has the following settings:
 

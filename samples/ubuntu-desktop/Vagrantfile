@@ -2,9 +2,9 @@ load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
   config_vm_define config, "2404-lts-ubuntu", "ubuntu-desktop-2404-lts"
+  config_vm_define config, "2404-lts-ubuntu-alias", "ubuntu-desktop"
   config_vm_define config, "2404-lts-xubuntu", "xubuntu-desktop-2404-lts"
   config_vm_define config, "2204-lts-ubuntu", "ubuntu-desktop-2204-lts"
-  config_vm_define config, "2204-lts-ubuntu-alias", "ubuntu-desktop"
   config_vm_define config, "2204-lts-xubuntu", "xubuntu-desktop-2204-lts"
   config_vm_define config, "2004-lts-ubuntu", "ubuntu-desktop-2004-lts"
   config_vm_define config, "2004-lts-xubuntu", "ubuntu-desktop-2004-lts-xfce"

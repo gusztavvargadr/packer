@@ -18,6 +18,7 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "ubuntu-desktop-2404-lts"
+      box_alias = "ubuntu-desktop"
     }
 
     virtualbox = {
@@ -76,7 +77,6 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "ubuntu-desktop-2204-lts"
-      box_alias = "ubuntu-desktop"
     }
   }
 
