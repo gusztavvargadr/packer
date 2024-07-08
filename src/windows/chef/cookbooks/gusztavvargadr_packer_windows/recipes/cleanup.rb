@@ -1,4 +1,5 @@
 reboot 'gusztavvargadr_packer_windows::cleanup' do
+  delay_mins 1
   action :reboot_now
   only_if { reboot_pending? }
 end
@@ -27,6 +28,7 @@ gusztavvargadr_windows_update '' do
 end
 
 reboot 'gusztavvargadr_packer_windows::cleanup' do
+  delay_mins 1
   action :reboot_now
   only_if { reboot_pending? }
 end

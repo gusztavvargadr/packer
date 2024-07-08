@@ -93,7 +93,7 @@ build {
   provisioner "powershell" {
     script              = "${path.root}/chef/apply.ps1"
     max_retries         = local.chef_max_retries
-    pause_before        = "60s"
+    pause_before        = "120s"
     start_retry_timeout = local.chef_start_retry_timeout
 
     env = {
