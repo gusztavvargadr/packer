@@ -139,9 +139,9 @@ jobs:
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish --exclusive
           displayName: Publish
           env:
-            VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
-            HCP_CLIENT_ID: $(environment-hcp-client-id)
-            HCP_CLIENT_SECRET: $(environment-hcp-client-secret)
+            VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
+            HCP_CLIENT_ID: $(hcp-client-id)
+            HCP_CLIENT_SECRET: $(hcp-client-secret)
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
