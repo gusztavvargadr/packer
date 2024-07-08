@@ -99,7 +99,8 @@ jobs:
         vmImage: ubuntu-22.04
 
       variables:
-        - group: environment-vagrantcloud
+        - group: environment-vagrant-cloud
+        - group: environment-hcp-vagrant
 
       steps:
         - checkout: self
@@ -139,6 +140,8 @@ jobs:
           displayName: Publish
           env:
             VAGRANT_CLOUD_TOKEN: $(environment-vagrant-cloud-token)
+            HCP_CLIENT_ID: $(environment-hcp-client-id)
+            HCP_CLIENT_SECRET: $(environment-hcp-client-secret)
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
