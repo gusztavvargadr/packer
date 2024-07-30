@@ -18,7 +18,7 @@ See the links below for the details of the available images.
 
 - [Docker Windows](./docker-windows/README.md)
 - [Docker Linux](./docker-linux/README.md)
-- [IIS](./IIS/README.md)
+- [IIS](./iis/README.md)
 - [SQL Server](./sql-server/README.md)
 
 ### Development

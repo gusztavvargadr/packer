@@ -2,7 +2,7 @@ var configuration = Argument("configuration", string.Empty);
 var target = Argument("target", "default");
 
 var author = Argument("author", "gusztavvargadr");
-var version = Argument("version", "2406");
+var version = Argument("version", "2407");
 
 var configurationParts = configuration.Split('/', StringSplitOptions.RemoveEmptyEntries);
 var sample = configurationParts.ElementAtOrDefault(0) ?? Argument<string>("sample");
