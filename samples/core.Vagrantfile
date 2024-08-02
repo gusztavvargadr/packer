@@ -1,20 +1,23 @@
 Vagrant.configure("2") do |config|
-  hyperv_network_bridge = ENV["VAGRANT_HYPERV_NETWORK_BRIDGE"].to_s.strip || "Default Switch"
-  config.vm.provider "hyperv" do |provider, override|
-    provider.linked_clone = true
+  provider_linked_clone = ENV.fetch("VAGRANT_PROVIDER_LINKED_CLONE", "false").to_s.downcase == "true"
+  provider_synced_folder_disabled = ENV.fetch("VAGRANT_PROVIDER_SYNCED_FOLDER_DISABLED", "true").to_s.downcase == "true"
 
+  config.vm.provider "hyperv" do |provider, override|
+    provider.linked_clone = provider_linked_clone
+
+    hyperv_network_bridge = ENV.fetch("VAGRANT_HYPERV_NETWORK_BRIDGE", "Default Switch")
     override.vm.network "private_network", bridge: hyperv_network_bridge
   end
 
   config.vm.provider "virtualbox" do |provider, _override|
-    provider.linked_clone = false
+    provider.linked_clone = provider_linked_clone
   end
 
   config.vm.provider "vmware_desktop" do |provider, _override|
-    provider.linked_clone = true
+    provider.linked_clone = provider_linked_clone
   end
 
-  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true if provider_synced_folder_disabled
 end
 
 def config_vm_define(config, vm_name, box_name)

@@ -145,7 +145,7 @@ build {
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.vagrant_options.architecture
       default_architecture = local.vagrant_options.architecture
-      no_release           = true
+      // no_release           = true
     }
   }
 
@@ -164,7 +164,7 @@ build {
         box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
         architecture         = local.vagrant_options.architecture
         default_architecture = local.vagrant_options.architecture
-        no_release           = true
+        // no_release           = true
       }
     }
   }
