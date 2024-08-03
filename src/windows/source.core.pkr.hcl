@@ -1,8 +1,8 @@
 locals {
-  timestamp = "${formatdate("YYYYMMDD'-'hhmmss", timestamp())}"
+  timestamp = "${formatdate("YYMMDD'-'hhmmss", timestamp())}"
 
   source_options_core = {
-    vm_name          = "packer-${local.timestamp}"
+    vm_name          = "${replace(local.image_name, "/", "-")}-${local.timestamp}"
     headless         = true
     output_directory = "${local.artifacts_directory}/image"
 

@@ -96,7 +96,10 @@ jobs:
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       pool:
-        vmImage: ubuntu-22.04
+        name: default
+
+      workspace:
+        clean: all
 
       variables:
         - group: environment-vagrant-cloud
@@ -105,14 +108,6 @@ jobs:
       steps:
         - checkout: self
           submodules: recursive
-
-        - script: |
-            df -h
-
-            sudo rm -Rf /usr/local/lib/android
-            sudo rm -Rf /usr/local/lib/node_modules
-            df -h
-          displayName: Initialize agent
 
         - script: |
             dotnet --info
