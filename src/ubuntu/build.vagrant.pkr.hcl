@@ -169,3 +169,33 @@ build {
     }
   }
 }
+
+build {
+  name = "vagrant-download"
+
+  sources = ["null.core"]
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant destroy -f ${var.image}",
+    ]
+
+    valid_exit_codes = [0, 1]
+  }
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
+    ]
+
+    max_retries = 1
+  }
+
+  provisioner "shell-local" {
+    inline = [
+      "vagrant destroy -f ${var.image}",
+    ]
+
+    valid_exit_codes = [0, 1]
+  }
+}

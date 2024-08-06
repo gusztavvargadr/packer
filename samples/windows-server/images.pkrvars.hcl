@@ -108,9 +108,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26085.iso"
-      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:c4d94b3daf0a36c7db1b29434381ed2d4f44a7ad45669927453ee7039e4df076"
+      source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26257.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
+      source_iso_checksum   = "sha256:0a3a4b768e0a9bf484e10852f178f5fb0f51c21ed6e609a6ee8217825b504176"
 
       boot_image_name     = "Windows Server 2025 SERVERSTANDARD"
       boot_product_key    = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
@@ -132,9 +132,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26085.iso"
-      source_iso_url_remote = "https://app.vagrantup.com/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2302.0.2403/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:c4d94b3daf0a36c7db1b29434381ed2d4f44a7ad45669927453ee7039e4df076"
+      source_iso_url_local  = "Windows_InsiderPreview_Server_vNext_en-us_26257.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/windows-server-insider-preview/versions/2402.0.2407/providers/iso/amd64/vagrant.box"
+      source_iso_checksum   = "sha256:0a3a4b768e0a9bf484e10852f178f5fb0f51c21ed6e609a6ee8217825b504176"
 
       boot_image_name     = "Windows Server 2025 SERVERSTANDARDCORE"
       boot_product_key    = "MFY9F-XBN2F-TYFMP-CCV49-RMYVH"
