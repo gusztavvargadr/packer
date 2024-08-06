@@ -45,6 +45,12 @@ Task("publish")
     PackerBuild("publish");
   });
 
+Task("download")
+  .IsDependentOn("publish")
+  .Does(() => {
+    PackerBuild("download");
+  });
+
 Task("clean")
   .Does(() => {
     CleanDirectory(artifactsDirectory);

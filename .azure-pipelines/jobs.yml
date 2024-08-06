@@ -16,7 +16,7 @@ jobs:
     workspace:
       clean: all
 
-    timeoutInMinutes: 150
+    timeoutInMinutes: 120
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
@@ -120,6 +120,14 @@ jobs:
           displayName: Initialize Packer
 
         - script: |
+            vagrant --version
+            vagrant plugin list
+
+            vagrant box list
+            vagrant global-status --prune
+          displayName: Initialize Vagrant
+
+        - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
           displayName: Init
 
@@ -137,6 +145,54 @@ jobs:
             VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
             HCP_CLIENT_ID: $(hcp-client-id)
             HCP_CLIENT_SECRET: $(hcp-client-secret)
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
+          displayName: Clean
+          condition: always()
+
+    - job: download
+      displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      dependsOn: publish
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+      pool:
+        name: default
+        demands:
+          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+
+      workspace:
+        clean: all
+
+      steps:
+        - checkout: self
+          submodules: recursive
+
+        - script: |
+            dotnet --info
+
+            dotnet tool restore
+          displayName: Initialize .NET
+
+        - script: |
+            packer --version
+          displayName: Initialize Packer
+
+        - script: |
+            vagrant --version
+            vagrant plugin list
+
+            vagrant box list
+            vagrant global-status --prune
+          displayName: Initialize Vagrant
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
+          displayName: Init
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target download --exclusive
+          displayName: Download
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean

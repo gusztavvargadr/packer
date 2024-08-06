@@ -32,11 +32,9 @@ def config_vm_define(config, vm_name, box_name)
     config.vm.box = box
     config.vm.box_url = box_url unless box_url.empty?
 
-    unless box_url.empty?
-      config.trigger.after :destroy do |trigger|
-        trigger.info = "Deleting box"
-        trigger.run = { inline: "vagrant box remove #{box}"}
-      end
+    config.trigger.after :destroy do |trigger|
+      trigger.info = "Deleting box"
+      trigger.run = { inline: "vagrant box remove #{box}"}
     end
   end
 end
