@@ -152,7 +152,7 @@ jobs:
           condition: always()
 
     - job: download
-      displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      displayName: Download ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: publish
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
