@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: windows-server
+      image: insider-preview-standard-core
+      provider: virtualbox
