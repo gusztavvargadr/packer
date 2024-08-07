@@ -1,5 +1,5 @@
 packer {
-  required_version = "~> 1.9"
+  required_version = "~> 1.11.1"
 }
 
 variable "author" {
