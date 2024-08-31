@@ -7,7 +7,7 @@ This folder contains Packer templates for building `Windows 10` images.
 See the links below for the details of the available images:
 
 - [22H2 Enterprise](#22h2-enterprise)
-- [21H2 Enterprise](#21h2-enterprise)
+- ~~[21H2 Enterprise](#21h2-enterprise) Deprecated~~
 - [21H2 Enterprise LTSC](#21h2-enterprise-ltsc)
 - ~~[1809 Enterprise LTSC](#1809-enterprise-ltsc) Deprecated~~
 
@@ -30,6 +30,8 @@ The template has the following settings:
   - 4 GB RAM
 
 ## 21H2 Enterprise
+
+**This template is ~~deprecated~~. Please use one of the other templates.**
 
 [Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-10-21h2-enterprise)  
 
