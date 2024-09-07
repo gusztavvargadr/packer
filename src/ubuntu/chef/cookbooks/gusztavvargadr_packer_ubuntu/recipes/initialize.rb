@@ -2,7 +2,7 @@ apt_update '' do
   action :update
 end
 
-if !vbox? && !vmware? && !ec2?
+if hyperv?
   apt_package [ 'linux-image-virtual', 'linux-tools-virtual', 'linux-cloud-tools-virtual' ] do
     action :upgrade
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
