@@ -18,7 +18,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Windows2022_64"
     }
 
     vmware = {
@@ -45,7 +45,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Windows2022_64"
     }
 
     vmware = {
@@ -117,7 +117,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Windows2022_64"
     }
 
     vmware = {
@@ -141,7 +141,7 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2019_64"
+      guest_os_type = "Windows2022_64"
     }
 
     vmware = {
