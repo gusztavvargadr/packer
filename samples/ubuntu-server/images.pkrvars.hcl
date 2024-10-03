@@ -52,9 +52,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-20.04.5-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.5-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4"
+      source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
     }
 
     virtualbox = {
