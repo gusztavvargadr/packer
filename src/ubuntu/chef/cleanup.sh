@@ -27,7 +27,6 @@ dpkg --list \
     | sudo xargs apt-get -y purge;
 
 if [ "${CHEF_KEEP}" != "true" ]; then
-    sudo apt-mark unhold chef
     sudo apt-get -y purge chef
 fi
 
