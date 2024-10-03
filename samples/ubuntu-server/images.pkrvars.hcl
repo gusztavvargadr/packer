@@ -6,9 +6,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server/versions/2404.0.2404/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:8762f7e74e4d64d72fceb5f70682e6b069932deedb4949c6975d0f0fe0a91be3"
+      source_iso_url_local  = "ubuntu-24.04.1-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/noble/ubuntu-24.04.1-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:e240e4b801f7bb68c20d1356b60968ad0c33a41d00d828e74ceb3364a0317be9"
     }
 
     vagrant = {
@@ -31,9 +31,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-22.04.3-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server/versions/2204.0.2404/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
+      source_iso_url_local  = "ubuntu-22.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/jammy/ubuntu-22.04.4-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
     }
 
     virtualbox = {
@@ -52,9 +52,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server/versions/2004.0.2404/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
+      source_iso_url_local  = "ubuntu-20.04.5-live-server-amd64.iso"
+      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.5-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4"
     }
 
     virtualbox = {
