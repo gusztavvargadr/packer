@@ -62,7 +62,6 @@ build {
 locals {
   chef_destination         = "/var/tmp/packer-build/chef/"
   chef_max_retries         = 10
-  chef_start_retry_timeout = "30m"
   chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
 }
@@ -90,7 +89,6 @@ build {
     script              = "${path.root}/chef/apply.sh"
     max_retries         = local.chef_max_retries
     pause_before        = "120s"
-    start_retry_timeout = local.chef_start_retry_timeout
 
     env = {
       CHEF_ATTRIBUTES = local.chef_attributes

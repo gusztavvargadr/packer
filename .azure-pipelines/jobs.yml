@@ -21,7 +21,7 @@ jobs:
     workspace:
       clean: all
 
-    timeoutInMinutes: 120
+    timeoutInMinutes: 150
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
