@@ -1,0 +1,9 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: windows-11
+      image: 24h2-enterprise-ltsc
+      provider: virtualbox
