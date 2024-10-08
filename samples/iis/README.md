@@ -11,7 +11,7 @@ See the links below for the details of the available images:
 
 ## Windows Server
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/iis)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis-windows-server) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis)  
 
 The template has the following settings:
 
@@ -22,7 +22,7 @@ The template has the following settings:
 
 ## Windows Server Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/iis-windows-server-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis-windows-server-core)  
 
 The template has the following settings:
 

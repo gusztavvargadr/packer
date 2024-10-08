@@ -56,7 +56,6 @@ images = {
 
   "23h2-enterprise" = {
     core = {
-      image_name        = "windows-11/23h2-enterprise"
       image_description = "Windows 11 Version 23H2 Enterprise"
       image_version     = "2302.0"
     }
@@ -85,7 +84,6 @@ images = {
 
   "22h2-enterprise" = {
     core = {
-      image_name        = "windows-11/22h2-enterprise"
       image_description = "Windows 11 Version 22H2 Enterprise"
       image_version     = "2202.0"
     }
@@ -113,7 +111,6 @@ images = {
 
   "21h2-enterprise" = {
     core = {
-      image_name        = "windows-11/21h2-enterprise"
       image_description = "Windows 11 Version 21H2 Enterprise"
       image_version     = "2102.0"
     }
@@ -141,7 +138,6 @@ images = {
 
   "insider-preview-enterprise" = {
     core = {
-      image_name        = "windows-11/insider-preview-enterprise"
       image_description = "Windows 11 Insider Preview Enterprise"
       image_version     = "2402.0"
     }

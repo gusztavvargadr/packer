@@ -1,7 +1,6 @@
 images = {
   "windows-server" = {
     core = {
-      image_name        = "iis/windows-server"
       image_description = "IIS on Windows Server"
       image_version     = "2102.0"
     }
@@ -18,7 +17,6 @@ images = {
 
   "windows-server-core" = {
     core = {
-      image_name        = "iis/windows-server-core"
       image_description = "IIS on Windows Server Core"
       image_version     = "2102.0"
     }

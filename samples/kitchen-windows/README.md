@@ -10,7 +10,7 @@ See the links below for the details of the available images:
 
 ## 2022
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/kitchen-windows-2022)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/kitchen-windows-2022)  
 
 The template has the following settings:
 

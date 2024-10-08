@@ -22,31 +22,26 @@ Task("init")
   });
 
 Task("restore")
-  .IsDependentOn("init")
   .Does(() => {
     PackerBuild("restore");
   });
 
 Task("build")
-  .IsDependentOn("restore")
   .Does(() => {
     PackerBuild("build");
   });
 
 Task("test")
-  .IsDependentOn("build")
   .Does(() => {
     PackerBuild("test");
   });
 
 Task("publish")
-  .IsDependentOn("test")
   .Does(() => {
     PackerBuild("publish");
   });
 
 Task("download")
-  .IsDependentOn("publish")
   .Does(() => {
     PackerBuild("download");
   });
@@ -57,6 +52,9 @@ Task("clean")
   });
 
 Task("default")
+  .IsDependentOn("init")
+  .IsDependentOn("restore")
+  .IsDependentOn("build")
   .IsDependentOn("test");
 
 RunTarget(target);

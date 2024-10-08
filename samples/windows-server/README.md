@@ -15,7 +15,7 @@ See the links below for the details of the available images:
 
 ## 2022 Standard
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server)  
 
 The template has the following settings:
 
@@ -33,7 +33,7 @@ The template has the following settings:
 
 ## 2022 Standard Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2022-standard-core) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard-core) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-core)  
 
 The template has the following settings:
 
@@ -53,7 +53,7 @@ The template has the following settings:
 
 **This template is ~~deprecated~~. Please use one of the other templates.**
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2019-standard)  
 
 The template has the following settings:
 
@@ -73,7 +73,7 @@ The template has the following settings:
 
 **This template is ~~deprecated~~. Please use one of the other templates.**
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-2019-standard-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2019-standard-core)  
 
 The template has the following settings:
 
@@ -91,7 +91,7 @@ The template has the following settings:
 
 ## Insider Preview Standard
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-insider-preview-standard)  
 
 The template has the following settings:
 
@@ -109,7 +109,7 @@ The template has the following settings:
 
 ## Insider Preview Standard Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/windows-server-insider-preview-standard-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-insider-preview-standard-core)  
 
 The template has the following settings:
 
