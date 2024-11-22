@@ -53,7 +53,7 @@ jobs:
         displayName: Init
 
       - script: |
-          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore
         displayName: Restore
 
       - ${{ if eq(parameters.build, 'native') }}:
@@ -78,11 +78,11 @@ jobs:
           displayName: Download artifacts
 
       - script: |
-          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build
         displayName: Build
 
       - script: |
-          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test --exclusive
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
       - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
@@ -144,7 +144,7 @@ jobs:
           displayName: Download artifacts
 
         - script: |
-            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish --exclusive
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish
           displayName: Publish
           env:
             VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
@@ -201,7 +201,7 @@ jobs:
           displayName: Init
 
         - script: |
-            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target download --exclusive
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target download
           displayName: Download
 
         - script: |

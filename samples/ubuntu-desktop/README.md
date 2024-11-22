@@ -15,7 +15,7 @@ See the links below for the details of the available images:
 
 ## 24.04 LTS Ubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2404-lts) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2404-lts) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop)  
 
 The template has the following settings:
 
@@ -28,7 +28,7 @@ The template has the following settings:
 
 ## 24.04 LTS Xubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/xubuntu-desktop-2404-lts)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/xubuntu-desktop-2404-lts)  
 
 The template has the following settings:
 
@@ -41,7 +41,7 @@ The template has the following settings:
 
 ## 22.04 LTS Ubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2204-lts)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts)  
 
 The template has the following settings:
 
@@ -52,7 +52,7 @@ The template has the following settings:
 
 ## 22.04 LTS Xubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/xubuntu-desktop-2204-lts)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/xubuntu-desktop-2204-lts)  
 
 The template has the following settings:
 
@@ -63,7 +63,7 @@ The template has the following settings:
 
 ## 20.04 LTS Ubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2004-lts)  
 
 The template has the following settings:
 
@@ -74,7 +74,7 @@ The template has the following settings:
 
 ## 20.04 LTS Xubuntu
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/ubuntu-desktop-2004-lts-xfce)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2004-lts-xfce)  
 
 The template has the following settings:
 

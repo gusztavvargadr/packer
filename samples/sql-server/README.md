@@ -11,7 +11,7 @@ See the links below for the details of the available images:
 
 ## 2019 Developer Windows Server
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/sql-server)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/sql-server-2019-developer-windows-server) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/sql-server)  
 
 The template has the following settings:
 
@@ -25,7 +25,7 @@ The template has the following settings:
 
 ## 2019 Developer Windows Server Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/sql-server-2019-developer-windows-server-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/sql-server-2019-developer-windows-server-core)  
 
 The template has the following settings:
 

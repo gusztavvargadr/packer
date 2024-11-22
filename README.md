@@ -15,11 +15,11 @@ This repository contains [Packer] templates for building Windows and Ubuntu imag
 
 ## Overview
 
-Ready-to-use [Vagrant] boxes built using this repository are published on [Vagrant Cloud][VagrantCloudBoxes].
+Ready-to-use [Vagrant] boxes built using this repository are published to the [HCP Vagrant Registry][VagrantBoxes].
 
 See the [documentation][DocumentationOverview] for more details on the available images for [Hyper-V], [VirtualBox] and [VMware].
 
-[VagrantCloudBoxes]: https://app.vagrantup.com/gusztavvargadr
+[VagrantBoxes]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr
 
 [DocumentationOverview]: ./samples/README.md#overview
 

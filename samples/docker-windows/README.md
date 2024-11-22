@@ -11,7 +11,7 @@ See the links below for the details of the available images:
 
 ## Community Windows Server
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server) | [Vagrant alias](https://app.vagrantup.com/gusztavvargadr/boxes/docker-windows)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/docker-community-windows-server) | [Vagrant alias](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/docker-windows)  
 
 The template has the following settings:
 
@@ -20,7 +20,7 @@ The template has the following settings:
 
 ## Community Windows Server Core
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/docker-community-windows-server-core)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/docker-community-windows-server-core)  
 
 The template has the following settings:
 

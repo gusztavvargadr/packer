@@ -11,7 +11,7 @@ See the links below for the details of the available images:
 
 ## 2404
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/kitchen-ubuntu-2404)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/kitchen-ubuntu-2404)  
 
 The template has the following settings:
 
@@ -20,7 +20,7 @@ The template has the following settings:
 
 ## 2204
 
-[Vagrant box](https://app.vagrantup.com/gusztavvargadr/boxes/kitchen-ubuntu-2204)  
+[Vagrant box](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/kitchen-ubuntu-2204)  
 
 The template has the following settings:
 

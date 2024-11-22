@@ -1,7 +1,6 @@
 images = {
   "2404-lts-ubuntu" = {
     core = {
-      image_name        = "ubuntu-desktop/2404-lts-ubuntu"
       image_description = "Ubuntu Desktop 24.04 LTS"
       image_version     = "2404.0"
     }
@@ -32,7 +31,6 @@ images = {
 
   "2404-lts-xubuntu" = {
     core = {
-      image_name        = "ubuntu-desktop/2404-lts-xubuntu"
       image_description = "Xubuntu Desktop 24.04 LTS"
       image_version     = "2404.0"
     }
@@ -62,7 +60,6 @@ images = {
 
   "2204-lts-ubuntu" = {
     core = {
-      image_name        = "ubuntu-desktop/2204-lts-ubuntu"
       image_description = "Ubuntu Desktop 22.04 LTS"
       image_version     = "2204.0"
     }
@@ -82,7 +79,6 @@ images = {
 
   "2204-lts-xubuntu" = {
     core = {
-      image_name        = "ubuntu-desktop/2204-lts-xubuntu"
       image_description = "Xubuntu Desktop 22.04 LTS"
       image_version     = "2204.0"
     }
@@ -102,7 +98,6 @@ images = {
 
   "2004-lts-ubuntu" = {
     core = {
-      image_name        = "ubuntu-desktop/2004-lts-ubuntu"
       image_description = "Ubuntu Desktop 20.04 LTS"
       image_version     = "2004.0"
     }
