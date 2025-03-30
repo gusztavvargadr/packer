@@ -37,7 +37,7 @@ images = {
 
     native = {
       source_iso_url_local  = "xubuntu-24.04.2-desktop-amd64.iso"
-      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/24.04/release/xubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/noble/release/xubuntu-24.04.2-desktop-amd64.iso"
       source_iso_checksum   = "sha256:ba76abf526b4c7ab22e8125cca69547f76559f703bd357c54bdf5d74be0bfd2b"
 
       chef_attributes = "xubuntu"
