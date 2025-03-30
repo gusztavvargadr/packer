@@ -6,9 +6,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.1-desktop-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/noble/ubuntu-24.04.1-desktop-amd64.iso"
-      source_iso_checksum   = "sha256:c2e6f4dc37ac944e2ed507f87c6188dd4d3179bf4a3f9e110d3c88d1f3294bdc"
+      source_iso_url_local  = "ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/noble/ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_checksum   = "sha256:d7fe3d6a0419667d2f8eff12796996328daa2d4f90cd9f87aa9371b362f987bf"
 
       chef_attributes = "ubuntu"
     }
@@ -36,9 +36,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "xubuntu-24.04.1-desktop-amd64.iso"
-      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/noble/release/xubuntu-24.04.1-desktop-amd64.iso"
-      source_iso_checksum   = "sha256:c333806173558ccc2a95f44c5c7b57437ee3d409b50a3a5a1367bcf7eaf3ef90"
+      source_iso_url_local  = "xubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/24.04/release/xubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_checksum   = "sha256:ba76abf526b4c7ab22e8125cca69547f76559f703bd357c54bdf5d74be0bfd2b"
 
       chef_attributes = "xubuntu"
     }
