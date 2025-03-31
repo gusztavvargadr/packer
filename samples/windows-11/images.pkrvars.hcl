@@ -15,6 +15,7 @@ images = {
 
     vagrant = {
       memory    = "4096"
+      box_alias = "windows-11"
     }
 
     virtualbox = {
@@ -70,7 +71,6 @@ images = {
 
     vagrant = {
       memory    = "4096"
-      box_alias = "windows-11"
     }
 
     virtualbox = {

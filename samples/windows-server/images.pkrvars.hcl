@@ -53,54 +53,6 @@ images = {
     }
   }
 
-  "2019-standard" = {
-    core = {
-      image_description = "Windows Server 2019 Standard"
-      image_version     = "1809.0"
-    }
-
-    native = {
-      source_iso_url_local  = "17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
-      source_iso_url_remote = "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
-      source_iso_checksum   = "sha256:549bca46c055157291be6c22a3aaaed8330e78ef4382c99ee82c896426a1cee1"
-
-      boot_image_name         = "Windows Server 2019 SERVERSTANDARD"
-      boot_chocolatey_version = "1.4.0"
-    }
-
-    virtualbox = {
-      guest_os_type = "Windows2019_64"
-    }
-
-    vmware = {
-      guest_os_type = "windows2019srv-64"
-    }
-  }
-
-  "2019-standard-core" = {
-    core = {
-      image_description = "Windows Server 2019 Standard Core"
-      image_version     = "1809.0"
-    }
-
-    native = {
-      source_iso_url_local  = "17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
-      source_iso_url_remote = "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
-      source_iso_checksum   = "sha256:549bca46c055157291be6c22a3aaaed8330e78ef4382c99ee82c896426a1cee1"
-
-      boot_image_name         = "Windows Server 2019 SERVERSTANDARDCORE"
-      boot_chocolatey_version = "1.4.0"
-    }
-
-    virtualbox = {
-      guest_os_type = "Windows2019_64"
-    }
-
-    vmware = {
-      guest_os_type = "windows2019srv-64"
-    }
-  }
-
   "insider-preview-standard" = {
     core = {
       image_description = "Windows Server Insider Preview Standard"
