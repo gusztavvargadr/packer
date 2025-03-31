@@ -6,7 +6,9 @@ images = {
     }
 
     native = {
-      source_image = "ubuntu-server/2404-lts"
+      source_iso_url_local  = "ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/noble/ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_checksum   = "sha256:d7fe3d6a0419667d2f8eff12796996328daa2d4f90cd9f87aa9371b362f987bf"
 
       chef_attributes = "ubuntu"
     }
@@ -34,7 +36,9 @@ images = {
     }
 
     native = {
-      source_image = "ubuntu-server/2404-lts"
+      source_iso_url_local  = "xubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/noble/release/xubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_checksum   = "sha256:ba76abf526b4c7ab22e8125cca69547f76559f703bd357c54bdf5d74be0bfd2b"
 
       chef_attributes = "xubuntu"
     }
