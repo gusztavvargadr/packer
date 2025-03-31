@@ -7,7 +7,8 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-24.04.1-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/noble/ubuntu-24.04.1-live-server-amd64.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2404-lts/versions/2404.0.2503/providers/iso/amd64/vagrant.box"
+      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/noble/ubuntu-24.04.1-live-server-amd64.iso"
       source_iso_checksum   = "sha256:e240e4b801f7bb68c20d1356b60968ad0c33a41d00d828e74ceb3364a0317be9"
     }
 
@@ -32,7 +33,8 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-22.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/jammy/ubuntu-22.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2204-lts/versions/2204.0.2503/providers/iso/amd64/vagrant.box"
+      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/jammy/ubuntu-22.04.4-live-server-amd64.iso"
       source_iso_checksum   = "sha256:45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
     }
 
@@ -53,7 +55,8 @@ images = {
 
     native = {
       source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.4-live-server-amd64.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2004-lts/versions/2004.0.2503/providers/iso/amd64/vagrant.box"
+      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.4-live-server-amd64.iso"
       source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
     }
 
