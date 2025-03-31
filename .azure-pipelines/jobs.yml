@@ -9,14 +9,9 @@ jobs:
     displayName: Build ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
 
     pool:
-      ${{ if eq(parameters.provider, 'hyperv') }}:
-        name: windows-2022-hyperv
-      ${{ elseif eq(parameters.provider, 'virtualbox') }}:
-        name: ubuntu-2204-virtualbox
-      ${{ else }}:
-        name: default
-        demands:
-          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+      name: default
+      demands:
+        - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
 
     workspace:
       clean: all
@@ -102,6 +97,8 @@ jobs:
 
       pool:
         name: default
+        demands:
+          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals none
 
       workspace:
         clean: all
@@ -162,14 +159,9 @@ jobs:
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       pool:
-        ${{ if eq(parameters.provider, 'hyperv') }}:
-          name: windows-2022-hyperv
-        ${{ elseif eq(parameters.provider, 'virtualbox') }}:
-          name: ubuntu-2204-virtualbox
-        ${{ else }}:
-          name: default
-          demands:
-            - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+        name: default
+        demands:
+          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
 
       workspace:
         clean: all
