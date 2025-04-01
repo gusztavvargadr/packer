@@ -74,6 +74,7 @@ build {
 
   provisioner "powershell" {
     script = "${path.root}/chef/initialize.ps1"
+    pause_before = "15s"
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password

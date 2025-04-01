@@ -73,6 +73,7 @@ build {
 
   provisioner "shell" {
     script            = "${path.root}/chef/initialize.sh"
+    pause_before      = "15s"
   }
 
   provisioner "file" {
