@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-11.23h2-enterprise.hyperv
+      source: windows-11.24h2-enterprise.hyperv
 
 stages:
   - template: ../../stages.yml
