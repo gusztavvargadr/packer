@@ -15,7 +15,7 @@ locals {
     hard_drive_interface = "sata"
     gfx_controller       = "vmsvga"
     gfx_vram_size        = 128
-    post_shutdown_delay  = "5s"
+    post_shutdown_delay  = "15s"
   }
 }
 
