@@ -8,9 +8,7 @@ autoinstall:
   apt:
     geoip: false
   packages:
-    - linux-image-virtual
-    - linux-tools-virtual
-    - linux-cloud-tools-virtual
+    - linux-azure
   timezone: UTC
   identity:
     hostname: vagrant
