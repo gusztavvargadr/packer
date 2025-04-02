@@ -3,13 +3,9 @@ apt_update '' do
 end
 
 if hyperv?
-  apt_package [ 'linux-image-virtual', 'linux-tools-virtual', 'linux-cloud-tools-virtual' ] do
-    action :upgrade
+  apt_package [ 'linux-azure' ] do
+    action :install
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
-  end
-
-  apt_package [ 'linux-tools-generic', 'linux-cloud-tools-generic' ] do
-    action :upgrade
   end
 end
 
@@ -18,7 +14,7 @@ if vbox?
 
   unless vbox_version.include?('6.') || vbox_version.include?('7.')
     apt_package [ 'build-essential', 'cryptsetup', 'libssl-dev', 'libreadline-dev', 'zlib1g-dev', 'linux-source', 'dkms', 'linux-headers-generic' ] do
-      action :upgrade
+      action :install
       notifies :run, 'bash[guest-additions]', :immediately
       notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
     end
@@ -47,7 +43,7 @@ if vmware?
 
   unless vmware_version.include?('12.')
     apt_package [ 'open-vm-tools', 'open-vm-tools-desktop' ] do
-      action :upgrade
+      action :install
       notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
     end
   end
