@@ -103,7 +103,8 @@ build {
   }
 
   provisioner "powershell" {
-    inline = ["shutdown /r /t 60"]
+    inline           = ["shutdown /r /t 60"]
+    valid_exit_codes = [0, 1190]
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password
