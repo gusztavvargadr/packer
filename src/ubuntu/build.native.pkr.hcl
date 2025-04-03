@@ -60,10 +60,10 @@ build {
 }
 
 locals {
-  chef_destination         = "/var/tmp/packer-build/chef/"
-  chef_max_retries         = 10
-  chef_attributes          = lookup(local.image_options.native, "chef_attributes", "")
-  chef_keep                = lookup(local.image_options.native, "chef_keep", "false")
+  chef_destination = "/var/tmp/packer-build/chef/"
+  chef_max_retries = 10
+  chef_attributes  = lookup(local.image_options.native, "chef_attributes", "")
+  chef_keep        = lookup(local.image_options.native, "chef_keep", "false")
 }
 
 build {
@@ -72,8 +72,7 @@ build {
   sources = local.native_build ? (local.native_iso ? compact([lookup(local.native_iso_sources, local.image_provider, "")]) : compact([lookup(local.native_import_sources, local.image_provider, "")])) : ["null.core"]
 
   provisioner "shell" {
-    script            = "${path.root}/chef/initialize.sh"
-    pause_before      = "15s"
+    script = "${path.root}/chef/initialize.sh"
   }
 
   provisioner "file" {
@@ -87,9 +86,22 @@ build {
   }
 
   provisioner "shell" {
-    script              = "${path.root}/chef/apply.sh"
-    max_retries         = local.chef_max_retries
-    pause_before        = "120s"
+    script           = "${path.root}/chef/apply.sh"
+    valid_exit_codes = [35]
+
+    env = {
+      CHEF_ATTRIBUTES = local.chef_attributes
+    }
+  }
+
+  provisioner "shell" {
+    inline = [ "sudo shutdown --reboot +1" ]
+  }
+
+  provisioner "shell" {
+    script       = "${path.root}/chef/apply.sh"
+    max_retries  = local.chef_max_retries
+    pause_before = "120s"
 
     env = {
       CHEF_ATTRIBUTES = local.chef_attributes
