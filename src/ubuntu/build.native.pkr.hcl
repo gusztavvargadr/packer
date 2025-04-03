@@ -87,7 +87,7 @@ build {
 
   provisioner "shell" {
     script           = "${path.root}/chef/apply.sh"
-    valid_exit_codes = [35]
+    valid_exit_codes = [0, 35]
 
     env = {
       CHEF_ATTRIBUTES = local.chef_attributes
@@ -95,7 +95,7 @@ build {
   }
 
   provisioner "shell" {
-    inline = [ "sudo shutdown --reboot +1" ]
+    inline = ["sudo shutdown --reboot +1"]
   }
 
   provisioner "shell" {

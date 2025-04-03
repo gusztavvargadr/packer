@@ -92,7 +92,7 @@ build {
 
   provisioner "powershell" {
     script           = "${path.root}/chef/apply.ps1"
-    valid_exit_codes = [35]
+    valid_exit_codes = [0, 35]
 
     env = {
       CHEF_ATTRIBUTES = local.chef_attributes
@@ -103,7 +103,7 @@ build {
   }
 
   provisioner "powershell" {
-    inline = [ "shutdown /r /t 60" ]
+    inline = ["shutdown /r /t 60"]
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password
