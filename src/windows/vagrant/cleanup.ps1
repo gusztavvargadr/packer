@@ -1,2 +1,1 @@
-# Get-AppxPackage -Name "*OneDriveSync*" | Remove-AppxPackage
-# Get-AppxPackage -Name "*MicrosoftEdge*" | Remove-AppxPackage
+Get-AppxPackage -Name "*BingSearch*" | Remove-AppxPackage
