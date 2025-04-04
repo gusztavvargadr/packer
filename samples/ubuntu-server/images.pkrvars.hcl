@@ -6,10 +6,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.1-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2404-lts/versions/2404.0.2503/providers/iso/amd64/vagrant.box"
-      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/noble/ubuntu-24.04.1-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:e240e4b801f7bb68c20d1356b60968ad0c33a41d00d828e74ceb3364a0317be9"
+      source_iso_url_local  = "ubuntu-24.04.2-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:d6dab0c3a657988501b4bd76f1297c053df710e06e0c3aece60dead24f270b4d"
     }
 
     vagrant = {
@@ -32,10 +31,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-22.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2204-lts/versions/2204.0.2503/providers/iso/amd64/vagrant.box"
-      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/jammy/ubuntu-22.04.4-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:45f873de9f8cb637345d6e66a583762730bbea30277ef7b32c9c3bd6700a32b2"
+      source_iso_url_local  = "ubuntu-22.04.5-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:9bc6028870aef3f74f4e16b900008179e78b130e6b0b9a140635434a46aa98b0"
     }
 
     virtualbox = {
@@ -54,10 +52,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-20.04.4-live-server-amd64.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/ubuntu-server-2004-lts/versions/2004.0.2503/providers/iso/amd64/vagrant.box"
-      # source_iso_url_remote = "https://old-releases.ubuntu.com/releases/focal/ubuntu-20.04.4-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
+      source_iso_url_local  = "ubuntu-20.04.6-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:b8f31413336b9393ad5d8ef0282717b2ab19f007df2e9ed5196c13d8f9153c8b"
     }
 
     virtualbox = {
