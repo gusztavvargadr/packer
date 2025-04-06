@@ -7,9 +7,6 @@ autoinstall:
       sizing-policy: all
   apt:
     geoip: false
-  packages:
-    - open-vm-tools
-    - open-vm-tools-desktop
   timezone: UTC
   identity:
     hostname: vagrant
@@ -24,3 +21,6 @@ autoinstall:
         shell: /bin/bash
         groups: sudo
         sudo: ALL=(ALL) NOPASSWD:ALL
+    packages:
+      - open-vm-tools
+      - open-vm-tools-desktop
