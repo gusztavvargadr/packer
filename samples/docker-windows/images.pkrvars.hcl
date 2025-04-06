@@ -2,11 +2,11 @@ images = {
   "community-windows-server" = {
     core = {
       image_description = "Docker Community on Windows Server"
-      image_version     = "2600.2102"
+      image_version     = "2600.2402"
     }
 
     native = {
-      source_image = "windows-server/2022-standard"
+      source_image = "windows-server/2025-standard"
     }
 
     vagrant = {
@@ -18,11 +18,11 @@ images = {
   "community-windows-server-core" = {
     core = {
       image_description = "Docker Community on Windows Server Core"
-      image_version     = "2600.2102"
+      image_version     = "2600.2402"
     }
 
     native = {
-      source_image = "windows-server/2022-standard-core"
+      source_image = "windows-server/2025-standard-core"
     }
 
     vagrant = {

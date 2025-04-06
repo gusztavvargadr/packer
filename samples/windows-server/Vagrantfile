@@ -1,10 +1,12 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
+  config_vm_define config, "2025-standard", "windows-server-2025-standard"
+  config_vm_define config, "2025-standard-alias", "windows-server"
+  config_vm_define config, "2025-standard-core", "windows-server-2025-standard-core"
+  config_vm_define config, "2025-standard-core-alias", "windows-server-core"
   config_vm_define config, "2022-standard", "windows-server-2022-standard"
-  config_vm_define config, "2022-standard-alias", "windows-server"
   config_vm_define config, "2022-standard-core", "windows-server-2022-standard-core"
-  config_vm_define config, "2022-standard-core-alias", "windows-server-core"
   config_vm_define config, "insider-preview-standard", "windows-server-insider-preview-standard"
   config_vm_define config, "insider-preview-standard-core", "windows-server-insider-preview-standard-core"
 

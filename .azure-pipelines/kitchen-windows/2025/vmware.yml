@@ -9,6 +9,6 @@ resources:
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: docker-windows
-      image: community-windows-server
+      sample: kitchen-windows
+      image: "2025"
       provider: vmware
