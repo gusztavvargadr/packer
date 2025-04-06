@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-server.2025-standard-core.hyperv
+      source: windows-server.2025-standard.hyperv
 
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: docker-windows
-      image: community-windows-server-core
+      sample: kitchen-windows
+      image: "2025"
       provider: hyperv
