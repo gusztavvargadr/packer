@@ -1,0 +1,34 @@
+load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
+
+Vagrant.configure("2") do |config|
+  config_vm_define config, "2404", "development-ubuntu-2404"
+  config_vm_define config, "2204", "development-ubuntu-2204"
+
+  config.vm.provision "shell", inline: <<-EOH
+    uname -a
+    lsb_release -a
+
+    lshw -short
+    lscpu
+    lsmem
+
+    apt list --installed
+
+    git --version
+
+    dotnet --info
+
+    docker version
+    docker compose version
+  
+    vagrant --version
+    packer --version
+    terraform --version
+    consul-template --version
+    consul --version
+    vault --version
+    nomad --version
+
+    chef --version
+  EOH
+end

@@ -1,0 +1,26 @@
+gusztavvargadr_git:
+  tools:
+    app:latest:
+
+gusztavvargadr_dotnet:
+  tools:
+    sdk:9.0:
+    sdk:8.0:
+
+gusztavvargadr_docker:
+  tools:
+    engine:latest-community:
+
+gusztavvargadr_hashicorp:
+  tools:
+    vagrant:latest:
+    packer:latest:
+    terraform:latest:
+    consul-template:latest:
+    consul:latest:
+    vault:latest:
+    nomad:latest:
+
+gusztavvargadr_chef:
+  tools:
+    workstation:latest:
