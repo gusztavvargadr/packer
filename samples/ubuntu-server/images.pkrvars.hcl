@@ -22,6 +22,10 @@ images = {
     vmware = {
       guest_os_type = "ubuntu-64"
     }
+
+    amazon = {
+      source_ami_name = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+    }
   }
 
   "2204-lts" = {
@@ -42,6 +46,10 @@ images = {
 
     vmware = {
       guest_os_type = "ubuntu-64"
+    }
+
+    amazon = {
+      source_ami_name = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
     }
   }
 

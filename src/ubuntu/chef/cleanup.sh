@@ -39,6 +39,8 @@ sudo find /var/cache -type f -exec rm -rf {} \;
 # delete any logs that have built up during the install
 sudo find /var/log -type f -exec truncate --size=0 {} \;
 
+exit
+
 # Whiteout root
 count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
 count=$(($count-1))
