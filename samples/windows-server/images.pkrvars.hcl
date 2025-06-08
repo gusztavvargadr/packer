@@ -74,6 +74,10 @@ images = {
     vmware = {
       guest_os_type = "windows2019srvnext-64"
     }
+
+    amazon = {
+      source_ami_name = "Windows_Server-2022-English-Full-Base-*"
+    }
   }
 
   "2022-standard-core" = {

@@ -54,6 +54,8 @@ if ($env:CHEF_KEEP -ne "true") {
     }
 }
 
-Optimize-Volume -DriveLetter C -Analyze -Defrag
+# Optimize-Volume -DriveLetter C -Analyze -Defrag
 
-sdelete -accepteula -nobanner -q -z C:
+# sdelete -accepteula -nobanner -q -z C:
+
+& $env:programfiles\amazon\ec2launch\ec2launch.exe sysprep --shutdown=true
