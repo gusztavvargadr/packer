@@ -18,11 +18,11 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2022_64"
+      guest_os_type = "Windows2025_64"
     }
 
     vmware = {
-      guest_os_type = "windows2019srvnext-64"
+      guest_os_type = "windows2022srvnext-64"
     }
   }
 
@@ -45,11 +45,11 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2022_64"
+      guest_os_type = "Windows2025_64"
     }
 
     vmware = {
-      guest_os_type = "windows2019srvnext-64"
+      guest_os_type = "windows2022srvnext-64"
     }
   }
 
@@ -119,11 +119,11 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2022_64"
+      guest_os_type = "Windows2025_64"
     }
 
     vmware = {
-      guest_os_type = "windows2019srvnext-64"
+      guest_os_type = "windows2022srvnext-64"
     }
   }
 
@@ -143,11 +143,11 @@ images = {
     }
 
     virtualbox = {
-      guest_os_type = "Windows2022_64"
+      guest_os_type = "Windows2025_64"
     }
 
     vmware = {
-      guest_os_type = "windows2019srvnext-64"
+      guest_os_type = "windows2022srvnext-64"
     }
   }
 }
