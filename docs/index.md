@@ -5,4 +5,4 @@
 layout: home
 ---
 
-[Templates]({{ site.baseurl }}{% link templates/index.md %})
+[Images]({{ site.baseurl }}{% link images/index.md %})
