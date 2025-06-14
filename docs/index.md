@@ -1,3 +1,0 @@
-# Packer
-
-Hello there!
