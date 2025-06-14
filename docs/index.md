@@ -4,3 +4,5 @@
 
 layout: home
 ---
+
+[Templates]({{ site.baseurl }}{% link templates/index.md %})
