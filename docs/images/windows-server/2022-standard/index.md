@@ -3,11 +3,11 @@ layout: page
 title: Windows Server 2022 Standard
 ---
 
-## Native
+[Download box][Box]
 
-This image has the following contents:
+This box has the following contents:
 
-- Windows Server 2022 Standard
+- **Windows Server 2022 Standard**
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
@@ -15,13 +15,19 @@ This image has the following contents:
 - UAC disabled
 - Generalized with Sysprep
 
-## Vagrant
+[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard
+
+## Versions
 
 ### 2102.0.2503
 
+[Download version][Version210202503]
+
 This version has the following contents:
 
-- [OS Build 20348.3328](https://support.microsoft.com/en-us/help/5053603)
+- [**OS Build 20348.3328**](https://support.microsoft.com/en-us/help/5053603)
 - Hyper-V Generation 2, Configuration Version 9.0
 - [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
 - [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)
+
+[Version210202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard/versions/2102.0.2503

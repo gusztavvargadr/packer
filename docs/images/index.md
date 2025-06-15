@@ -4,6 +4,6 @@ title: Images
 navbar_include: true
 ---
 
-This page list all the available images.
+The following images are available:
 
-[Windows Server]({{ site.baseurl }}{% link images/windows-server/index.md %})
+- [Windows Server]({{ site.baseurl }}{% link images/windows-server/index.md %})
