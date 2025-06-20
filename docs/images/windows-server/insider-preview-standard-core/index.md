@@ -14,6 +14,8 @@ This box has the following contents:
 - Windows Defender disabledß
 - UAC disabled
 - Generalized with Sysprep
+- User `vagrant` with password `vagrant` and Vagrant's default key
+- 2 CPUs, 2 GB RAM
 
 [Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-insider-preview-standard-core
 

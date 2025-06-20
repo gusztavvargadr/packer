@@ -5,7 +5,7 @@ title: Windows Server Latest
 
 [Download box][Box]
 
-This box is an alias of [**Windows Server 2025 Standard**]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}).
+This box is an alias of [Windows Server **2025 Standard**]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}).
 
 [Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server
 
