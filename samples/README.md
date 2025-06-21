@@ -8,11 +8,9 @@ See the links below for the details of the available images.
 
 ### Operating systems
 
-- [Windows Server](./windows-server/README.md)
 - [Windows 11](./windows-11/README.md)
 - [Windows 10](./windows-10/README.md)
-- [Ubuntu Server](./ubuntu-server/README.md)
-- [Ubuntu Desktop](./ubuntu-desktop/README.md)
+- [Ubuntu Desktop](./ubuntu-dsktop/README.md)
 
 ### Hosting
 
