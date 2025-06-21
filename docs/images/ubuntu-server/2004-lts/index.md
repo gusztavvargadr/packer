@@ -9,7 +9,7 @@ This image is ~~deprecated~~ and no longer being maintained.
 
 This box has the following contents:
 
-- **Ubuntu Server 20.04 LTS**
+- Ubuntu Server **20.04 LTS**
 - OpenSSH Server
 - User `vagrant` with password `vagrant` and Vagrant's default key
 - 2 CPUs, 2 GB RAM
@@ -24,9 +24,9 @@ This box has the following contents:
 
 This version has the following contents:
 
-- [**Release 20.04.6**](https://wiki.ubuntu.com/FocalFossa/ReleaseNotes)
+- [Release **20.04.6**](https://wiki.ubuntu.com/FocalFossa/ReleaseNotes)
 - Kernel 5.4.0-144-generic
-- Hyper-V Generation 2, Configuration Version 9.0, linux-azure 5.15.0.1089
+- Hyper-V Generation 2, Configuration Version 9.0, linux-azure 5.15.0-1089
 - [VirtualBox Guest Additions 7.1.10](https://www.virtualbox.org/wiki/Changelog-7.1#v10)
 - VMware open-vm-tools, open-vm-tools-desktop 11.3.0
 
@@ -38,7 +38,7 @@ This version has the following contents:
 
 This version has the following contents:
 
-- [**Release 20.04.6**](https://wiki.ubuntu.com/FocalFossa/ReleaseNotes)
+- [Release **20.04.6**](https://wiki.ubuntu.com/FocalFossa/ReleaseNotes)
 - Kernel 5.4.0-211-generic
 - Hyper-V Generation 2, Configuration Version 9.0, linux-cloud-tools
 - [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)

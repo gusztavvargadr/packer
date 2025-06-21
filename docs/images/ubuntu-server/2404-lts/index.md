@@ -7,7 +7,7 @@ title: Ubuntu Server 24.04 LTS
 
 This box has the following contents:
 
-- **Ubuntu Server 24.04 LTS**
+- Ubuntu Server **24.04 LTS**
 - OpenSSH Server
 - User `vagrant` with password `vagrant` and Vagrant's default key
 - 2 CPUs, 2 GB RAM
@@ -22,7 +22,7 @@ This box has the following contents:
 
 This version has the following contents:
 
-- [**Release 24.04.2**](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890)
+- [Release **24.04.2**](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890)
 - Kernel 6.8.0-60-generic
 - Hyper-V Generation 2, Configuration Version 9.0, linux-azure 6.11.0-1015
 - [VirtualBox Guest Additions 7.1.10](https://www.virtualbox.org/wiki/Changelog-7.1#v10)
@@ -36,7 +36,7 @@ This version has the following contents:
 
 This version has the following contents:
 
-- [**Release 24.04.2**](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890)
+- [Release **24.04.2**](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890)
 - Kernel 6.8.0-56-generic
 - Hyper-V Generation 2, Configuration Version 9.0, linux-cloud-tools
 - [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)

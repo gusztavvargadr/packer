@@ -7,7 +7,7 @@ title: Windows Server 2025 Standard
 
 This box has the following contents:
 
-- **Windows Server 2025 Standard**
+- Windows Server **2025 Standard**
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
@@ -27,7 +27,7 @@ This box has the following contents:
 
 This version has the following contents:
 
-- [**OS Build 26100.4061**](https://support.microsoft.com/en-us/help/5058411)
+- [OS Build **26100.4061**](https://support.microsoft.com/en-us/help/5058411)
 - Hyper-V Generation 2, Configuration Version 9.0
 - [VirtualBox Guest Additions 7.1.10](https://www.virtualbox.org/wiki/Changelog-7.1#v10)
 - [VMware Tools 12.5.2](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1252-release-notes.html)
@@ -40,7 +40,7 @@ This version has the following contents:
 
 This version has the following contents:
 
-- [**OS Build 26100.3476**](https://support.microsoft.com/en-us/help/5053598)
+- [OS Build **26100.3476**](https://support.microsoft.com/en-us/help/5053598)
 - Hyper-V Generation 2, Configuration Version 9.0
 - [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
 - [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)

@@ -15,7 +15,7 @@ This box is an alias of [Ubuntu Server **24.04 LTS**]({{ site.baseurl }}{% link 
 
 [Download version][Version240402505]
 
-This version is an alias of [Ubuntu Server 24.04 LTS **2404.0.2505**]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#240402505).
+This version is an alias of [Ubuntu Server **24.04 LTS** 2404.0.2505]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#240402505).
 
 [Version240402505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server/versions/2404.0.2505
 
@@ -23,6 +23,6 @@ This version is an alias of [Ubuntu Server 24.04 LTS **2404.0.2505**]({{ site.ba
 
 [Download version][Version240402503]
 
-This version is an alias of [Ubuntu Server 24.04 LTS **2404.0.2503**]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#240402503).
+This version is an alias of [Ubuntu Server **24.04 LTS** 2404.0.2503]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#240402503).
 
 [Version240402503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server/versions/2404.0.2503

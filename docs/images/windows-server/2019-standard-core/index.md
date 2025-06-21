@@ -9,7 +9,7 @@ This image is ~~deprecated~~ and no longer being maintained.
 
 This box has the following contents:
 
-- **Windows Server 2019 Standard Core**
+- Windows Server **2019 Standard Core**
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
@@ -29,7 +29,7 @@ This box has the following contents:
 
 This version has the following contents:
 
-- [**OS Build 17763.6054**](https://support.microsoft.com/en-us/help/5040430)
+- [OS Build **17763.6054**](https://support.microsoft.com/en-us/help/5040430)
 - Hyper-V Generation 2, Configuration Version 9.0
 - [VirtualBox Guest Additions 7.0.20](https://www.virtualbox.org/wiki/Changelog-7.0#v20)
 - [VMware Tools 12.5.0](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1250-release-notes.html)
