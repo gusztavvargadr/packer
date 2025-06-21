@@ -12,6 +12,7 @@ baseurl: "/packer"
 url: "https://gusztavvargadr.github.io"
 github_username: gusztavvargadr
 linkedin_username: gusztavvargadr
+google_analytics: G-3KLTVPL8HC
 
 # Build settings
 theme: minima
