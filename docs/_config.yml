@@ -6,8 +6,7 @@
 
 title: Packer
 author: gusztavvargadr
-description: >-
-  Packer templates for building Windows and Ubuntu virtual machine images and Vagrant boxes
+description: Windows and Ubuntu virtual machine images and Vagrant boxes
 baseurl: "/packer"
 url: "https://gusztavvargadr.github.io"
 github_username: gusztavvargadr

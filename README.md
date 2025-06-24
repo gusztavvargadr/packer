@@ -1,6 +1,6 @@
 # Packer
 
-This repository contains [Packer] templates for building Windows and Ubuntu virtual machine images and Vagrant boxes in various development scenarios.
+This repository builds **Windows and Ubuntu virtual machine images and Vagrant boxes** using [Packer] in various development scenarios.
 
 [Contributing]: #contributing
 
