@@ -29,6 +29,6 @@ This version has the following contents:
 
 - [Windows Server **2022 Standard** 2102.0.2503]({{ site.baseurl }}{% link images/windows-server/2022-standard/index.md %}#210202503)
 - [SQL Server 2019 Developer CU32 (15.0.4430.1)](https://learn.microsoft.com/en-us/troubleshoot/sql/releases/sqlserver-2019/cumulativeupdate32)
-- [SQL Server Management Studio 20.0](https://learn.microsoft.com/en-us/ssms/release-notes-20?view=sql-server-ver15#200)
+- [SQL Server Management Studio 20.2](https://learn.microsoft.com/en-us/ssms/release-notes-20#202)
 
 [Version201921022503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/sql-server-2019-developer-windows-server/versions/2019.2102.2503
