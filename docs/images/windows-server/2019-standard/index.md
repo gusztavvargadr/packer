@@ -32,6 +32,6 @@ This version has the following contents:
 - [OS Build **17763.6054**](https://support.microsoft.com/en-us/help/5040430)
 - Hyper-V Generation 2, Configuration Version 9.0
 - [VirtualBox Guest Additions 7.0.20](https://www.virtualbox.org/wiki/Changelog-7.0#v20)
-- [VMware Tools 12.5.0](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1250-release-notes.html)
+- [VMware Tools 12.4.5](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-4-0/release-notes/vmware-tools-1245-release-notes.html)
 
 [Version180902407]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2019-standard/versions/1809.0.2407

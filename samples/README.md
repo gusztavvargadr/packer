@@ -6,10 +6,6 @@ This folder contains Packer templates for building `Windows` and `Ubuntu` images
 
 See the links below for the details of the available images.
 
-### Operating systems
-
-- [Windows 10](./windows-10/README.md)
-
 ### Hosting
 
 - [Docker Windows](./docker-windows/README.md)

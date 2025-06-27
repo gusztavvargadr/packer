@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Windows Server 2019 Standard Core
+title: Windows 10 Version 1809 Enterprise LTSC
 ---
 
 This image is ~~deprecated~~ and no longer being maintained.
@@ -9,7 +9,7 @@ This image is ~~deprecated~~ and no longer being maintained.
 
 This box has the following contents:
 
-- Windows Server **2019 Standard Core**
+- Windows 10 **Version 1809 Enterprise LTSC**
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
@@ -17,9 +17,9 @@ This box has the following contents:
 - UAC disabled
 - Generalized with Sysprep
 - User `vagrant` with password `vagrant` and Vagrant's default key
-- 2 CPUs, 2 GB RAM
+- 2 CPUs, 4 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2019-standard-core
+[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-1809-enterprise-ltsc
 
 ## Versions
 
@@ -34,4 +34,4 @@ This version has the following contents:
 - [VirtualBox Guest Additions 7.0.20](https://www.virtualbox.org/wiki/Changelog-7.0#v20)
 - [VMware Tools 12.4.5](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-4-0/release-notes/vmware-tools-1245-release-notes.html)
 
-[Version180902407]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2019-standard-core/versions/1809.0.2407
+[Version180902407]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-1809-enterprise-ltsc/versions/1809.0.2407

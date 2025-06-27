@@ -8,6 +8,7 @@ The following images are available:
 
 - [Windows Server]({{ site.baseurl }}{% link images/windows-server/index.md %})
 - [Windows 11]({{ site.baseurl }}{% link images/windows-11/index.md %})
+- [Windows 10]({{ site.baseurl }}{% link images/windows-10/index.md %})
 
 - [Ubuntu Server]({{ site.baseurl }}{% link images/ubuntu-server/index.md %})
 - [Ubuntu Desktop]({{ site.baseurl }}{% link images/ubuntu-desktop/index.md %})
