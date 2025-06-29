@@ -109,33 +109,6 @@ images = {
     }
   }
 
-  "21h2-enterprise" = {
-    core = {
-      image_description = "Windows 11 Version 21H2 Enterprise"
-      image_version     = "2102.0"
-    }
-
-    native = {
-      source_iso_url_local  = "22000.194.210913-1444.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
-      source_iso_url_remote = "https://software-download.microsoft.com/download/sg/22000.194.210913-1444.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
-      source_iso_checksum   = "sha256:e8b1d2a1a85a09b4bf6154084a8be8e3c814894a15a7bcf3e8e63fcfa9a528cb"
-
-      boot_setup_script = "setup.cmd"
-    }
-
-    vagrant = {
-      memory = "4096"
-    }
-
-    virtualbox = {
-      guest_os_type = "Windows11_64"
-    }
-
-    vmware = {
-      guest_os_type = "windows11-64"
-    }
-  }
-
   "insider-preview-enterprise" = {
     core = {
       image_description = "Windows 11 Insider Preview Enterprise"
