@@ -2,7 +2,6 @@ images = {
   "2404-lts" = {
     core = {
       image_description = "Ubuntu Server 24.04 LTS"
-      image_version     = "2404.0"
     }
 
     native = {
@@ -27,7 +26,6 @@ images = {
   "2204-lts" = {
     core = {
       image_description = "Ubuntu Server 22.04 LTS"
-      image_version     = "2204.0"
     }
 
     native = {
@@ -48,7 +46,6 @@ images = {
   "2004-lts" = {
     core = {
       image_description = "Ubuntu Server 20.04 LTS"
-      image_version     = "2004.0"
     }
 
     native = {

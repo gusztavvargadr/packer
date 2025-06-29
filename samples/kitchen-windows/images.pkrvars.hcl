@@ -2,7 +2,6 @@ images = {
   "2025" = {
     core = {
       image_description = "Test Kitchen target for windows-2025"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -14,7 +13,6 @@ images = {
   "2022" = {
     core = {
       image_description = "Test Kitchen target for windows-2022"
-      image_version     = "2102.0"
     }
 
     native = {
