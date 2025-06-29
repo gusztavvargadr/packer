@@ -7,6 +7,10 @@ images = {
     native = {
       source_image = "ubuntu-server/2404-lts"
     }
+
+    vagrant = {
+      box_alias = "development-ubuntu"
+    }
   }
 
   "2204" = {

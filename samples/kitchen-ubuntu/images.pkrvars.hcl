@@ -8,6 +8,10 @@ images = {
       source_image = "ubuntu-server/2404-lts"
       chef_keep    = "true"
     }
+
+    vagrant = {
+      box_alias = "kitchen-ubuntu"
+    }
   }
 
   "2204" = {
