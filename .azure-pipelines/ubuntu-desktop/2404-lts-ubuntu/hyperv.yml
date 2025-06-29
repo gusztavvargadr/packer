@@ -1,6 +1,11 @@
 trigger: none
 pr: none
 
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2404-lts.hyperv
+
 stages:
   - template: ../../stages.yml
     parameters:
