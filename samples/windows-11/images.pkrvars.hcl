@@ -2,7 +2,6 @@ images = {
   "24h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 24H2 Enterprise"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -30,7 +29,6 @@ images = {
   "24h2-enterprise-ltsc" = {
     core = {
       image_description = "Windows 11 Version 24H2 Enterprise"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -58,7 +56,6 @@ images = {
   "23h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 23H2 Enterprise"
-      image_version     = "2302.0"
     }
 
     native = {
@@ -85,7 +82,6 @@ images = {
   "22h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 22H2 Enterprise"
-      image_version     = "2202.0"
     }
 
     native = {
@@ -112,7 +108,6 @@ images = {
   "21h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 21H2 Enterprise"
-      image_version     = "2102.0"
     }
 
     native = {
@@ -139,7 +134,6 @@ images = {
   "insider-preview-enterprise" = {
     core = {
       image_description = "Windows 11 Insider Preview Enterprise"
-      image_version     = "2402.0"
     }
 
     native = {

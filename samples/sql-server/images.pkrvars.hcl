@@ -2,7 +2,6 @@ images = {
   "2019-developer-windows-server" = {
     core = {
       image_description = "SQL Server 2019 Developer on Windows Server"
-      image_version     = "2019.2102"
     }
 
     native = {
@@ -20,7 +19,6 @@ images = {
   "2019-developer-windows-server-core" = {
     core = {
       image_description = "SQL Server 2019 Developer on Windows Server Core"
-      image_version     = "2019.2102"
     }
 
     native = {

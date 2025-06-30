@@ -2,13 +2,10 @@ images = {
   "2404-lts-ubuntu" = {
     core = {
       image_description = "Ubuntu Desktop 24.04 LTS"
-      image_version     = "2404.0"
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.2-desktop-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/noble/ubuntu-24.04.2-desktop-amd64.iso"
-      source_iso_checksum   = "sha256:d7fe3d6a0419667d2f8eff12796996328daa2d4f90cd9f87aa9371b362f987bf"
+      source_image = "ubuntu-server/2404-lts"
 
       chef_attributes = "ubuntu"
     }
@@ -32,13 +29,10 @@ images = {
   "2404-lts-xubuntu" = {
     core = {
       image_description = "Xubuntu Desktop 24.04 LTS"
-      image_version     = "2404.0"
     }
 
     native = {
-      source_iso_url_local  = "xubuntu-24.04.2-desktop-amd64.iso"
-      source_iso_url_remote = "https://cdimage.ubuntu.com/xubuntu/releases/noble/release/xubuntu-24.04.2-desktop-amd64.iso"
-      source_iso_checksum   = "sha256:ba76abf526b4c7ab22e8125cca69547f76559f703bd357c54bdf5d74be0bfd2b"
+      source_image = "ubuntu-server/2404-lts"
 
       chef_attributes = "xubuntu"
     }
@@ -47,6 +41,7 @@ images = {
       memory    = "4096"
       ports     = "3389"
       box_name  = "xubuntu-desktop-2404-lts"
+      box_alias = "xubuntu-desktop"
     }
 
     virtualbox = {
@@ -61,7 +56,6 @@ images = {
   "2204-lts-ubuntu" = {
     core = {
       image_description = "Ubuntu Desktop 22.04 LTS"
-      image_version     = "2204.0"
     }
 
     native = {
@@ -80,7 +74,6 @@ images = {
   "2204-lts-xubuntu" = {
     core = {
       image_description = "Xubuntu Desktop 22.04 LTS"
-      image_version     = "2204.0"
     }
 
     native = {
@@ -99,7 +92,6 @@ images = {
   "2004-lts-ubuntu" = {
     core = {
       image_description = "Ubuntu Desktop 20.04 LTS"
-      image_version     = "2004.0"
     }
 
     native = {
@@ -119,7 +111,6 @@ images = {
     core = {
       image_name        = "ubuntu-desktop/2004-lts-xubuntu"
       image_description = "Xubuntu Desktop 20.04 LTS"
-      image_version     = "2004.0"
     }
 
     native = {
