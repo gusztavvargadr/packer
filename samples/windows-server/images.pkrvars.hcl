@@ -2,7 +2,6 @@ images = {
   "2025-standard" = {
     core = {
       image_description = "Windows Server 2025 Standard"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -29,7 +28,6 @@ images = {
   "2025-standard-core" = {
     core = {
       image_description = "Windows Server 2025 Standard Core"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -56,7 +54,6 @@ images = {
   "2022-standard" = {
     core = {
       image_description = "Windows Server 2022 Standard"
-      image_version     = "2102.0"
     }
 
     native = {
@@ -79,7 +76,6 @@ images = {
   "2022-standard-core" = {
     core = {
       image_description = "Windows Server 2022 Standard Core"
-      image_version     = "2102.0"
     }
 
     native = {
@@ -102,7 +98,6 @@ images = {
   "insider-preview-standard" = {
     core = {
       image_description = "Windows Server Insider Preview Standard"
-      image_version     = "2402.0"
     }
 
     native = {
@@ -126,7 +121,6 @@ images = {
   "insider-preview-standard-core" = {
     core = {
       image_description = "Windows Server Insider Preview Standard Core"
-      image_version     = "2402.0"
     }
 
     native = {

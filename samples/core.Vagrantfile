@@ -34,7 +34,7 @@ def config_vm_define(config, vm_name, box_name)
 
     config.trigger.after :destroy do |trigger|
       trigger.info = "Deleting box"
-      trigger.run = { inline: "vagrant box remove #{box}"}
+      trigger.run = { inline: "vagrant box remove #{box} --all"}
     end
   end
 end

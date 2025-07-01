@@ -2,7 +2,6 @@ images = {
   "2022-community-windows-11" = {
     core = {
       image_description = "Visual Studio 2022 Community on Windows 11"
-      image_version     = "2022.2402"
     }
 
     native = {
@@ -21,7 +20,6 @@ images = {
   "2022-community-windows-10" = {
     core = {
       image_description = "Visual Studio 2022 Community on Windows 10"
-      image_version     = "2022.2202"
     }
 
     native = {
