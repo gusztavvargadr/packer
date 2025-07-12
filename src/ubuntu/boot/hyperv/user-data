@@ -7,10 +7,6 @@ autoinstall:
       sizing-policy: all
   apt:
     geoip: false
-  packages:
-    - linux-image-virtual
-    - linux-tools-virtual
-    - linux-cloud-tools-virtual
   timezone: UTC
   identity:
     hostname: vagrant
@@ -25,3 +21,7 @@ autoinstall:
         shell: /bin/bash
         groups: sudo
         sudo: ALL=(ALL) NOPASSWD:ALL
+    packages:
+    - linux-azure
+    runcmd:
+      - shutdown --reboot +1
