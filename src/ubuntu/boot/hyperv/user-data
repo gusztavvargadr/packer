@@ -22,6 +22,6 @@ autoinstall:
         groups: sudo
         sudo: ALL=(ALL) NOPASSWD:ALL
     packages:
-    - linux-azure
+      - linux-azure
     runcmd:
       - shutdown --reboot +1
