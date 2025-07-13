@@ -5,7 +5,9 @@ images = {
     }
 
     native = {
-      source_image = "ubuntu-server/2404-lts"
+      source_iso_url_local  = "ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso"
+      source_iso_checksum   = "sha256:d7fe3d6a0419667d2f8eff12796996328daa2d4f90cd9f87aa9371b362f987bf"
 
       chef_attributes = "ubuntu"
     }
