@@ -75,7 +75,7 @@ end
 if vbox?
   vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout rescue '').strip
 
-  unless vbox_version.include?('6.') || vbox_version.include?('7.')
+  unless vbox_version.include?('7.')
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
     vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
@@ -119,8 +119,8 @@ end
 if vmware?
   vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
 
-  unless vmware_version.include?('12.')
-    vmware_tools_source = 'https://packages.vmware.com/tools/releases/12.5.2/windows/x64/VMware-tools-12.5.2-24697584-x64.exe'
+  unless vmware_version.include?('13.')
+    vmware_tools_source = 'https://packages.vmware.com/tools/releases/13.0.1/windows/x64/VMware-tools-13.0.1-24843032-x64.exe'
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 
     remote_file vmware_tools_target do
