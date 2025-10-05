@@ -17,7 +17,7 @@ if vbox?
 
   vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
 
-  unless vbox_version.include?('6.') || vbox_version.include?('7.')
+  unless vbox_version.include?('7.')
     bash 'guest-additions' do
       code <<-EOH
         VER="`cat /home/vagrant/.vbox_version`";

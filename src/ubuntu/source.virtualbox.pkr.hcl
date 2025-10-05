@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     virtualbox = {
-      version = "~> 1.1.0"
+      version = "~> 1.1.2"
       source  = "github.com/hashicorp/virtualbox"
     }
   }
