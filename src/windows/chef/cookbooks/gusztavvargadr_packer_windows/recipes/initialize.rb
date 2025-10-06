@@ -73,7 +73,7 @@ remote_file sdelete_executable_target do
 end
 
 if vbox?
-  vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxControl.exe" -v').stdout rescue '').strip
+  vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe" -v').stdout rescue '').strip
 
   unless vbox_version.include?('7.')
     vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
