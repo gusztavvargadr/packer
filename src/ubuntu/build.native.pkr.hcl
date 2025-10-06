@@ -13,7 +13,6 @@ locals {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
     hyperv     = "hyperv-iso.core"
-    qemu       = "qemu.iso"
   }
 
   native_import_sources = {

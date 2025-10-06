@@ -4,7 +4,6 @@ locals {
   source_options_core = {
     vm_name          = "${replace(local.image_name, "/", "-")}-${local.timestamp}"
     headless         = true
-    # headless         = false
     output_directory = "${local.artifacts_directory}/image"
 
     cpus      = 4

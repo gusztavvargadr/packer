@@ -12,7 +12,6 @@ locals {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
-    qemu       = "qemu.import"
   }
 
   source_options_vagrant = {
@@ -30,7 +29,6 @@ locals {
     virtualbox = "virtualbox"
     vmware     = "vmware_desktop"
     hyperv     = "hyperv"
-    qemu       = "libvirt"
   }
 }
 
@@ -76,7 +74,6 @@ build {
     post-processor "vagrant" {
       vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
       output               = "${local.artifacts_directory}/vagrant/vagrant.box"
-      keep_input_artifact = true
     }
 
     post-processor "manifest" {
