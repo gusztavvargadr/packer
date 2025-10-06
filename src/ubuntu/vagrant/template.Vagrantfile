@@ -21,4 +21,8 @@ Vagrant.configure(2) do |config|
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}
   end
+
+  config.vm.provider :libvirt do |provider, _override|
+    provider.loader = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+  end
 end

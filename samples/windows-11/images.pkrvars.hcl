@@ -1,4 +1,6 @@
 images = {
+  # https://www.microsoft.com/en-us/evalcenter/download-windows-11-enterprise
+  
   "24h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 24H2 Enterprise"
