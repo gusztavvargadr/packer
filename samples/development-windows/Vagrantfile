@@ -1,18 +1,16 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
-  config_vm_define config, "2404", "development-ubuntu-2404"
-  config_vm_define config, "2204", "development-ubuntu-2204"
+  config_vm_define config, "2025", "development-windows-2025"
+  config_vm_define config, "2022", "development-windows-2022"
 
   config.vm.provision "shell", inline: <<-EOH
-    uname -a
-    lsb_release -a
+    cmd /c ver
 
-    lshw -short
-    lscpu
-    lsmem
+    systeminfo
+    Get-ComputerInfo
 
-    apt list --installed
+    choco list -i
 
     git --version
 

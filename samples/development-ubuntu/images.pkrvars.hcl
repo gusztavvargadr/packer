@@ -9,6 +9,7 @@ images = {
     }
 
     vagrant = {
+      memory    = "4096"
       box_alias = "development-ubuntu"
     }
   }
@@ -20,6 +21,10 @@ images = {
 
     native = {
       source_image = "ubuntu-server/2204-lts"
+    }
+
+    vagrant = {
+      memory    = "4096"
     }
   }
 }

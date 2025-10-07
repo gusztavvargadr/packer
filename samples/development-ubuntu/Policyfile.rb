@@ -8,7 +8,6 @@ run_list(
   'recipe[gusztavvargadr_packer_ubuntu::initialize]',
   'recipe[gusztavvargadr_packer_ubuntu::apply]',
   'recipe[gusztavvargadr_development::default]',
-  'recipe[gusztavvargadr_chef::default]',
   'recipe[gusztavvargadr_packer_ubuntu::cleanup]'
 )
 
