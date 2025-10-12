@@ -17,13 +17,14 @@ Vagrant.configure(2) do |config|
 %{ endfor ~}
   end
 
-  config.vm.provider 'hyperv' do |provider, _override|
+  config.vm.provider 'hyperv' do |provider, override|
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}
   end
 
   config.vm.provider 'libvirt' do |provider, override|
-    provider.loader = '/usr/share/OVMF/OVMF_CODE_4M.fd'
+    provider.machine_type = "q35"
+    provider.loader = '/usr/share/OVMF/OVMF_CODE.fd'
 
     provider.cpus = ${options.cpus}
     provider.memory = ${options.memory}

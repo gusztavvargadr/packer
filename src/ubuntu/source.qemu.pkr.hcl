@@ -30,15 +30,10 @@ source "qemu" "iso" {
 
   machine_type = "q35"
   efi_boot = true
-  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
-  efi_drop_efivars = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE.fd"
   accelerator = "kvm"
   cpu_model = "host"
   format = "qcow2"
-  qemuargs = [
-    ["-device", "qemu-xhci"],
-    ["-device", "virtio-tablet"]
-  ]
 
   boot_command     = local.qemu_iso_source_options.boot_command
   boot_wait        = local.qemu_iso_source_options.boot_wait
@@ -67,21 +62,16 @@ source "qemu" "import" {
   disk_image = true
   skip_resize_disk = true
 
-  cpus           = local.qemu_iso_source_options.cpus
-  memory         = local.qemu_iso_source_options.memory
-  disk_size      = local.qemu_iso_source_options.disk_size
+  cpus           = local.qemu_import_source_options.cpus
+  memory         = local.qemu_import_source_options.memory
+  disk_size      = local.qemu_import_source_options.disk_size
 
   machine_type = "q35"
   efi_boot = true
-  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
-  efi_drop_efivars = true
+  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE.fd"
   accelerator = "kvm"
   cpu_model = "host"
   format = "qcow2"
-  qemuargs = [
-    ["-device", "qemu-xhci"],
-    ["-device", "virtio-tablet"]
-  ]
 
   boot_command     = local.qemu_import_source_options.boot_command
   boot_wait        = local.qemu_import_source_options.boot_wait

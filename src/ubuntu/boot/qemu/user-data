@@ -8,8 +8,7 @@ autoinstall:
   apt:
     geoip: false
   packages:
-    - open-vm-tools
-    - open-vm-tools-desktop
+    - qemu-guest-agent
   timezone: UTC
   identity:
     hostname: vagrant

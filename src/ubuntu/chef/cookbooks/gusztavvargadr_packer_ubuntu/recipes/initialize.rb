@@ -45,6 +45,13 @@ if vmware?
   end
 end
 
+if kvm?
+  apt_package [ 'qemu-guest-agent' ] do
+    action :install
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
+  end
+end
+
 if !ec2?
   bash 'sshd' do
     code <<-EOH
