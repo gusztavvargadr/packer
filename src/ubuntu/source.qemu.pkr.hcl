@@ -29,8 +29,6 @@ source "qemu" "iso" {
   http_directory = local.qemu_iso_source_options.http_directory
 
   machine_type = "q35"
-  efi_boot = true
-  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE.fd"
   accelerator = "kvm"
   cpu_model = "host"
   format = "qcow2"
@@ -58,7 +56,7 @@ source "qemu" "import" {
   output_directory = local.qemu_import_source_options.output_directory
 
   iso_urls = [ fileexists(local.qemu_manifest_path) ? jsondecode(file(local.qemu_manifest_path)).builds[0].files[0].name : "" ]
-  iso_checksum = fileexists(local.qemu_checksum_path) ? trimspace(split("\t", split("\n", file(local.qemu_checksum_path))[0])[0]) : ""
+  iso_checksum = fileexists(local.qemu_checksum_path) ? try(trimspace(split("\t", split("\n", file(local.qemu_checksum_path))[0])[0]), "") : ""
   disk_image = true
   skip_resize_disk = true
 
@@ -67,8 +65,6 @@ source "qemu" "import" {
   disk_size      = local.qemu_import_source_options.disk_size
 
   machine_type = "q35"
-  efi_boot = true
-  efi_firmware_code = "/usr/share/OVMF/OVMF_CODE.fd"
   accelerator = "kvm"
   cpu_model = "host"
   format = "qcow2"
