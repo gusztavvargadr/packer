@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
 
     provider.cpu_mode = "host-passthrough"
 
-    provider.disk_bus = "ide"
+    provider.disk_bus = "sata"
     provider.nic_model_type = "e1000e"
 
     provider.graphics_type = "spice"
