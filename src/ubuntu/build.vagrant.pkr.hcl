@@ -76,7 +76,6 @@ build {
     post-processor "vagrant" {
       vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
       output               = "${local.artifacts_directory}/vagrant/vagrant.box"
-      keep_input_artifact = true
     }
 
     post-processor "manifest" {

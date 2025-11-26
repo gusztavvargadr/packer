@@ -138,6 +138,41 @@ if vmware?
   end
 end
 
+if kvm?
+  qemu_guest_agent_path = "C:/Program Files/Qemu-ga/qemu-ga.exe"
+  unless ::File.exist?(qemu_guest_agent_path)
+    virtio_iso_source = 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso'
+    virtio_iso_target = "#{Chef::Config['file_cache_path']}/virtio-win.iso"
+    virtio_iso_drive_letter = 'Z'
+
+    remote_file virtio_iso_target do
+      source virtio_iso_source
+      action :create
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path virtio_iso_target
+      iso_drive_letter virtio_iso_drive_letter
+      action :mount
+    end
+
+    powershell_script 'Install VirtIO Guest Tools' do
+      code <<-EOH
+        Start-Process "virtio-win-guest-tools.exe" "/install /quiet /norestart" -Wait
+      EOH
+      cwd 'Z:'
+      action :run
+      notifies :request_reboot, 'reboot[gusztavvargadr_packer_windows]', :immediately
+    end
+
+    gusztavvargadr_windows_iso '' do
+      iso_path virtio_iso_target
+      iso_drive_letter 'Z'
+      action :dismount
+    end
+  end
+end
+
 reboot 'gusztavvargadr_packer_windows' do
   action :nothing
 end
