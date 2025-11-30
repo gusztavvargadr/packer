@@ -9,13 +9,14 @@ packer {
 
 locals {
   qemu_source_options = {
-    machine_type      = "q35"
-    accelerator       = "kvm"
-    cpu_model         = "host"
-    format            = "qcow2"
-    efi_firmware_code = "/usr/share/OVMF/OVMF_CODE_4M.fd"
-    efi_drop_efivars  = true
-    vga               = "virtio"
+    machine_type       = "q35"
+    accelerator        = "kvm"
+    cpu_model          = "host"
+    format             = "qcow2"
+    efi_firmware_code  = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+    efi_drop_efivars   = true
+    disk_detect_zeroes = "unmap"
+    vga                = "virtio"
     qemuargs = [
       ["-device", "qemu-xhci,id=usb"],
       ["-device", "usb-tablet,bus=usb.0,port=1"],
@@ -39,14 +40,15 @@ source "qemu" "iso" {
   iso_checksum   = local.qemu_iso_source_options.iso_checksum
   http_directory = local.qemu_iso_source_options.http_directory
 
-  machine_type      = local.qemu_iso_source_options.machine_type
-  accelerator       = local.qemu_iso_source_options.accelerator
-  cpu_model         = local.qemu_iso_source_options.cpu_model
-  format            = local.qemu_iso_source_options.format
-  efi_firmware_code = local.qemu_iso_source_options.efi_firmware_code
-  efi_drop_efivars  = local.qemu_iso_source_options.efi_drop_efivars
-  vga               = local.qemu_iso_source_options.vga
-  qemuargs          = local.qemu_iso_source_options.qemuargs
+  machine_type       = local.qemu_iso_source_options.machine_type
+  accelerator        = local.qemu_iso_source_options.accelerator
+  cpu_model          = local.qemu_iso_source_options.cpu_model
+  format             = local.qemu_iso_source_options.format
+  efi_firmware_code  = local.qemu_iso_source_options.efi_firmware_code
+  efi_drop_efivars   = local.qemu_iso_source_options.efi_drop_efivars
+  disk_detect_zeroes = local.qemu_iso_source_options.disk_detect_zeroes
+  vga                = local.qemu_iso_source_options.vga
+  qemuargs           = local.qemu_iso_source_options.qemuargs
 
   boot_command     = local.qemu_iso_source_options.boot_command
   boot_wait        = local.qemu_iso_source_options.boot_wait
@@ -78,14 +80,15 @@ source "qemu" "import" {
   disk_image       = true
   skip_resize_disk = true
 
-  machine_type      = local.qemu_import_source_options.machine_type
-  accelerator       = local.qemu_import_source_options.accelerator
-  cpu_model         = local.qemu_import_source_options.cpu_model
-  format            = local.qemu_import_source_options.format
-  efi_firmware_code = local.qemu_import_source_options.efi_firmware_code
-  efi_drop_efivars  = local.qemu_import_source_options.efi_drop_efivars
-  vga               = local.qemu_import_source_options.vga
-  qemuargs          = local.qemu_import_source_options.qemuargs
+  machine_type       = local.qemu_import_source_options.machine_type
+  accelerator        = local.qemu_import_source_options.accelerator
+  cpu_model          = local.qemu_import_source_options.cpu_model
+  format             = local.qemu_import_source_options.format
+  efi_firmware_code  = local.qemu_import_source_options.efi_firmware_code
+  efi_drop_efivars   = local.qemu_import_source_options.efi_drop_efivars
+  disk_detect_zeroes = local.qemu_import_source_options.disk_detect_zeroes
+  vga                = local.qemu_import_source_options.vga
+  qemuargs           = local.qemu_import_source_options.qemuargs
 
   boot_command     = local.qemu_import_source_options.boot_command
   boot_wait        = local.qemu_import_source_options.boot_wait
