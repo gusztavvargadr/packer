@@ -75,7 +75,7 @@ source "qemu" "import" {
   cpus             = local.qemu_import_source_options.cpus
   memory           = local.qemu_import_source_options.memory
   disk_size        = local.qemu_import_source_options.disk_size
-  iso_urls         = [fileexists(local.qemu_manifest_path) ? jsondecode(file(local.qemu_manifest_path)).builds[0].files[0].name : ""]
+  iso_urls         = [fileexists(local.qemu_manifest_path) ? "${local.qemu_import_source_options.import_directory}/${join("", fileset(local.qemu_import_source_options.import_directory, "**/*[^.fd]"))}" : ""]
   iso_checksum     = fileexists(local.qemu_checksum_path) ? try(trimspace(split("\t", split("\n", file(local.qemu_checksum_path))[0])[0]), "") : ""
   disk_image       = true
   skip_resize_disk = true
