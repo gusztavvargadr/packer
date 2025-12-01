@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server.2004-lts.hyperv
+      source: ubuntu-desktop.2404-lts-ubuntu.qemu
 
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: ubuntu-desktop
-      image: 2004-lts-ubuntu
-      provider: hyperv
+      sample: development-ubuntu
+      image: "2404"
+      provider: qemu

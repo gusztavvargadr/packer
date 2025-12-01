@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server.2004-lts.virtualbox
+      source: ubuntu-server.2404-lts.qemu
 
 stages:
   - template: ../../stages.yml
     parameters:
       sample: ubuntu-desktop
-      image: 2004-lts-ubuntu
-      provider: virtualbox
+      image: 2404-lts-xubuntu
+      provider: qemu
