@@ -63,7 +63,7 @@ source "vmware-vmx" "core" {
   headless         = local.vmware_vmx_source_options.headless
   output_directory = local.vmware_vmx_source_options.output_directory
 
-  source_path = "${local.vmware_vmx_source_options.import_directory}/${join("", fileset(local.vmware_vmx_source_options.import_directory, "**/*.vmx"))}"
+  source_path = "${local.vmware_vmx_source_options.import_directory}/${join("", fileset(local.vmware_vmx_source_options.import_directory, "image/*.vmx"))}"
 
   vmx_remove_ethernet_interfaces = local.vmware_vmx_source_options.vmx_remove_ethernet_interfaces
 
