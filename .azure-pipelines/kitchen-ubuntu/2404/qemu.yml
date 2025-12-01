@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-desktop.2404-lts-ubuntu.vmware
+      source: ubuntu-server.2404-lts.qemu
 
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: development-ubuntu
+      sample: kitchen-ubuntu
       image: "2404"
-      provider: vmware
+      provider: qemu

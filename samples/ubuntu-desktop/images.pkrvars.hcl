@@ -90,41 +90,4 @@ images = {
       box_name = "xubuntu-desktop-2204-lts"
     }
   }
-
-  "2004-lts-ubuntu" = {
-    core = {
-      image_description = "Ubuntu Desktop 20.04 LTS"
-    }
-
-    native = {
-      source_image = "ubuntu-server/2004-lts"
-
-      chef_attributes = "ubuntu"
-    }
-
-    vagrant = {
-      memory   = "4096"
-      ports    = "3389"
-      box_name = "ubuntu-desktop-2004-lts"
-    }
-  }
-
-  "2004-lts-xubuntu" = {
-    core = {
-      image_name        = "ubuntu-desktop/2004-lts-xubuntu"
-      image_description = "Xubuntu Desktop 20.04 LTS"
-    }
-
-    native = {
-      source_image = "ubuntu-server/2004-lts"
-
-      chef_attributes = "xubuntu"
-    }
-
-    vagrant = {
-      memory   = "4096"
-      ports    = "3389"
-      box_name = "ubuntu-desktop-2004-lts-xfce"
-    }
-  }
 }

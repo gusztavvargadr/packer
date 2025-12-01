@@ -12,6 +12,7 @@ locals {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
+    qemu       = "qemu.import"
   }
 
   source_options_vagrant = {
@@ -29,6 +30,7 @@ locals {
     virtualbox = "virtualbox"
     vmware     = "vmware_desktop"
     hyperv     = "hyperv"
+    qemu       = "libvirt"
   }
 }
 

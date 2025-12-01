@@ -5,5 +5,5 @@ stages:
   - template: ../../stages.yml
     parameters:
       sample: ubuntu-server
-      image: 2004-lts
-      provider: vmware
+      image: 2204-lts
+      provider: qemu

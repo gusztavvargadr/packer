@@ -15,11 +15,13 @@ locals {
     format             = "qcow2"
     efi_firmware_code  = "/usr/share/OVMF/OVMF_CODE_4M.fd"
     efi_drop_efivars   = true
+    disk_interface     = "ide"
     disk_detect_zeroes = "unmap"
-    vga                = "virtio"
+    net_device         = "e1000e"
+    vga                = "qxl"
     qemuargs = [
-      ["-device", "qemu-xhci,id=usb"],
-      ["-device", "usb-tablet,bus=usb.0,port=1"],
+      ["-device", "qemu-xhci"],
+      ["-device", "virtio-tablet"],
     ]
   }
 }
@@ -33,12 +35,12 @@ source "qemu" "iso" {
   headless         = local.qemu_iso_source_options.headless
   output_directory = local.qemu_iso_source_options.output_directory
 
-  cpus           = local.qemu_iso_source_options.cpus
-  memory         = local.qemu_iso_source_options.memory
-  disk_size      = local.qemu_iso_source_options.disk_size
-  iso_urls       = local.qemu_iso_source_options.iso_urls
-  iso_checksum   = local.qemu_iso_source_options.iso_checksum
-  http_directory = local.qemu_iso_source_options.http_directory
+  cpus         = local.qemu_iso_source_options.cpus
+  memory       = local.qemu_iso_source_options.memory
+  disk_size    = local.qemu_iso_source_options.disk_size
+  iso_urls     = local.qemu_iso_source_options.iso_urls
+  iso_checksum = local.qemu_iso_source_options.iso_checksum
+  cd_content   = local.qemu_iso_source_options.cd_content
 
   machine_type       = local.qemu_iso_source_options.machine_type
   accelerator        = local.qemu_iso_source_options.accelerator
@@ -46,7 +48,9 @@ source "qemu" "iso" {
   format             = local.qemu_iso_source_options.format
   efi_firmware_code  = local.qemu_iso_source_options.efi_firmware_code
   efi_drop_efivars   = local.qemu_iso_source_options.efi_drop_efivars
+  disk_interface     = local.qemu_iso_source_options.disk_interface
   disk_detect_zeroes = local.qemu_iso_source_options.disk_detect_zeroes
+  net_device         = local.qemu_iso_source_options.net_device
   vga                = local.qemu_iso_source_options.vga
   qemuargs           = local.qemu_iso_source_options.qemuargs
 
@@ -86,7 +90,9 @@ source "qemu" "import" {
   format             = local.qemu_import_source_options.format
   efi_firmware_code  = local.qemu_import_source_options.efi_firmware_code
   efi_drop_efivars   = local.qemu_import_source_options.efi_drop_efivars
+  disk_interface     = local.qemu_import_source_options.disk_interface
   disk_detect_zeroes = local.qemu_import_source_options.disk_detect_zeroes
+  net_device         = local.qemu_import_source_options.net_device
   vga                = local.qemu_import_source_options.vga
   qemuargs           = local.qemu_import_source_options.qemuargs
 

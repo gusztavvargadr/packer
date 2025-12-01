@@ -9,7 +9,8 @@ images = {
     }
 
     vagrant = {
-      memory    = "4096"
+      cpus      = "4"
+      memory    = "8192"
       box_alias = "development-windows"
     }
   }
@@ -24,7 +25,8 @@ images = {
     }
 
     vagrant = {
-      memory    = "4096"
+      cpus      = "4"
+      memory    = "8192"
     }
   }
 }
