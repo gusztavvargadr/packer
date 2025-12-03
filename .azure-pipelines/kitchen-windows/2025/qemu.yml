@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-server.2025-standard.qemu
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: kitchen-windows
+      image: "2025"
+      provider: qemu
