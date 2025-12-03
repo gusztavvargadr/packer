@@ -14,6 +14,7 @@ locals {
     cpu_model          = "host"
     format             = "qcow2"
     efi_firmware_code  = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+    efi_firmware_vars  = "/usr/share/OVMF/OVMF_VARS_4M.fd"
     efi_drop_efivars   = true
     disk_detect_zeroes = "unmap"
     vga                = "virtio"
@@ -45,6 +46,7 @@ source "qemu" "iso" {
   cpu_model          = local.qemu_iso_source_options.cpu_model
   format             = local.qemu_iso_source_options.format
   efi_firmware_code  = local.qemu_iso_source_options.efi_firmware_code
+  efi_firmware_vars  = local.qemu_iso_source_options.efi_firmware_vars
   efi_drop_efivars   = local.qemu_iso_source_options.efi_drop_efivars
   disk_detect_zeroes = local.qemu_iso_source_options.disk_detect_zeroes
   vga                = local.qemu_iso_source_options.vga
@@ -85,6 +87,7 @@ source "qemu" "import" {
   cpu_model          = local.qemu_import_source_options.cpu_model
   format             = local.qemu_import_source_options.format
   efi_firmware_code  = local.qemu_import_source_options.efi_firmware_code
+  efi_firmware_vars  = local.qemu_import_source_options.efi_firmware_vars
   efi_drop_efivars   = local.qemu_import_source_options.efi_drop_efivars
   disk_detect_zeroes = local.qemu_import_source_options.disk_detect_zeroes
   vga                = local.qemu_import_source_options.vga

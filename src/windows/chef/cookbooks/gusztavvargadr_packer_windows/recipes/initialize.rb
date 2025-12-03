@@ -171,6 +171,10 @@ if kvm?
       action :dismount
     end
   end
+
+  chocolatey_package 'rsync' do
+    action :install
+  end
 end
 
 reboot 'gusztavvargadr_packer_windows' do
