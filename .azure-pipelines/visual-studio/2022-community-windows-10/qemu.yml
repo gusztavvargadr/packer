@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-11.25h2-enterprise.virtualbox
+      source: windows-10.22h2-enterprise.qemu
 
 stages:
   - template: ../../stages.yml
     parameters:
       sample: visual-studio
-      image: 2022-community-windows-11
-      provider: virtualbox
+      image: 2022-community-windows-10
+      provider: qemu

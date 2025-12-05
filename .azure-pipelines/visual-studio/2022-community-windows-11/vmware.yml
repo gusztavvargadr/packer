@@ -4,7 +4,7 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-11.24h2-enterprise.vmware
+      source: windows-11.25h2-enterprise.vmware
 
 stages:
   - template: ../../stages.yml
