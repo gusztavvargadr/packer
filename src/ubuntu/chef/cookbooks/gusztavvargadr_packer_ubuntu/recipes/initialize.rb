@@ -17,7 +17,7 @@ if vbox?
 
   vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
 
-  unless vbox_version.include?('6.') || vbox_version.include?('7.')
+  unless vbox_version.include?('7.')
     bash 'guest-additions' do
       code <<-EOH
         VER="`cat /home/vagrant/.vbox_version`";
@@ -40,6 +40,13 @@ end
 
 if vmware?
   apt_package [ 'open-vm-tools', 'open-vm-tools-desktop' ] do
+    action :install
+    notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
+  end
+end
+
+if kvm?
+  apt_package [ 'qemu-guest-agent' ] do
     action :install
     notifies :request_reboot, 'reboot[gusztavvargadr_packer_ubuntu]', :immediately
   end

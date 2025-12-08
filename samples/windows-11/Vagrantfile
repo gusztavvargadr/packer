@@ -1,6 +1,7 @@
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
+  config_vm_define config, "25h2-enterprise", "windows-11-25h2-enterprise"
   config_vm_define config, "24h2-enterprise", "windows-11-24h2-enterprise"
   config_vm_define config, "24h2-enterprise-alias", "windows-11"
   config_vm_define config, "24h2-enterprise-ltsc", "windows-11-24h2-enterprise-ltsc"

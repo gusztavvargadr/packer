@@ -13,12 +13,14 @@ locals {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
     hyperv     = "hyperv-iso.core"
+    qemu       = "qemu.iso"
   }
 
   native_import_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
+    qemu       = "qemu.import"
   }
 
   native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")

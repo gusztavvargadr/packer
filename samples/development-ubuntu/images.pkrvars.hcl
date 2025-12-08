@@ -5,10 +5,12 @@ images = {
     }
 
     native = {
-      source_image = "ubuntu-server/2404-lts"
+      source_image = "ubuntu-desktop/2404-lts-ubuntu"
     }
 
     vagrant = {
+      cpus      = "4"
+      memory    = "8192"
       box_alias = "development-ubuntu"
     }
   }
@@ -19,7 +21,12 @@ images = {
     }
 
     native = {
-      source_image = "ubuntu-server/2204-lts"
+      source_image = "ubuntu-desktop/2204-lts-ubuntu"
+    }
+
+    vagrant = {
+      cpus      = "4"
+      memory    = "8192"
     }
   }
 }

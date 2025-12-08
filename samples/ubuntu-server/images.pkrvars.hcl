@@ -5,9 +5,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.2-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:d6dab0c3a657988501b4bd76f1297c053df710e06e0c3aece60dead24f270b4d"
+      source_iso_url_local  = "ubuntu-24.04.3-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.3-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b"
     }
 
     vagrant = {
