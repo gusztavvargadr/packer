@@ -52,33 +52,6 @@ images = {
     }
   }
 
-  "24h2-enterprise-ltsc" = {
-    core = {
-      image_description = "Windows 11 Version 24H2 Enterprise"
-    }
-
-    native = {
-      source_iso_url_local  = "26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
-      source_iso_url_remote = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
-      source_iso_checksum   = "sha256:67cec5865eaa037a72ddc633a717a10a2bed50778862267223ddb9c60ef5da68"
-
-      boot_setup_script = "setup.cmd"
-      boot_image_name = "Windows 11 Enterprise LTSC Evaluation"
-    }
-
-    vagrant = {
-      memory    = "4096"
-    }
-
-    virtualbox = {
-      guest_os_type = "Windows11_64"
-    }
-
-    vmware = {
-      guest_os_type = "windows11-64"
-    }
-  }
-
   "23h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 23H2 Enterprise"
@@ -131,21 +104,22 @@ images = {
     }
   }
 
-  "21h2-enterprise" = {
+  "24h2-enterprise-ltsc" = {
     core = {
-      image_description = "Windows 11 Version 21H2 Enterprise"
+      image_description = "Windows 11 Version 24H2 Enterprise"
     }
 
     native = {
-      source_iso_url_local  = "22000.194.210913-1444.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
-      source_iso_url_remote = "https://software-download.microsoft.com/download/sg/22000.194.210913-1444.co_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
-      source_iso_checksum   = "sha256:e8b1d2a1a85a09b4bf6154084a8be8e3c814894a15a7bcf3e8e63fcfa9a528cb"
+      source_iso_url_local  = "26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
+      source_iso_url_remote = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
+      source_iso_checksum   = "sha256:67cec5865eaa037a72ddc633a717a10a2bed50778862267223ddb9c60ef5da68"
 
       boot_setup_script = "setup.cmd"
+      boot_image_name = "Windows 11 Enterprise LTSC Evaluation"
     }
 
     vagrant = {
-      memory = "4096"
+      memory    = "4096"
     }
 
     virtualbox = {

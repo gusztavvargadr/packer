@@ -11,7 +11,6 @@ images = {
     vagrant = {
       cpus      = "4"
       memory    = "8192"
-      box_alias = "development-windows"
     }
   }
 

@@ -8,10 +8,6 @@ images = {
       source_image = "windows-server/2025-standard"
       chef_keep    = "true"
     }
-
-    vagrant = {
-      box_alias = "kitchen-windows"
-    }
   }
 
   "2022" = {
