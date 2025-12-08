@@ -5,7 +5,7 @@ images = {
     }
 
     native = {
-      source_image = "windows-11/24h2-enterprise"
+      source_image = "windows-11/25h2-enterprise"
 
       chef_attributes = "2022-community"
     }

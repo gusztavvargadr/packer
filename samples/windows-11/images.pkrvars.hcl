@@ -1,4 +1,31 @@
-images = {
+images = {  
+  "25h2-enterprise" = {
+    core = {
+      image_description = "Windows 11 Version 25H2 Enterprise"
+    }
+
+    native = {
+      source_iso_url_local  = "26200.6584.250915-1905.25h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
+      source_iso_url_remote = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26200.6584.250915-1905.25h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
+      source_iso_checksum   = "sha256:a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4062e535e7b9"
+
+      boot_setup_script = "setup.cmd"
+    }
+
+    vagrant = {
+      memory    = "4096"
+      box_alias = "windows-11"
+    }
+
+    virtualbox = {
+      guest_os_type = "Windows11_64"
+    }
+
+    vmware = {
+      guest_os_type = "windows11-64"
+    }
+  }
+
   "24h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 24H2 Enterprise"
@@ -14,7 +41,6 @@ images = {
 
     vagrant = {
       memory    = "4096"
-      box_alias = "windows-11"
     }
 
     virtualbox = {
@@ -137,9 +163,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "Windows11_InsiderPreview_EnterpriseVL_x64_en-us_27881.iso"
-      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/windows-11-insider-preview/versions/2506.0.0/providers/iso/amd64/vagrant.box"
-      source_iso_checksum   = "sha256:daaeedaa80583df8d2bf4447eb296a3a893d7451f78101f2e1341d1ee2e7c102"
+      source_iso_url_local  = "Windows11_InsiderPreview_EnterpriseVL_x64_en-us_27924.iso"
+      source_iso_url_remote = "https://api.hashicorp.cloud/vagrant/2022-08-01/gusztavvargadr-iso/boxes/windows-11-insider-preview/versions/2511.0.0/providers/iso/amd64/vagrant.box"
+      source_iso_checksum   = "sha256:c5ab29789cd753ae6d0d63936aeee55537cd061861db697e15fbe688b7720d39"
 
       boot_setup_script = "setup.cmd"
       boot_image_name   = "Windows 11 Enterprise"
