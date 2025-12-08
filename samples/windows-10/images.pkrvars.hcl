@@ -2,7 +2,6 @@ images = {
   "22h2-enterprise" = {
     core = {
       image_description = "Windows 10 Version 22H2 Enterprise"
-      image_version     = "2202.0"
     }
 
     native = {
@@ -28,7 +27,6 @@ images = {
   "21h2-enterprise-ltsc" = {
     core = {
       image_description = "Windows 10 Version 21H2 Enterprise LTSC"
-      image_version     = "2102.0"
     }
 
     native = {

@@ -2,13 +2,12 @@ images = {
   "2404-lts" = {
     core = {
       image_description = "Ubuntu Server 24.04 LTS"
-      image_version     = "2404.0"
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.2-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.2-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:d6dab0c3a657988501b4bd76f1297c053df710e06e0c3aece60dead24f270b4d"
+      source_iso_url_local  = "ubuntu-24.04.3-live-server-amd64.iso"
+      source_iso_url_remote = "https://releases.ubuntu.com/24.04/ubuntu-24.04.3-live-server-amd64.iso"
+      source_iso_checksum   = "sha256:c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b"
     }
 
     vagrant = {
@@ -31,7 +30,6 @@ images = {
   "2204-lts" = {
     core = {
       image_description = "Ubuntu Server 22.04 LTS"
-      image_version     = "2204.0"
     }
 
     native = {
@@ -50,27 +48,6 @@ images = {
 
     amazon = {
       source_ami_name = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
-    }
-  }
-
-  "2004-lts" = {
-    core = {
-      image_description = "Ubuntu Server 20.04 LTS"
-      image_version     = "2004.0"
-    }
-
-    native = {
-      source_iso_url_local  = "ubuntu-20.04.6-live-server-amd64.iso"
-      source_iso_url_remote = "https://releases.ubuntu.com/20.04/ubuntu-20.04.6-live-server-amd64.iso"
-      source_iso_checksum   = "sha256:b8f31413336b9393ad5d8ef0282717b2ab19f007df2e9ed5196c13d8f9153c8b"
-    }
-
-    virtualbox = {
-      guest_os_type = "Ubuntu_64"
-    }
-
-    vmware = {
-      guest_os_type = "ubuntu-64"
     }
   }
 }

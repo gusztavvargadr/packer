@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server.2004-lts.vmware
+      source: windows-server.2025-standard.qemu
 
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: ubuntu-desktop
-      image: 2004-lts-xubuntu
-      provider: vmware
+      sample: development-windows
+      image: "2025"
+      provider: qemu

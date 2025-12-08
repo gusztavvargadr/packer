@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     virtualbox = {
-      version = "~> 1.1.0"
+      version = "~> 1.1.2"
       source  = "github.com/hashicorp/virtualbox"
     }
   }
@@ -63,7 +63,7 @@ source "virtualbox-ovf" "core" {
   headless         = local.virtualbox_ovf_source_options.headless
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
-  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "**/*.ovf"))}"
+  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
 

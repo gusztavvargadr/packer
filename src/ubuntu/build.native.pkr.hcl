@@ -13,6 +13,7 @@ locals {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
     hyperv     = "hyperv-iso.core"
+    qemu       = "qemu.iso"
     amazon     = "amazon-ebs.core"
   }
 
@@ -20,6 +21,7 @@ locals {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
+    qemu       = "qemu.import"
     amazon     = "amazon-ebs.core"
   }
 

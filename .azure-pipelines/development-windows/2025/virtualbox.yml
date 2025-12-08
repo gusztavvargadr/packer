@@ -1,0 +1,14 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: windows-server.2025-standard.virtualbox
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: development-windows
+      image: "2025"
+      provider: virtualbox

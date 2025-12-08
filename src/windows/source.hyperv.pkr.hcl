@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     hyperv = {
-      version = "~> 1.1.3"
+      version = "~> 1.1.4"
       source  = "github.com/hashicorp/hyperv"
     }
   }
@@ -74,7 +74,7 @@ source "hyperv-vmcx" "core" {
 
   cpus                 = local.hyperv_vmcx_source_options.cpus
   memory               = local.hyperv_vmcx_source_options.memory
-  clone_from_vmcx_path = "${local.hyperv_vmcx_source_options.import_directory}/${join("", fileset(local.hyperv_vmcx_source_options.import_directory, "**/*.vmcx"))}"
+  clone_from_vmcx_path = "${local.hyperv_vmcx_source_options.import_directory}/${join("", fileset(local.hyperv_vmcx_source_options.import_directory, "image/**/*.vmcx"))}"
 
   generation                       = local.hyperv_vmcx_source_options.generation
   configuration_version            = local.hyperv_vmcx_source_options.configuration_version

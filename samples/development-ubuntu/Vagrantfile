@@ -20,15 +20,5 @@ Vagrant.configure("2") do |config|
 
     docker version
     docker compose version
-  
-    vagrant --version
-    packer --version
-    terraform --version
-    consul-template --version
-    consul --version
-    vault --version
-    nomad --version
-
-    chef --version
   EOH
 end

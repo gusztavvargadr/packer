@@ -3,7 +3,7 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 Write-Host "Install Chocolatey"
-%{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.4.3")]) ~}
+%{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.5.1")]) ~}
 $env:chocolateyVersion = '${chocolatey_version}'
 %{ endfor ~}
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
@@ -15,11 +15,12 @@ net stop sshd
 netsh advfirewall firewall delete rule name="OpenSSH-Install"
 
 Write-Host "Configure OpenSSH"
+net start sshd
+sc.exe config sshd start= auto
+netsh advfirewall firewall add rule name="OpenSSH-Packer" dir=in localport=22 protocol=TCP action=allow
 $sshd_config = "$($env:ProgramData)\ssh\sshd_config"
 (Get-Content $sshd_config).Replace("Match Group administrators", "# Match Group administrators") | Set-Content $sshd_config
 (Get-Content $sshd_config).Replace("AuthorizedKeysFile", "# AuthorizedKeysFile") | Set-Content $sshd_config
-net start sshd
-sc.exe config sshd start= auto
 
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block
@@ -35,6 +36,6 @@ net stop winrm
 netsh advfirewall firewall delete rule name="WinRM-Install"
 
 Write-Host "Configure WinRM"
-netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 net start winrm
 sc.exe config winrm start= auto
+netsh advfirewall firewall add rule name="WinRM-Packer" dir=in localport=5985 protocol=TCP action=allow

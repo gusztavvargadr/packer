@@ -32,7 +32,7 @@ locals {
   image_author      = var.author
   image_name        = "${basename(path.cwd)}/${var.image}"
   image_description = local.image_options.core.image_description
-  image_version     = "${local.image_options.core.image_version}.${var.version}"
+  image_version     = contains(keys(local.image_options.core), "image_version") ? "${local.image_options.core.image_version}.${var.version}" : "${var.version}.0.0"
   image_provider    = var.provider
   image_build       = var.build
 

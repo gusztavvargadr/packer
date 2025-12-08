@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: ubuntu-server.2004-lts.virtualbox
+      source: windows-server.2022-standard.virtualbox
 
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: ubuntu-desktop
-      image: 2004-lts-ubuntu
+      sample: development-windows
+      image: "2022"
       provider: virtualbox

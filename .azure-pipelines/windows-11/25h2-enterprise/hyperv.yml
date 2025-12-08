@@ -4,6 +4,6 @@ pr: none
 stages:
   - template: ../../stages.yml
     parameters:
-      sample: ubuntu-server
-      image: 2004-lts
+      sample: windows-11
+      image: 25h2-enterprise
       provider: hyperv
