@@ -3,33 +3,35 @@ layout: page
 title: Windows Server 2022 Standard
 ---
 
-[Download box][Box]
+### In the box
+
+[Downloads][BoxOverview]
 
 This box has the following contents:
 
-- Windows Server **2022 Standard**
+- Windows Server 2022 Standard
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
 - Windows Defender disabled
 - UAC disabled
 - Generalized with Sysprep
-- User `vagrant` with password `vagrant` and Vagrant's default key
+- User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 2 CPUs, 2 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard
 
-## Versions
+### Versions
 
-### 2102.0.2503
+#### 2511.0.0
 
-[Download version][Version210202503]
+[Downloads][BoxVersion251100]
 
 This version has the following contents:
 
-- [OS Build **20348.3328**](https://support.microsoft.com/en-us/help/5053603)
-- Hyper-V Generation 2, Configuration Version 9.0
-- [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
-- [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)
+- [OS Build 20348.4405](https://support.microsoft.com/en-us/topic/november-11-2025-kb5068787-os-build-20348-4405-fd671161-51cb-4756-8d25-a3fe4702da31)
+- [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
+- [VMware Tools 13.0.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-1301-release-notes.html)
 
-[Version210202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard/versions/2102.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-2022-standard/versions/2511.0.0
