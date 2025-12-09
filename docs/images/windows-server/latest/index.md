@@ -3,26 +3,20 @@ layout: page
 title: Windows Server Latest
 ---
 
-[Download box][Box]
+### In the box
 
-This box is an alias of [Windows Server **2025 Standard**]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}).
+[Downloads][DownloadsBox]
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server
+This box is an alias of [Windows Server 2025 Standard]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}).
 
-## Versions
+[DownloadsBox]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server
 
-### 2402.0.2505
+### Versions
 
-[Download version][Version240202505]
+#### 2511.0.0
 
-This version is an alias of [Windows Server **2025 Standard** 2402.0.2505]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}#240202505).
+[Downloads][Downloads251100]
 
-[Version240202505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server/versions/2402.0.2505
+This version is an alias of [Windows Server 2025 Standard 2511.0.0]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}#251100).
 
-### 2402.0.2503
-
-[Download version][Version240202503]
-
-This version is an alias of [Windows Server **2025 Standard** 2402.0.2503]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %}#240202503).
-
-[Version240202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server/versions/2402.0.2503
+[Downloads251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server/versions/2511.0.0
