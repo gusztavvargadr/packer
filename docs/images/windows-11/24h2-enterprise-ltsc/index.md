@@ -30,7 +30,7 @@ This box has the following contents:
 This version has the following contents:
 
 - [OS Build 26100.1742](https://support.microsoft.com/en-us/topic/september-10-2024-kb5043080-os-build-26100-1742-407666c8-6b6d-4561-a982-abce4e7c2efb)
-- [VirtualBox Guest Additions 7.0.20](https://www.virtualbox.org/wiki/Changelog-7.0#v20)
-- [VMware Tools 12.4.5](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-4-0/release-notes/vmware-tools-1245-release-notes.html)
+- VirtualBox [VirtualBox Guest Additions 7.0.20](https://www.virtualbox.org/wiki/Changelog-7.0#v20)
+- VMware [VMware Tools 12.4.5](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-4-0/release-notes/vmware-tools-1245-release-notes.html)
 
 [BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-24h2-enterprise-ltsc/versions/2402.0.2409
