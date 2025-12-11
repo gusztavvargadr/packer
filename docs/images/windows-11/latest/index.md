@@ -3,26 +3,20 @@ layout: page
 title: Windows 11 Latest
 ---
 
-[Download box][Box]
+### In the box
 
-This box is an alias of [Windows 11 **Version 24H2 Enterprise**]({{ site.baseurl }}{% link images/windows-11/24h2-enterprise/index.md %}).
+[Downloads][BoxOverview]
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11
+This box is an alias of [Windows 11 Version 25H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/25h2-enterprise/index.md %}).
 
-## Versions
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11
 
-### 2402.0.2505
+### Versions
 
-[Download version][Version240202505]
+#### 2511.0.0
 
-This version is an alias of [Windows 11 **Version 24H2 Enterprise** 2402.0.2505]({{ site.baseurl }}{% link images/windows-11/24h2-enterprise/index.md %}#240202505).
+[Downloads][BoxVersion251100]
 
-[Version240202505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11/versions/2402.0.2505
+This version is an alias of [Windows 11 Version 25H2 Enterprise 2511.0.0]({{ site.baseurl }}{% link images/windows-11/25h2-enterprise/index.md %}#251100).
 
-### 2402.0.2503
-
-[Download version][Version240202503]
-
-This version is an alias of [Windows 11 **Version 24H2 Enterprise** 2402.0.2503]({{ site.baseurl }}{% link images/windows-11/24h2-enterprise/index.md %}#240202503).
-
-[Version240202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11/versions/2402.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11/versions/2511.0.0

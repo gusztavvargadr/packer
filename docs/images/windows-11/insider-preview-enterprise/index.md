@@ -3,33 +3,35 @@ layout: page
 title: Windows 11 Insider Preview Enterprise
 ---
 
-[Download box][Box]
+### In the box
+
+[Downloads][BoxOverview]
 
 This box has the following contents:
 
-- Windows 11 **Insider Preview Enterprise**
+- Windows 11 Insider Preview Enterprise
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
 - Windows Defender disabled
 - UAC disabled
 - Generalized with Sysprep
-- User `vagrant` with password `vagrant` and Vagrant's default key
+- User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 2 CPUs, 4 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-insider-preview-enterprise
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-insider-preview-enterprise
 
-## Versions
+### Versions
 
-### 2402.0.2503
+#### 2511.0.0
 
-[Download version][Version240202503]
+[Downloads][BoxVersion251100]
 
 This version has the following contents:
 
-- [OS Build **27774.1000**](https://blogs.windows.com/windows-insider/2025/01/16/announcing-windows-11-insider-preview-build-27774-canary-channel/)
-- Hyper-V Generation 2, Configuration Version 9.0
-- [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
-- [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)
+- [OS Build 27924.1000](https://blogs.windows.com/windows-insider/2025/08/14/announcing-windows-11-insider-preview-build-27924-canary-channel/)
+- [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
+- [VMware Tools 13.0.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-1301-release-notes.html)
 
-[Version240202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-insider-preview-enterprise/versions/2402.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-insider-preview-enterprise/versions/2511.0.0

@@ -3,33 +3,35 @@ layout: page
 title: Windows 11 Version 22H2 Enterprise
 ---
 
-[Download box][Box]
+### In the box
+
+[Downloads][BoxOverview]
 
 This box has the following contents:
 
-- Windows 11 **Version 22H2 Enterprise**
+- Windows 11 Version 22H2 Enterprise
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
 - Windows Defender disabled
 - UAC disabled
 - Generalized with Sysprep
-- User `vagrant` with password `vagrant` and Vagrant's default key
+- User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 2 CPUs, 4 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-22h2-enterprise
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-22h2-enterprise
 
-## Versions
+### Versions
 
-### 2202.0.2503
+#### 2511.0.0
 
-[Download version][Version220202503]
+[Downloads][BoxVersion251100]
 
 This version has the following contents:
 
-- [OS Build **22621.5039**](https://support.microsoft.com/en-us/help/5053602)
-- Hyper-V Generation 2, Configuration Version 9.0
-- [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
-- [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)
+- [OS Build 22621.6060](https://support.microsoft.com/en-us/topic/october-14-2025-kb5066793-os-builds-22621-6060-and-22631-6060-b868ef7c-22fa-4991-b286-a1728b93079b)
+- [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
+- [VMware Tools 13.0.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-1301-release-notes.html)
 
-[Version220202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-22h2-enterprise/versions/2202.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11-22h2-enterprise/versions/2511.0.0
