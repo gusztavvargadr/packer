@@ -3,46 +3,35 @@ layout: page
 title: Windows 10 Version 22H2 Enterprise
 ---
 
-[Download box][Box]
+### In the box
+
+[Downloads][BoxOverview]
 
 This box has the following contents:
 
-- Windows 10 **Version 22H2 Enterprise**
+- Windows 10 Version 22H2 Enterprise
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
 - Windows Defender disabled
 - UAC disabled
 - Generalized with Sysprep
-- User `vagrant` with password `vagrant` and Vagrant's default key
+- User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 2 CPUs, 4 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-22h2-enterprise
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-22h2-enterprise
 
-## Versions
+### Versions
 
-### 2202.0.2505
+#### 2511.0.0
 
-[Download version][Version220202505]
-
-This version has the following contents:
-
-- [OS Build **19045.5854**](https://support.microsoft.com/en-us/help/5058379)
-- Hyper-V Generation 2, Configuration Version 9.0
-- [VirtualBox Guest Additions 7.1.10](https://www.virtualbox.org/wiki/Changelog-7.1#v10)
-- [VMware Tools 12.5.2](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1252-release-notes.html)
-
-[Version220202505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-22h2-enterprise/versions/2202.0.2505
-
-### 2202.0.2503
-
-[Download version][Version220202503]
+[Downloads][BoxVersion251100]
 
 This version has the following contents:
 
-- [OS Build **19045.5608**](https://support.microsoft.com/en-us/help/5053606)
-- Hyper-V Generation 2, Configuration Version 9.0
-- [VirtualBox Guest Additions 7.1.6](https://www.virtualbox.org/wiki/Changelog-7.1#v6)
-- [VMware Tools 12.5.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/12-5-0/release-notes/vmware-tools-1251-release-notes.html)
+- [OS Build 19045.6456](https://support.microsoft.com/en-us/topic/october-14-2025-kb5066791-os-builds-19044-6456-and-19045-6456-657e5143-6c5d-4401-8efa-1641ca93c051)
+- [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
+- [VMware Tools 13.0.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-1301-release-notes.html)
 
-[Version220202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-22h2-enterprise/versions/2202.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-22h2-enterprise/versions/2511.0.0

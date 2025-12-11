@@ -3,26 +3,20 @@ layout: page
 title: Windows 10 Latest
 ---
 
-[Download box][Box]
+### In the box
 
-This box is an alias of [Windows 10 **Version 22H2 Enterprise**]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}).
+[Downloads][BoxOverview]
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10
+This box is an alias of [Windows 10 Version 22H2 Enterprise]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}).
 
-## Versions
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10
 
-### 2202.0.2505
+### Versions
 
-[Download version][Version220202505]
+#### 2511.0.0
 
-This version is an alias of [Windows 10 **Version 22H2 Enterprise** 2202.0.2505]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}#220202505).
+[Downloads][BoxVersion251100]
 
-[Version220202505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10/versions/2202.0.2505
+This version is an alias of [Windows 10 Version 22H2 Enterprise 2511.0.0]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}#251100).
 
-### 2202.0.2503
-
-[Download version][Version220202503]
-
-This version is an alias of [Windows 10 **Version 22H2 Enterprise** 2202.0.2503]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}#220202503).
-
-[Version220202503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10/versions/2202.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10/versions/2511.0.0
