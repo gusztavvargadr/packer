@@ -3,36 +3,32 @@ layout: page
 title: Ubuntu Desktop 22.04 LTS
 ---
 
-[Download box][Box]
+### In the box
+
+[Downloads][BoxOverview]
 
 This box has the following contents:
 
-- [Ubuntu Server **22.04 LTS**]({{ site.baseurl }}{% link images/ubuntu-server/2204-lts/index.md %})
-- Ubuntu Desktop
+- Ubuntu Desktop 22.04 LTS
+- OpenSSH Server
+- User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 2 CPUs, 4 GB RAM
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts
 
-## Versions
+### Versions
 
-### 2204.0.2505
+#### 2511.0.0
 
-[Download version][Version220402505]
-
-This version has the following contents:
-
-- [Ubuntu Server **22.04 LTS** 2204.0.2505]({{ site.baseurl }}{% link images/ubuntu-server/2204-lts/index.md %}#220402505)
-- ubuntu-desktop 1.481.4
-
-[Version220402505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts/versions/2204.0.2505
-
-### 2204.0.2503
-
-[Download version][Version220402503]
+[Downloads][BoxVersion251100]
 
 This version has the following contents:
 
-- [Ubuntu Server **22.04 LTS** 2204.0.2503]({{ site.baseurl }}{% link images/ubuntu-server/2204-lts/index.md %}#220402503)
-- ubuntu-desktop 1.481.4
+- [OS Release 22.04.5](https://discourse.ubuntu.com/t/jammy-jellyfish-point-release-changes/29835/8)
+- Kernel 5.15.0-161-generic
+- Hyper-V Kernel 6.8.0-1041-azure
+- QEMU qemu-guest-agent 6.2
+- VirtualBox [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
+- VMware open-vm-tools 12.3.5
 
-[Version220402503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts/versions/2204.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop-2204-lts/versions/2511.0.0

@@ -3,26 +3,20 @@ layout: page
 title: Ubuntu Desktop Latest
 ---
 
-[Download box][Box]
+### In the box
 
-This box is an alias of [Ubuntu Desktop **24.04 LTS**]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}).
+[Downloads][BoxOverview]
 
-[Box]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop
+This box is an alias of [Ubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}).
 
-## Versions
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop
 
-### 2404.0.2505
+### Versions
 
-[Download version][Version240402505]
+#### 2511.0.0
 
-This version is an alias of [Ubuntu Desktop **24.04 LTS** 2404.0.2505]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}#240402505).
+[Downloads][BoxVersion251100]
 
-[Version240402505]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop/versions/2404.0.2505
+This version is an alias of [Ubuntu Desktop 24.04 LTS 2511.0.0]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}#251100).
 
-### 2404.0.2503
-
-[Download version][Version240402503]
-
-This version is an alias of [Ubuntu Desktop **24.04 LTS** 2404.0.2503]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}#240402503).
-
-[Version240402503]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop/versions/2404.0.2503
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop/versions/2511.0.0
