@@ -1,7 +1,7 @@
 images = {
   "2404" = {
     core = {
-      image_description = "Development on ubuntu-2404"
+      image_description = "Development on Ubuntu 24.04"
     }
 
     native = {
@@ -16,7 +16,7 @@ images = {
 
   "2204" = {
     core = {
-      image_description = "Development on ubuntu-2204"
+      image_description = "Development on Ubuntu 22.04"
     }
 
     native = {

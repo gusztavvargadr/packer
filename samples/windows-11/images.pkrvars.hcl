@@ -106,7 +106,7 @@ images = {
 
   "24h2-enterprise-ltsc" = {
     core = {
-      image_description = "Windows 11 Version 24H2 Enterprise"
+      image_description = "Windows 11 Version 24H2 Enterprise LTSC"
     }
 
     native = {

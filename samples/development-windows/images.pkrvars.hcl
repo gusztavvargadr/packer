@@ -1,7 +1,7 @@
 images = {
   "2025" = {
     core = {
-      image_description = "Development on windows-2025"
+      image_description = "Development on Windows 2025"
     }
 
     native = {
@@ -16,7 +16,7 @@ images = {
 
   "2022" = {
     core = {
-      image_description = "Development on windows-2022"
+      image_description = "Development on Windows 2022"
     }
 
     native = {

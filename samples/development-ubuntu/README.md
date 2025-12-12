@@ -1,3 +1,3 @@
-# Packer samples for Development Ubuntu
+# Packer Development Ubuntu samples
 
-This folder contains Packer templates for building `Development Ubuntu` images.
+The documentation has been moved to https://gusztavvargadr.github.io/packer/images/development/.
