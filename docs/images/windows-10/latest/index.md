@@ -7,7 +7,7 @@ title: Windows 10 Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Windows 10 Version 22H2 Enterprise]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}).
+This box is an alias of [Windows 10 Version 22H2 Enterprise]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10
 

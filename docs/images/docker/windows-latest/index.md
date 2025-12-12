@@ -7,7 +7,7 @@ title: Docker on Windows Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Docker on Windows 2025]({{ site.baseurl }}{% link images/docker/windows-2025/index.md %}).
+This box is an alias of [Docker on Windows 2025]({{ site.baseurl }}{% link images/docker/windows-2025/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/docker-windows
 

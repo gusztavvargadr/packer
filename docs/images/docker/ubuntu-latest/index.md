@@ -7,7 +7,7 @@ title: Docker on Ubuntu Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Docker on Ubuntu 24.04]({{ site.baseurl }}{% link images/docker/ubuntu-2404/index.md %}).
+This box is an alias of [Docker on Ubuntu 24.04]({{ site.baseurl }}{% link images/docker/ubuntu-2404/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/docker-linux
 

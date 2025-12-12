@@ -7,7 +7,7 @@ title: Windows 11 Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Windows 11 Version 25H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/25h2-enterprise/index.md %}).
+This box is an alias of [Windows 11 Version 25H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/25h2-enterprise/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-11
 

@@ -7,7 +7,7 @@ title: Xubuntu Desktop Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Xubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/xubuntu-desktop/2404-lts/index.md %}).
+This box is an alias of [Xubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/xubuntu-desktop/2404-lts/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/xubuntu-desktop
 

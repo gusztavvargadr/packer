@@ -7,7 +7,7 @@ title: Ubuntu Server Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Ubuntu Server 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}).
+This box is an alias of [Ubuntu Server 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server
 

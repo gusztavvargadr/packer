@@ -7,7 +7,7 @@ title: Windows Server Latest Core
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Windows Server 2025 Standard Core]({{ site.baseurl }}{% link images/windows-server/2025-standard-core/index.md %}).
+This box is an alias of [Windows Server 2025 Standard Core]({{ site.baseurl }}{% link images/windows-server/2025-standard-core/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-core
 

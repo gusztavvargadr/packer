@@ -7,7 +7,7 @@ title: Ubuntu Desktop Latest
 
 [Downloads][BoxOverview]
 
-This box is an alias of [Ubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}).
+This box is an alias of [Ubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-desktop/2404-lts/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-desktop
 
