@@ -1,7 +1,7 @@
 images = {
   "community-ubuntu-server" = {
     core = {
-      image_description = "Docker Community on Ubuntu Server"
+      image_description = "Docker on Ubuntu 24.04"
       image_version     = "2600.2404"
     }
 

@@ -1,3 +1,3 @@
-# Packer samples for Development Windows
+# Packer Development Windows samples
 
-This folder contains Packer templates for building `Development Windows` images.
+The documentation has been moved to https://gusztavvargadr.github.io/packer/images/development/.
