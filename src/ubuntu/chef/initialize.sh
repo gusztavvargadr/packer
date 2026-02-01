@@ -10,7 +10,7 @@ sudo apt-get install -y curl
 mkdir -p /var/tmp/packer-build/chef
 
 if ! [ -x "$(command -v chef-client)" ]; then
-  curl -Ls https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chef -v 18.9.4
+  curl -Ls https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chef -v 18.8.11
 fi
 chef-client --version
 
