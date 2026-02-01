@@ -63,6 +63,7 @@ void PackerInit() {
   var arguments = new ProcessArgumentBuilder();
 
   arguments.Append("init");
+  arguments.Append("-upgrade");
   arguments.Append(platformDirectory);
 
   Packer(arguments);
