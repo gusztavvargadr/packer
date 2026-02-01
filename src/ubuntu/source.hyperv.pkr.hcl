@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     hyperv = {
-      version = "~> 1.1.4"
+      version = "~> 1.1.5"
       source  = "github.com/hashicorp/hyperv"
     }
   }
@@ -15,7 +15,7 @@ variable "hyperv_switch" {
 locals {
   hyperv_source_options = {
     generation                       = 2
-    configuration_version            = "9.0"
+    configuration_version            = "10.0"
     enable_virtualization_extensions = false
     enable_dynamic_memory            = false
     enable_secure_boot               = false
