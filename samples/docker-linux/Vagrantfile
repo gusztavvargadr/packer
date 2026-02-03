@@ -2,6 +2,7 @@ load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
 Vagrant.configure("2") do |config|
   config_vm_define config, "community-ubuntu-server", "docker-community-ubuntu-server"
+
   config_vm_define config, "community-ubuntu-server-alias", "docker-linux"
   config_vm_define config, "community-ubuntu-server-arm", "docker-community-ubuntu-server"
 

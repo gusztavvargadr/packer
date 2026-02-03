@@ -122,14 +122,6 @@ jobs:
           displayName: Initialize Packer
 
         - script: |
-            vagrant --version
-            vagrant plugin list
-
-            vagrant box list
-            vagrant global-status --prune
-          displayName: Initialize Vagrant
-
-        - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
           displayName: Init
 
