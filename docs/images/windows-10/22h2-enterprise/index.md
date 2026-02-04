@@ -5,6 +5,8 @@ title: Windows 10 Version 22H2 Enterprise
 
 ### In the box
 
+**This box has been deprecated and is no longer being maintained.**
+
 [Downloads][BoxOverview]
 
 This box has the following contents:
@@ -24,6 +26,8 @@ This box has the following contents:
 ### Versions
 
 #### 2511.0.0
+
+**This box has been deprecated and is no longer being maintained.**
 
 [Downloads][BoxVersion251100]
 
