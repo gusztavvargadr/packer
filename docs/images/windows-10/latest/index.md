@@ -5,6 +5,8 @@ title: Windows 10 Latest
 
 ### In the box
 
+**This box has been deprecated and is no longer being maintained.**
+
 [Downloads][BoxOverview]
 
 This box is an alias of [Windows 10 Version 22H2 Enterprise]({{ site.baseurl }}{% link images/windows-10/22h2-enterprise/index.md %}#in-the-box).
@@ -14,6 +16,8 @@ This box is an alias of [Windows 10 Version 22H2 Enterprise]({{ site.baseurl }}{
 ### Versions
 
 #### 2511.0.0
+
+**This box has been deprecated and is no longer being maintained.**
 
 [Downloads][BoxVersion251100]
 
