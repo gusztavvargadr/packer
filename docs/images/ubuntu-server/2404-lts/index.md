@@ -26,7 +26,7 @@ This version has the following contents:
 
 - [OS Release 24.04.3](https://discourse.ubuntu.com/t/ubuntu-24-04-3-lts-released/65764)
 - Kernel 6.8.0-95-generic
-- Hyper-V Kernel 6.14.0-1014-azure
+- Hyper-V Kernel 6.14.0-1017-azure
 - QEMU qemu-guest-agent 8.2.2
 - VirtualBox [VirtualBox Guest Additions 7.2.6](https://www.virtualbox.org/wiki/Changelog-7.2#v6)
 - VMware open-vm-tools 12.5.0
@@ -41,7 +41,7 @@ This version has the following contents:
 
 - [OS Release 24.04.3](https://discourse.ubuntu.com/t/ubuntu-24-04-3-lts-released/65764)
 - Kernel 6.8.0-88-generic
-- Hyper-V Kernel 6.14.0-1017-azure
+- Hyper-V Kernel 6.14.0-1014-azure
 - QEMU qemu-guest-agent 8.2.2
 - VirtualBox [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
 - VMware open-vm-tools 12.5.0
