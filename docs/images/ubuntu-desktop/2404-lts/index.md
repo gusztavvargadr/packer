@@ -20,7 +20,7 @@ This box has the following contents:
 
 #### 2601.0.0
 
-[Downloads][BoxVersion26100]
+[Downloads][BoxVersion260100]
 
 This version has the following contents:
 
