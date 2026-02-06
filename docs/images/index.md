@@ -15,3 +15,4 @@ The following images are available:
 - [Xubuntu Desktop]({{ site.baseurl }}{% link images/xubuntu-desktop/index.md %})
 
 - [Docker]({{ site.baseurl }}{% link images/docker/index.md %})
+- [IIS]({{ site.baseurl }}{% link images/iis/index.md %})
