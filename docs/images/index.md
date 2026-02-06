@@ -16,3 +16,4 @@ The following images are available:
 
 - [Docker]({{ site.baseurl }}{% link images/docker/index.md %})
 - [IIS]({{ site.baseurl }}{% link images/iis/index.md %})
+- [Kitchen]({{ site.baseurl }}{% link images/kitchen/index.md %})
