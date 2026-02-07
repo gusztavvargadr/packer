@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Docker on Windows Latest
+title: Docker on Windows
 ---
 
 ### In the box

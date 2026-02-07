@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Docker
+title: Visual Studio
 ---
 
 The following images are available:

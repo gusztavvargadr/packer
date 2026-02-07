@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Windows Server Latest Core
+title: Windows Server Core
 ---
 
 ### In the box

@@ -15,8 +15,8 @@ The following images are available:
 - [Xubuntu Desktop]({{ site.baseurl }}{% link images/xubuntu-desktop/index.md %})
 
 - [Docker]({{ site.baseurl }}{% link images/docker/index.md %})
-- [IIS]({{ site.baseurl }}{% link images/iis/index.md %})
 - [Kitchen]({{ site.baseurl }}{% link images/kitchen/index.md %})
+- [IIS]({{ site.baseurl }}{% link images/iis/index.md %})
 
-- [Visual Studio]({{ site.baseurl }}{% link images/visual-studio/index.md %})
 - [Development]({{ site.baseurl }}{% link images/development/index.md %})
+- [Visual Studio]({{ site.baseurl }}{% link images/visual-studio/index.md %})
