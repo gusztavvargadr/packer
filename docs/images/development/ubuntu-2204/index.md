@@ -12,10 +12,10 @@ This box has the following contents:
 - Git
 - Docker Engine
 - .NET SDK
-- Ubuntu Server 22.04 LTS
+- Ubuntu Desktop 22.04 LTS
 - OpenSSH Server
 - User `vagrant` with password `vagrant` and Vagrant's default SSH key
-- 2 CPUs, 2 GB RAM
+- 4 CPUs, 8 GB RAM
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/development-ubuntu-2204
 

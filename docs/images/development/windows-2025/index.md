@@ -20,7 +20,7 @@ This box has the following contents:
 - UAC disabled
 - Generalized with Sysprep
 - User `vagrant` with password `vagrant` and Vagrant's default SSH key
-- 2 CPUs, 2 GB RAM
+- 4 CPUs, 8 GB RAM
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/development-windows-2025
 

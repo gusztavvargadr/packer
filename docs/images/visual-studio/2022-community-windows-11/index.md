@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Development on Windows 2022
+title: Visual Studio 2022 Community on Windows 11
 ---
 
 ### In the box
@@ -9,10 +9,8 @@ title: Development on Windows 2022
 
 This box has the following contents:
 
-- Git
-- Docker Engine
-- .NET SDK
-- Windows Server 2022 Standard
+- Visual Studio 2022 Community
+- Windows 11 Version 25H2 Enterprise
 - OpenSSH Server and WinRM
 - Windows Updates disabled
 - Maintenance tasks disabled
@@ -22,7 +20,7 @@ This box has the following contents:
 - User `vagrant` with password `vagrant` and Vagrant's default SSH key
 - 4 CPUs, 8 GB RAM
 
-[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/development-windows-2022
+[BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/visual-studio-2022-community-windows-11
 
 ### Versions
 
@@ -32,15 +30,13 @@ This box has the following contents:
 
 This version has the following contents:
 
-- [Docker Engine 29.2.0](https://docs.docker.com/engine/release-notes/29/#2920)
-- .NET SDK 10.0.2, 9.0.12, 8.0.23
-- [Chef Infra Client 18.8.11](https://docs.chef.io/release_notes/client/#chef-infra-client-18811)
-- [OS Build 20348.4648](https://support.microsoft.com/en-us/topic/january-13-2026-kb5073457-os-build-20348-4648-d4d057c8-29c3-48a5-8d98-ce86b77ee570)
+- [Visual Studio 2022 Community 17.14.25](https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-notes-v17.14#17.14.25)
+- [OS Build 26200.7623](https://support.microsoft.com/en-us/topic/january-13-2026-kb5074109-os-builds-26200-7623-and-26100-7623-3ec427dd-6fc4-4c32-a471-83504dd081cb)
 - QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
 - VirtualBox [VirtualBox Guest Additions 7.2.6](https://www.virtualbox.org/wiki/Changelog-7.2#v6)
 - VMware [VMware Tools 13.0.10](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-13010-release-notes.html)
 
-[BoxVersion260100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/development-windows-2022/versions/2601.0.0
+[BoxVersion260100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/visual-studio-2022-community-windows-11/versions/2601.0.0
 
 #### 2511.0.0
 
@@ -48,11 +44,10 @@ This version has the following contents:
 
 This version has the following contents:
 
-- [Docker Engine 29.1.1](https://docs.docker.com/engine/release-notes/29/#2911)
-- .NET SDK 9.0.11, 8.0.22
-- [OS Build 20348.4405](https://support.microsoft.com/en-us/topic/november-11-2025-kb5068787-os-build-20348-4405-fd671161-51cb-4756-8d25-a3fe4702da31)
+- [Visual Studio 2022 Community 17.14.21](https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-notes-v17.14#17.14.21)
+- [OS Build 26200.7171](https://support.microsoft.com/en-us/topic/november-11-2025-kb5068861-os-builds-26200-7171-and-26100-7171-2e0512e4-3ad4-4da6-958c-a468a1af949e)
 - QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
 - VirtualBox [VirtualBox Guest Additions 7.2.4](https://www.virtualbox.org/wiki/Changelog-7.2#v4)
 - VMware [VMware Tools 13.0.1](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/tools/13-0-0/release-notes/vmware-tools-1301-release-notes.html)
 
-[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/development-windows-2022/versions/2511.0.0
+[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/visual-studio-2022-community-windows-11/versions/2511.0.0

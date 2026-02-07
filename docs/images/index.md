@@ -18,4 +18,5 @@ The following images are available:
 - [IIS]({{ site.baseurl }}{% link images/iis/index.md %})
 - [Kitchen]({{ site.baseurl }}{% link images/kitchen/index.md %})
 
+- [Visual Studio]({{ site.baseurl }}{% link images/visual-studio/index.md %})
 - [Development]({{ site.baseurl }}{% link images/development/index.md %})
