@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Test Kitchen target for Windows 2025
+title: Kitchen on Windows 2025
 ---
 
 ### In the box

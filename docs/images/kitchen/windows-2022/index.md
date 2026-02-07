@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Test Kitchen target for Windows 2022
+title: Kitchen on Windows 2022
 ---
 
 ### In the box

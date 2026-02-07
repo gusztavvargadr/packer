@@ -31,9 +31,7 @@ This box has the following contents:
 
 This version has the following contents:
 
-- .NET 10.0.2
-- .NET 9.0.12 
-- .NET 8.0.23
+- .NET 10.0.2, 9.0.12, 8.0.23
 - .NET Framework 4.8
 - [OS Build 20348.2113](https://support.microsoft.com/en-us/topic/november-14-2023-kb5032198-os-build-20348-2113-e3411fed-057d-402a-86fd-814124e5f26d)
 - QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
@@ -48,9 +46,7 @@ This version has the following contents:
 
 This version has the following contents:
 
-- .NET 10.0.0
-- .NET 9.0.11 
-- .NET 8.0.22
+- .NET 10.0.0, 9.0.11, 8.0.22
 - .NET Framework 4.8
 - [OS Build 20348.2113](https://support.microsoft.com/en-us/topic/november-14-2023-kb5032198-os-build-20348-2113-e3411fed-057d-402a-86fd-814124e5f26d)
 - QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)

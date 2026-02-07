@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Test Kitchen targets
+title: Kitchen
 ---
 
 The following images are available:

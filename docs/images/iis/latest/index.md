@@ -1,6 +1,6 @@
 ---
 layout: page
-title: IIS on Windows Latest
+title: IIS Latest
 ---
 
 ### In the box
