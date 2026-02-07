@@ -6,7 +6,7 @@ title: Windows Server
 The following images are available:
 
 - [Windows Server Latest]({{ site.baseurl }}{% link images/windows-server/latest/index.md %})
-- [Windows Server Latest Core]({{ site.baseurl }}{% link images/windows-server/latest-core/index.md %})
+- [Windows Server Core]({{ site.baseurl }}{% link images/windows-server/core/index.md %})
 
 - [Windows Server 2025 Standard]({{ site.baseurl }}{% link images/windows-server/2025-standard/index.md %})
 - [Windows Server 2025 Standard Core]({{ site.baseurl }}{% link images/windows-server/2025-standard-core/index.md %})

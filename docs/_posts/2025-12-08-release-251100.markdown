@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Release 2511.0.0"
+date: 2025-12-08 15:34:00 +0100
+categories: release
+---
+
+[Release](https://github.com/gusztavvargadr/packer/releases/tag/2511.0.0)
+
+## Overview
+
+- Update for 2511
+- Add QEMU / libvirt provider for Windows boxes
+
+## Resources
+
+- [Vagrant boxes](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr)
+- [Issues](https://github.com/gusztavvargadr/packer/issues?q=is%3Aissue+milestone%3A2511.0.0+is%3Aclosed)
+- [Pull requests](https://github.com/gusztavvargadr/packer/issues?q=is%3Apr+milestone%3A2511.0.0+is%3Aclosed)
+- [Milestone](https://github.com/gusztavvargadr/packer/milestone/65?closed=1)

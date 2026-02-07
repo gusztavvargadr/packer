@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Docker on Ubuntu Latest
+title: Docker on Ubuntu
 ---
 
 ### In the box

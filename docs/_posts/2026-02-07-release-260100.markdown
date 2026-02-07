@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Release 2601.0.0"
+date: 2026-02-07 20:11:00 +0100
+categories: release
+---
+
+[Release](https://github.com/gusztavvargadr/packer/releases/tag/2601.0.0)
+
+### Overview
+
+- Update for 2601
