@@ -1,7 +1,7 @@
 images = {
   "windows-server" = {
     core = {
-      image_description = "IIS on Windows Server"
+      image_description = "IIS on Windows 2022"
     }
 
     native = {
@@ -16,7 +16,7 @@ images = {
 
   "windows-server-core" = {
     core = {
-      image_description = "IIS on Windows Server Core"
+      image_description = "IIS on Windows 2022 Core"
     }
 
     native = {
