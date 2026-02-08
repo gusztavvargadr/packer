@@ -1,9 +1,0 @@
-trigger: none
-pr: none
-
-stages:
-  - template: ../../stages.yml
-    parameters:
-      sample: windows-10
-      image: 22h2-enterprise
-      provider: virtualbox

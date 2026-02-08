@@ -1,12 +1,19 @@
 ---
 layout: post
 title: "Release 2601.0.0"
-date: 2026-02-07 20:11:00 +0100
+date: 2026-02-07 12:00:00 +0100
 categories: release
 ---
 
-[Release](https://github.com/gusztavvargadr/packer/releases/tag/2601.0.0)
-
-### Overview
+## Overview
 
 - Update for 2601
+- Move docs to GitHub Pages
+
+## Resources
+
+- [Vagrant boxes](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr)
+- [Issues](https://github.com/gusztavvargadr/packer/issues?q=is%3Aissue+milestone%3A2601.0.0+is%3Aclosed)
+- [Pull requests](https://github.com/gusztavvargadr/packer/issues?q=is%3Apr+milestone%3A2601.0.0+is%3Aclosed)
+- [Milestone](https://github.com/gusztavvargadr/packer/milestone/67?closed=1)
+- [Release](https://github.com/gusztavvargadr/packer/releases/tag/2601.0.0)
