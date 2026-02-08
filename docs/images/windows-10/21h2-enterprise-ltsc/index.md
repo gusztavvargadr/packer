@@ -5,6 +5,8 @@ title: Windows 10 Version 21H2 Enterprise LTSC
 
 ### In the box
 
+**This box has been deprecated and is no longer being maintained.**
+
 [Downloads][BoxOverview]
 
 This box has the following contents:
@@ -22,6 +24,8 @@ This box has the following contents:
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-10-21h2-enterprise-ltsc
 
 ### Versions
+
+**This box has been deprecated and is no longer being maintained.**
 
 #### 2509.0.0
 
