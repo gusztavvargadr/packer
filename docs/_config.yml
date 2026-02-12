@@ -7,8 +7,7 @@
 title: Packer
 author: gusztavvargadr
 description: Windows and Ubuntu virtual machine images and Vagrant boxes
-baseurl: "/packer"
-url: "https://gusztavvargadr.github.io"
+url: "https://packer.gusztavvargadr.me"
 github_username: gusztavvargadr
 linkedin_username: gusztavvargadr
 google_analytics: G-3KLTVPL8HC
