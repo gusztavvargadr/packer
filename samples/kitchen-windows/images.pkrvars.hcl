@@ -1,7 +1,7 @@
 images = {
   "2025" = {
     core = {
-      image_description = "Test Kitchen target for windows-2025"
+      image_description = "Kitchen on Windows 2025"
     }
 
     native = {
@@ -12,7 +12,7 @@ images = {
 
   "2022" = {
     core = {
-      image_description = "Test Kitchen target for windows-2022"
+      image_description = "Kitchen on Windows 2022"
     }
 
     native = {

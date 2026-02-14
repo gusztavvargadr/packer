@@ -1,7 +1,7 @@
 images = {
   "2404" = {
     core = {
-      image_description = "Test Kitchen target for ubuntu-2404"
+      image_description = "Kitchen on Ubuntu 24.04"
     }
 
     native = {
@@ -29,7 +29,7 @@ images = {
 
   "2204" = {
     core = {
-      image_description = "Test Kitchen target for ubuntu-2204"
+      image_description = "Kitchen on Ubuntu 22.04"
     }
 
     native = {
