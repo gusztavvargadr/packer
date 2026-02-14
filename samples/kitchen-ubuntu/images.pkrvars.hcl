@@ -21,7 +21,6 @@ images = {
     }
 
     vagrant = {
-      box_alias = "kitchen-ubuntu"
       box_name     = "kitchen-ubuntu-2404"
       architecture = "arm64"
     }

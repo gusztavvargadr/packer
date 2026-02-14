@@ -26,7 +26,6 @@ images = {
     vagrant = {
       cpus         = "4"
       memory       = "8192"
-      box_alias    = "development-ubuntu"
       box_name     = "development-ubuntu-2404"
       architecture = "arm64"
     }

@@ -17,7 +17,6 @@ images = {
   "community-ubuntu-server-arm" = {
     core = {
       image_description = "Docker Community on Ubuntu Server"
-      image_version     = "2600.2404"
     }
 
     native = {
