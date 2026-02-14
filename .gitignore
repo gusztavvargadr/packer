@@ -3,3 +3,4 @@ packer_cache
 artifacts
 .vagrant
 .jekyll-metadata
+.DS_Store

@@ -12,6 +12,7 @@ locals {
   native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
+    vmware-arm = "vmware-iso.core-arm"
     hyperv     = "hyperv-iso.core"
     qemu       = "qemu.iso"
   }
@@ -19,6 +20,7 @@ locals {
   native_import_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
+    vmware-arm = "vmware-vmx.core"
     hyperv     = "hyperv-vmcx.core"
     qemu       = "qemu.import"
   }
