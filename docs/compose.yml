@@ -2,8 +2,8 @@ services:
   docs:
     build:
       context: ./
-      dockerfile: ./docs.Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
-      - ./docs:/opt/jekyll/site:Z
+      - ./:/opt/jekyll/site:Z
     ports:
       - "4000:4000"
