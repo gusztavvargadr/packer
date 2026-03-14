@@ -1,22 +1,18 @@
 images = {
   "2025" = {
     core = {
-      image_description = "Test Kitchen target for windows-2025"
+      image_description = "Kitchen on Windows 2025"
     }
 
     native = {
       source_image = "windows-server/2025-standard"
       chef_keep    = "true"
     }
-
-    vagrant = {
-      box_alias = "kitchen-windows"
-    }
   }
 
   "2022" = {
     core = {
-      image_description = "Test Kitchen target for windows-2022"
+      image_description = "Kitchen on Windows 2022"
     }
 
     native = {

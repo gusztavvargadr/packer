@@ -1,0 +1,9 @@
+services:
+  docs:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/opt/jekyll/site:Z
+    ports:
+      - "4000:4000"

@@ -1,7 +1,7 @@
 images = {
   "2404" = {
     core = {
-      image_description = "Development on ubuntu-2404"
+      image_description = "Development on Ubuntu 24.04"
     }
 
     native = {
@@ -11,13 +11,12 @@ images = {
     vagrant = {
       cpus      = "4"
       memory    = "8192"
-      box_alias = "development-ubuntu"
     }
   }
 
   "2204" = {
     core = {
-      image_description = "Development on ubuntu-2204"
+      image_description = "Development on Ubuntu 22.04"
     }
 
     native = {

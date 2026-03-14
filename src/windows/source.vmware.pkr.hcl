@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     vmware = {
-      version = "~> 1.1.0"
+      version = "~> 1.2.0"
       source  = "github.com/hashicorp/vmware"
     }
   }

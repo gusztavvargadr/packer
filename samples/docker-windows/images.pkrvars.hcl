@@ -1,8 +1,7 @@
 images = {
   "community-windows-server" = {
     core = {
-      image_description = "Docker Community on Windows Server"
-      image_version     = "2600.2402"
+      image_description = "Docker on Windows 2025"
     }
 
     native = {
@@ -17,8 +16,7 @@ images = {
 
   "community-windows-server-core" = {
     core = {
-      image_description = "Docker Community on Windows Server Core"
-      image_version     = "2600.2402"
+      image_description = "Docker on Windows 2025 Core"
     }
 
     native = {

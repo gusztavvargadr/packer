@@ -16,21 +16,4 @@ images = {
       box_alias = "visual-studio"
     }
   }
-
-  "2022-community-windows-10" = {
-    core = {
-      image_description = "Visual Studio 2022 Community on Windows 10"
-    }
-
-    native = {
-      source_image = "windows-10/22h2-enterprise"
-
-      chef_attributes = "2022-community"
-    }
-
-    vagrant = {
-      cpus   = "4"
-      memory = "8192"
-    }
-  }
 }

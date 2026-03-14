@@ -2,3 +2,4 @@
 packer_cache
 artifacts
 .vagrant
+.jekyll-metadata
