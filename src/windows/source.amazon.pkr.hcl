@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = "~> 1.3.9"
+      version = "~> 1.8"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -77,5 +77,6 @@ source "amazon-ebs" "core" {
 
   communicator = local.amazon_ebs_source_options.communicator.type
   ssh_username = local.amazon_ebs_source_options.communicator.username
+  ssh_password = local.amazon_ebs_source_options.communicator.password
   ssh_timeout  = local.amazon_ebs_source_options.communicator.timeout
 }

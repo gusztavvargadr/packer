@@ -58,4 +58,4 @@ if ($env:CHEF_KEEP -ne "true") {
 
 # sdelete -accepteula -nobanner -q -z C:
 
-& $env:programfiles\amazon\ec2launch\ec2launch.exe sysprep --shutdown=true
+& $env:programfiles\amazon\ec2launch\ec2launch.exe sysprep --clean

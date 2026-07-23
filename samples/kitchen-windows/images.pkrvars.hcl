@@ -8,6 +8,10 @@ images = {
       source_image = "windows-server/2025-standard"
       chef_keep    = "true"
     }
+
+    amazon = {
+      source_ami_name = "Windows_Server-2025-English-Full-Base-*"
+    }
   }
 
   "2022" = {
@@ -18,6 +22,10 @@ images = {
     native = {
       source_image = "windows-server/2022-standard"
       chef_keep    = "true"
+    }
+
+    amazon = {
+      source_ami_name = "Windows_Server-2022-English-Full-Base-*"
     }
   }
 }

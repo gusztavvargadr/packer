@@ -1,6 +1,6 @@
-# gusztavvargadr_windows_update '' do
-#   action :install
-# end
+gusztavvargadr_windows_update '' do
+  action :install
+end
 
 # chocolatey_package 'chocolatey' do
 #   action :upgrade
