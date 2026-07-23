@@ -14,9 +14,12 @@ locals {
     disk_adapter_type = "nvme"
     vmx_data = {
       firmware        = "efi"
-      "vhv.enable"    = "FALSE"
       "sata1.present" = "TRUE"
+      "svga.autodetect"   = true
+      "usb_xhci.present"  = true
+      "ethernet0.present" = true
     }
+    # vmx_remove_ethernet_interfaces = false
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
 }
@@ -41,6 +44,8 @@ source "vmware-iso" "core" {
   guest_os_type                  = local.vmware_iso_source_options.guest_os_type
   disk_type_id                   = local.vmware_iso_source_options.disk_type_id
   disk_adapter_type              = local.vmware_iso_source_options.disk_adapter_type
+  network = "nat"
+  network_adapter_type = "vmxnet3"
   vmx_data                       = local.vmware_iso_source_options.vmx_data
   vmx_remove_ethernet_interfaces = local.vmware_iso_source_options.vmx_remove_ethernet_interfaces
 

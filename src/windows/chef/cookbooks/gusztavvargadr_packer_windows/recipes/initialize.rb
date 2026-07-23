@@ -121,6 +121,11 @@ if vmware?
 
   unless vmware_version.include?('13.')
     vmware_tools_source = 'https://packages-prod.broadcom.com/tools/releases/13.0.10/x64/VMware-tools-13.0.10-25056151-x64.exe'
+    # vmware_tools_source = if node['kernel']['machine'] == 'x86_64'
+    #   'https://packages-prod.broadcom.com/tools/releases/13.0.10/x64/VMware-tools-13.0.10-25056151-x64.exe'
+    # else
+    #   'https://packages-prod.broadcom.com/tools/releases/13.0.10/arm/VMware-tools-13.0.10-25056151-arm.exe'
+    # end
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 
     remote_file vmware_tools_target do

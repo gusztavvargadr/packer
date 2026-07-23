@@ -16,4 +16,23 @@ images = {
       box_alias = "visual-studio"
     }
   }
+
+  "2022-community-windows-11-arm" = {
+    core = {
+      image_description = "Visual Studio 2022 Community on Windows 11"
+    }
+
+    native = {
+      source_image = "windows-11/24h2-enterprise-arm"
+
+      chef_attributes = "2022-community"
+    }
+
+    vagrant = {
+      cpus      = "4"
+      memory    = "8192"
+      box_alias = "visual-studio"
+      architecture = "arm64"
+    }
+  }
 }

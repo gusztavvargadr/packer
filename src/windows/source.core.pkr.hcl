@@ -3,7 +3,7 @@ locals {
 
   source_options_core = {
     vm_name          = "${replace(local.image_name, "/", "-")}-${local.timestamp}"
-    headless         = true
+    headless         = false
     output_directory = "${local.artifacts_directory}/image"
 
     cpus      = 4
@@ -18,7 +18,7 @@ locals {
     type     = "ssh"
     username = "Administrator"
     password = "Packer42-"
-    timeout  = "30m"
+    timeout  = "60m"
   }
 
   native_build  = local.image_build == "native"

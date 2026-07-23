@@ -52,6 +52,38 @@ images = {
     }
   }
 
+  "24h2-enterprise-arm" = {
+    core = {
+      image_description = "Windows 11 Version 24H2 Enterprise"
+    }
+
+    native = {
+      source_iso_url_local  = "Windows11_26100.4349_Enterprise_en-us_arm64.iso"
+      source_iso_url_remote = ""
+      source_iso_checksum   = "sha256:f6bad7b71dc8abd988aad5bac23d03ae575756c43a3a93d032fd9906884443cf"
+
+      # source_iso_url_local  = "Win11_24H2_English_Arm64.iso"
+      # source_iso_url_remote = ""
+      # source_iso_checksum   = "sha256:57d1dfb2c6690a99fe99226540333c6c97d3fd2b557a50dfe3d68c3f675ef2b0"
+
+      boot_setup_script = "setup.cmd"
+    }
+
+    vagrant = {
+      memory       = "4096"
+      box_name     = "windows-11-24h2-enterprise"
+      architecture = "arm64"
+    }
+
+    virtualbox = {
+      guest_os_type = "Windows11_64"
+    }
+
+    vmware = {
+      guest_os_type = "arm-windows11-64"
+    }
+  }
+
   "23h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 23H2 Enterprise"

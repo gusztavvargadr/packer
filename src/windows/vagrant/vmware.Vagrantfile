@@ -10,5 +10,8 @@ Vagrant.configure(2) do |config|
 %{ for port in compact(split(",", options.ports)) ~}
     override.vm.network :forwarded_port, guest: ${port}, host: ${50000 + port}, auto_correct: true
 %{ endfor ~}
+
+    provider.vmx["ethernet0.pcislotnumber"] = "160"
+    provider.vmx["ethernet0.virtualDev"] = "vmxnet3"
   end
 end

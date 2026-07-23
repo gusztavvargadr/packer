@@ -155,7 +155,7 @@ build {
       version              = local.image_version
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.vagrant_options.architecture
-      default_architecture = local.vagrant_options.architecture
+      default_architecture = "amd64"
       // no_release           = true
     }
   }
@@ -174,7 +174,7 @@ build {
         box_download_url     = "https://api.hashicorp.cloud/vagrant/2022-08-01/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
         box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
         architecture         = local.vagrant_options.architecture
-        default_architecture = local.vagrant_options.architecture
+        default_architecture = "amd64"
         // no_release           = true
       }
     }
