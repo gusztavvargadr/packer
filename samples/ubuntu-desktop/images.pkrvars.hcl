@@ -34,9 +34,9 @@ images = {
     }
 
     native = {
-      source_iso_url_local  = "ubuntu-24.04.3-desktop-arm64.iso"
-      source_iso_url_remote = "https://cdimage.ubuntu.com/releases/24.04/release/ubuntu-24.04.3-desktop-arm64.iso"
-      source_iso_checksum   = "sha256:cdbf0f83ab4f7d46be767e73c59b5cbca9743dd5fb887142c96f4b2df38fa5ad"
+      source_iso_url_local  = "ubuntu-24.04.4-desktop-arm64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/releases/24.04/release/ubuntu-24.04.4-desktop-arm64.iso"
+      source_iso_checksum   = "sha256:c2610520bf582976839a1724c669e1cfed0547427be5a0ad12d457b92b46ffbe"
 
       chef_attributes = "ubuntu"
     }
