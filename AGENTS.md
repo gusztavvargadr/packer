@@ -16,7 +16,7 @@ Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds req
 
 ## Coding Style & Naming Conventions
 
-Run `packer fmt` for HCL. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
+Run `packer fmt` for HCL. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Do not hard-wrap prose in Markdown files or GitHub issue and pull request content; keep each paragraph or list item on one source line and let the renderer wrap it. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
 
 ## Testing Guidelines
 
