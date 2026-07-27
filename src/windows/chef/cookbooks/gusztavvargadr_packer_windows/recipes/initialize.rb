@@ -117,9 +117,9 @@ if vbox?
 end
 
 if vmware?
-  vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
+  vmware_tools_path = "C:/Program Files/VMware/VMware Tools/vmtoolsd.exe"
 
-  unless vmware_version.include?('13.')
+  unless ::File.exist?(vmware_tools_path)
     vmware_tools_source = 'https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/arm/VMware-tools-13.1.0-25218885-arm.exe'
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 

@@ -2,6 +2,11 @@ Write-Host "Configure PowerShell"
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+Write-Host "Install Drivers"
+pushd E:
+pnputil /add-driver *.inf /install /subdirs
+popd
+
 Write-Host "Install Chocolatey"
 %{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.7.3")]) ~}
 $env:chocolateyVersion = '${chocolatey_version}'
@@ -10,9 +15,11 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest https://choc
 
 Write-Host "Install OpenSSH"
 netsh advfirewall firewall add rule name="OpenSSH-Install" dir=in localport=22 protocol=TCP action=block
-choco install openssh -y --version 8.0.0.1 -params '"/SSHServerFeature"' # /PathSpecsToProbeForShellEXEString:$env:windir\system32\windowspowershell\v1.0\powershell.exe"'
+$open_ssh_server = Get-WindowsCapability -Online | Where-Object Name -Like "OpenSSH.Server*"
+if ($open_ssh_server.State -ne "Installed") {
+  Add-WindowsCapability -Online -Name $open_ssh_server.Name
+}
 net stop sshd
-netsh advfirewall firewall delete rule name="OpenSSH-Install"
 
 Write-Host "Configure OpenSSH"
 net start sshd
@@ -21,6 +28,7 @@ netsh advfirewall firewall add rule name="OpenSSH-Packer" dir=in localport=22 pr
 $sshd_config = "$($env:ProgramData)\ssh\sshd_config"
 (Get-Content $sshd_config).Replace("Match Group administrators", "# Match Group administrators") | Set-Content $sshd_config
 (Get-Content $sshd_config).Replace("AuthorizedKeysFile", "# AuthorizedKeysFile") | Set-Content $sshd_config
+netsh advfirewall firewall delete rule name="OpenSSH-Install"
 
 Write-Host "Install WinRM"
 netsh advfirewall firewall add rule name="WinRM-Install" dir=in localport=5985 protocol=TCP action=block

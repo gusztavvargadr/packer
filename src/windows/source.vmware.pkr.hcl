@@ -39,6 +39,7 @@ source "vmware-iso" "core" {
   iso_urls     = local.vmware_iso_source_options.iso_urls
   iso_checksum = local.vmware_iso_source_options.iso_checksum
   cd_content   = local.vmware_iso_source_options.cd_content
+  cd_files     = ["${local.downloads_directory}/drivers"]
 
   version                        = local.vmware_iso_source_options.version
   guest_os_type                  = local.vmware_iso_source_options.guest_os_type
