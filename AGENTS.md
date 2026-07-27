@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-`src/windows/` and `src/ubuntu/` contain the shared Packer HCL templates, boot configuration, Chef cookbooks, and Vagrant definitions for each platform. `samples/<scenario>/` supplies a consumer-facing `Vagrantfile`, `Policyfile.rb`, and `images.pkrvars.hcl`; add image-specific options there rather than duplicating shared sources. Azure Pipelines definitions mirror those scenarios under `.azure-pipelines/`. Reusable Chef assets live in `lib/gusztavvargadr/chef/`, documentation and release posts in `docs/`, and generated boxes or images in the ignored `artifacts/` directory.
+`src/windows/` and `src/ubuntu/` contain the shared Packer HCL templates, boot configuration, Chef cookbooks, and Vagrant definitions for each guest operating system. `samples/<sample>/` supplies a consumer-facing `Vagrantfile`, `Policyfile.rb`, and `images.pkrvars.hcl`; add image-specific options there rather than duplicating shared sources. Azure Pipelines definitions mirror those samples under `.azure-pipelines/`. Reusable Chef assets live in `lib/gusztavvargadr/chef/`, documentation and release posts in `docs/`, and generated boxes or images in the ignored `artifacts/` directory.
 
 ## Build, Test, and Development Commands
 
@@ -16,11 +16,11 @@ Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds req
 
 ## Coding Style & Naming Conventions
 
-Run `packer fmt` for HCL. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated scenario and image directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
+Run `packer fmt` for HCL. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
 
 ## Testing Guidelines
 
-There is no standalone unit-test suite. Validation is performed by Packer’s `test` build stage for a complete configuration tuple. Test the smallest affected sample/provider combination locally, and rely on the corresponding Azure Pipeline matrix for provider coverage. Never commit `packer_cache`, `.vagrant`, or `artifacts`.
+There is no standalone unit-test suite or typechecking step. When a generic skill asks for typechecking, individual test files, or a full test suite, follow these repository-specific checks instead. For build changes, validation is performed by Packer’s `test` build stage for a complete configuration tuple; test the smallest affected sample/provider combination locally and rely on the corresponding Azure Pipeline matrix for provider coverage. For documentation-only changes, run the relevant format or syntax checks for the changed artifacts. Never commit `packer_cache`, `.vagrant`, or `artifacts`.
 
 ## Commit & Pull Request Guidelines
 
