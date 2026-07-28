@@ -7,7 +7,22 @@ packer {
   }
 }
 
+variable "box_artifact_destination" {
+  type        = string
+  description = "The rclone destination root for published Vagrant boxes."
+  default     = "r2:packer"
+}
+
+variable "box_artifact_origin" {
+  type        = string
+  description = "The public origin for published Vagrant boxes."
+  default     = "https://pub-8fcabe1edc344cb782c6dafddb0fe446.r2.dev"
+}
+
 locals {
+  box_artifact_destination = var.box_artifact_destination
+  box_artifact_origin      = var.box_artifact_origin
+
   vagrant_import_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
@@ -32,6 +47,10 @@ locals {
     hyperv     = "hyperv"
     qemu       = "libvirt"
   }
+
+  vagrant_box_name       = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
+  vagrant_box_provider   = lookup(local.vagrant_providers, local.image_provider, "")
+  vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.vagrant_options.architecture}/vagrant.box"
 }
 
 locals {
@@ -145,14 +164,21 @@ build {
 
   sources = ["null.core"]
 
+  provisioner "shell-local" {
+    inline = [
+      "rclone copyto \"${local.artifacts_directory}/vagrant/vagrant.box\" \"${local.box_artifact_destination}/${local.vagrant_box_object_key}\" --progress --checksum --immutable",
+    ]
+  }
+
   post-processors {
     post-processor "artifice" {
       files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
     }
 
     post-processor "vagrant-registry" {
-      box_tag              = "${local.image_author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
+      box_tag              = "${local.image_author}/${local.vagrant_box_name}"
       version              = local.image_version
+      box_download_url     = "${local.box_artifact_origin}/${local.vagrant_box_object_key}"
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.vagrant_options.architecture
       default_architecture = local.vagrant_options.architecture
@@ -171,7 +197,7 @@ build {
       post-processor "vagrant-registry" {
         box_tag              = "${local.image_author}/${post-processors.value}"
         version              = local.image_version
-        box_download_url     = "https://api.hashicorp.cloud/vagrant/2022-08-01/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
+        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
         box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
         architecture         = local.vagrant_options.architecture
         default_architecture = local.vagrant_options.architecture
