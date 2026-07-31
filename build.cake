@@ -78,18 +78,28 @@ void ReportHostAndProvider() {
     return;
   }
 
-  if (!IsRunningOnMacOs() || provider != "vmware") {
-    throw new Exception("Host and provider reporting requires VMware on macOS.");
+  if (!IsRunningOnMacOs()) {
+    throw new Exception("Host and provider reporting requires macOS.");
   }
 
   RunVersionCommand("sw_vers");
   RunVersionCommand("uname", "-m");
 
-  var vmwareVmx = "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx";
-  RunVersionCommand(vmwareVmx, "-v");
+  if (provider == "vmware") {
+    var vmwareVmx = "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx";
+    RunVersionCommand(vmwareVmx, "-v");
 
-  var vagrantVmwareUtility = "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility";
-  RunVersionCommand(vagrantVmwareUtility, "-version");
+    var vagrantVmwareUtility = "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility";
+    RunVersionCommand(vagrantVmwareUtility, "-version");
+    return;
+  }
+
+  if (provider == "virtualbox") {
+    RunVersionCommand("VBoxManage", "--version");
+    return;
+  }
+
+  throw new Exception($"Host and provider reporting does not support {provider}.");
 }
 
 void PackerPluginList() {

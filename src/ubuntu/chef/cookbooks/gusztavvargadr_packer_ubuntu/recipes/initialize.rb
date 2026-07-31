@@ -15,9 +15,10 @@ if vbox?
     action :install
   end
 
-  vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
+  host_virtualbox_version = ::File.read('/home/vagrant/.vbox_version').strip
+  guest_additions_version = (shell_out('VBoxControl -v').stdout rescue '').strip.split('r').first
 
-  unless vbox_version.include?('7.')
+  unless guest_additions_version == host_virtualbox_version
     bash 'guest-additions' do
       code <<-EOH
         VER="`cat /home/vagrant/.vbox_version`";

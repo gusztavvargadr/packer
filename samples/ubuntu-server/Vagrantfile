@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   config_vm_define config, "2404-lts", "ubuntu-server-2404-lts"
   config_vm_define config, "2404-lts-arm64", "ubuntu-server-2404-lts", "arm64"
   config_vm_define config, "2204-lts", "ubuntu-server-2204-lts"
+  config_vm_define config, "2204-lts-arm64", "ubuntu-server-2204-lts", "arm64"
 
   config_vm_define config, "2404-lts-alias", "ubuntu-server"
 
@@ -14,6 +15,19 @@ Vagrant.configure("2") do |config|
     lshw -short
     lscpu
     lsmem
+
+    if command -v VBoxControl >/dev/null; then
+      host_virtualbox_version="$(cat /home/vagrant/.vbox_version)"
+      guest_additions_version="$(VBoxControl --version | sed 's/r.*//')"
+
+      echo "Host VirtualBox: ${host_virtualbox_version}"
+      echo "VirtualBox Guest Additions: ${guest_additions_version}"
+      test "${guest_additions_version}" = "${host_virtualbox_version}"
+    fi
+
+    if command -v vmware-toolbox-cmd >/dev/null; then
+      vmware-toolbox-cmd -v
+    fi
 
     apt list --installed
   EOH

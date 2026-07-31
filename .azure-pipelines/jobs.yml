@@ -48,7 +48,7 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ eq(parameters.hostArchitecture, 'ARM64') }}
         displayName: Init
 
       - script: |
@@ -188,7 +188,7 @@ jobs:
           displayName: Initialize Vagrant
 
         - script: |
-            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ eq(parameters.hostArchitecture, 'ARM64') }}
           displayName: Init
 
         - script: |

@@ -1,0 +1,10 @@
+trigger: none
+pr: none
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: ubuntu-server
+      image: 2404-lts-arm64
+      provider: virtualbox
+      hostArchitecture: ARM64
