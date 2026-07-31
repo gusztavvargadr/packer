@@ -39,14 +39,6 @@ jobs:
           packer --version
         displayName: Initialize Packer
 
-      - ${{ if and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}:
-        - script: |
-            sw_vers
-            uname -m
-            "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx" -v
-            "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility" -version
-          displayName: Initialize host and provider
-
       - script: |
           vagrant --version
           vagrant plugin list
@@ -56,9 +48,7 @@ jobs:
         displayName: Initialize Vagrant
 
       - script: |
-          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
-
-          packer plugins installed
+          dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}
         displayName: Init
 
       - script: |
@@ -189,14 +179,6 @@ jobs:
             packer --version
           displayName: Initialize Packer
 
-        - ${{ if and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}:
-          - script: |
-              sw_vers
-              uname -m
-              "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx" -v
-              "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility" -version
-            displayName: Initialize host and provider
-
         - script: |
             vagrant --version
             vagrant plugin list
@@ -206,9 +188,7 @@ jobs:
           displayName: Initialize Vagrant
 
         - script: |
-            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
-
-            packer plugins installed
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}
           displayName: Init
 
         - script: |

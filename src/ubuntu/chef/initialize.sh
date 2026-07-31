@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-echo "Guest architecture: ${GUEST_ARCHITECTURE}"
-
 sudo cloud-init status --wait
 
 sudo apt-get update -y

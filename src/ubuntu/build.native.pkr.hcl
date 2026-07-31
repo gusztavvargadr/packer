@@ -75,10 +75,6 @@ build {
 
   provisioner "shell" {
     script = "${path.root}/chef/initialize.sh"
-
-    env = {
-      GUEST_ARCHITECTURE = local.image_architecture
-    }
   }
 
   provisioner "file" {

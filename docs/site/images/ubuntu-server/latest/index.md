@@ -7,8 +7,6 @@ title: Ubuntu Server Latest
 
 [Downloads][BoxOverview]
 
-This alias resolves to Ubuntu Server 24.04 LTS for both AMD64 and ARM64. ARM64 is currently available on VMware and must be selected explicitly; see [ARM64 Support]({{ site.baseurl }}{% link arm64.md %}).
-
 This box is an alias of [Ubuntu Server 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#in-the-box).
 
 [BoxOverview]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server
