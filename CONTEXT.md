@@ -14,9 +14,11 @@ target different guest operating systems.
 _Avoid_: scenario
 
 **Image variant**:
-A catalog choice within an image family that fulfills the family's intent for one
-guest operating system and a particular operating-system release, edition,
-desktop, or workload combination.
+A catalog choice within an image family that fulfills the family's intent for one guest operating system, guest architecture, and a particular operating-system release, edition, desktop, or workload combination.
+
+**Guest architecture**:
+The processor architecture targeted by an image variant, such as AMD64 or ARM64.
+_Avoid_: host architecture, platform
 
 **Guest operating system**:
 The operating system targeted by an image variant, such as Windows or Ubuntu.
