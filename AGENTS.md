@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-`src/windows/` and `src/ubuntu/` contain the shared Packer HCL templates, boot configuration, Chef cookbooks, and Vagrant definitions for each guest operating system. `samples/<sample>/` supplies a consumer-facing `Vagrantfile`, `Policyfile.rb`, and `images.pkrvars.hcl`; add image-specific options there rather than duplicating shared sources. Azure Pipelines definitions mirror those samples under `.azure-pipelines/`. Reusable Chef assets live in `lib/gusztavvargadr/chef/`, documentation and release posts in `docs/`, and generated boxes or images in the ignored `artifacts/` directory.
+`src/windows/` and `src/ubuntu/` contain the shared Packer HCL templates, boot configuration, Chef cookbooks, and Vagrant definitions for each guest operating system. `samples/<sample>/` supplies a consumer-facing `Vagrantfile`, `Policyfile.rb`, and `images.pkrvars.hcl`; add image-specific options there rather than duplicating shared sources. Azure Pipelines definitions mirror those samples under `.azure-pipelines/`. Reusable Chef assets live in `lib/gusztavvargadr/chef/`. Repository guidance and architectural decisions live directly under `docs/`, while the public Jekyll site and release posts live under `docs/site/`. Generated boxes or images belong in the ignored `artifacts/` directory.
 
 ## Build, Test, and Development Commands
 
@@ -13,6 +13,8 @@
 - `dotnet cake --configuration <...> --target clean` removes generated artifacts.
 
 Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds require the matching local virtualization stack and can take over two hours.
+
+When a container command cannot reach the local Docker daemon from the sandbox, retry that same command outside the sandbox before installing or compiling alternative tooling.
 
 ## Coding Style & Naming Conventions
 
