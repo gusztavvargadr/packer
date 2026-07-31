@@ -166,7 +166,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "rclone copyto \"${local.artifacts_directory}/vagrant/vagrant.box\" \"${local.box_artifact_destination}/${local.vagrant_box_object_key}\" --progress --checksum --immutable",
+      "rclone copyto \"${local.artifacts_directory}/vagrant/vagrant.box\" \"${local.box_artifact_destination}/${local.vagrant_box_object_key}\" --verbose --checksum --immutable",
     ]
   }
 
