@@ -2,6 +2,7 @@ parameters:
   sample: ''
   image: ''
   provider: ''
+  hostArchitecture: ''
   build: ''
 
 jobs:
@@ -12,6 +13,9 @@ jobs:
       name: default
       demands:
         - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+        - ${{ if ne(parameters.hostArchitecture, '') }}:
+          - Agent.OS -equals Darwin
+          - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
 
     workspace:
       clean: all
@@ -35,6 +39,14 @@ jobs:
           packer --version
         displayName: Initialize Packer
 
+      - ${{ if and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}:
+        - script: |
+            sw_vers
+            uname -m
+            "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx" -v
+            "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility" -version
+          displayName: Initialize host and provider
+
       - script: |
           vagrant --version
           vagrant plugin list
@@ -45,6 +57,8 @@ jobs:
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
+
+          packer plugins installed
         displayName: Init
 
       - script: |
@@ -154,6 +168,9 @@ jobs:
         name: default
         demands:
           - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+          - ${{ if ne(parameters.hostArchitecture, '') }}:
+            - Agent.OS -equals Darwin
+            - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
 
       workspace:
         clean: all
@@ -172,6 +189,14 @@ jobs:
             packer --version
           displayName: Initialize Packer
 
+        - ${{ if and(eq(parameters.hostArchitecture, 'ARM64'), eq(parameters.provider, 'vmware')) }}:
+          - script: |
+              sw_vers
+              uname -m
+              "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx" -v
+              "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility" -version
+            displayName: Initialize host and provider
+
         - script: |
             vagrant --version
             vagrant plugin list
@@ -182,6 +207,8 @@ jobs:
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
+
+            packer plugins installed
           displayName: Init
 
         - script: |

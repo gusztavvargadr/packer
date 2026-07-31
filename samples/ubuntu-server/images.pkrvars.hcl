@@ -23,6 +23,33 @@ images = {
     }
   }
 
+  "2404-lts-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Ubuntu Server 24.04 LTS ARM64"
+    }
+
+    native = {
+      source_iso_url_local  = "ubuntu-24.04.4-live-server-arm64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/ubuntu/releases/24.04/release/ubuntu-24.04.4-live-server-arm64.iso"
+      source_iso_checksum   = "sha256:9a6ce6d7e66c8abed24d24944570a495caca80b3b0007df02818e13829f27f32"
+    }
+
+    vagrant = {
+      box_alias = "ubuntu-server"
+      box_name  = "ubuntu-server-2404-lts"
+    }
+
+    vmware = {
+      cdrom_adapter_type   = "sata"
+      disk_adapter_type    = "sata"
+      guest_os_type        = "arm-ubuntu-64"
+      network_adapter_type = "e1000e"
+      vmx_svga_autodetect  = "TRUE"
+      vmx_usb_xhci_present = "TRUE"
+    }
+  }
+
   "2204-lts" = {
     core = {
       image_description = "Ubuntu Server 22.04 LTS"

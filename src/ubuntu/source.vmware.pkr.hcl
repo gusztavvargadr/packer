@@ -13,15 +13,25 @@ locals {
     disk_type_id      = 0
     disk_adapter_type = "nvme"
     vmx_data = {
-      firmware        = "efi"
-      "vhv.enable"    = "FALSE"
+      firmware     = "efi"
+      "vhv.enable" = "FALSE"
     }
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
 }
 
 locals {
-  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_image_options = lookup(local.image_options, "vmware", {})
+  vmware_image_vmx_data = {
+    for key, value in {
+      "svga.autodetect"  = lookup(local.vmware_image_options, "vmx_svga_autodetect", "")
+      "usb_xhci.present" = lookup(local.vmware_image_options, "vmx_usb_xhci_present", "")
+    } : key => value if value != ""
+  }
+
+  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options, {
+    vmx_data = merge(local.vmware_source_options.vmx_data, local.vmware_image_vmx_data)
+  })
 }
 
 source "vmware-iso" "core" {
@@ -40,6 +50,8 @@ source "vmware-iso" "core" {
   guest_os_type                  = local.vmware_iso_source_options.guest_os_type
   disk_type_id                   = local.vmware_iso_source_options.disk_type_id
   disk_adapter_type              = local.vmware_iso_source_options.disk_adapter_type
+  cdrom_adapter_type             = try(local.vmware_iso_source_options.cdrom_adapter_type, null)
+  network_adapter_type           = try(local.vmware_iso_source_options.network_adapter_type, null)
   vmx_data                       = local.vmware_iso_source_options.vmx_data
   vmx_remove_ethernet_interfaces = local.vmware_iso_source_options.vmx_remove_ethernet_interfaces
 
@@ -48,14 +60,14 @@ source "vmware-iso" "core" {
   shutdown_command = local.vmware_iso_source_options.shutdown_command
   shutdown_timeout = local.vmware_iso_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }
 
 locals {
-  vmware_vmx_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_vmx_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options)
 }
 
 source "vmware-vmx" "core" {
@@ -72,8 +84,8 @@ source "vmware-vmx" "core" {
   shutdown_command = local.vmware_vmx_source_options.shutdown_command
   shutdown_timeout = local.vmware_vmx_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

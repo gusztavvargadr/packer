@@ -29,12 +29,13 @@ variable "build" {
 locals {
   image_options = var.images[var.image]
 
-  image_author      = var.author
-  image_name        = "${basename(path.cwd)}/${var.image}"
-  image_description = local.image_options.core.image_description
-  image_version     = var.version
-  image_provider    = var.provider
-  image_build       = var.build
+  image_author       = var.author
+  image_name         = "${basename(path.cwd)}/${var.image}"
+  image_description  = local.image_options.core.image_description
+  image_architecture = lookup(local.image_options.core, "architecture", "amd64")
+  image_version      = var.version
+  image_provider     = var.provider
+  image_build        = var.build
 
   artifacts_directory = "${path.cwd}/../../artifacts/${local.image_name}/${local.image_provider}/${var.build}"
 }

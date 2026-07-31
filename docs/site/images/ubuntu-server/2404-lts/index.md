@@ -7,6 +7,8 @@ title: Ubuntu Server 24.04 LTS
 
 [Downloads][BoxOverview]
 
+Available for AMD64 on Hyper-V, QEMU/libvirt, VirtualBox, and VMware, and for ARM64 on VMware. See [ARM64 Support]({{ site.baseurl }}{% link arm64.md %}) for host prerequisites and architecture selection.
+
 This box has the following contents:
 
 - Ubuntu Server 24.04 LTS

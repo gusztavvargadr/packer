@@ -50,18 +50,20 @@ locals {
 
   vagrant_box_name       = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
   vagrant_box_provider   = lookup(local.vagrant_providers, local.image_provider, "")
-  vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.vagrant_options.architecture}/vagrant.box"
+  vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.image_architecture}/vagrant.box"
 }
 
 locals {
   vagrant_options_core = {
-    cpus         = "2"
-    memory       = "2048"
-    ports        = "3389"
-    architecture = "amd64"
+    cpus   = "2"
+    memory = "2048"
+    ports  = "3389"
   }
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
+
+  vagrant_default_architecture       = lookup(local.vagrant_options, "default_architecture", "amd64")
+  vagrant_alias_default_architecture = lookup(local.vagrant_options, "alias_default_architecture", local.vagrant_default_architecture)
 }
 
 source "file" "Vagrantfile" {
@@ -180,8 +182,8 @@ build {
       version              = local.image_version
       box_download_url     = "${local.box_artifact_origin}/${local.vagrant_box_object_key}"
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-      architecture         = local.vagrant_options.architecture
-      default_architecture = local.vagrant_options.architecture
+      architecture         = local.image_architecture
+      default_architecture = local.vagrant_default_architecture
       // no_release           = true
     }
   }
@@ -197,10 +199,10 @@ build {
       post-processor "vagrant-registry" {
         box_tag              = "${local.image_author}/${post-processors.value}"
         version              = local.image_version
-        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
+        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.image_architecture}/vagrant.box"
         box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-        architecture         = local.vagrant_options.architecture
-        default_architecture = local.vagrant_options.architecture
+        architecture         = local.image_architecture
+        default_architecture = local.vagrant_alias_default_architecture
         // no_release           = true
       }
     }
