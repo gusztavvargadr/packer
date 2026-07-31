@@ -51,6 +51,16 @@ A versioned, provider-specific distribution package produced from a native image
 and consumable by Vagrant.
 _Avoid_: native image
 
+**Box artifact origin**:
+The durable public location from which consumers download a Vagrant box.
+
+**Vagrant registry entry**:
+The catalog metadata for a Vagrant box, including its release version, provider, architecture, checksum, and box artifact origin.
+
+**Alias box**:
+A Vagrant registry entry with a stable consumer-facing name whose box artifact origin references another registry entry for the same release version, provider, and architecture.
+_Avoid_: duplicate box
+
 **Build configuration**:
 The complete selection of an image family, image variant, provider, and image
 artifact type.
