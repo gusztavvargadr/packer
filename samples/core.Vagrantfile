@@ -4,6 +4,10 @@ Vagrant.configure("2") do |config|
     override.vm.network "private_network", bridge: hyperv_network_bridge
   end
 
+  config.vm.provider "vmware_desktop" do |provider|
+    provider.gui = true
+  end
+
   config.vm.synced_folder ".", "/vagrant", disabled: true
 end
 
