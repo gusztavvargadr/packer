@@ -1,3 +1,3 @@
 Get-AppxPackage -Name "*BingSearch*" | Remove-AppxPackage
 Get-AppxPackage -Name "*GameAssist*" | Remove-AppxPackage
-Get-AppxPackage -Name "*MicrosoftEdge*" | Remove-AppxPackage
+Get-AppxPackage -Name "*MicrosoftEdge*" | Where-Object { $_.Name -ne 'Microsoft.MicrosoftEdgeDevToolsClient' } | Remove-AppxPackage

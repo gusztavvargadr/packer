@@ -51,6 +51,7 @@ locals {
   vagrant_box_name       = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
   vagrant_box_provider   = lookup(local.vagrant_providers, local.image_provider, "")
   vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.image_architecture}/vagrant.box"
+  vagrant_test_box_name  = "${local.image_author}-test/${local.vagrant_box_name}"
 }
 
 locals {
@@ -140,12 +141,14 @@ build {
   provisioner "shell-local" {
     inline = [
       "vagrant destroy -f ${var.image}",
+      "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
@@ -157,19 +160,22 @@ build {
     max_retries = 1
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
   provisioner "shell-local" {
     inline = [
       "vagrant destroy -f ${var.image}",
+      "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 }

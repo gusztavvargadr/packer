@@ -18,11 +18,17 @@ locals {
     version           = 20
     disk_type_id      = 0
     disk_adapter_type = "nvme"
-    vmx_data = {
-      firmware        = "efi"
-      "vhv.enable"    = "FALSE"
-      "sata1.present" = "TRUE"
-    }
+    vmx_data = merge(
+      {
+        firmware        = "efi"
+        "vhv.enable"    = "FALSE"
+        "sata1.present" = "TRUE"
+      },
+      local.image_architecture == "arm64" ? {
+        # VMware ARM64 requires xHCI for Packer's VNC boot keystrokes to reach EFI.
+        "usb_xhci.present" = true
+      } : {},
+    )
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
 }

@@ -136,7 +136,7 @@ build {
   provisioner "powershell" {
     script       = "${path.root}/chef/apply.ps1"
     max_retries  = local.chef_max_retries
-    pause_before = "120s"
+    pause_before = "300s"
 
     env = local.native_chef_environment
 

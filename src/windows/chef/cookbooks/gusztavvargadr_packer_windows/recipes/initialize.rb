@@ -117,7 +117,8 @@ if vbox?
 end
 
 if vmware?
-  vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
+  vmware_tools_path = 'C:/Program Files/VMware/VMware Tools/vmtoolsd.exe'
+  vmware_version = (powershell_out("(Get-Item '#{vmware_tools_path}').VersionInfo.FileVersion").stdout rescue '').strip
   configured_vmware_tools_version = ENV.fetch('VMWARE_TOOLS_VERSION', '')
   configured_vmware_tools_source = ENV.fetch('VMWARE_TOOLS_SOURCE', '')
 
