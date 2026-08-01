@@ -28,10 +28,11 @@ locals {
 }
 
 locals {
-  vmware_image_options = lookup(local.image_options, "vmware", {})
+  vmware_fusion_application_path = var.vmware_fusion_application_path
+  vmware_image_options           = lookup(local.image_options, "vmware", {})
 
   vmware_boot_drivers_enabled   = local.native_build && local.image_provider == "vmware" && lookup(local.vmware_image_options, "boot_driver_archive", "") != ""
-  vmware_boot_drivers_archive   = "${var.vmware_fusion_application_path}/${lookup(local.vmware_image_options, "boot_driver_archive", "")}"
+  vmware_boot_drivers_archive   = "${local.vmware_fusion_application_path}/${lookup(local.vmware_image_options, "boot_driver_archive", "")}"
   vmware_boot_drivers_directory = "${local.artifacts_directory}/boot-drivers"
   vmware_boot_driver_files      = local.vmware_boot_drivers_enabled ? ["${local.vmware_boot_drivers_directory}/*"] : []
 

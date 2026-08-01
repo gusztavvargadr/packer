@@ -84,6 +84,12 @@ locals {
   native_vmware_options       = lookup(local.image_options, "vmware", {})
   native_vmware_tools_source  = lookup(local.native_vmware_options, "tools_source", "")
   native_vmware_tools_version = lookup(local.native_vmware_options, "tools_version", "")
+
+  native_chef_environment = {
+    CHEF_ATTRIBUTES      = local.chef_attributes
+    VMWARE_TOOLS_SOURCE  = local.native_vmware_tools_source
+    VMWARE_TOOLS_VERSION = local.native_vmware_tools_version
+  }
 }
 
 build {
@@ -113,11 +119,7 @@ build {
     script           = "${path.root}/chef/apply.ps1"
     valid_exit_codes = [0, 35]
 
-    env = {
-      CHEF_ATTRIBUTES      = local.chef_attributes
-      VMWARE_TOOLS_SOURCE  = local.native_vmware_tools_source
-      VMWARE_TOOLS_VERSION = local.native_vmware_tools_version
-    }
+    env = local.native_chef_environment
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password
@@ -136,11 +138,7 @@ build {
     max_retries  = local.chef_max_retries
     pause_before = "120s"
 
-    env = {
-      CHEF_ATTRIBUTES      = local.chef_attributes
-      VMWARE_TOOLS_SOURCE  = local.native_vmware_tools_source
-      VMWARE_TOOLS_VERSION = local.native_vmware_tools_version
-    }
+    env = local.native_chef_environment
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password
