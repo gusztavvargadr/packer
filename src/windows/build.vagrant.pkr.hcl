@@ -67,14 +67,22 @@ locals {
 }
 
 source "file" "Vagrantfile" {
-  content = templatefile("${path.root}/vagrant/${local.image_provider}.Vagrantfile", { options = local.vagrant_options })
-  target  = "${local.artifacts_directory}/Vagrantfile"
+  content = templatefile("${path.root}/vagrant/${local.image_provider}.Vagrantfile", {
+    options          = local.vagrant_options
+    provider_options = lookup(local.image_options, local.image_provider, {})
+  })
+  target = "${local.artifacts_directory}/Vagrantfile"
+}
+
+source "file" "Autounattend" {
+  content = templatefile("${path.root}/vagrant/Autounattend.xml", { architecture = local.image_architecture })
+  target  = "${local.artifacts_directory}/Autounattend.xml"
 }
 
 build {
   name = "vagrant-restore"
 
-  sources = ["file.Vagrantfile"]
+  sources = ["file.Vagrantfile", "file.Autounattend"]
 }
 
 locals {
@@ -93,6 +101,11 @@ build {
   provisioner "file" {
     source      = "${path.root}/vagrant/"
     destination = local.packer_destination
+  }
+
+  provisioner "file" {
+    source      = "${local.artifacts_directory}/Autounattend.xml"
+    destination = "${local.packer_destination}/Autounattend.xml"
   }
 
   provisioner "powershell" {

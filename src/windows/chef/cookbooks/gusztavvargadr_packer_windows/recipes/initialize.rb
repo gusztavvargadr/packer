@@ -118,9 +118,17 @@ end
 
 if vmware?
   vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
+  configured_vmware_tools_version = ENV.fetch('VMWARE_TOOLS_VERSION', '')
+  configured_vmware_tools_source = ENV.fetch('VMWARE_TOOLS_SOURCE', '')
 
-  unless vmware_version.include?('13.')
-    vmware_tools_source = 'https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/x64/VMware-tools-13.1.0-25218885-x64.exe'
+  vmware_tools_version_matches = if configured_vmware_tools_version.empty?
+    vmware_version.include?('13.')
+  else
+    vmware_version[/\A\d+\.\d+\.\d+/] == configured_vmware_tools_version
+  end
+
+  unless vmware_tools_version_matches
+    vmware_tools_source = configured_vmware_tools_source.empty? ? 'https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/x64/VMware-tools-13.1.0-25218885-x64.exe' : configured_vmware_tools_source
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 
     remote_file vmware_tools_target do
