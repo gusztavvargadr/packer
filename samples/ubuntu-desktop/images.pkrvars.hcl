@@ -55,6 +55,26 @@ images = {
     }
   }
 
+  "2404-lts-xubuntu-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Xubuntu Desktop 24.04 LTS ARM64"
+    }
+
+    native = {
+      source_image = "ubuntu-server/2404-lts-arm64"
+
+      chef_attributes = "xubuntu"
+    }
+
+    vagrant = {
+      memory    = "4096"
+      ports     = "3389"
+      box_name  = "xubuntu-desktop-2404-lts"
+      box_alias = "xubuntu-desktop"
+    }
+  }
+
   "2204-lts-ubuntu" = {
     core = {
       image_description = "Ubuntu Desktop 22.04 LTS"
@@ -67,9 +87,9 @@ images = {
     }
 
     vagrant = {
-      memory    = "4096"
-      ports     = "3389"
-      box_name  = "ubuntu-desktop-2204-lts"
+      memory   = "4096"
+      ports    = "3389"
+      box_name = "ubuntu-desktop-2204-lts"
     }
   }
 
@@ -80,6 +100,25 @@ images = {
 
     native = {
       source_image = "ubuntu-server/2204-lts"
+
+      chef_attributes = "xubuntu"
+    }
+
+    vagrant = {
+      memory   = "4096"
+      ports    = "3389"
+      box_name = "xubuntu-desktop-2204-lts"
+    }
+  }
+
+  "2204-lts-xubuntu-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Xubuntu Desktop 22.04 LTS ARM64"
+    }
+
+    native = {
+      source_image = "ubuntu-server/2204-lts-arm64"
 
       chef_attributes = "xubuntu"
     }

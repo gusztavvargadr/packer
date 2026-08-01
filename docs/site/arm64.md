@@ -12,6 +12,8 @@ ARM64 images are native Apple-silicon guest images. They use the same canonical 
 | --- | --- | --- |
 | [Ubuntu Server 24.04 LTS]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}) | ARM64 | VirtualBox, VMware |
 | [Ubuntu Server 22.04 LTS]({{ site.baseurl }}{% link images/ubuntu-server/2204-lts/index.md %}) | ARM64 | VirtualBox, VMware |
+| [Xubuntu Desktop 24.04 LTS]({{ site.baseurl }}{% link images/xubuntu-desktop/2404-lts/index.md %}) | ARM64 | VirtualBox, VMware |
+| [Xubuntu Desktop 22.04 LTS]({{ site.baseurl }}{% link images/xubuntu-desktop/2204-lts/index.md %}) | ARM64 | VirtualBox, VMware |
 | Windows 11 Version 25H2 Professional | ARM64 | VMware |
 
 ### Prerequisites

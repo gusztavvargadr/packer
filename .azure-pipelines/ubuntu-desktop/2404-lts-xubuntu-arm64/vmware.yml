@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2404-lts-arm64.vmware
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: ubuntu-desktop
+      image: 2404-lts-xubuntu-arm64
+      provider: vmware
+      hostArchitecture: ARM64
