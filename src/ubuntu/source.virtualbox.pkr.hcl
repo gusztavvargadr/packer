@@ -29,6 +29,7 @@ locals {
 
 locals {
   virtualbox_iso_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_iso_arm64          = local.image_architecture == "arm64"
 }
 
 source "virtualbox-iso" "core" {
@@ -59,10 +60,16 @@ source "virtualbox-iso" "core" {
   usb                  = local.virtualbox_iso_source_options.usb
   usb_controller       = local.virtualbox_iso_source_options.usb_controller
 
-  boot_command     = local.virtualbox_iso_source_options.boot_command
-  boot_wait        = local.virtualbox_iso_source_options.boot_wait
-  shutdown_command = local.virtualbox_iso_source_options.shutdown_command
-  shutdown_timeout = local.virtualbox_iso_source_options.shutdown_timeout
+  # The plugin creates an unused IDE controller which VirtualBox cannot assign on ARM64.
+  vboxmanage = local.virtualbox_iso_arm64 ? [
+    ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"]
+  ] : []
+
+  boot_command           = local.virtualbox_iso_source_options.boot_command
+  boot_keygroup_interval = local.virtualbox_iso_arm64 ? "1s" : "100ms"
+  boot_wait              = local.virtualbox_iso_arm64 ? "10s" : local.virtualbox_iso_source_options.boot_wait
+  shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
+  shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
 
   communicator = local.communicator.type
   ssh_username = local.communicator.username

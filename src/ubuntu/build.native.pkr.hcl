@@ -23,8 +23,10 @@ locals {
     qemu       = "qemu.import"
   }
 
-  native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")
-  downloads_directory = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
+  native_iso = contains(keys(local.image_options.native), "source_iso_checksum")
+  # VirtualBox ARM64 can discard the first GRUB key group, so send a sacrificial group before each command.
+  boot_command_key_buffer = local.image_provider == "virtualbox" && local.image_architecture == "arm64" ? join("", [for index in range(32) : " "]) : ""
+  downloads_directory     = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
 
   source_options_native = {
     iso_urls = local.native_iso ? [
@@ -38,10 +40,10 @@ locals {
 
     boot_command = local.native_iso ? [
       "c<wait>",
-      "set gfxpayload=keep<enter><wait>",
-      "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.image_provider}/'<enter><wait>",
-      "initrd /casper/initrd<enter><wait>",
-      "boot<enter>wait>",
+      "${local.boot_command_key_buffer}set gfxpayload=keep<enter><wait>",
+      "${local.boot_command_key_buffer}linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.image_provider}/'<enter><wait>",
+      "${local.boot_command_key_buffer}initrd /casper/initrd<enter><wait>",
+      "${local.boot_command_key_buffer}boot<enter><wait>",
     ] : []
     shutdown_command = "sudo -S shutdown -P now"
   }
