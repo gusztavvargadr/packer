@@ -19,6 +19,8 @@ ARM64 images are native Apple-silicon guest images. They use the same canonical 
 | [Docker on Ubuntu 24.04]({{ site.baseurl }}{% link images/docker/ubuntu-2404/index.md %}) | ARM64 | VirtualBox, VMware |
 | [Kitchen on Ubuntu 24.04]({{ site.baseurl }}{% link images/kitchen/ubuntu-2404/index.md %}) | ARM64 | VirtualBox, VMware |
 | [Kitchen on Ubuntu 22.04]({{ site.baseurl }}{% link images/kitchen/ubuntu-2204/index.md %}) | ARM64 | VirtualBox, VMware |
+| [Development on Ubuntu 24.04]({{ site.baseurl }}{% link images/development/ubuntu-2404/index.md %}) | ARM64 | VirtualBox, VMware |
+| [Development on Ubuntu 22.04]({{ site.baseurl }}{% link images/development/ubuntu-2204/index.md %}) | ARM64 | VirtualBox, VMware |
 | Windows 11 Version 25H2 Professional | ARM64 | VMware |
 
 ### Ubuntu Desktop release components
