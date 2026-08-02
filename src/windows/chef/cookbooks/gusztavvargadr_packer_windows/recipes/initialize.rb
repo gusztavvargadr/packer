@@ -72,13 +72,15 @@ remote_file sdelete_executable_target do
   action :create
 end
 
-if vbox?
-  vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe" -v').stdout rescue '').strip
+configured_vbox_guest_additions_reconcile = ENV.fetch('VIRTUALBOX_GUEST_ADDITIONS_RECONCILE', 'false') == 'true'
 
-  unless vbox_version.include?('7.')
-    vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
+if vbox? || configured_vbox_guest_additions_reconcile
+  host_vbox_version = powershell_out('(Get-Content "$env:HOME/.vbox_version").Trim()').stdout.strip
+  guest_vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe" -v').stdout rescue '').strip.sub(/r.*\z/, '')
+
+  unless guest_vbox_version == host_vbox_version
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
-    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
+    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{host_vbox_version}/VBoxGuestAdditions_#{host_vbox_version}.iso"
 
     remote_file vbox_guest_additions_path do
       source vbox_guest_additions_source

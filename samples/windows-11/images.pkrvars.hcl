@@ -49,6 +49,19 @@ images = {
       alias_default_architecture = "amd64"
     }
 
+    virtualbox = {
+      audio_controller          = "none"
+      chipset                   = "armv8virtual"
+      guest_additions_reconcile = "true"
+      guest_os_type             = "Windows11_arm64"
+      iso_interface             = "sata"
+      keyboard                  = "usb"
+      mouse                     = "usbtablet"
+      nic_type                  = "usbnet"
+      usb                       = "true"
+      usb_controller            = "xhci"
+    }
+
     vmware = {
       boot_driver_archive           = "Contents/Library/isoimages/arm64/drivers-arm64.zip"
       boot_driver_drive             = "E:"
