@@ -9,7 +9,9 @@ if hyperv?
   end
 end
 
-if vbox?
+arm64_guest = node['kernel']['machine'] == 'aarch64'
+
+if vbox? && !arm64_guest
   kernel_version = shell_out('uname -r').stdout.strip
   apt_package [ 'build-essential', 'dkms', "linux-headers-#{kernel_version}" ] do
     action :install

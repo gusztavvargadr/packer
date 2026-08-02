@@ -28,7 +28,7 @@ ARM64 images are native Apple-silicon guest images. They use the same canonical 
 | Ubuntu Desktop 24.04 LTS | `ubuntu-24.04.4-desktop-arm64.iso` (`sha256:c2610520bf582976839a1724c669e1cfed0547427be5a0ad12d457b92b46ffbe`) |
 | Ubuntu Desktop 22.04 LTS | Matching-provider `ubuntu-server/2204-lts-arm64` native image, built from `ubuntu-22.04.5-live-server-arm64.iso` (`sha256:eafec62cfe760c30cac43f446463e628fada468c2de2f14e0e2bc27295187505`) |
 
-For both variants, VirtualBox Guest Additions must match the exact host VirtualBox version, while VMware uses Ubuntu's `open-vm-tools` and `open-vm-tools-desktop` packages. Each authoritative pipeline run records the exact host, provider, Packer, plugin, Vagrant, and guest-tool versions used for validation.
+VirtualBox Guest Additions are not installed on Ubuntu ARM64 images because [VirtualBox does not list Ubuntu among the supported ARM64 Guest Additions platforms](https://www.virtualbox.org/manual/topics/guestadditions.html). VMware uses Ubuntu's `open-vm-tools` and `open-vm-tools-desktop` packages. Each authoritative pipeline run records the exact host, provider, Packer, plugin, Vagrant, and guest-tool versions used for validation.
 
 ### Prerequisites
 

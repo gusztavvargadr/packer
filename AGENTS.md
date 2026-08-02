@@ -13,7 +13,7 @@
 - `dotnet cake --configuration <sample>/<image>/<provider>/<build>` runs the default `init`, `restore`, `build`, and `test` pipeline.
 - `dotnet cake --configuration <...> --target clean` removes generated artifacts.
 
-Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds require the matching local virtualization stack and can take over two hours.
+Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds require the matching local virtualization stack. Ubuntu native builds typically take about 10 minutes from an ISO and less when derived, while Ubuntu Vagrant builds usually take under 5 minutes. Windows native ISO builds usually take about an hour and can be faster when derived; Windows Vagrant builds usually take 5–10 minutes.
 
 When a container command cannot reach the local Docker daemon from the sandbox, retry that same command outside the sandbox before installing or compiling alternative tooling.
 

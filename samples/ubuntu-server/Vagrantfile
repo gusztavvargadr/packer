@@ -16,7 +16,9 @@ Vagrant.configure("2") do |config|
     lscpu
     lsmem
 
-    if command -v VBoxControl >/dev/null; then
+    if [ "$(uname -m)" = "aarch64" ] && [ -f /home/vagrant/.vbox_version ]; then
+      echo "VirtualBox Guest Additions are not supported on Ubuntu ARM64 guests."
+    elif command -v VBoxControl >/dev/null; then
       host_virtualbox_version="$(cat /home/vagrant/.vbox_version)"
       guest_additions_version="$(VBoxControl --version | sed 's/r.*//')"
 
