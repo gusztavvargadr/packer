@@ -2,13 +2,6 @@ require "open3"
 
 load "#{File.dirname(__FILE__)}/../core.Vagrantfile"
 
-host_virtualbox_version = begin
-  output, status = Open3.capture2e("VBoxManage", "--version")
-  status.success? ? output.strip.sub(/r.*$/, "") : ""
-rescue Errno::ENOENT
-  ""
-end
-
 Vagrant.configure("2") do |config|
   config_vm_define config, "25h2-enterprise", "windows-11-25h2-enterprise"
   config_vm_define config, '25h2-professional-arm64', 'windows-11-25h2-professional', 'arm64'
@@ -19,31 +12,41 @@ Vagrant.configure("2") do |config|
 
   config_vm_define config, "25h2-enterprise-alias", "windows-11"
 
+  config.vm.provider "virtualbox" do |_provider, override|
+    host_virtualbox_version = begin
+      output, status = Open3.capture2e("VBoxManage", "--version")
+      status.success? ? output.strip.sub(/r.*$/, "") : ""
+    rescue Errno::ENOENT
+      ""
+    end
+
+    override.vm.provision "shell", inline: <<-EOH
+      if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+        $vbox_control = "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe"
+        if (!(Test-Path $vbox_control)) {
+          throw "VirtualBox Guest Additions are not installed."
+        }
+
+        $host_virtualbox_version = "#{host_virtualbox_version}"
+        if ([string]::IsNullOrWhiteSpace($host_virtualbox_version)) {
+          throw "The host VirtualBox version is not available."
+        }
+
+        $guest_additions_version = ((& $vbox_control -v).Trim() -replace "r.*$", "")
+        Write-Host "Host VirtualBox: $host_virtualbox_version"
+        Write-Host "VirtualBox Guest Additions: $guest_additions_version"
+        if ($guest_additions_version -ne $host_virtualbox_version) {
+          throw "VirtualBox Guest Additions do not match the host VirtualBox version."
+        }
+      }
+    EOH
+  end
+
   config.vm.provision "shell", inline: <<-EOH
     cmd /c ver
 
     systeminfo
     Get-ComputerInfo
-
-    $virtualbox_guest = (Get-CimInstance Win32_ComputerSystem).Manufacturer -match "ORCL|Oracle|innotek|VirtualBox"
-    if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64" -and $virtualbox_guest) {
-      $vbox_control = "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe"
-      if (!(Test-Path $vbox_control)) {
-        throw "VirtualBox Guest Additions are not installed."
-      }
-
-      $host_virtualbox_version = "#{host_virtualbox_version}"
-      if ([string]::IsNullOrWhiteSpace($host_virtualbox_version)) {
-        throw "The host VirtualBox version is not available."
-      }
-
-      $guest_additions_version = ((& $vbox_control -v).Trim() -replace "r.*$", "")
-      Write-Host "Host VirtualBox: $host_virtualbox_version"
-      Write-Host "VirtualBox Guest Additions: $guest_additions_version"
-      if ($guest_additions_version -ne $host_virtualbox_version) {
-        throw "VirtualBox Guest Additions do not match the host VirtualBox version."
-      }
-    }
 
     $vmware_toolbox = "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe"
     if (Test-Path $vmware_toolbox) {

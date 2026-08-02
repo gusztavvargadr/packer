@@ -86,13 +86,13 @@ locals {
   native_vmware_tools_version = lookup(local.native_vmware_options, "tools_version", "")
 
   native_virtualbox_options                   = lookup(local.image_options, "virtualbox", {})
-  native_virtualbox_guest_additions_reconcile = lookup(local.native_virtualbox_options, "guest_additions_reconcile", "false")
+  native_virtualbox_guest_additions_reconcile = local.image_provider == "virtualbox" ? lookup(local.native_virtualbox_options, "guest_additions_reconcile", "false") : "false"
 
   native_chef_environment = {
-    CHEF_ATTRIBUTES                       = local.chef_attributes
+    CHEF_ATTRIBUTES                      = local.chef_attributes
     VIRTUALBOX_GUEST_ADDITIONS_RECONCILE = local.native_virtualbox_guest_additions_reconcile
-    VMWARE_TOOLS_SOURCE                   = local.native_vmware_tools_source
-    VMWARE_TOOLS_VERSION                  = local.native_vmware_tools_version
+    VMWARE_TOOLS_SOURCE                  = local.native_vmware_tools_source
+    VMWARE_TOOLS_VERSION                 = local.native_vmware_tools_version
   }
 }
 
