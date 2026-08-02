@@ -14,6 +14,19 @@ Vagrant.configure("2") do |config|
     lscpu
     lsmem
 
+    if [ "$(uname -m)" = "aarch64" ]; then
+      if [ -f /home/vagrant/.vbox_version ]; then
+        echo "VirtualBox Guest Additions are not supported on Ubuntu ARM64 guests."
+      else
+        if ! command -v vmware-toolbox-cmd >/dev/null; then
+          echo "VMware guest tools are not installed."
+          exit 1
+        fi
+
+        vmware-toolbox-cmd -v
+      fi
+    fi
+
     apt list --installed
 
     git --version
