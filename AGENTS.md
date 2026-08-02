@@ -8,6 +8,7 @@
 
 - `dotnet tool restore` installs the repository-pinned Cake 4.0 tool.
 - `packer fmt -check src` checks HCL formatting before review; use `packer fmt src` to apply it.
+- `docker compose --file docs/site/compose.yml up --build` builds and serves the public Jekyll site at `http://localhost:4000` for documentation verification.
 - `dotnet cake --configuration windows-11/25h2-enterprise/virtualbox/native --target init` initializes required Packer plugins.
 - `dotnet cake --configuration <sample>/<image>/<provider>/<build>` runs the default `init`, `restore`, `build`, and `test` pipeline.
 - `dotnet cake --configuration <...> --target clean` removes generated artifacts.
