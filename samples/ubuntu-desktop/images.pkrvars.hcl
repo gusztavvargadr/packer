@@ -28,6 +28,49 @@ images = {
     }
   }
 
+  "2404-lts-ubuntu-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Ubuntu Desktop 24.04 LTS ARM64"
+    }
+
+    native = {
+      source_iso_url_local  = "ubuntu-24.04.4-desktop-arm64.iso"
+      source_iso_url_remote = "https://cdimage.ubuntu.com/ubuntu/releases/24.04/release/ubuntu-24.04.4-desktop-arm64.iso"
+      source_iso_checksum   = "sha256:c2610520bf582976839a1724c669e1cfed0547427be5a0ad12d457b92b46ffbe"
+
+      chef_attributes = "ubuntu"
+    }
+
+    vagrant = {
+      memory    = "4096"
+      ports     = "3389"
+      box_name  = "ubuntu-desktop-2404-lts"
+      box_alias = "ubuntu-desktop"
+    }
+
+    virtualbox = {
+      audio_controller = "none"
+      chipset          = "armv8virtual"
+      gfx_controller   = "qemuramfb"
+      guest_os_type    = "Ubuntu24_LTS_arm64"
+      iso_interface    = "sata"
+      keyboard         = "usb"
+      mouse            = "usb"
+      usb              = "true"
+      usb_controller   = "xhci"
+    }
+
+    vmware = {
+      cdrom_adapter_type   = "sata"
+      disk_adapter_type    = "sata"
+      guest_os_type        = "arm-ubuntu-64"
+      network_adapter_type = "e1000e"
+      vmx_svga_autodetect  = "TRUE"
+      vmx_usb_xhci_present = "TRUE"
+    }
+  }
+
   "2404-lts-xubuntu" = {
     core = {
       image_description = "Xubuntu Desktop 24.04 LTS"
@@ -82,6 +125,25 @@ images = {
 
     native = {
       source_image = "ubuntu-server/2204-lts"
+
+      chef_attributes = "ubuntu"
+    }
+
+    vagrant = {
+      memory   = "4096"
+      ports    = "3389"
+      box_name = "ubuntu-desktop-2204-lts"
+    }
+  }
+
+  "2204-lts-ubuntu-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Ubuntu Desktop 22.04 LTS ARM64"
+    }
+
+    native = {
+      source_image = "ubuntu-server/2204-lts-arm64"
 
       chef_attributes = "ubuntu"
     }
