@@ -18,16 +18,10 @@ locals {
     version           = 20
     disk_type_id      = 0
     disk_adapter_type = "nvme"
-    vmx_data = merge(
-      {
-        firmware        = "efi"
-        "sata1.present" = "TRUE"
-      },
-      local.image_architecture == "arm64" ? {
-        # VMware ARM64 requires xHCI for Packer's VNC boot keystrokes to reach EFI.
-        "usb_xhci.present" = true
-      } : {},
-    )
+    vmx_data = {
+      firmware        = "efi"
+      "sata1.present" = "TRUE"
+    }
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
 }
@@ -35,13 +29,20 @@ locals {
 locals {
   vmware_fusion_application_path = var.vmware_fusion_application_path
   vmware_image_options           = lookup(local.image_options, "vmware", {})
+  vmware_image_vmx_data = {
+    for key, value in {
+      "usb_xhci.present" = lookup(local.vmware_image_options, "vmx_usb_xhci_present", "")
+    } : key => value if value != ""
+  }
 
   vmware_boot_drivers_enabled   = local.native_build && local.image_provider == "vmware" && lookup(local.vmware_image_options, "boot_driver_archive", "") != ""
   vmware_boot_drivers_archive   = "${local.vmware_fusion_application_path}/${lookup(local.vmware_image_options, "boot_driver_archive", "")}"
   vmware_boot_drivers_directory = "${local.artifacts_directory}/boot-drivers"
   vmware_boot_driver_files      = local.vmware_boot_drivers_enabled ? ["${local.vmware_boot_drivers_directory}/*"] : []
 
-  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options)
+  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options, {
+    vmx_data = merge(local.vmware_source_options.vmx_data, local.vmware_image_vmx_data)
+  })
 }
 
 source "vmware-iso" "core" {

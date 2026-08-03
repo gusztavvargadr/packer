@@ -28,8 +28,15 @@ locals {
 }
 
 locals {
-  virtualbox_iso_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
-  virtualbox_iso_arm64          = local.image_architecture == "arm64"
+  virtualbox_image_options = lookup(local.image_options, "virtualbox", {})
+
+  virtualbox_boot_command_key_buffer = lookup(local.virtualbox_image_options, "boot_command_key_buffer", "false") == "true" ? join("", [for index in range(32) : " "]) : ""
+  virtualbox_remove_ide_controller   = lookup(local.virtualbox_image_options, "remove_ide_controller", "false") == "true"
+
+  virtualbox_iso_source_options = merge(local.source_options_build, local.virtualbox_source_options, local.virtualbox_image_options)
+  virtualbox_iso_boot_command = [
+    for index, command in local.virtualbox_iso_source_options.boot_command : index == 0 ? command : "${local.virtualbox_boot_command_key_buffer}${command}"
+  ]
 }
 
 source "virtualbox-iso" "core" {
@@ -61,14 +68,14 @@ source "virtualbox-iso" "core" {
   usb                  = local.virtualbox_iso_source_options.usb
   usb_controller       = local.virtualbox_iso_source_options.usb_controller
 
-  # The plugin creates an unused IDE controller which VirtualBox cannot assign on ARM64.
-  vboxmanage = local.virtualbox_iso_arm64 ? [
+  # Remove the plugin-created IDE controller when the selected image cannot assign it.
+  vboxmanage = local.virtualbox_remove_ide_controller ? [
     ["storagectl", "{{.Name}}", "--name", "IDE", "--remove"]
   ] : []
 
-  boot_command           = local.virtualbox_iso_source_options.boot_command
-  boot_keygroup_interval = local.virtualbox_iso_arm64 ? "1s" : "100ms"
-  boot_wait              = local.virtualbox_iso_arm64 ? "10s" : local.virtualbox_iso_source_options.boot_wait
+  boot_command           = local.virtualbox_iso_boot_command
+  boot_keygroup_interval = lookup(local.virtualbox_image_options, "boot_keygroup_interval", "100ms")
+  boot_wait              = local.virtualbox_iso_source_options.boot_wait
   shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
 
@@ -79,7 +86,7 @@ source "virtualbox-iso" "core" {
 }
 
 locals {
-  virtualbox_ovf_source_options = merge(local.source_options_build, local.virtualbox_source_options, lookup(local.image_options, "virtualbox", {}))
+  virtualbox_ovf_source_options = merge(local.source_options_build, local.virtualbox_source_options, local.virtualbox_image_options)
 }
 
 source "virtualbox-ovf" "core" {

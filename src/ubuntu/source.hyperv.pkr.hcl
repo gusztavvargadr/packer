@@ -13,13 +13,17 @@ variable "hyperv_switch" {
 }
 
 locals {
+  hyperv_switch_input = var.hyperv_switch
+}
+
+locals {
   hyperv_source_options = {
     generation                       = 2
     configuration_version            = "10.0"
     enable_virtualization_extensions = false
     enable_dynamic_memory            = false
     enable_secure_boot               = false
-    switch_name                      = var.hyperv_switch
+    switch_name                      = local.hyperv_switch_input
     enable_mac_spoofing              = true
     disk_block_size                  = "1"
     guest_additions_mode             = "disable"

@@ -50,15 +50,19 @@ images = {
     }
 
     virtualbox = {
-      audio_controller = "none"
-      chipset          = "armv8virtual"
-      gfx_controller   = "qemuramfb"
-      guest_os_type    = "Ubuntu24_LTS_arm64"
-      iso_interface    = "sata"
-      keyboard         = "usb"
-      mouse            = "usb"
-      usb              = "true"
-      usb_controller   = "xhci"
+      audio_controller        = "none"
+      boot_command_key_buffer = "true"
+      boot_keygroup_interval  = "1s"
+      boot_wait               = "10s"
+      chipset                 = "armv8virtual"
+      gfx_controller          = "qemuramfb"
+      guest_os_type           = "Ubuntu24_LTS_arm64"
+      iso_interface           = "sata"
+      keyboard                = "usb"
+      mouse                   = "usb"
+      remove_ide_controller   = "true"
+      usb                     = "true"
+      usb_controller          = "xhci"
     }
 
     vmware = {

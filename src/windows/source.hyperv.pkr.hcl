@@ -13,6 +13,10 @@ variable "hyperv_switch" {
 }
 
 locals {
+  hyperv_switch_input = var.hyperv_switch
+}
+
+locals {
   hyperv_source_options = {
     generation                       = 2
     configuration_version            = "10.0"
@@ -20,7 +24,7 @@ locals {
     enable_dynamic_memory            = false
     enable_secure_boot               = true
     secure_boot_template             = "MicrosoftWindows"
-    switch_name                      = var.hyperv_switch
+    switch_name                      = local.hyperv_switch_input
     enable_mac_spoofing              = true
 
     boot_wait = "-1s"

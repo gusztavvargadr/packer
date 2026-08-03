@@ -51,6 +51,8 @@ images = {
 
     virtualbox = {
       audio_controller          = "none"
+      boot_keygroup_interval    = "1s"
+      boot_wait                 = "10s"
       chipset                   = "armv8virtual"
       guest_additions_reconcile = "true"
       guest_os_type             = "Windows11_arm64"
@@ -58,6 +60,7 @@ images = {
       keyboard                  = "usb"
       mouse                     = "usbtablet"
       nic_type                  = "usbnet"
+      remove_ide_controller     = "true"
       usb                       = "true"
       usb_controller            = "xhci"
     }
@@ -70,6 +73,7 @@ images = {
       network_adapter_type          = "vmxnet3"
       tools_source                  = "https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/arm/VMware-tools-13.1.0-25218885-arm.exe"
       tools_version                 = "13.1.0"
+      vmx_usb_xhci_present          = "TRUE"
     }
   }
 

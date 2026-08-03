@@ -44,6 +44,7 @@ locals {
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
 
   vagrant_box_name      = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
+  vagrant_box_tag       = "${local.image_author}/${local.vagrant_box_name}"
   vagrant_test_box_name = "${local.image_author}-test/${local.vagrant_box_name}"
 
   vagrant_default_architecture       = lookup(local.vagrant_options, "default_architecture", "amd64")
@@ -101,7 +102,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
       "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
@@ -115,7 +116,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
+      "vagrant up ${local.image_key} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
     ]
 
     max_retries = 1
@@ -128,7 +129,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
       "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
@@ -152,7 +153,7 @@ build {
     }
 
     post-processor "vagrant-registry" {
-      box_tag              = "${local.image_author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
+      box_tag              = local.vagrant_box_tag
       version              = local.image_version
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.image_architecture
@@ -189,7 +190,8 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_box_tag}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
@@ -197,7 +199,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
+      "vagrant up ${local.image_key} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
     ]
 
     max_retries = 1
@@ -205,7 +207,8 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_box_tag}\" --all",
     ]
 
     valid_exit_codes = [0, 1]

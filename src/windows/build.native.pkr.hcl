@@ -9,6 +9,11 @@ variable "home_directory" {
 }
 
 locals {
+  userprofile_directory_input = var.userprofile_directory
+  home_directory_input        = var.home_directory
+}
+
+locals {
   native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
@@ -24,7 +29,7 @@ locals {
   }
 
   native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")
-  downloads_directory = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
+  downloads_directory = "${coalesce(local.userprofile_directory_input, local.home_directory_input)}/Downloads"
 
   native_unattended_options = {
     architecture = local.image_architecture
@@ -81,18 +86,16 @@ locals {
   chef_attributes  = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep        = lookup(local.image_options.native, "chef_keep", "false")
 
-  native_vmware_options       = lookup(local.image_options, "vmware", {})
-  native_vmware_tools_source  = lookup(local.native_vmware_options, "tools_source", "")
-  native_vmware_tools_version = lookup(local.native_vmware_options, "tools_version", "")
-
-  native_virtualbox_options                   = lookup(local.image_options, "virtualbox", {})
-  native_virtualbox_guest_additions_reconcile = local.image_provider == "virtualbox" ? lookup(local.native_virtualbox_options, "guest_additions_reconcile", "false") : "false"
+  native_provider_options                   = lookup(local.image_options, local.image_provider, {})
+  native_provider_tools_source              = lookup(local.native_provider_options, "tools_source", "")
+  native_provider_tools_version             = lookup(local.native_provider_options, "tools_version", "")
+  native_provider_guest_additions_reconcile = lookup(local.native_provider_options, "guest_additions_reconcile", "false")
 
   native_chef_environment = {
     CHEF_ATTRIBUTES                      = local.chef_attributes
-    VIRTUALBOX_GUEST_ADDITIONS_RECONCILE = local.native_virtualbox_guest_additions_reconcile
-    VMWARE_TOOLS_SOURCE                  = local.native_vmware_tools_source
-    VMWARE_TOOLS_VERSION                 = local.native_vmware_tools_version
+    VIRTUALBOX_GUEST_ADDITIONS_RECONCILE = local.native_provider_guest_additions_reconcile
+    VMWARE_TOOLS_SOURCE                  = local.native_provider_tools_source
+    VMWARE_TOOLS_VERSION                 = local.native_provider_tools_version
   }
 }
 
