@@ -9,6 +9,11 @@ variable "home_directory" {
 }
 
 locals {
+  userprofile_directory_input = var.userprofile_directory
+  home_directory_input        = var.home_directory
+}
+
+locals {
   native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
@@ -24,7 +29,13 @@ locals {
   }
 
   native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")
-  downloads_directory = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
+  downloads_directory = "${coalesce(local.userprofile_directory_input, local.home_directory_input)}/Downloads"
+
+  native_unattended_options = {
+    architecture = local.image_architecture
+    boot         = local.image_options.native
+    provider     = lookup(local.image_options, local.image_provider, {})
+  }
 
   source_options_native = {
     iso_urls = local.native_iso ? [
@@ -33,8 +44,8 @@ locals {
     ] : []
     iso_checksum = local.native_iso ? local.image_options.native.source_iso_checksum : ""
     cd_content = merge({
-      "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", { boot = local.image_options.native })
-      "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", { boot = local.image_options.native })
+      "autounattend.xml"             = templatefile("${path.root}/boot/autounattend.xml", local.native_unattended_options)
+      "autounattend-first-logon.ps1" = templatefile("${path.root}/boot/autounattend-first-logon.ps1", local.native_unattended_options)
       }, {
       for setup_script in compact([lookup(local.image_options.native, "boot_setup_script", "")]) : setup_script => file("${path.cwd}/${setup_script}")
     })
@@ -60,6 +71,13 @@ build {
       "chef export ${local.artifacts_directory}/chef --force"
     ]
   }
+
+  provisioner "shell-local" {
+    inline = local.vmware_boot_drivers_enabled ? [
+      "mkdir -p \"${local.vmware_boot_drivers_directory}\"",
+      "unzip -jo \"${local.vmware_boot_drivers_archive}\" \"vmxnet3/Win10_1709/ARM64/vmxnet3.cat\" \"vmxnet3/Win10_1709/ARM64/vmxnet3.inf\" \"vmxnet3/Win10_1709/ARM64/vmxnet3.sys\" -d \"${local.vmware_boot_drivers_directory}\"",
+    ] : ["echo VMware boot drivers not required"]
+  }
 }
 
 locals {
@@ -67,6 +85,18 @@ locals {
   chef_max_retries = 10
   chef_attributes  = lookup(local.image_options.native, "chef_attributes", "")
   chef_keep        = lookup(local.image_options.native, "chef_keep", "false")
+
+  native_provider_options                   = lookup(local.image_options, local.image_provider, {})
+  native_provider_tools_source              = lookup(local.native_provider_options, "tools_source", "")
+  native_provider_tools_version             = lookup(local.native_provider_options, "tools_version", "")
+  native_provider_guest_additions_reconcile = lookup(local.native_provider_options, "guest_additions_reconcile", "false")
+
+  native_chef_environment = {
+    CHEF_ATTRIBUTES                      = local.chef_attributes
+    VIRTUALBOX_GUEST_ADDITIONS_RECONCILE = local.native_provider_guest_additions_reconcile
+    VMWARE_TOOLS_SOURCE                  = local.native_provider_tools_source
+    VMWARE_TOOLS_VERSION                 = local.native_provider_tools_version
+  }
 }
 
 build {
@@ -96,9 +126,7 @@ build {
     script           = "${path.root}/chef/apply.ps1"
     valid_exit_codes = [0, 35]
 
-    env = {
-      CHEF_ATTRIBUTES = local.chef_attributes
-    }
+    env = local.native_chef_environment
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password
@@ -115,11 +143,9 @@ build {
   provisioner "powershell" {
     script       = "${path.root}/chef/apply.ps1"
     max_retries  = local.chef_max_retries
-    pause_before = "120s"
+    pause_before = "300s"
 
-    env = {
-      CHEF_ATTRIBUTES = local.chef_attributes
-    }
+    env = local.native_chef_environment
 
     elevated_user     = local.communicator.username
     elevated_password = local.communicator.password

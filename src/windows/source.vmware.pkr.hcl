@@ -7,6 +7,12 @@ packer {
   }
 }
 
+variable "vmware_fusion_application_path" {
+  type        = string
+  description = "The VMware Fusion application used as the source of Windows ARM64 boot drivers."
+  default     = "/Applications/VMware Fusion.app"
+}
+
 locals {
   vmware_source_options = {
     version           = 20
@@ -14,7 +20,6 @@ locals {
     disk_adapter_type = "nvme"
     vmx_data = {
       firmware        = "efi"
-      "vhv.enable"    = "FALSE"
       "sata1.present" = "TRUE"
     }
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
@@ -22,7 +27,22 @@ locals {
 }
 
 locals {
-  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_fusion_application_path = var.vmware_fusion_application_path
+  vmware_image_options           = lookup(local.image_options, "vmware", {})
+  vmware_image_vmx_data = {
+    for key, value in {
+      "usb_xhci.present" = lookup(local.vmware_image_options, "vmx_usb_xhci_present", "")
+    } : key => value if value != ""
+  }
+
+  vmware_boot_drivers_enabled   = local.native_build && local.image_provider == "vmware" && lookup(local.vmware_image_options, "boot_driver_archive", "") != ""
+  vmware_boot_drivers_archive   = "${local.vmware_fusion_application_path}/${lookup(local.vmware_image_options, "boot_driver_archive", "")}"
+  vmware_boot_drivers_directory = "${local.artifacts_directory}/boot-drivers"
+  vmware_boot_driver_files      = local.vmware_boot_drivers_enabled ? ["${local.vmware_boot_drivers_directory}/*"] : []
+
+  vmware_iso_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options, {
+    vmx_data = merge(local.vmware_source_options.vmx_data, local.vmware_image_vmx_data)
+  })
 }
 
 source "vmware-iso" "core" {
@@ -36,11 +56,13 @@ source "vmware-iso" "core" {
   iso_urls     = local.vmware_iso_source_options.iso_urls
   iso_checksum = local.vmware_iso_source_options.iso_checksum
   cd_content   = local.vmware_iso_source_options.cd_content
+  cd_files     = local.vmware_boot_driver_files
 
   version                        = local.vmware_iso_source_options.version
   guest_os_type                  = local.vmware_iso_source_options.guest_os_type
   disk_type_id                   = local.vmware_iso_source_options.disk_type_id
   disk_adapter_type              = local.vmware_iso_source_options.disk_adapter_type
+  network_adapter_type           = try(local.vmware_iso_source_options.network_adapter_type, null)
   vmx_data                       = local.vmware_iso_source_options.vmx_data
   vmx_remove_ethernet_interfaces = local.vmware_iso_source_options.vmx_remove_ethernet_interfaces
 
@@ -49,14 +71,14 @@ source "vmware-iso" "core" {
   shutdown_command = local.vmware_iso_source_options.shutdown_command
   shutdown_timeout = local.vmware_iso_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }
 
 locals {
-  vmware_vmx_source_options = merge(local.source_options_build, local.vmware_source_options, lookup(local.image_options, "vmware", {}))
+  vmware_vmx_source_options = merge(local.source_options_build, local.vmware_source_options, local.vmware_image_options)
 }
 
 source "vmware-vmx" "core" {
@@ -73,8 +95,8 @@ source "vmware-vmx" "core" {
   shutdown_command = local.vmware_vmx_source_options.shutdown_command
   shutdown_timeout = local.vmware_vmx_source_options.shutdown_timeout
 
-  communicator   = local.communicator.type
-  ssh_username   = local.communicator.username
-  ssh_password   = local.communicator.password
-  ssh_timeout    = local.communicator.timeout
+  communicator = local.communicator.type
+  ssh_username = local.communicator.username
+  ssh_password = local.communicator.password
+  ssh_timeout  = local.communicator.timeout
 }

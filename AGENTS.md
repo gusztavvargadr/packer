@@ -8,17 +8,18 @@
 
 - `dotnet tool restore` installs the repository-pinned Cake 4.0 tool.
 - `packer fmt -check src` checks HCL formatting before review; use `packer fmt src` to apply it.
+- `docker compose --file docs/site/compose.yml up --build` builds and serves the public Jekyll site at `http://localhost:4000` for documentation verification.
 - `dotnet cake --configuration windows-11/25h2-enterprise/virtualbox/native --target init` initializes required Packer plugins.
 - `dotnet cake --configuration <sample>/<image>/<provider>/<build>` runs the default `init`, `restore`, `build`, and `test` pipeline.
 - `dotnet cake --configuration <...> --target clean` removes generated artifacts.
 
-Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds require the matching local virtualization stack and can take over two hours.
+Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds require the matching local virtualization stack. Ubuntu native builds typically take about 10 minutes from an ISO and less when derived, while Ubuntu Vagrant builds usually take under 5 minutes. Windows native ISO builds usually take about an hour and can be faster when derived; Windows Vagrant builds usually take 5–10 minutes.
 
 When a container command cannot reach the local Docker daemon from the sandbox, retry that same command outside the sandbox before installing or compiling alternative tooling.
 
 ## Coding Style & Naming Conventions
 
-Run `packer fmt` for HCL. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Do not hard-wrap prose in Markdown files or GitHub issue and pull request content; keep each paragraph or list item on one source line and let the renderer wrap it. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
+Run `packer fmt` for HCL. Use Packer input variables only to capture external input; assign them to descriptively named locals and use locals everywhere else, including for all derived values. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Do not hard-wrap prose in Markdown files or GitHub issue and pull request content; keep each paragraph or list item on one source line and let the renderer wrap it. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
 
 ## Testing Guidelines
 

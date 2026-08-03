@@ -1,0 +1,15 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: source
+      source: ubuntu-server.2204-lts-arm64.virtualbox
+
+stages:
+  - template: ../../stages.yml
+    parameters:
+      sample: kitchen-ubuntu
+      image: 2204-arm64
+      provider: virtualbox
+      hostArchitecture: ARM64

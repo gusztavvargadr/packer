@@ -2,6 +2,13 @@ Write-Host "Configure PowerShell"
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+%{ for boot_driver_drive in compact([lookup(provider, "boot_driver_drive", "")]) ~}
+Write-Host "Install Boot Drivers"
+Push-Location ${boot_driver_drive}\
+pnputil /add-driver *.inf /install /subdirs
+Pop-Location
+
+%{ endfor ~}
 Write-Host "Install Chocolatey"
 %{ for chocolatey_version in compact([lookup(boot, "boot_chocolatey_version", "2.7.3")]) ~}
 $env:chocolateyVersion = '${chocolatey_version}'

@@ -72,13 +72,22 @@ remote_file sdelete_executable_target do
   action :create
 end
 
-if vbox?
-  vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe" -v').stdout rescue '').strip
+configured_vbox_guest_additions_reconcile = ENV.fetch('VIRTUALBOX_GUEST_ADDITIONS_RECONCILE', 'false') == 'true'
 
-  unless vbox_version.include?('7.')
-    vbox_version = powershell_out('cat $env:HOME/.vbox_version').stdout.strip
+if vbox? || configured_vbox_guest_additions_reconcile
+  installed_vbox_version = (powershell_out('& "C:/Program Files/Oracle/VirtualBox Guest Additions/VBoxGuest/VBoxControl.exe" -v').stdout rescue '').strip
+  host_vbox_version = nil
+  vbox_guest_additions_current = installed_vbox_version.include?('7.')
+
+  if configured_vbox_guest_additions_reconcile
+    host_vbox_version = powershell_out('(Get-Content "$env:HOME/.vbox_version").Trim()').stdout.strip
+    vbox_guest_additions_current = installed_vbox_version.sub(/r.*\z/, '') == host_vbox_version
+  end
+
+  unless vbox_guest_additions_current
+    host_vbox_version ||= powershell_out('(Get-Content "$env:HOME/.vbox_version").Trim()').stdout.strip
     vbox_guest_additions_path = "#{Chef::Config['file_cache_path']}/VBoxGuestAdditions.iso"
-    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{vbox_version}/VBoxGuestAdditions_#{vbox_version}.iso"
+    vbox_guest_additions_source = "https://download.virtualbox.org/virtualbox/#{host_vbox_version}/VBoxGuestAdditions_#{host_vbox_version}.iso"
 
     remote_file vbox_guest_additions_path do
       source vbox_guest_additions_source
@@ -117,10 +126,21 @@ if vbox?
 end
 
 if vmware?
-  vmware_version = (powershell_out('& "C:/Program Files/VMware/VMware Tools/VMwareToolboxCmd.exe" -v').stdout rescue '').strip
+  vmware_tools_path = 'C:/Program Files/VMware/VMware Tools/vmtoolsd.exe'
+  vmware_version = (powershell_out("(Get-Item '#{vmware_tools_path}').VersionInfo.FileVersion").stdout rescue '').strip
+  configured_vmware_tools_version = ENV.fetch('VMWARE_TOOLS_VERSION', '')
+  configured_vmware_tools_source = ENV.fetch('VMWARE_TOOLS_SOURCE', '')
 
-  unless vmware_version.include?('13.')
-    vmware_tools_source = 'https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/x64/VMware-tools-13.1.0-25218885-x64.exe'
+  vmware_tools_version_matches = vmware_version.include?('13.')
+  unless configured_vmware_tools_version.empty?
+    vmware_tools_version_matches = vmware_version[/\A\d+\.\d+\.\d+/] == configured_vmware_tools_version
+  end
+
+  unless vmware_tools_version_matches
+    vmware_tools_source = configured_vmware_tools_source
+    if vmware_tools_source.empty?
+      vmware_tools_source = 'https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/x64/VMware-tools-13.1.0-25218885-x64.exe'
+    end
     vmware_tools_target = "#{Chef::Config['file_cache_path']}/VMware-tools.exe"
 
     remote_file vmware_tools_target do

@@ -1,8 +1,9 @@
 var configuration = Argument("configuration", string.Empty);
 var target = Argument("target", "default");
+var reportHostAndProvider = Argument("reportHostAndProvider", false);
 
 var author = Argument("author", "gusztavvargadr");
-var version = Argument("version", "2607");
+var version = Argument("version", "2607.1.0");
 
 var configurationParts = configuration.Split('/', StringSplitOptions.RemoveEmptyEntries);
 var sample = configurationParts.ElementAtOrDefault(0) ?? Argument<string>("sample");
@@ -60,10 +61,51 @@ Task("default")
 RunTarget(target);
 
 void PackerInit() {
+  ReportHostAndProvider();
+
   var arguments = new ProcessArgumentBuilder();
 
   arguments.Append("init");
   arguments.Append(platformDirectory);
+
+  Packer(arguments);
+
+  PackerPluginList();
+}
+
+void ReportHostAndProvider() {
+  if (!reportHostAndProvider) {
+    return;
+  }
+
+  if (!IsRunningOnMacOs()) {
+    throw new Exception("Host and provider reporting requires macOS.");
+  }
+
+  RunVersionCommand("sw_vers");
+  RunVersionCommand("uname", "-m");
+
+  if (provider == "vmware") {
+    var vmwareVmx = "/Applications/VMware Fusion.app/Contents/Library/vmware-vmx";
+    RunVersionCommand(vmwareVmx, "-v");
+
+    var vagrantVmwareUtility = "/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility";
+    RunVersionCommand(vagrantVmwareUtility, "-version");
+    return;
+  }
+
+  if (provider == "virtualbox") {
+    RunVersionCommand("VBoxManage", "--version");
+    return;
+  }
+
+  throw new Exception($"Host and provider reporting does not support {provider}.");
+}
+
+void PackerPluginList() {
+  var arguments = new ProcessArgumentBuilder();
+
+  arguments.Append("plugins installed");
 
   Packer(arguments);
 }
@@ -94,5 +136,20 @@ void Packer(ProcessArgumentBuilder arguments) {
   
   if (result != 0) {
     throw new Exception($"Packer failed with code {result} .");
+  }
+}
+
+void RunVersionCommand(string executable, string argument = "") {
+  var arguments = new ProcessArgumentBuilder();
+  if (!string.IsNullOrEmpty(argument)) {
+    arguments.Append(argument);
+  }
+
+  var result = StartProcess(executable, new ProcessSettings {
+    Arguments = arguments
+  });
+
+  if (result != 0) {
+    throw new Exception($"{executable} failed with code {result} .");
   }
 }

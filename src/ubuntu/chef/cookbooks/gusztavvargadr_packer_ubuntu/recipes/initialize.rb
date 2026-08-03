@@ -9,15 +9,18 @@ if hyperv?
   end
 end
 
-if vbox?
+arm64_guest = node['kernel']['machine'] == 'aarch64'
+
+if vbox? && !arm64_guest
   kernel_version = shell_out('uname -r').stdout.strip
   apt_package [ 'build-essential', 'dkms', "linux-headers-#{kernel_version}" ] do
     action :install
   end
 
-  vbox_version = (shell_out('VBoxControl -v').stdout rescue '').strip
+  host_virtualbox_version = ::File.read('/home/vagrant/.vbox_version').strip
+  guest_additions_version = (shell_out('VBoxControl -v').stdout rescue '').strip.split('r').first
 
-  unless vbox_version.include?('7.')
+  unless guest_additions_version == host_virtualbox_version
     bash 'guest-additions' do
       code <<-EOH
         VER="`cat /home/vagrant/.vbox_version`";

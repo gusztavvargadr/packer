@@ -1,4 +1,4 @@
-images = {  
+images = {
   "25h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 25H2 Enterprise"
@@ -26,6 +26,57 @@ images = {
     }
   }
 
+  "25h2-professional-arm64" = {
+    core = {
+      architecture      = "arm64"
+      image_description = "Windows 11 Version 25H2 Professional ARM64"
+    }
+
+    native = {
+      source_iso_url_local  = "Win11_25H2_English_Arm64_v2.iso"
+      source_iso_url_remote = ""
+      source_iso_checksum   = "sha256:638aa2c88e94385b00f4f178d071e3df0b7d9e335577a83bd533b7f2eb65adf0"
+
+      boot_setup_script = "setup.cmd"
+      boot_image_name   = "Windows 11 Pro"
+    }
+
+    vagrant = {
+      memory                     = "4096"
+      box_alias                  = "windows-11"
+      box_name                   = "windows-11-25h2-professional"
+      default_architecture       = "arm64"
+      alias_default_architecture = "amd64"
+    }
+
+    virtualbox = {
+      audio_controller          = "none"
+      boot_keygroup_interval    = "1s"
+      boot_wait                 = "10s"
+      chipset                   = "armv8virtual"
+      guest_additions_reconcile = "true"
+      guest_os_type             = "Windows11_arm64"
+      iso_interface             = "sata"
+      keyboard                  = "usb"
+      mouse                     = "usbtablet"
+      nic_type                  = "usbnet"
+      remove_ide_controller     = "true"
+      usb                       = "true"
+      usb_controller            = "xhci"
+    }
+
+    vmware = {
+      boot_driver_archive           = "Contents/Library/isoimages/arm64/drivers-arm64.zip"
+      boot_driver_drive             = "E:"
+      guest_os_type                 = "arm-windows11-64"
+      network_adapter_pcislotnumber = "160"
+      network_adapter_type          = "vmxnet3"
+      tools_source                  = "https://packages-prod.broadcom.com/tools/releases/13.1.0/windows/arm/VMware-tools-13.1.0-25218885-arm.exe"
+      tools_version                 = "13.1.0"
+      vmx_usb_xhci_present          = "TRUE"
+    }
+  }
+
   "24h2-enterprise" = {
     core = {
       image_description = "Windows 11 Version 24H2 Enterprise"
@@ -40,7 +91,7 @@ images = {
     }
 
     vagrant = {
-      memory    = "4096"
+      memory = "4096"
     }
 
     virtualbox = {
@@ -66,7 +117,7 @@ images = {
     }
 
     vagrant = {
-      memory    = "4096"
+      memory = "4096"
     }
 
     virtualbox = {

@@ -36,13 +36,19 @@ locals {
 
 locals {
   vagrant_options_core = {
-    cpus         = "2"
-    memory       = "2048"
-    ports        = ""
-    architecture = "amd64"
+    cpus   = "2"
+    memory = "2048"
+    ports  = ""
   }
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
+
+  vagrant_box_name      = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
+  vagrant_box_tag       = "${local.image_author}/${local.vagrant_box_name}"
+  vagrant_test_box_name = "${local.image_author}-test/${local.vagrant_box_name}"
+
+  vagrant_default_architecture       = lookup(local.vagrant_options, "default_architecture", "amd64")
+  vagrant_alias_default_architecture = lookup(local.vagrant_options, "alias_default_architecture", local.vagrant_default_architecture)
 }
 
 source "file" "Vagrantfile" {
@@ -96,37 +102,42 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
+      "vagrant up ${local.image_key} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
     ]
 
     max_retries = 1
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_test_box_name}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
 
     env = {
-      VAGRANT_BOX_URL = "${local.artifacts_directory}/vagrant/vagrant.box"
+      VAGRANT_BOX_AUTHOR = local.image_author
+      VAGRANT_BOX_URL    = "${local.artifacts_directory}/vagrant/vagrant.box"
     }
   }
 }
@@ -142,11 +153,11 @@ build {
     }
 
     post-processor "vagrant-registry" {
-      box_tag              = "${local.image_author}/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}"
+      box_tag              = local.vagrant_box_tag
       version              = local.image_version
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-      architecture         = local.vagrant_options.architecture
-      default_architecture = local.vagrant_options.architecture
+      architecture         = local.image_architecture
+      default_architecture = local.vagrant_default_architecture
       // no_release           = true
     }
   }
@@ -162,10 +173,10 @@ build {
       post-processor "vagrant-registry" {
         box_tag              = "${local.image_author}/${post-processors.value}"
         version              = local.image_version
-        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.vagrant_options.architecture}/vagrant.box"
+        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.image_architecture}/vagrant.box"
         box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-        architecture         = local.vagrant_options.architecture
-        default_architecture = local.vagrant_options.architecture
+        architecture         = local.image_architecture
+        default_architecture = local.vagrant_alias_default_architecture
         // no_release           = true
       }
     }
@@ -179,7 +190,8 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_box_tag}\" --all",
     ]
 
     valid_exit_codes = [0, 1]
@@ -187,7 +199,7 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant up ${var.image} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
+      "vagrant up ${local.image_key} --provider ${lookup(local.vagrant_providers, local.image_provider, "")}",
     ]
 
     max_retries = 1
@@ -195,7 +207,8 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "vagrant destroy -f ${var.image}",
+      "vagrant destroy -f ${local.image_key}",
+      "vagrant box remove \"${local.vagrant_box_tag}\" --all",
     ]
 
     valid_exit_codes = [0, 1]

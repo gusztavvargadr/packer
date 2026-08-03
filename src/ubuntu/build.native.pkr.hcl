@@ -9,6 +9,11 @@ variable "home_directory" {
 }
 
 locals {
+  userprofile_directory_input = var.userprofile_directory
+  home_directory_input        = var.home_directory
+}
+
+locals {
   native_iso_sources = {
     virtualbox = "virtualbox-iso.core"
     vmware     = "vmware-iso.core"
@@ -24,7 +29,7 @@ locals {
   }
 
   native_iso          = contains(keys(local.image_options.native), "source_iso_checksum")
-  downloads_directory = "${coalesce(var.userprofile_directory, var.home_directory)}/Downloads"
+  downloads_directory = "${coalesce(local.userprofile_directory_input, local.home_directory_input)}/Downloads"
 
   source_options_native = {
     iso_urls = local.native_iso ? [
@@ -41,7 +46,7 @@ locals {
       "set gfxpayload=keep<enter><wait>",
       "linux /casper/vmlinuz quiet autoinstall 'ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${local.image_provider}/'<enter><wait>",
       "initrd /casper/initrd<enter><wait>",
-      "boot<enter>wait>",
+      "boot<enter><wait>",
     ] : []
     shutdown_command = "sudo -S shutdown -P now"
   }

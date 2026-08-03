@@ -2,6 +2,7 @@ parameters:
   sample: ''
   image: ''
   provider: ''
+  hostArchitecture: ''
 
 stages:
   - stage: native
@@ -13,6 +14,7 @@ stages:
           sample: ${{ parameters.sample }}
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
+          hostArchitecture: ${{ parameters.hostArchitecture }}
           build: native
 
   - stage: vagrant
@@ -24,4 +26,5 @@ stages:
           sample: ${{ parameters.sample }}
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
+          hostArchitecture: ${{ parameters.hostArchitecture }}
           build: vagrant
