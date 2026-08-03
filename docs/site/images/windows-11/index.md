@@ -8,6 +8,7 @@ The following images are available:
 - [Windows 11 Latest]({{ site.baseurl }}{% link images/windows-11/latest/index.md %})
 
 - [Windows 11 Version 25H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/25h2-enterprise/index.md %})
+- [Windows 11 Version 25H2 Professional]({{ site.baseurl }}{% link images/windows-11/25h2-professional/index.md %})
 - [Windows 11 Version 24H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/24h2-enterprise/index.md %})
 - [Windows 11 Version 23H2 Enterprise]({{ site.baseurl }}{% link images/windows-11/23h2-enterprise/index.md %})
 - [~~Windows 11 Version 22H2 Enterprise~~]({{ site.baseurl }}{% link images/windows-11/22h2-enterprise/index.md %})

@@ -21,7 +21,6 @@ locals {
     vmx_data = merge(
       {
         firmware        = "efi"
-        "vhv.enable"    = "FALSE"
         "sata1.present" = "TRUE"
       },
       local.image_architecture == "arm64" ? {

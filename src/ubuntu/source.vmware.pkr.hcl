@@ -13,8 +13,7 @@ locals {
     disk_type_id      = 0
     disk_adapter_type = "nvme"
     vmx_data = {
-      firmware     = "efi"
-      "vhv.enable" = "FALSE"
+      firmware = "efi"
     }
     vmx_remove_ethernet_interfaces = local.native_build ? false : true
   }
