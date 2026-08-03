@@ -12,6 +12,7 @@ jobs:
     pool:
       name: default
       demands:
+        - VSTS_AGENT_CAP_PACKER -equals build
         - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
         - ${{ if ne(parameters.hostArchitecture, '') }}:
           - Agent.OS -equals Darwin
@@ -102,7 +103,7 @@ jobs:
       pool:
         name: default
         demands:
-          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals none
+          - VSTS_AGENT_CAP_PACKER -equals publish
 
       workspace:
         clean: all
@@ -157,6 +158,7 @@ jobs:
       pool:
         name: default
         demands:
+          - VSTS_AGENT_CAP_PACKER -equals build
           - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
           - ${{ if ne(parameters.hostArchitecture, '') }}:
             - Agent.OS -equals Darwin
