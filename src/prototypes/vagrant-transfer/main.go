@@ -1,0 +1,487 @@
+package main
+
+import (
+	"archive/tar"
+	"compress/flate"
+	"compress/gzip"
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"math"
+	"os"
+	"path"
+	"path/filepath"
+	"runtime"
+	"runtime/debug"
+	"strings"
+
+	"github.com/klauspost/pgzip"
+)
+
+const blockSize = 500000
+
+type digest struct {
+	Bytes  int64  `json:"bytes"`
+	SHA256 string `json:"sha256"`
+}
+
+type archiveState struct {
+	Entries       int `json:"entries"`
+	RegularFiles  int `json:"regular_files"`
+	VMCXFiles     int `json:"vmcx_files"`
+	HyperVBoxXMLs int `json:"hyperv_box_xml_files"`
+}
+
+type manifest struct {
+	Schema      string       `json:"schema"`
+	Source      digest       `json:"source"`
+	RawTar      digest       `json:"raw_tar"`
+	Archive     archiveState `json:"archive"`
+	Compression struct {
+		Algorithm           string `json:"algorithm"`
+		PackerPluginVersion string `json:"packer_vagrant_plugin_version"`
+		PgzipModule         string `json:"pgzip_module"`
+		PgzipVersion        string `json:"pgzip_version"`
+		DeflateModule       string `json:"deflate_module"`
+		DeflateVersion      string `json:"deflate_version"`
+		BlockSize           int    `json:"block_size"`
+		Level               int    `json:"level"`
+		Parallelism         string `json:"parallelism"`
+		GzipHeader          string `json:"gzip_header_hex"`
+	} `json:"compression"`
+}
+
+type reconstructionState struct {
+	HostOS              string `json:"host_os"`
+	HostArchitecture    string `json:"host_architecture"`
+	Parallelism         int    `json:"parallelism"`
+	RawTar              digest `json:"raw_tar"`
+	ReconstructedSource digest `json:"reconstructed_source"`
+	ExpectedSource      digest `json:"expected_source"`
+	Exact               bool   `json:"exact"`
+}
+
+func main() {
+	if err := run(os.Args[1:]); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+func run(args []string) error {
+	if len(args) == 0 {
+		return usage()
+	}
+
+	switch args[0] {
+	case "roundtrip":
+		if len(args) != 4 {
+			return usage()
+		}
+		return roundtrip(args[1], args[2], args[3])
+	case "decode":
+		if len(args) != 5 {
+			return usage()
+		}
+		return decode(args[1], args[2], args[3], args[4])
+	case "reconstruct":
+		if len(args) != 4 {
+			return usage()
+		}
+		return reconstruct(args[1], args[2], args[3])
+	case "reconstruct-packer-writes":
+		if len(args) != 4 {
+			return usage()
+		}
+		return reconstructPackerWrites(args[1], args[2], args[3])
+	default:
+		return usage()
+	}
+}
+
+func usage() error {
+	return errors.New("usage: go run . roundtrip <source.box> <scratch-directory> <packer-plugin-version> | decode <source.box> <raw.tar> <manifest.json> <packer-plugin-version> | reconstruct <raw.tar> <manifest.json> <reconstructed.box> | reconstruct-packer-writes <raw.tar> <manifest.json> <reconstructed.box>")
+}
+
+func roundtrip(source, scratch, pluginVersion string) error {
+	if err := os.MkdirAll(scratch, 0o755); err != nil {
+		return err
+	}
+	raw := filepath.Join(scratch, "vagrant.raw.tar")
+	manifestPath := filepath.Join(scratch, "vagrant-transfer.json")
+	reconstructed := filepath.Join(scratch, "vagrant.reconstructed.box")
+	if err := decode(source, raw, manifestPath, pluginVersion); err != nil {
+		return err
+	}
+	return reconstructPackerWrites(raw, manifestPath, reconstructed)
+}
+
+func decode(sourcePath, rawPath, manifestPath, pluginVersion string) error {
+	header, err := gzipHeader(sourcePath)
+	if err != nil {
+		return err
+	}
+	source, err := fileDigest(sourcePath)
+	if err != nil {
+		return err
+	}
+
+	in, err := os.Open(sourcePath)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	gzipReader, err := gzip.NewReader(in)
+	if err != nil {
+		return err
+	}
+	defer gzipReader.Close()
+	out, err := os.Create(rawPath)
+	if err != nil {
+		return err
+	}
+	hash := sha256.New()
+	bytesWritten, copyErr := io.Copy(io.MultiWriter(out, hash), gzipReader)
+	closeErr := out.Close()
+	if copyErr != nil {
+		return copyErr
+	}
+	if closeErr != nil {
+		return closeErr
+	}
+	raw := digest{Bytes: bytesWritten, SHA256: hex.EncodeToString(hash.Sum(nil))}
+	archive, err := inspectTar(rawPath)
+	if err != nil {
+		return err
+	}
+
+	result := manifest{Schema: "vagrant-transfer/raw-tar/v1", Source: source, RawTar: raw, Archive: archive}
+	result.Compression.Algorithm = "gzip"
+	result.Compression.PackerPluginVersion = pluginVersion
+	result.Compression.PgzipModule, result.Compression.PgzipVersion = buildModule("github.com/klauspost/pgzip")
+	result.Compression.DeflateModule, result.Compression.DeflateVersion = buildModule("github.com/klauspost/compress")
+	result.Compression.BlockSize = blockSize
+	result.Compression.Level = flate.DefaultCompression
+	result.Compression.Parallelism = "runtime.GOMAXPROCS(-1)"
+	result.Compression.GzipHeader = hex.EncodeToString(header[:])
+
+	if err := writeJSON(manifestPath, result); err != nil {
+		return err
+	}
+	return printJSON(result)
+}
+
+func reconstruct(rawPath, manifestPath, outputPath string) error {
+	return reconstructWith(rawPath, manifestPath, outputPath, io.Copy)
+}
+
+func reconstructPackerWrites(rawPath, manifestPath, outputPath string) error {
+	return reconstructWith(rawPath, manifestPath, outputPath, copyPackerTarWrites)
+}
+
+func reconstructWith(rawPath, manifestPath, outputPath string, copyInput func(io.Writer, io.Reader) (int64, error)) error {
+	var expected manifest
+	contents, err := os.ReadFile(manifestPath)
+	if err != nil {
+		return err
+	}
+	if err := json.Unmarshal(contents, &expected); err != nil {
+		return err
+	}
+	if expected.Schema != "vagrant-transfer/raw-tar/v1" {
+		return fmt.Errorf("unsupported manifest schema %q", expected.Schema)
+	}
+	module, version := buildModule("github.com/klauspost/pgzip")
+	if module != expected.Compression.PgzipModule || version != expected.Compression.PgzipVersion {
+		return fmt.Errorf("pgzip mismatch: manifest requires %s %s, executable contains %s %s", expected.Compression.PgzipModule, expected.Compression.PgzipVersion, module, version)
+	}
+	deflateModule, deflateVersion := buildModule("github.com/klauspost/compress")
+	if deflateModule != expected.Compression.DeflateModule || deflateVersion != expected.Compression.DeflateVersion {
+		return fmt.Errorf("deflate mismatch: manifest requires %s %s, executable contains %s %s", expected.Compression.DeflateModule, expected.Compression.DeflateVersion, deflateModule, deflateVersion)
+	}
+	if expected.Compression.Algorithm != "gzip" || expected.Compression.BlockSize != blockSize || expected.Compression.Level != flate.DefaultCompression || expected.Compression.Parallelism != "runtime.GOMAXPROCS(-1)" || expected.Compression.GzipHeader != "1f8b080000096e8800ff" {
+		return errors.New("manifest compression settings do not match this prototype")
+	}
+
+	in, err := os.Open(rawPath)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.Create(outputPath)
+	if err != nil {
+		return err
+	}
+	writer, err := pgzip.NewWriterLevel(out, flate.DefaultCompression)
+	if err != nil {
+		out.Close()
+		return err
+	}
+	parallelism := runtime.GOMAXPROCS(-1)
+	if err := writer.SetConcurrency(blockSize, parallelism); err != nil {
+		out.Close()
+		return err
+	}
+	rawHash := sha256.New()
+	rawBytes, copyErr := copyInput(writer, io.TeeReader(in, rawHash))
+	writerErr := writer.Close()
+	closeErr := out.Close()
+	if copyErr != nil {
+		return copyErr
+	}
+	if writerErr != nil {
+		return writerErr
+	}
+	if closeErr != nil {
+		return closeErr
+	}
+
+	raw := digest{Bytes: rawBytes, SHA256: hex.EncodeToString(rawHash.Sum(nil))}
+	reconstructed, err := fileDigest(outputPath)
+	if err != nil {
+		return err
+	}
+	state := reconstructionState{
+		HostOS:              runtime.GOOS,
+		HostArchitecture:    runtime.GOARCH,
+		Parallelism:         parallelism,
+		RawTar:              raw,
+		ReconstructedSource: reconstructed,
+		ExpectedSource:      expected.Source,
+		Exact:               raw == expected.RawTar && reconstructed == expected.Source,
+	}
+	if err := printJSON(state); err != nil {
+		return err
+	}
+	if !state.Exact {
+		return errors.New("reconstructed box differs from the source")
+	}
+	return nil
+}
+
+func copyPackerTarWrites(dst io.Writer, src io.Reader) (int64, error) {
+	var total int64
+	header := make([]byte, 512)
+	for {
+		if _, err := io.ReadFull(src, header); err != nil {
+			return total, err
+		}
+		if err := writeAll(dst, header); err != nil {
+			return total, err
+		}
+		total += int64(len(header))
+		if isZeroBlock(header) {
+			if _, err := io.ReadFull(src, header); err != nil {
+				return total, err
+			}
+			if !isZeroBlock(header) {
+				return total, errors.New("tar trailer contains only one zero block")
+			}
+			if err := writeAll(dst, header); err != nil {
+				return total, err
+			}
+			total += int64(len(header))
+			var extra [1]byte
+			if n, err := src.Read(extra[:]); n != 0 || !errors.Is(err, io.EOF) {
+				return total, errors.New("raw tar contains bytes after the two-block trailer")
+			}
+			return total, nil
+		}
+
+		size, err := tarEntrySize(header)
+		if err != nil {
+			return total, err
+		}
+		remaining := size
+		buffer := make([]byte, 32*1024)
+		for remaining > 0 {
+			chunk := int64(len(buffer))
+			if remaining < chunk {
+				chunk = remaining
+			}
+			if _, err := io.ReadFull(src, buffer[:chunk]); err != nil {
+				return total, err
+			}
+			if err := writeAll(dst, buffer[:chunk]); err != nil {
+				return total, err
+			}
+			total += chunk
+			remaining -= chunk
+		}
+
+		padding := (512 - size%512) % 512
+		if padding > 0 {
+			if _, err := io.ReadFull(src, buffer[:padding]); err != nil {
+				return total, err
+			}
+			if err := writeAll(dst, buffer[:padding]); err != nil {
+				return total, err
+			}
+			total += padding
+		}
+	}
+}
+
+func tarEntrySize(header []byte) (int64, error) {
+	field := header[124:136]
+	if field[0]&0x80 != 0 {
+		if field[0]&0x40 != 0 {
+			return 0, errors.New("prototype does not support negative base-256 tar sizes")
+		}
+		var size uint64
+		for index, octet := range field {
+			if index == 0 {
+				octet &= 0x7f
+			}
+			if size > (math.MaxInt64-uint64(octet))/256 {
+				return 0, errors.New("base-256 tar size overflows int64")
+			}
+			size = size*256 + uint64(octet)
+		}
+		return int64(size), nil
+	}
+	value := strings.Trim(string(field), " \x00")
+	if value == "" {
+		return 0, nil
+	}
+	var size int64
+	for _, digit := range value {
+		if digit < '0' || digit > '7' {
+			return 0, fmt.Errorf("invalid tar size %q", value)
+		}
+		size = size*8 + int64(digit-'0')
+	}
+	return size, nil
+}
+
+func isZeroBlock(block []byte) bool {
+	for _, value := range block {
+		if value != 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func writeAll(dst io.Writer, contents []byte) error {
+	for len(contents) > 0 {
+		written, err := dst.Write(contents)
+		if err != nil {
+			return err
+		}
+		if written == 0 {
+			return io.ErrShortWrite
+		}
+		contents = contents[written:]
+	}
+	return nil
+}
+
+func gzipHeader(filename string) ([10]byte, error) {
+	var header [10]byte
+	file, err := os.Open(filename)
+	if err != nil {
+		return header, err
+	}
+	defer file.Close()
+	if _, err := io.ReadFull(file, header[:]); err != nil {
+		return header, err
+	}
+	if header[0] != 0x1f || header[1] != 0x8b || header[2] != 8 {
+		return header, errors.New("source is not a gzip-compressed box")
+	}
+	if header[3] != 0 {
+		return header, fmt.Errorf("prototype only supports a gzip header without optional fields; flags are %#x", header[3])
+	}
+	return header, nil
+}
+
+func inspectTar(filename string) (archiveState, error) {
+	var state archiveState
+	file, err := os.Open(filename)
+	if err != nil {
+		return state, err
+	}
+	defer file.Close()
+	reader := tar.NewReader(file)
+	for {
+		header, err := reader.Next()
+		if errors.Is(err, io.EOF) {
+			break
+		}
+		if err != nil {
+			return state, err
+		}
+		state.Entries++
+		name, err := safeArchivePath(header.Name)
+		if err != nil {
+			return state, err
+		}
+		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
+			return state, fmt.Errorf("unsafe archive entry %q has unsupported type %d", header.Name, header.Typeflag)
+		}
+		state.RegularFiles++
+		if strings.EqualFold(path.Ext(name), ".vmcx") {
+			state.VMCXFiles++
+		}
+		if strings.EqualFold(name, "Virtual Machines/box.xml") {
+			state.HyperVBoxXMLs++
+		}
+	}
+	return state, nil
+}
+
+func safeArchivePath(name string) (string, error) {
+	normalized := strings.ReplaceAll(name, `\`, "/")
+	cleaned := path.Clean(normalized)
+	if normalized == "" || cleaned == "." || path.IsAbs(cleaned) || cleaned == ".." || strings.HasPrefix(cleaned, "../") || (len(cleaned) >= 2 && cleaned[1] == ':') {
+		return "", fmt.Errorf("unsafe archive path %q", name)
+	}
+	return cleaned, nil
+}
+
+func fileDigest(filename string) (digest, error) {
+	var result digest
+	file, err := os.Open(filename)
+	if err != nil {
+		return result, err
+	}
+	defer file.Close()
+	hash := sha256.New()
+	bytesRead, err := io.Copy(hash, file)
+	if err != nil {
+		return result, err
+	}
+	return digest{Bytes: bytesRead, SHA256: hex.EncodeToString(hash.Sum(nil))}, nil
+}
+
+func buildModule(module string) (string, string) {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return module, "unknown"
+	}
+	for _, dependency := range info.Deps {
+		if dependency.Path == module {
+			return dependency.Path, dependency.Version
+		}
+	}
+	return module, "unknown"
+}
+
+func writeJSON(filename string, value any) error {
+	contents, err := json.MarshalIndent(value, "", "  ")
+	if err != nil {
+		return err
+	}
+	contents = append(contents, '\n')
+	return os.WriteFile(filename, contents, 0o644)
+}
+
+func printJSON(value any) error {
+	encoder := json.NewEncoder(os.Stdout)
+	encoder.SetIndent("", "  ")
+	return encoder.Encode(value)
+}
