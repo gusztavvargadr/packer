@@ -7,7 +7,22 @@ packer {
   }
 }
 
+variable "box_artifact_destination" {
+  type        = string
+  description = "The rclone destination root for published Vagrant boxes."
+  default     = "r2:packer"
+}
+
+variable "box_artifact_origin" {
+  type        = string
+  description = "The public origin for published Vagrant boxes."
+  default     = "https://pub-8fcabe1edc344cb782c6dafddb0fe446.r2.dev"
+}
+
 locals {
+  box_artifact_destination = var.box_artifact_destination
+  box_artifact_origin      = var.box_artifact_origin
+
   vagrant_import_sources = {
     virtualbox = "virtualbox-ovf.core"
     vmware     = "vmware-vmx.core"
@@ -43,9 +58,11 @@ locals {
   vagrant_options_image = lookup(local.image_options, "vagrant", {})
   vagrant_options       = merge(local.vagrant_options_core, local.vagrant_options_image)
 
-  vagrant_box_name      = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
-  vagrant_box_tag       = "${local.image_author}/${local.vagrant_box_name}"
-  vagrant_test_box_name = "${local.image_author}-test/${local.vagrant_box_name}"
+  vagrant_box_name       = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
+  vagrant_box_provider   = lookup(local.vagrant_providers, local.image_provider, "")
+  vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.image_architecture}/vagrant.box"
+  vagrant_box_tag        = "${local.image_author}/${local.vagrant_box_name}"
+  vagrant_test_box_name  = "${local.image_author}-test/${local.vagrant_box_name}"
 
   vagrant_default_architecture       = lookup(local.vagrant_options, "default_architecture", "amd64")
   vagrant_alias_default_architecture = lookup(local.vagrant_options, "alias_default_architecture", local.vagrant_default_architecture)
@@ -147,6 +164,12 @@ build {
 
   sources = ["null.core"]
 
+  provisioner "shell-local" {
+    inline = [
+      "rclone copyto \"${local.artifacts_directory}/vagrant/vagrant.box\" \"${local.box_artifact_destination}/${local.vagrant_box_object_key}\" --verbose --checksum --immutable",
+    ]
+  }
+
   post-processors {
     post-processor "artifice" {
       files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
@@ -155,6 +178,7 @@ build {
     post-processor "vagrant-registry" {
       box_tag              = local.vagrant_box_tag
       version              = local.image_version
+      box_download_url     = "${local.box_artifact_origin}/${local.vagrant_box_object_key}"
       box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
       architecture         = local.image_architecture
       default_architecture = local.vagrant_default_architecture
