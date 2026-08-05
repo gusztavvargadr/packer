@@ -4,6 +4,7 @@ parameters:
   provider: ''
   hostArchitecture: ''
   build: ''
+  prototypeVirtualBoxNativeProducer: false
 
 jobs:
   - job: build
@@ -80,6 +81,14 @@ jobs:
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build
         displayName: Build
+        env:
+          ${{ if and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.build, 'native')) }}:
+            PKR_VAR_virtualbox_native_producer_prototype: true
+
+      - ${{ if and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.build, 'native')) }}:
+        - script: |
+            /usr/bin/time -v ruby src/prototypes/virtualbox-native-producer/virtualbox_native_producer.rb representative ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+          displayName: Produce canonical VirtualBox artifact
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test

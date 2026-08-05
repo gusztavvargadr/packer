@@ -7,6 +7,15 @@ packer {
   }
 }
 
+variable "virtualbox_native_producer_prototype" {
+  type    = bool
+  default = false
+}
+
+locals {
+  virtualbox_native_producer_prototype_input = var.virtualbox_native_producer_prototype
+}
+
 locals {
   virtualbox_source_options = {
     audio_controller     = "ac97"
@@ -61,6 +70,7 @@ source "virtualbox-iso" "core" {
   hard_drive_interface = local.virtualbox_iso_source_options.hard_drive_interface
   iso_interface        = local.virtualbox_iso_source_options.iso_interface
   keyboard             = local.virtualbox_iso_source_options.keyboard
+  keep_registered      = local.virtualbox_native_producer_prototype_input
   mouse                = local.virtualbox_iso_source_options.mouse
   nested_virt          = local.virtualbox_iso_source_options.nested_virt
   nic_type             = local.virtualbox_iso_source_options.nic_type
@@ -78,6 +88,7 @@ source "virtualbox-iso" "core" {
   boot_wait              = local.virtualbox_iso_source_options.boot_wait
   shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
+  skip_export            = local.virtualbox_native_producer_prototype_input
 
   communicator = local.communicator.type
   ssh_username = local.communicator.username

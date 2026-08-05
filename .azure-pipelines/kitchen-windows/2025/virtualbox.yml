@@ -4,11 +4,11 @@ pr: none
 resources:
   pipelines:
     - pipeline: source
-      source: windows-server.2025-standard.virtualbox
+      source: windows-11.25h2-enterprise.virtualbox
 
 stages:
   - template: ../../stages.yml
     parameters:
       sample: kitchen-windows
-      image: "2025"
+      image: prototype-windows-11-25h2-enterprise
       provider: virtualbox
