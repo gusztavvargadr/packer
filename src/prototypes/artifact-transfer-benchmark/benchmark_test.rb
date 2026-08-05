@@ -38,6 +38,24 @@ class BenchmarkTest < Minitest::Test
     end
   end
 
+  def test_create_fresh_directory_creates_missing_parents
+    Dir.mktmpdir do |directory|
+      output = File.join(directory, 'artifact-transfer-payload', 'vagrant')
+
+      create_fresh_directory(output)
+
+      assert Dir.exist?(output)
+    end
+  end
+
+  def test_create_fresh_directory_rejects_an_existing_path
+    Dir.mktmpdir do |directory|
+      error = assert_raises(RuntimeError) { create_fresh_directory(directory) }
+
+      assert_equal "path must not exist: #{directory}", error.message
+    end
+  end
+
   def test_verify_checksum_resolves_a_unique_nested_artifact
     Dir.mktmpdir do |directory|
       image = File.join(directory, 'image')

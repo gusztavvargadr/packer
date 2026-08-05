@@ -266,6 +266,12 @@ def one_box(artifact_path)
   boxes.first
 end
 
+def create_fresh_directory(path)
+  raise "path must not exist: #{path}" if File.exist?(path)
+
+  FileUtils.mkdir_p(path)
+end
+
 def canonicalize_hyperv(options)
   box = one_box(options.fetch(:artifact_path))
   output = options.fetch(:output_path)
@@ -281,9 +287,7 @@ end
 def prepare_vagrant_transfer(options)
   box = one_box(options.fetch(:artifact_path))
   transfer = options.fetch(:transfer_path)
-  raise "transfer path must not exist: #{transfer}" if File.exist?(transfer)
-
-  Dir.mkdir(transfer)
+  create_fresh_directory(transfer)
   manifest = File.join(transfer, 'vagrant-transfer.json')
   run_transfer('decode', box, File.join(transfer, 'vagrant.raw.tar'), manifest,
                options.fetch(:packer_vagrant_plugin_version), probe_path: transfer)
@@ -293,9 +297,7 @@ end
 def reconstruct_vagrant_transfer(options)
   artifact = options.fetch(:artifact_path)
   output = options.fetch(:output_path)
-  raise "reconstruction output path must not exist: #{output}" if File.exist?(output)
-
-  Dir.mkdir(output)
+  create_fresh_directory(output)
   manifest_path = File.join(artifact, 'vagrant-transfer.json')
   box = File.join(output, 'vagrant.box')
   run_transfer('reconstruct-packer-writes', File.join(artifact, 'vagrant.raw.tar'), manifest_path, box,
