@@ -1,4 +1,15 @@
 images = {
+  "prototype-windows-11-25h2-enterprise" = {
+    core = {
+      image_description = "Prototype derived consumer for Windows 11 25H2 Enterprise"
+    }
+
+    native = {
+      source_image = "windows-11/25h2-enterprise"
+      chef_keep    = "true"
+    }
+  }
+
   "2025" = {
     core = {
       image_description = "Kitchen on Windows 2025"

@@ -21,3 +21,9 @@ ruby virtualbox_native.rb verify <canonical-native-build-directory>
 The source directory may be either the complete downloaded `native-build` artifact or its `image` directory. The canonical directory always contains `image/*.ovf`, preserving the repository's existing import interface. Set `VBOXMANAGE` only when `VBoxManage` is not on `PATH`.
 
 The commands print the complete relevant state as JSON. `verify` exits zero only when every canonical file matches the recorded length and SHA-256 and VirtualBox still accepts the OVF import contract.
+
+The prototype-only `prototype-windows-11-25h2-enterprise` image in `samples/kitchen-windows/images.pkrvars.hcl` exercises the canonical Windows artifact through the repository's real derived-native pipeline without installing the full Visual Studio workload of the production consumer:
+
+```console
+dotnet cake --configuration kitchen-windows/prototype-windows-11-25h2-enterprise/virtualbox/native
+```
