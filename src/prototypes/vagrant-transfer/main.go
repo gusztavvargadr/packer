@@ -64,6 +64,15 @@ type reconstructionState struct {
 	Exact               bool   `json:"exact"`
 }
 
+type canonicalizationState struct {
+	Schema    string       `json:"schema"`
+	Source    digest       `json:"source"`
+	Canonical digest       `json:"canonical"`
+	Input     archiveState `json:"input_archive"`
+	Output    archiveState `json:"output_archive"`
+	Removed   []string     `json:"removed_entries"`
+}
+
 func main() {
 	if err := run(os.Args[1:]); err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -77,6 +86,11 @@ func run(args []string) error {
 	}
 
 	switch args[0] {
+	case "canonicalize-hyperv":
+		if len(args) != 4 {
+			return usage()
+		}
+		return canonicalizeHyperV(args[1], args[2], args[3])
 	case "roundtrip":
 		if len(args) != 4 {
 			return usage()
@@ -103,7 +117,143 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: go run . roundtrip <source.box> <scratch-directory> <packer-plugin-version> | decode <source.box> <raw.tar> <manifest.json> <packer-plugin-version> | reconstruct <raw.tar> <manifest.json> <reconstructed.box> | reconstruct-packer-writes <raw.tar> <manifest.json> <reconstructed.box>")
+	return errors.New("usage: go run . canonicalize-hyperv <source.box> <canonical.box> <result.json> | roundtrip <source.box> <scratch-directory> <packer-plugin-version> | decode <source.box> <raw.tar> <manifest.json> <packer-plugin-version> | reconstruct <raw.tar> <manifest.json> <reconstructed.box> | reconstruct-packer-writes <raw.tar> <manifest.json> <reconstructed.box>")
+}
+
+func canonicalizeHyperV(sourcePath, outputPath, resultPath string) error {
+	source, err := fileDigest(sourcePath)
+	if err != nil {
+		return err
+	}
+
+	in, err := os.Open(sourcePath)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	gzipReader, err := gzip.NewReader(in)
+	if err != nil {
+		return err
+	}
+	defer gzipReader.Close()
+
+	raw, err := os.CreateTemp(filepath.Dir(outputPath), ".canonical-hyperv-*.tar")
+	if err != nil {
+		return err
+	}
+	rawPath := raw.Name()
+	defer os.Remove(rawPath)
+
+	reader := tar.NewReader(gzipReader)
+	writer := tar.NewWriter(raw)
+	var input archiveState
+	var output archiveState
+	removed := []string{}
+	for {
+		header, nextErr := reader.Next()
+		if errors.Is(nextErr, io.EOF) {
+			break
+		}
+		if nextErr != nil {
+			writer.Close()
+			raw.Close()
+			return nextErr
+		}
+		name, pathErr := safeArchivePath(header.Name)
+		if pathErr != nil {
+			writer.Close()
+			raw.Close()
+			return pathErr
+		}
+		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
+			writer.Close()
+			raw.Close()
+			return fmt.Errorf("unsafe archive entry %q has unsupported type %d", header.Name, header.Typeflag)
+		}
+		countArchiveEntry(&input, name)
+		if strings.EqualFold(name, "Virtual Machines/box.xml") {
+			removed = append(removed, name)
+			continue
+		}
+		if err := writer.WriteHeader(header); err != nil {
+			writer.Close()
+			raw.Close()
+			return err
+		}
+		if _, err := io.Copy(writer, reader); err != nil {
+			writer.Close()
+			raw.Close()
+			return err
+		}
+		countArchiveEntry(&output, name)
+	}
+	if err := writer.Close(); err != nil {
+		raw.Close()
+		return err
+	}
+	if err := raw.Close(); err != nil {
+		return err
+	}
+	if input.HyperVBoxXMLs != 1 || len(removed) != 1 {
+		return fmt.Errorf("expected exactly one Virtual Machines/box.xml, found %d", input.HyperVBoxXMLs)
+	}
+	if output.HyperVBoxXMLs != 0 {
+		return errors.New("canonical archive still contains Virtual Machines/box.xml")
+	}
+	if output.VMCXFiles == 0 {
+		return errors.New("canonical archive contains no .vmcx file")
+	}
+
+	if err := compressRawTar(rawPath, outputPath); err != nil {
+		return err
+	}
+	canonical, err := fileDigest(outputPath)
+	if err != nil {
+		return err
+	}
+	result := canonicalizationState{
+		Schema:    "vagrant-transfer/hyperv-canonical-box/v1",
+		Source:    source,
+		Canonical: canonical,
+		Input:     input,
+		Output:    output,
+		Removed:   removed,
+	}
+	if err := writeJSON(resultPath, result); err != nil {
+		return err
+	}
+	return printJSON(result)
+}
+
+func compressRawTar(rawPath, outputPath string) error {
+	in, err := os.Open(rawPath)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.Create(outputPath)
+	if err != nil {
+		return err
+	}
+	writer, err := pgzip.NewWriterLevel(out, flate.DefaultCompression)
+	if err != nil {
+		out.Close()
+		return err
+	}
+	if err := writer.SetConcurrency(blockSize, runtime.GOMAXPROCS(-1)); err != nil {
+		out.Close()
+		return err
+	}
+	_, copyErr := copyPackerTarWrites(writer, in)
+	writerErr := writer.Close()
+	closeErr := out.Close()
+	if copyErr != nil {
+		return copyErr
+	}
+	if writerErr != nil {
+		return writerErr
+	}
+	return closeErr
 }
 
 func roundtrip(source, scratch, pluginVersion string) error {
@@ -415,7 +565,6 @@ func inspectTar(filename string) (archiveState, error) {
 		if err != nil {
 			return state, err
 		}
-		state.Entries++
 		name, err := safeArchivePath(header.Name)
 		if err != nil {
 			return state, err
@@ -423,15 +572,20 @@ func inspectTar(filename string) (archiveState, error) {
 		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
 			return state, fmt.Errorf("unsafe archive entry %q has unsupported type %d", header.Name, header.Typeflag)
 		}
-		state.RegularFiles++
-		if strings.EqualFold(path.Ext(name), ".vmcx") {
-			state.VMCXFiles++
-		}
-		if strings.EqualFold(name, "Virtual Machines/box.xml") {
-			state.HyperVBoxXMLs++
-		}
+		countArchiveEntry(&state, name)
 	}
 	return state, nil
+}
+
+func countArchiveEntry(state *archiveState, name string) {
+	state.Entries++
+	state.RegularFiles++
+	if strings.EqualFold(path.Ext(name), ".vmcx") {
+		state.VMCXFiles++
+	}
+	if strings.EqualFold(name, "Virtual Machines/box.xml") {
+		state.HyperVBoxXMLs++
+	}
 }
 
 func safeArchivePath(name string) (string, error) {

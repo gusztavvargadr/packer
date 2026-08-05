@@ -3,8 +3,12 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
+  artifactTransferAgentOS: ''
   build: ''
   prototypeVirtualBoxNativeProducer: false
+  artifactTransferBenchmark: false
+  artifactTransferRepresentation: control
+  artifactTransferSequence: ''
 
 jobs:
   - job: build
@@ -15,6 +19,10 @@ jobs:
       demands:
         - VSTS_AGENT_CAP_PACKER -equals build
         - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+        - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+          - Agent.OSArchitecture -equals X64
+        - ${{ if and(eq(parameters.artifactTransferBenchmark, true), ne(parameters.artifactTransferAgentOS, '')) }}:
+          - Agent.OS -equals ${{ parameters.artifactTransferAgentOS }}
         - ${{ if ne(parameters.hostArchitecture, '') }}:
           - Agent.OS -equals Darwin
           - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
@@ -26,10 +34,29 @@ jobs:
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
+      artifactPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      benchmarkPath: $(Agent.TempDirectory)/artifact-transfer-benchmark/${{ parameters.build }}
+      transferPath: $(Agent.TempDirectory)/artifact-transfer-payload/${{ parameters.build }}
+      vagrant.transfer.helper: $(Agent.TempDirectory)/vagrant-transfer-helper
+      benchmark.representation: ${{ parameters.artifactTransferRepresentation }}
+      benchmark.sequence: ${{ parameters.artifactTransferSequence }}
+      ${{ if and(eq(parameters.artifactTransferBenchmark, true), eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+        publishedArtifactPath: $(Agent.TempDirectory)/artifact-transfer-payload/${{ parameters.build }}
+      ${{ else }}:
+        publishedArtifactPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
 
     steps:
       - checkout: self
         submodules: recursive
+
+      - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb build-transfer-helper --output-path "$(vagrant.transfer.helper)"
+          displayName: Build and validate Vagrant transfer helper
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "." --output-path "$(benchmarkPath)/preflight.json" --operation preflight --phase complete
+          displayName: Validate benchmark instrumentation
 
       - script: |
           dotnet --info
@@ -90,18 +117,148 @@ jobs:
             /usr/bin/time -v ruby src/prototypes/virtualbox-native-producer/virtualbox_native_producer.rb representative ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
           displayName: Produce canonical VirtualBox artifact
 
+      - ${{ if and(eq(parameters.artifactTransferBenchmark, true), eq(parameters.build, 'vagrant'), eq(parameters.provider, 'hyperv')) }}:
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(artifactPath)" --output-path "$(benchmarkPath)/canonicalize-before.json" --operation canonicalize --phase before
+          displayName: Snapshot before Hyper-V canonicalization
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb canonicalize-hyperv --artifact-path "$(artifactPath)" --output-path "$(benchmarkPath)/hyperv"
+          displayName: Remove Hyper-V box.xml before test and hash
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(artifactPath)" --output-path "$(benchmarkPath)/canonicalize-after.json" --operation canonicalize --phase after
+          displayName: Snapshot after Hyper-V canonicalization
+
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-        artifact: ${{ parameters.build }}-build
-        displayName: Publish artifacts
+      - ${{ if and(eq(parameters.artifactTransferBenchmark, true), eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(artifactPath)" --output-path "$(benchmarkPath)/transform-before.json" --operation transform --phase before
+          displayName: Snapshot before Vagrant transfer transform
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb prepare-vagrant-transfer --artifact-path "$(artifactPath)" --transfer-path "$(transferPath)" --packer-vagrant-plugin-version 1.1.6
+          displayName: Prepare raw-tar Vagrant transfer
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(transferPath)" --output-path "$(benchmarkPath)/transform-after.json" --operation transform --phase after
+          displayName: Snapshot after Vagrant transfer transform
+
+      - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(publishedArtifactPath)" --output-path "$(benchmarkPath)/upload-before.json" --operation upload --phase before
+          displayName: Snapshot before artifact upload
+
+      - ${{ if and(eq(parameters.artifactTransferBenchmark, true), eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+        - publish: $(publishedArtifactPath)
+          artifact: ${{ parameters.build }}-build
+          displayName: Publish candidate artifacts
+      - ${{ else }}:
+        - publish: $(publishedArtifactPath)
+          artifact: ${{ parameters.build }}-build
+          displayName: Publish artifacts
+
+      - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(publishedArtifactPath)" --output-path "$(benchmarkPath)/upload-after.json" --operation upload --phase after
+          displayName: Snapshot after artifact upload
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
         displayName: Clean
         condition: always()
+
+  - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+    - job: verify
+      displayName: Verify ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} handoff
+      dependsOn: build
+
+      pool:
+        name: default
+        demands:
+          - VSTS_AGENT_CAP_PACKER -equals build
+          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+          - Agent.OSArchitecture -equals X64
+          - ${{ if ne(parameters.artifactTransferAgentOS, '') }}:
+            - Agent.OS -equals ${{ parameters.artifactTransferAgentOS }}
+          - ${{ if ne(parameters.hostArchitecture, '') }}:
+            - Agent.OS -equals Darwin
+            - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
+
+      workspace:
+        clean: all
+
+      variables:
+        downloadedArtifactPath: $(Pipeline.Workspace)/downloaded/${{ parameters.build }}
+        reconstructedArtifactPath: $(Agent.TempDirectory)/artifact-transfer-reconstructed/${{ parameters.build }}
+        benchmarkPath: $(Agent.TempDirectory)/artifact-transfer-benchmark/${{ parameters.build }}-verify
+        vagrant.transfer.helper: $(Agent.TempDirectory)/vagrant-transfer-helper
+        benchmark.representation: ${{ parameters.artifactTransferRepresentation }}
+        benchmark.sequence: ${{ parameters.artifactTransferSequence }}
+        ${{ if and(eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+          verifiedArtifactPath: $(Agent.TempDirectory)/artifact-transfer-reconstructed/${{ parameters.build }}
+        ${{ else }}:
+          verifiedArtifactPath: $(Pipeline.Workspace)/downloaded/${{ parameters.build }}
+
+      steps:
+        - checkout: self
+          submodules: recursive
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb build-transfer-helper --output-path "$(vagrant.transfer.helper)"
+          displayName: Build and validate Vagrant transfer helper
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(downloadedArtifactPath)" --output-path "$(benchmarkPath)/download-before.json" --operation download --phase before
+          displayName: Snapshot before artifact download
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: current
+            artifact: ${{ parameters.build }}-build
+            targetPath: $(downloadedArtifactPath)
+          displayName: Download benchmark artifacts
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(downloadedArtifactPath)" --output-path "$(benchmarkPath)/download-after.json" --operation download --phase after
+          displayName: Snapshot after artifact download
+
+        - ${{ if and(eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(downloadedArtifactPath)" --output-path "$(benchmarkPath)/reconstruct-before.json" --operation reconstruct --phase before
+            displayName: Snapshot before Vagrant reconstruction
+
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb reconstruct-vagrant-transfer --artifact-path "$(downloadedArtifactPath)" --output-path "$(reconstructedArtifactPath)"
+            displayName: Reconstruct Vagrant box
+
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(reconstructedArtifactPath)" --output-path "$(benchmarkPath)/reconstruct-after.json" --operation reconstruct --phase after
+            displayName: Snapshot after Vagrant reconstruction
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(verifiedArtifactPath)" --output-path "$(benchmarkPath)/verify-before.json" --operation verify --phase before
+          displayName: Snapshot before downstream verification
+
+        - ${{ if and(eq(parameters.artifactTransferRepresentation, 'candidate'), eq(parameters.build, 'vagrant')) }}:
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb verify-vagrant-reconstruction --artifact-path "$(downloadedArtifactPath)" --output-path "$(reconstructedArtifactPath)"
+            displayName: Verify reconstructed Vagrant box
+        - ${{ elseif and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb verify-virtualbox --artifact-path "$(downloadedArtifactPath)"
+            displayName: Verify checksums and VirtualBox import
+        - ${{ else }}:
+          - script: |
+              chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb verify-checksum --artifact-path "$(downloadedArtifactPath)"
+            displayName: Verify artifact checksums
+
+        - script: |
+            chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "$(verifiedArtifactPath)" --output-path "$(benchmarkPath)/verify-after.json" --operation verify --phase after
+          displayName: Snapshot after downstream verification
 
   - ${{ if eq(parameters.build, 'vagrant') }}:
     - job: publish

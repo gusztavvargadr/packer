@@ -1,10 +1,30 @@
 trigger: none
 pr: none
 
+parameters:
+  - name: artifactTransferRepresentation
+    displayName: Artifact transfer representation
+    type: string
+    default: control
+    values:
+      - control
+      - candidate
+  - name: artifactTransferSequence
+    displayName: Adjacent-build sequence
+    type: string
+    default: A
+    values:
+      - A
+      - B
+
 stages:
   - template: ../../stages.yml
     parameters:
       sample: ubuntu-server
       image: 2404-lts
       provider: virtualbox
+      artifactTransferAgentOS: Linux
       prototypeVirtualBoxNativeProducer: true
+      artifactTransferBenchmark: true
+      artifactTransferRepresentation: ${{ parameters.artifactTransferRepresentation }}
+      artifactTransferSequence: ${{ parameters.artifactTransferSequence }}

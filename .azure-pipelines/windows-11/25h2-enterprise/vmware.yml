@@ -1,9 +1,29 @@
 trigger: none
 pr: none
 
+parameters:
+  - name: artifactTransferRepresentation
+    displayName: Artifact transfer representation
+    type: string
+    default: control
+    values:
+      - control
+      - candidate
+  - name: artifactTransferSequence
+    displayName: Adjacent-build sequence
+    type: string
+    default: A
+    values:
+      - A
+      - B
+
 stages:
   - template: ../../stages.yml
     parameters:
       sample: windows-11
       image: 25h2-enterprise
       provider: vmware
+      artifactTransferAgentOS: Windows_NT
+      artifactTransferBenchmark: true
+      artifactTransferRepresentation: ${{ parameters.artifactTransferRepresentation }}
+      artifactTransferSequence: ${{ parameters.artifactTransferSequence }}

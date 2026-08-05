@@ -3,7 +3,11 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
+  artifactTransferAgentOS: ''
   prototypeVirtualBoxNativeProducer: false
+  artifactTransferBenchmark: false
+  artifactTransferRepresentation: control
+  artifactTransferSequence: ''
 
 stages:
   - stage: native
@@ -16,7 +20,11 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
-          prototypeVirtualBoxNativeProducer: ${{ parameters.prototypeVirtualBoxNativeProducer }}
+          artifactTransferAgentOS: ${{ parameters.artifactTransferAgentOS }}
+          prototypeVirtualBoxNativeProducer: ${{ and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.artifactTransferRepresentation, 'candidate')) }}
+          artifactTransferBenchmark: ${{ parameters.artifactTransferBenchmark }}
+          artifactTransferRepresentation: ${{ parameters.artifactTransferRepresentation }}
+          artifactTransferSequence: ${{ parameters.artifactTransferSequence }}
           build: native
 
   - stage: vagrant
@@ -29,5 +37,9 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
-          prototypeVirtualBoxNativeProducer: ${{ parameters.prototypeVirtualBoxNativeProducer }}
+          artifactTransferAgentOS: ${{ parameters.artifactTransferAgentOS }}
+          prototypeVirtualBoxNativeProducer: ${{ and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.artifactTransferRepresentation, 'candidate')) }}
+          artifactTransferBenchmark: ${{ parameters.artifactTransferBenchmark }}
+          artifactTransferRepresentation: ${{ parameters.artifactTransferRepresentation }}
+          artifactTransferSequence: ${{ parameters.artifactTransferSequence }}
           build: vagrant
