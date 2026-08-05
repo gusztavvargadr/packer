@@ -151,13 +151,33 @@ def write_file_checksum(file, output)
   puts value
 end
 
+def resolve_checksum_target(artifact_path, checksum_path)
+  root = Pathname.new(File.expand_path(artifact_path))
+  normalized = checksum_path.tr('\\', '/')
+  relative = Pathname.new(normalized).cleanpath
+  if relative.absolute? || relative.to_s == '..' || relative.to_s.start_with?('../')
+    raise "unsafe checksum path: #{checksum_path}"
+  end
+
+  direct = root.join(relative)
+  return [direct.to_s, relative.to_s] if direct.file?
+
+  raise "checksum target does not exist: #{checksum_path}" unless relative.dirname.to_s == '.'
+
+  matches = Dir.glob(root.join('**', relative.basename).to_s, File::FNM_DOTMATCH).select { |path| File.file?(path) }
+  raise "checksum target does not exist: #{checksum_path}" if matches.empty?
+  raise "checksum target is ambiguous: #{checksum_path} matched #{matches.length} files" unless matches.one?
+
+  target = Pathname.new(matches.first)
+  [target.to_s, target.relative_path_from(root).to_s]
+end
+
 def verify_checksum(artifact_path)
   checksum = File.join(artifact_path, 'checksum.sha256')
   entries = File.readlines(checksum, chomp: true).reject { |line| line.strip.empty? }.map do |line|
     match = line.match(/\A([0-9a-fA-F]{64})[\t ]+\*?(.+)\z/) or raise "unsupported checksum line: #{line}"
     expected = match[1].downcase
-    relative = match[2].strip
-    target = File.join(artifact_path, relative)
+    target, relative = resolve_checksum_target(artifact_path, match[2].strip)
     actual = Digest::SHA256.file(target).hexdigest
     { 'path' => relative, 'bytes' => File.size(target), 'expected_sha256' => expected, 'actual_sha256' => actual,
       'exact' => actual == expected }
