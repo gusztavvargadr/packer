@@ -9,8 +9,34 @@ require 'minitest/autorun'
 require 'open3'
 require 'tmpdir'
 
+require_relative 'benchmark'
+
 class BenchmarkTest < Minitest::Test
   BENCHMARK = File.expand_path('benchmark.rb', __dir__)
+
+  def test_one_box_finds_a_unique_nested_box
+    Dir.mktmpdir do |directory|
+      nested = File.join(directory, 'vagrant')
+      FileUtils.mkdir_p(nested)
+      box = File.join(nested, 'vagrant.box')
+      File.write(box, 'box')
+
+      assert_equal box, one_box(directory)
+    end
+  end
+
+  def test_one_box_rejects_ambiguous_nested_boxes
+    Dir.mktmpdir do |directory|
+      %w[first second].each do |subdirectory|
+        nested = File.join(directory, subdirectory)
+        FileUtils.mkdir_p(nested)
+        File.write(File.join(nested, 'vagrant.box'), subdirectory)
+      end
+
+      error = assert_raises(RuntimeError) { one_box(directory) }
+      assert_equal "expected one .box under #{directory}, found 2", error.message
+    end
+  end
 
   def test_verify_checksum_resolves_a_unique_nested_artifact
     Dir.mktmpdir do |directory|

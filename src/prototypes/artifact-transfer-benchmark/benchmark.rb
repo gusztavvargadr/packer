@@ -260,7 +260,7 @@ def run_transfer(*arguments, probe_path:)
 end
 
 def one_box(artifact_path)
-  boxes = Dir.glob(File.join(artifact_path, '*.box'))
+  boxes = Dir.glob(File.join(artifact_path, '**', '*.box'))
   raise "expected one .box under #{artifact_path}, found #{boxes.length}" unless boxes.length == 1
 
   boxes.first
@@ -330,29 +330,33 @@ def verify_virtualbox(artifact_path)
                        'ovf' => File.basename(ovfs.first), 'import_dry_run' => true })
 end
 
-action = ARGV.shift or abort 'an action is required'
-options = { packer_vagrant_plugin_version: '1.1.6' }
-OptionParser.new do |parser|
-  parser.on('--artifact-path PATH') { |value| options[:artifact_path] = value }
-  parser.on('--file-path PATH') { |value| options[:file_path] = value }
-  parser.on('--output-path PATH') { |value| options[:output_path] = value }
-  parser.on('--operation NAME') { |value| options[:operation] = value }
-  parser.on('--phase NAME') { |value| options[:phase] = value }
-  parser.on('--transfer-path PATH') { |value| options[:transfer_path] = value }
-  parser.on('--packer-vagrant-plugin-version VERSION') { |value| options[:packer_vagrant_plugin_version] = value }
-end.parse!
+def run_cli(arguments)
+  action = arguments.shift or abort 'an action is required'
+  options = { packer_vagrant_plugin_version: '1.1.6' }
+  OptionParser.new do |parser|
+    parser.on('--artifact-path PATH') { |value| options[:artifact_path] = value }
+    parser.on('--file-path PATH') { |value| options[:file_path] = value }
+    parser.on('--output-path PATH') { |value| options[:output_path] = value }
+    parser.on('--operation NAME') { |value| options[:operation] = value }
+    parser.on('--phase NAME') { |value| options[:phase] = value }
+    parser.on('--transfer-path PATH') { |value| options[:transfer_path] = value }
+    parser.on('--packer-vagrant-plugin-version VERSION') { |value| options[:packer_vagrant_plugin_version] = value }
+  end.parse!(arguments)
 
-case action
-when 'canonicalize-hyperv' then canonicalize_hyperv(options)
-when 'build-transfer-helper' then build_transfer_helper(options)
-when 'prepare-vagrant-transfer' then prepare_vagrant_transfer(options)
-when 'reconstruct-vagrant-transfer' then reconstruct_vagrant_transfer(options)
-when 'snapshot' then snapshot(options)
-when 'verify-checksum' then verify_checksum(options.fetch(:artifact_path))
-when 'verify-vagrant-reconstruction' then verify_vagrant_reconstruction(options)
-when 'verify-virtualbox' then verify_virtualbox(options.fetch(:artifact_path))
-when 'write-file-checksum' then write_file_checksum(options.fetch(:file_path), options.fetch(:output_path))
-else abort "unsupported action: #{action}"
+  case action
+  when 'canonicalize-hyperv' then canonicalize_hyperv(options)
+  when 'build-transfer-helper' then build_transfer_helper(options)
+  when 'prepare-vagrant-transfer' then prepare_vagrant_transfer(options)
+  when 'reconstruct-vagrant-transfer' then reconstruct_vagrant_transfer(options)
+  when 'snapshot' then snapshot(options)
+  when 'verify-checksum' then verify_checksum(options.fetch(:artifact_path))
+  when 'verify-vagrant-reconstruction' then verify_vagrant_reconstruction(options)
+  when 'verify-virtualbox' then verify_virtualbox(options.fetch(:artifact_path))
+  when 'write-file-checksum' then write_file_checksum(options.fetch(:file_path), options.fetch(:output_path))
+  else abort "unsupported action: #{action}"
+  end
 end
+
+run_cli(ARGV) if $PROGRAM_NAME == __FILE__
 
 # rubocop:enable Layout/LineLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
