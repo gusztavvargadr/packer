@@ -13,6 +13,19 @@ require_relative 'benchmark'
 
 class BenchmarkTest < Minitest::Test
   BENCHMARK = File.expand_path('benchmark.rb', __dir__)
+  Times = Struct.new(:cutime, :cstime)
+
+  def test_recursive_glob_pattern_normalizes_windows_separators
+    assert_equal 'C:/agent/artifact/**/*', recursive_glob_pattern('C:\\agent\\artifact')
+  end
+
+  def test_child_cpu_measurement_does_not_report_false_windows_zeroes
+    measurement = child_cpu_measurement(Times.new(0, 0), Times.new(0, 0), windows: true)
+
+    assert_equal 'operation snapshot cpu delta', measurement.fetch('child_cpu_source')
+    assert_nil measurement.fetch('child_user_cpu_seconds')
+    assert_nil measurement.fetch('child_system_cpu_seconds')
+  end
 
   def test_one_box_finds_a_unique_nested_box
     Dir.mktmpdir do |directory|

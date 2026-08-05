@@ -8,16 +8,29 @@ require 'fileutils'
 require 'json'
 require 'net/http'
 require 'optparse'
+require 'stringio'
 require 'time'
 require 'uri'
+require 'zlib'
 
 BASE_URL = 'https://dev.azure.com/gusztavvargadr/packer/_apis/build/builds'
+
+def decoded_response_body(response)
+  response['content-encoding'].to_s.split(',').reverse_each.reduce(response.body) do |body, encoding|
+    case encoding.strip.downcase
+    when '', 'identity' then body
+    when 'gzip' then Zlib::GzipReader.new(StringIO.new(body)).read
+    else raise "unsupported content encoding: #{encoding}"
+    end
+  end
+end
 
 def fetch(uri, json: true)
   response = Net::HTTP.get_response(URI(uri))
   raise "GET #{uri} returned #{response.code}" unless response.is_a?(Net::HTTPSuccess)
 
-  json ? JSON.parse(response.body) : response.body
+  body = decoded_response_body(response)
+  json ? JSON.parse(body) : body
 end
 
 def api(build_id, suffix)
@@ -214,6 +227,9 @@ def collect_build(build_id)
     { 'job' => parent['name'], 'task' => record['name'], 'result' => record['result'],
       'start_time' => record['startTime'], 'finish_time' => record['finishTime'] }
   end
+  if build.fetch('templateParameters', {}).key?('artifactTransferRepresentation') && operations.empty?
+    raise "benchmark build #{build_id} produced no parsed operations"
+  end
 
   {
     'build' => {
@@ -250,47 +266,51 @@ def collect_build(build_id)
   }
 end
 
-options = { output: 'artifact-transfer-benchmark.json' }
-OptionParser.new do |parser|
-  parser.banner = 'usage: ruby collect.rb [--output DATASET.json] BUILD_ID [BUILD_ID ...]'
-  parser.on('--output PATH') { |path| options[:output] = path }
-end.parse!
-abort 'at least one build id is required' if ARGV.empty?
+def run_collector(arguments)
+  options = { output: 'artifact-transfer-benchmark.json' }
+  OptionParser.new do |parser|
+    parser.banner = 'usage: ruby collect.rb [--output DATASET.json] BUILD_ID [BUILD_ID ...]'
+    parser.on('--output PATH') { |path| options[:output] = path }
+  end.parse!(arguments)
+  abort 'at least one build id is required' if arguments.empty?
 
-dataset = {
-  'schema' => 'artifact-transfer-benchmark/dataset/v1',
-  'collected_at_utc' => Time.now.utc.iso8601,
-  'builds' => ARGV.map { |build_id| collect_build(Integer(build_id, 10)) }
-}
-FileUtils.mkdir_p(File.dirname(File.expand_path(options[:output])))
-File.write(options[:output], "#{JSON.pretty_generate(dataset)}\n")
+  dataset = {
+    'schema' => 'artifact-transfer-benchmark/dataset/v1',
+    'collected_at_utc' => Time.now.utc.iso8601,
+    'builds' => arguments.map { |build_id| collect_build(Integer(build_id, 10)) }
+  }
+  FileUtils.mkdir_p(File.dirname(File.expand_path(options[:output])))
+  File.write(options[:output], "#{JSON.pretty_generate(dataset)}\n")
 
-csv_path = options[:output].sub(/\.json\z/, '.csv')
-CSV.open(csv_path, 'w') do |csv|
-  csv << %w[build_id definition configuration job representation sequence operation agent wall_seconds
-            observed_cross_job_wall_seconds nic_sent_bytes nic_received_bytes physical_upload_mb logical_upload_mb physical_download_mb]
-  dataset['builds'].each do |entry|
-    entry['operations'].each do |operation|
-      statistics = operation.dig('service_task', 'statistics') || {}
-      csv << [
-        entry.dig('build', 'id'), entry.dig('build', 'definition'), operation['configuration'], operation['job'], operation['representation'],
-        operation['sequence'], operation['operation'], operation['agent'], operation.dig('delta', 'wall_seconds'),
-        nil, operation.dig('delta', 'nic_sent_bytes'), operation.dig('delta', 'nic_received_bytes'),
-        statistics.dig('physical_content_uploaded', 'megabytes'), statistics.dig('logical_content_uploaded', 'megabytes'),
-        statistics.dig('physical_content_downloaded', 'megabytes')
-      ]
-    end
-    entry['handoffs'].each do |handoff|
-      csv << [
-        entry.dig('build', 'id'), entry.dig('build', 'definition'), handoff['configuration'],
-        "#{handoff['upload_job']} -> #{handoff['verify_job']}", handoff['representation'], handoff['sequence'],
-        'full_handoff', nil, handoff['measured_component_wall_seconds'], handoff['observed_cross_job_wall_seconds'], nil, nil, nil, nil, nil
-      ]
+  csv_path = options[:output].sub(/\.json\z/, '.csv')
+  CSV.open(csv_path, 'w') do |csv|
+    csv << %w[build_id definition configuration job representation sequence operation agent wall_seconds
+              observed_cross_job_wall_seconds nic_sent_bytes nic_received_bytes physical_upload_mb logical_upload_mb physical_download_mb]
+    dataset['builds'].each do |entry|
+      entry['operations'].each do |operation|
+        statistics = operation.dig('service_task', 'statistics') || {}
+        csv << [
+          entry.dig('build', 'id'), entry.dig('build', 'definition'), operation['configuration'], operation['job'], operation['representation'],
+          operation['sequence'], operation['operation'], operation['agent'], operation.dig('delta', 'wall_seconds'),
+          nil, operation.dig('delta', 'nic_sent_bytes'), operation.dig('delta', 'nic_received_bytes'),
+          statistics.dig('physical_content_uploaded', 'megabytes'), statistics.dig('logical_content_uploaded', 'megabytes'),
+          statistics.dig('physical_content_downloaded', 'megabytes')
+        ]
+      end
+      entry['handoffs'].each do |handoff|
+        csv << [
+          entry.dig('build', 'id'), entry.dig('build', 'definition'), handoff['configuration'],
+          "#{handoff['upload_job']} -> #{handoff['verify_job']}", handoff['representation'], handoff['sequence'],
+          'full_handoff', nil, handoff['measured_component_wall_seconds'], handoff['observed_cross_job_wall_seconds'], nil, nil, nil, nil, nil
+        ]
+      end
     end
   end
+
+  puts options[:output]
+  puts csv_path
 end
 
-puts options[:output]
-puts csv_path
+run_collector(ARGV) if $PROGRAM_NAME == __FILE__
 
 # rubocop:enable Layout/LineLength, Metrics/AbcSize, Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Style/MultilineBlockChain

@@ -84,10 +84,14 @@ def cpu_counters
   { 'source' => 'unavailable' }
 end
 
+def recursive_glob_pattern(root, basename = '*')
+  File.join(root, '**', basename).tr('\\', '/')
+end
+
 def artifact_state(path)
   return { 'exists' => false, 'files' => 0, 'logical_bytes' => 0 } if path.nil? || !File.exist?(path)
 
-  files = Dir.glob(File.join(path, '**', '*'), File::FNM_DOTMATCH).select { |entry| File.file?(entry) }
+  files = Dir.glob(recursive_glob_pattern(path), File::FNM_DOTMATCH).select { |entry| File.file?(entry) }
   { 'exists' => true, 'files' => files.length, 'logical_bytes' => files.sum { |entry| File.size(entry) } }
 end
 
@@ -164,7 +168,7 @@ def resolve_checksum_target(artifact_path, checksum_path)
 
   raise "checksum target does not exist: #{checksum_path}" unless relative.dirname.to_s == '.'
 
-  matches = Dir.glob(root.join('**', relative.basename).to_s, File::FNM_DOTMATCH).select { |path| File.file?(path) }
+  matches = Dir.glob(recursive_glob_pattern(root, relative.basename), File::FNM_DOTMATCH).select { |path| File.file?(path) }
   raise "checksum target does not exist: #{checksum_path}" if matches.empty?
   raise "checksum target is ambiguous: #{checksum_path} matched #{matches.length} files" unless matches.one?
 
@@ -202,15 +206,35 @@ def build_transfer_helper(options)
   tool = File.expand_path('../vagrant-transfer', __dir__)
   output = transfer_helper_path(options.fetch(:output_path))
   FileUtils.mkdir_p(File.dirname(output))
+  go_version, go_version_error, go_version_status = Open3.capture3('go', 'version')
+  raise "go version failed: #{go_version_error}" unless go_version_status.success?
+
   system('go', 'test', './...', chdir: tool, exception: true)
   system('go', 'build', '-o', output, '.', chdir: tool, exception: true)
   value = {
     'schema' => 'artifact-transfer-benchmark/helper-build/v1',
     'path' => output,
     'bytes' => File.size(output),
-    'sha256' => Digest::SHA256.file(output).hexdigest
+    'sha256' => Digest::SHA256.file(output).hexdigest,
+    'go_version' => go_version.strip
   }
   puts JSON.generate(value)
+end
+
+def child_cpu_measurement(before, after, windows: windows?)
+  if windows
+    return {
+      'child_cpu_source' => 'operation snapshot cpu delta',
+      'child_user_cpu_seconds' => nil,
+      'child_system_cpu_seconds' => nil
+    }
+  end
+
+  {
+    'child_cpu_source' => 'Process.times',
+    'child_user_cpu_seconds' => after.cutime - before.cutime,
+    'child_system_cpu_seconds' => after.cstime - before.cstime
+  }
 end
 
 def run_transfer(*arguments, probe_path:)
@@ -248,19 +272,17 @@ def run_transfer(*arguments, probe_path:)
     'schema' => 'artifact-transfer-benchmark/command/v1',
     'command' => [helper, *arguments],
     'wall_seconds' => finished - started,
-    'child_user_cpu_seconds' => after.cutime - before.cutime,
-    'child_system_cpu_seconds' => after.cstime - before.cstime,
     'drive_free_bytes_before' => drive_before['free_bytes'],
     'minimum_drive_free_bytes' => minimum_free_bytes,
     'peak_drive_bytes_consumed' => [drive_before['free_bytes'] - minimum_free_bytes, 0].max,
     'exit_status' => status.exitstatus
-  }
+  }.merge(child_cpu_measurement(before, after))
   puts JSON.generate(measurement)
   raise "Vagrant transfer tool failed with exit code #{status.exitstatus}" unless status.success?
 end
 
 def one_box(artifact_path)
-  boxes = Dir.glob(File.join(artifact_path, '**', '*.box'))
+  boxes = Dir.glob(recursive_glob_pattern(artifact_path, '*.box'))
   raise "expected one .box under #{artifact_path}, found #{boxes.length}" unless boxes.length == 1
 
   boxes.first
@@ -324,7 +346,7 @@ end
 
 def verify_virtualbox(artifact_path)
   verify_checksum(artifact_path)
-  ovfs = Dir.glob(File.join(artifact_path, '**', '*.ovf'))
+  ovfs = Dir.glob(recursive_glob_pattern(artifact_path, '*.ovf'))
   raise "expected one OVF under #{artifact_path}, found #{ovfs.length}" unless ovfs.length == 1
 
   system('VBoxManage', 'import', ovfs.first, '--dry-run', exception: true)
