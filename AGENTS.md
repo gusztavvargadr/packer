@@ -25,6 +25,26 @@ Run `packer fmt` for HCL. Use Packer input variables only to capture external in
 
 There is no standalone unit-test suite or typechecking step. When a generic skill asks for typechecking, individual test files, or a full test suite, follow these repository-specific checks instead. For build changes, validation is performed by Packer’s `test` build stage for a complete configuration tuple; test the smallest affected sample/provider combination locally and rely on the corresponding Azure Pipeline matrix for provider coverage. For documentation-only changes, run the relevant format or syntax checks for the changed artifacts. Never commit `packer_cache`, `.vagrant`, or `artifacts`.
 
+## Build and log context hygiene
+
+Packer, Cake, Vagrant, Docker, and virtualization builds are transcript-heavy. After implementation, delegate each independent configuration tuple or log-analysis pass to one non-editing build worker when possible.
+
+Save complete build output to a unique temporary or ignored log file. Report only the configuration tuple, command, duration, exit status, first failing stage, a bounded relevant excerpt, and the log path. Do not paste complete logs into the main task.
+
+Run quick formatting and syntax checks directly in the main task. Keep complete image builds, repeated polling, and broad failure-log analysis outside the main task unless they are inseparable from the current edit.
+
+## Azure home-lab build agents
+
+Azure Pipelines uses three physical home-lab hosts. The Linux AMD64 host supports QEMU, VirtualBox, and VMware; the Windows AMD64 host supports Hyper-V, VirtualBox, and VMware; and the macOS ARM64 host supports VirtualBox and VMware. Each host runs only one provider-specific Azure agent service and one build at a time. Different agent names on the same physical host do not provide additional concurrency. One build may run concurrently on each physical host when their required providers and architectures differ.
+
+Provider changes require manual intervention: ask the user to stop the current agent service and start the required provider-specific service, then wait for confirmation before queueing. Do not change agent services or install host tools without explicit authorization.
+
+Queue builds against an exact branch and commit. For pipelines without runtime parameters, use `az pipelines build queue`. Because that command cannot supply YAML template parameters, parameterized builds must use the Build API:
+
+`az devops invoke --organization https://dev.azure.com/gusztavvargadr --area build --resource builds --route-parameters project=packer --api-version 7.1 --http-method POST --in-file <request.json>`
+
+The request must include `definition.id`, `sourceBranch`, `sourceVersion`, and any `templateParameters`. Before queueing, check both `inProgress` and `notStarted` builds for the physical host. Run ordered build sequences serially and queue the next build only after the previous build succeeded with a clean timeline. Windows image builds may take more than 90 minutes; duration alone is not a reason to cancel them. Stop automation on any failure or user request. Stopping a polling controller does not cancel an already-running Azure build.
+
 ## Commit & Pull Request Guidelines
 
 Recent commits use short, imperative, title-cased summaries such as `Update for 2607 - Core (#519)`. Keep each commit focused and include the PR number when merged. Pull requests should describe affected samples, images, providers, and build stages; link relevant issues; report commands or pipeline jobs run; and include screenshots only for documentation or visible guest-image changes.
