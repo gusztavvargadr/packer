@@ -19,6 +19,125 @@ registry_key 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\
   action :create
 end
 
+powershell_script 'Configure and validate power policy' do
+  code <<-EOH
+    function Invoke-PowerCfg {
+      param([string[]] $PowerArguments)
+
+      $output = & powercfg.exe @PowerArguments 2>&1
+      if ($LASTEXITCODE -ne 0) {
+        throw "powercfg $($PowerArguments -join ' ') failed with exit code $($LASTEXITCODE): $($output -join ' ')"
+      }
+
+      return $output
+    }
+
+    Add-Type @'
+    using System;
+    using System.Runtime.InteropServices;
+
+    public static class PowerPolicyNativeMethods
+    {
+        [DllImport("powrprof.dll")]
+        public static extern UInt32 PowerGetActiveScheme(IntPtr userRootPowerKey, out IntPtr activePolicyGuid);
+
+        [DllImport("powrprof.dll")]
+        public static extern UInt32 PowerReadACValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+            ref Guid subgroupGuid, ref Guid settingGuid, out UInt32 valueIndex);
+
+        [DllImport("powrprof.dll")]
+        public static extern UInt32 PowerReadDCValueIndex(IntPtr rootPowerKey, ref Guid schemeGuid,
+            ref Guid subgroupGuid, ref Guid settingGuid, out UInt32 valueIndex);
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LocalFree(IntPtr memory);
+    }
+'@
+
+    function Get-ActivePowerScheme {
+      $schemePointer = [IntPtr]::Zero
+      $result = [PowerPolicyNativeMethods]::PowerGetActiveScheme([IntPtr]::Zero, [ref] $schemePointer)
+      if ($result -ne 0) {
+        throw "Unable to read the active power scheme (error code $result)."
+      }
+
+      try {
+        return [Guid] [Runtime.InteropServices.Marshal]::PtrToStructure($schemePointer, [type] [Guid])
+      } finally {
+        [void] [PowerPolicyNativeMethods]::LocalFree($schemePointer)
+      }
+    }
+
+    function Get-PowerSettingValue {
+      param(
+        [Guid] $Scheme,
+        [Guid] $Subgroup,
+        [Guid] $Setting,
+        [ValidateSet('AC', 'DC')] [string] $PowerSource
+      )
+
+      [UInt32] $value = 0
+      if ($PowerSource -eq 'AC') {
+        $result = [PowerPolicyNativeMethods]::PowerReadACValueIndex(
+          [IntPtr]::Zero, [ref] $Scheme, [ref] $Subgroup, [ref] $Setting, [ref] $value
+        )
+      } else {
+        $result = [PowerPolicyNativeMethods]::PowerReadDCValueIndex(
+          [IntPtr]::Zero, [ref] $Scheme, [ref] $Subgroup, [ref] $Setting, [ref] $value
+        )
+      }
+
+      if ($result -ne 0) {
+        throw "Unable to read the $PowerSource power setting '$Setting' (error code $result)."
+      }
+
+      return $value
+    }
+
+    $highPerformanceScheme = [Guid] '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'
+    $sleepSubgroup = [Guid] '238c9fa8-0aad-41ed-83f4-97be242c8f20'
+    $sleepTimeout = [Guid] '29f6c1db-86da-48c5-9fdb-f2b67b1f44da'
+    $hibernateTimeout = [Guid] '9d7815a6-7ee4-497e-8888-515a05f02364'
+
+    $availableSchemes = Invoke-PowerCfg @('/list')
+    if (($availableSchemes -join "`n") -notmatch $highPerformanceScheme) {
+      throw "High performance power scheme '$highPerformanceScheme' is unavailable."
+    }
+
+    Invoke-PowerCfg @('/setactive', $highPerformanceScheme) | Out-Null
+    Invoke-PowerCfg @('/setacvalueindex', $highPerformanceScheme, $sleepSubgroup, $sleepTimeout, 0) | Out-Null
+    Invoke-PowerCfg @('/setdcvalueindex', $highPerformanceScheme, $sleepSubgroup, $sleepTimeout, 0) | Out-Null
+    Invoke-PowerCfg @('/setacvalueindex', $highPerformanceScheme, $sleepSubgroup, $hibernateTimeout, 0) | Out-Null
+    Invoke-PowerCfg @('/setdcvalueindex', $highPerformanceScheme, $sleepSubgroup, $hibernateTimeout, 0) | Out-Null
+    Invoke-PowerCfg @('/setactive', $highPerformanceScheme) | Out-Null
+
+    $activeScheme = Get-ActivePowerScheme
+    if ($activeScheme -ne $highPerformanceScheme) {
+      throw "Power policy validation failed: active scheme is '$activeScheme'; expected High performance '$highPerformanceScheme'."
+    }
+
+    $sleepAc = Get-PowerSettingValue $activeScheme $sleepSubgroup $sleepTimeout 'AC'
+    $sleepDc = Get-PowerSettingValue $activeScheme $sleepSubgroup $sleepTimeout 'DC'
+    $hibernateAc = Get-PowerSettingValue $activeScheme $sleepSubgroup $hibernateTimeout 'AC'
+    $hibernateDc = Get-PowerSettingValue $activeScheme $sleepSubgroup $hibernateTimeout 'DC'
+
+    $timeouts = [ordered] @{
+      'sleep-ac' = $sleepAc
+      'sleep-dc' = $sleepDc
+      'hibernate-ac' = $hibernateAc
+      'hibernate-dc' = $hibernateDc
+    }
+    $invalidTimeouts = @($timeouts.GetEnumerator() | Where-Object { $_.Value -ne 0 })
+    if ($invalidTimeouts.Count -ne 0) {
+      $details = $invalidTimeouts | ForEach-Object { "$($_.Key)=$($_.Value)" }
+      throw "Power policy validation failed: $($details -join ', '); expected every timeout to be 0 (Never)."
+    }
+
+    Write-Output "Power policy: scheme=High performance ($activeScheme); sleep-ac=$sleepAc; sleep-dc=$sleepDc; hibernate-ac=$hibernateAc; hibernate-dc=$hibernateDc"
+  EOH
+  action :run
+end
+
 gusztavvargadr_windows_update '' do
   action :initialize
 end
