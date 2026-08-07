@@ -3,6 +3,7 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
+  artifactHandoff: conventional
   build: ''
 
 jobs:
@@ -25,10 +26,19 @@ jobs:
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
+      artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      artifactTransferPath: $(Pipeline.Workspace)/artifact-transfer-payload/${{ parameters.build }}
 
     steps:
       - checkout: self
         submodules: recursive
+
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'vagrant-raw-tar')) }}:
+        - script: |
+            go version
+            go test ./...
+          workingDirectory: ./src/artifact-transfer
+          displayName: Initialize artifact transfer
 
       - script: |
           dotnet --info
@@ -85,9 +95,19 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-        artifact: ${{ parameters.build }}-build
-        displayName: Publish artifacts
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'vagrant-raw-tar')) }}:
+        - script: |
+            go run . prepare-vagrant "$(artifactPath)" "$(artifactTransferPath)"
+          workingDirectory: ./src/artifact-transfer
+          displayName: Prepare Vagrant artifact handoff
+
+        - publish: $(artifactTransferPath)
+          artifact: vagrant-transfer
+          displayName: Publish Vagrant transfer
+      - ${{ else }}:
+        - publish: $(artifactPath)
+          artifact: ${{ parameters.build }}-build
+          displayName: Publish artifacts
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
@@ -96,9 +116,12 @@ jobs:
 
   - ${{ if eq(parameters.build, 'vagrant') }}:
     - job: publish
-      displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      displayName: Hand off and publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+        condition: succeeded()
+      ${{ else }}:
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       pool:
         name: default
@@ -111,10 +134,21 @@ jobs:
       variables:
         - group: environment-vagrant-cloud
         - group: environment-hcp-vagrant
+        - name: artifactPath
+          value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+        - name: artifactTransferPath
+          value: $(Pipeline.Workspace)/artifact-transfer-payload/${{ parameters.build }}
 
       steps:
         - checkout: self
           submodules: recursive
+
+        - ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+          - script: |
+              go version
+              go test ./...
+            workingDirectory: ./src/artifact-transfer
+            displayName: Initialize artifact transfer
 
         - script: |
             dotnet --info
@@ -125,17 +159,37 @@ jobs:
         - script: |
             packer --version
           displayName: Initialize Packer
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
           displayName: Init
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-        - task: DownloadPipelineArtifact@2
-          inputs:
-            source: current
-            artifact: vagrant-build
-            targetPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant
-          displayName: Download artifacts
+        - ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: current
+              artifact: vagrant-transfer
+              targetPath: $(artifactTransferPath)
+            displayName: Download Vagrant transfer
+
+          - script: |
+              go run . reconstruct-vagrant "$(artifactTransferPath)" "$(artifactPath)"
+            workingDirectory: ./src/artifact-transfer
+            displayName: Reconstruct Vagrant artifact
+
+          - script: |
+              go run . verify-vagrant "$(artifactTransferPath)" "$(artifactPath)"
+            workingDirectory: ./src/artifact-transfer
+            displayName: Verify Vagrant artifact
+        - ${{ else }}:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: current
+              artifact: vagrant-build
+              targetPath: $(artifactPath)
+            displayName: Download artifacts
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish
@@ -144,6 +198,7 @@ jobs:
             VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
             HCP_CLIENT_ID: $(hcp-client-id)
             HCP_CLIENT_SECRET: $(hcp-client-secret)
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
