@@ -8,4 +8,4 @@ This module owns the internal prepare, reconstruct, and verify contract used to 
 
 The manifest pins every byte-affecting producer and compression dependency. Updating the Packer Vagrant plugin, pgzip, DEFLATE implementation, block size, compression level, gzip header, or named write schedule requires new byte-exact cross-host evidence and a new manifest schema or deliberately compatible contract.
 
-Each operation reports its wall time, process user/system CPU, and staging output size. The manifest records when preparation started so downstream verification reports complete cross-job handoff time; Azure Pipeline Artifact task logs remain the source for physical bytes, task wall time, service retries, and task-version evidence.
+Each operation reports its wall time, process user/system CPU, staging output size, and sampled peak disk consumption on the output volume. The manifest records when preparation started so downstream verification reports complete cross-job handoff time; Azure Pipeline Artifact task logs remain the source for physical bytes, task wall time, service retries, and task-version evidence.

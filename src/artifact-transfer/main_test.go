@@ -25,10 +25,12 @@ func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testin
 	transfer := filepath.Join(t.TempDir(), "transfer")
 	output := filepath.Join(t.TempDir(), "artifact")
 
-	if _, err := prepareVagrantTransfer(source.directory, transfer); err != nil {
+	prepared, err := prepareVagrantTransfer(source.directory, transfer)
+	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err := reconstructVagrantTransfer(transfer, output); err != nil {
+	reconstructedResult, err := reconstructVagrantTransfer(transfer, output)
+	if err != nil {
 		t.Fatal(err)
 	}
 	if _, err := verifyVagrantTransfer(transfer, output); err != nil {
@@ -41,6 +43,9 @@ func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testin
 	}
 	if !bytes.Equal(source.box, reconstructed) {
 		t.Fatal("reconstructed vagrant.box differs from the canonical box")
+	}
+	if prepared.PeakTemporaryDiskBytes == 0 || reconstructedResult.PeakTemporaryDiskBytes == 0 {
+		t.Fatalf("temporary disk was not measured: prepare=%d reconstruct=%d", prepared.PeakTemporaryDiskBytes, reconstructedResult.PeakTemporaryDiskBytes)
 	}
 	checksum, err := os.ReadFile(filepath.Join(output, checksumFilename))
 	if err != nil {
@@ -87,6 +92,21 @@ func TestPrepareVagrantTransferRequiresThePackerChecksum(t *testing.T) {
 	_, err := prepareVagrantTransfer(source.directory, filepath.Join(t.TempDir(), "transfer"))
 	if err == nil {
 		t.Fatal("prepare unexpectedly accepted a checksum for different canonical bytes")
+	}
+}
+
+func TestPrepareVagrantTransferRequiresTheExactChecksumPath(t *testing.T) {
+	paths := []string{"../vagrant.box", "/tmp/vagrant.box", "other/vagrant.box"}
+	for _, checksumPath := range paths {
+		t.Run(checksumPath, func(t *testing.T) {
+			source := newArtifactFixture(t, []testEntry{{name: "metadata.json", contents: "{}"}})
+			checksum := source.sha256 + "\t" + checksumPath + "\n"
+			writeFile(t, filepath.Join(source.directory, checksumFilename), []byte(checksum))
+
+			if _, err := prepareVagrantTransfer(source.directory, filepath.Join(t.TempDir(), "transfer")); err == nil {
+				t.Fatal("prepare unexpectedly accepted a checksum for a different path")
+			}
+		})
 	}
 }
 

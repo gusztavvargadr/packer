@@ -14,3 +14,11 @@ func processCPU() (cpuTime, error) {
 		SystemSeconds: float64(usage.Stime.Sec) + float64(usage.Stime.Usec)/1e6,
 	}, nil
 }
+
+func freeDiskBytes(path string) (uint64, error) {
+	var state unix.Statfs_t
+	if err := unix.Statfs(path, &state); err != nil {
+		return 0, err
+	}
+	return uint64(state.Bavail) * uint64(state.Bsize), nil
+}
