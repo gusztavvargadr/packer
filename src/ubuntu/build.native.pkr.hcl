@@ -126,11 +126,13 @@ build {
 
   post-processor "manifest" {
     output = "${local.artifacts_directory}/manifest.json"
+    except = local.virtualbox_native_handoff_input ? ["virtualbox-iso.core"] : []
   }
 
   post-processor "checksum" {
     checksum_types = ["sha256"]
     output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+    except         = local.virtualbox_native_handoff_input ? ["virtualbox-iso.core"] : []
   }
 }
 
