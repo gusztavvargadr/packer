@@ -28,18 +28,26 @@ variable "vm_name" {
   type = string
 }
 
-source "virtualbox-iso" "fixture" {
-  vm_name          = var.vm_name
-  output_directory = var.output_directory
+locals {
+  arm64_input            = var.arm64
+  fail_build_input       = var.fail_build
+  iso_url_input          = var.iso_url
+  output_directory_input = var.output_directory
+  vm_name_input          = var.vm_name
+}
 
-  chipset              = var.arm64 ? "armv8virtual" : "piix3"
+source "virtualbox-iso" "fixture" {
+  vm_name          = local.vm_name_input
+  output_directory = local.output_directory_input
+
+  chipset              = local.arm64_input ? "armv8virtual" : "piix3"
   firmware             = "efi"
-  gfx_controller       = var.arm64 ? "qemuramfb" : "vmsvga"
-  guest_os_type        = var.arm64 ? "Other_arm64" : "Other_64"
+  gfx_controller       = local.arm64_input ? "qemuramfb" : "vmsvga"
+  guest_os_type        = local.arm64_input ? "Other_arm64" : "Other_64"
   cpus                 = 1
   memory               = 128
   disk_size            = 16
-  iso_url              = var.iso_url
+  iso_url              = local.iso_url_input
   iso_checksum         = "none"
   iso_interface        = "sata"
   hard_drive_interface = "sata"
@@ -50,14 +58,14 @@ source "virtualbox-iso" "fixture" {
   guest_additions_mode    = "disable"
   headless                = true
   keep_registered         = true
-  keyboard                = var.arm64 ? "usb" : "ps2"
-  mouse                   = var.arm64 ? "usb" : "ps2"
+  keyboard                = local.arm64_input ? "usb" : "ps2"
+  mouse                   = local.arm64_input ? "usb" : "ps2"
   shutdown_timeout        = "30s"
   skip_export             = true
-  usb                     = var.arm64
+  usb                     = local.arm64_input
   usb_controller          = "xhci"
-  vboxmanage              = var.arm64 ? [["storagectl", "{{.Name}}", "--name", "IDE", "--remove"]] : []
-  vboxmanage_post         = var.fail_build ? [["modifyvm", "{{.Name}}", "--definitely-invalid-option", "on"]] : []
+  vboxmanage              = local.arm64_input ? [["storagectl", "{{.Name}}", "--name", "IDE", "--remove"]] : []
+  vboxmanage_post         = local.fail_build_input ? [["modifyvm", "{{.Name}}", "--definitely-invalid-option", "on"]] : []
   virtualbox_version_file = ""
 }
 

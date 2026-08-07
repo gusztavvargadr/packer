@@ -102,6 +102,14 @@ def medium_state(path)
   }
 end
 
+def monolithic_sparse_medium(path)
+  state = medium_state(path)
+  unless state[:format] == 'VMDK' && state[:format_variant] == 'dynamic default'
+    raise "expected monolithic-sparse VMDK, found #{state[:format]} #{state[:format_variant]}"
+  end
+  state
+end
+
 def allocated_bytes(path)
   return 0 unless File.exist?(path)
 
@@ -256,10 +264,11 @@ def produce(vm_name, target, fail_after_detach: false)
   cpu_started = Process.times
   peak_stage = allocated_bytes(stage)
   detached = false
+  canonical_registered = false
   begin
     vbox('clonemedium', 'disk', state.dig(:attachment, :path), vmdk, '--format', 'VMDK', '--variant', 'Standard')
-    canonical_disk = medium_state(vmdk)
-    raise "canonical disk remains compressed: #{canonical_disk[:format_variant]}" if canonical_disk[:format_variant].include?('streamOptimized')
+    canonical_registered = true
+    canonical_disk = monolithic_sparse_medium(vmdk)
     peak_stage = [peak_stage, allocated_bytes(stage)].max
     detach(vm_name, state.fetch(:attachment))
     detached = true
@@ -273,6 +282,7 @@ def produce(vm_name, target, fail_after_detach: false)
       raise 'failed to restore the original disk attachment' unless machine_state(vm_name).fetch(:attachment) == state.fetch(:attachment)
       emit('disk_restored', vm_name: vm_name, attachment: state.fetch(:attachment))
     end
+    vbox('closemedium', 'disk', vmdk) if canonical_registered
   end
   patch_ovf(ovf, state.fetch(:attachment), canonical_disk)
   vbox('import', ovf, '--dry-run')
@@ -381,6 +391,14 @@ def verify(artifact_root)
   expected.each { |identity| raise "checksum mismatch for #{identity[:path]}" unless checksum[identity[:path]] == identity[:sha256] }
   ovfs = actual_paths.select { |path| File.extname(path).downcase == '.ovf' }
   raise "expected exactly one OVF, found #{ovfs.length}" unless ovfs.length == 1
+  vmdks = actual_paths.select { |path| File.extname(path).downcase == '.vmdk' }
+  raise "expected exactly one VMDK, found #{vmdks.length}" unless vmdks.length == 1
+  vmdk = File.join(artifact_root, vmdks.first)
+  begin
+    monolithic_sparse_medium(vmdk)
+  ensure
+    vbox('closemedium', 'disk', vmdk, allow_failure: true)
+  end
   ovf = File.join(artifact_root, ovfs.first)
   raise 'canonical OVF does not declare the sparse disk contract' unless File.binread(ovf).include?('vmdk.html#sparse')
   vbox('import', ovf, '--dry-run')
