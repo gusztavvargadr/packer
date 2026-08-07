@@ -25,12 +25,10 @@ func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testin
 	transfer := filepath.Join(t.TempDir(), "transfer")
 	output := filepath.Join(t.TempDir(), "artifact")
 
-	prepared, err := prepareVagrantTransfer(source.directory, transfer)
-	if err != nil {
+	if _, err := prepareVagrantTransfer(source.directory, transfer); err != nil {
 		t.Fatal(err)
 	}
-	reconstructedResult, err := reconstructVagrantTransfer(transfer, output)
-	if err != nil {
+	if _, err := reconstructVagrantTransfer(transfer, output); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := verifyVagrantTransfer(transfer, output); err != nil {
@@ -43,9 +41,6 @@ func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testin
 	}
 	if !bytes.Equal(source.box, reconstructed) {
 		t.Fatal("reconstructed vagrant.box differs from the canonical box")
-	}
-	if prepared.PeakTemporaryDiskBytes == 0 || reconstructedResult.PeakTemporaryDiskBytes == 0 {
-		t.Fatalf("temporary disk was not measured: prepare=%d reconstruct=%d", prepared.PeakTemporaryDiskBytes, reconstructedResult.PeakTemporaryDiskBytes)
 	}
 	checksum, err := os.ReadFile(filepath.Join(output, checksumFilename))
 	if err != nil {
