@@ -49,6 +49,22 @@ func TestCanonicalizeHyperVVagrantRejectsUnsafeOrAmbiguousArchives(t *testing.T)
 	}
 }
 
+func TestCanonicalizeHyperVVagrantAcceptsSafeWindowsArchivePaths(t *testing.T) {
+	source := newArtifactFixture(t, []testEntry{
+		{name: hyperVBoxXMLPath, contents: "obsolete"},
+		{name: `Virtual Machines\machine.vmcx`, contents: "configuration"},
+		{name: `Virtual Hard Disks\disk.vhdx`, contents: "disk"},
+	})
+
+	result, err := canonicalizeHyperVVagrant(source.directory)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.VMConfigurationPath != "Virtual Machines/machine.vmcx" {
+		t.Fatalf("unexpected normalized VM configuration path: %q", result.VMConfigurationPath)
+	}
+}
+
 func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testing.T) {
 	source := newArtifactFixture(t, []testEntry{
 		{name: "Vagrantfile", contents: "Vagrant.configure(\"2\")"},

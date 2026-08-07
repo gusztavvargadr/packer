@@ -449,14 +449,15 @@ func rawTarHeaderPath(header []byte) (string, error) {
 	if strings.ContainsRune(name, '\x00') {
 		return "", errors.New("tar header path contains embedded NUL")
 	}
+	normalized := strings.ReplaceAll(name, `\`, "/")
 	cleaned, err := safeArchivePath(name)
 	if err != nil {
 		return "", err
 	}
-	if cleaned != name {
-		return "", fmt.Errorf("ambiguous archive path %q is not canonical", name)
+	if cleaned != normalized {
+		return "", fmt.Errorf("ambiguous archive path %q is not canonical after separator normalization", name)
 	}
-	return name, nil
+	return cleaned, nil
 }
 
 func replaceCanonicalVagrantArtifact(boxPath, checksumPath, newBoxPath, newChecksumPath, staging string) error {
