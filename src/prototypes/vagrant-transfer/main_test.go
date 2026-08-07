@@ -3,12 +3,66 @@ package main
 import (
 	"archive/tar"
 	"compress/gzip"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"io"
 	"os"
 	"path/filepath"
 	"testing"
 )
+
+func TestVerifyVirtualBoxSparseBoxPreservesCanonicalFiles(t *testing.T) {
+	directory := t.TempDir()
+	box := filepath.Join(directory, "source.box")
+	manifestPath := filepath.Join(directory, "producer.json")
+	resultPath := filepath.Join(directory, "result.json")
+	ovf := `<Disk ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#sparse"/>`
+	vmdk := "uncompressed sparse disk"
+	nvram := "firmware state"
+	writeTestBox(t, box, []testEntry{
+		{name: "Vagrantfile", contents: "Vagrant.configure(\"2\")"},
+		{name: "box.ovf", contents: ovf},
+		{name: "fixture.nvram", contents: nvram},
+		{name: "fixture.vmdk", contents: vmdk},
+		{name: "metadata.json", contents: `{"architecture":"amd64","provider":"virtualbox"}`},
+	})
+
+	var producer virtualBoxProducerManifest
+	producer.CanonicalDisk.FormatVariant = "dynamic default"
+	producer.Canonical.Files = []virtualBoxCanonicalFile{
+		testCanonicalFile("image/fixture.ovf", ovf),
+		testCanonicalFile("image/fixture.vmdk", vmdk),
+		testCanonicalFile("image/fixture.nvram", nvram),
+	}
+	if err := writeJSON(manifestPath, producer); err != nil {
+		t.Fatal(err)
+	}
+	if err := verifyVirtualBoxSparseBox(box, manifestPath, "amd64", resultPath); err != nil {
+		t.Fatal(err)
+	}
+
+	var result virtualBoxSparseBoxState
+	contents, err := os.ReadFile(resultPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(contents, &result); err != nil {
+		t.Fatal(err)
+	}
+	if result.Schema != "vagrant-transfer/virtualbox-sparse-box/v1" || result.Provider != "virtualbox" || len(result.Entries) != 5 {
+		t.Fatalf("unexpected sparse box result: %#v", result)
+	}
+}
+
+func testCanonicalFile(path, contents string) virtualBoxCanonicalFile {
+	hash := sha256.Sum256([]byte(contents))
+	return virtualBoxCanonicalFile{
+		Path:         path,
+		LogicalBytes: int64(len(contents)),
+		SHA256:       hex.EncodeToString(hash[:]),
+	}
+}
 
 func TestCanonicalizeHyperVRemovesBoxXMLAndPreservesVMCX(t *testing.T) {
 	directory := t.TempDir()

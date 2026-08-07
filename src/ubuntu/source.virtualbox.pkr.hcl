@@ -12,8 +12,15 @@ variable "virtualbox_native_producer_prototype" {
   default = false
 }
 
+variable "virtualbox_vagrant_sparse_prototype" {
+  type    = bool
+  default = false
+}
+
 locals {
   virtualbox_native_producer_prototype_input = var.virtualbox_native_producer_prototype
+  virtualbox_vagrant_sparse_prototype_input  = var.virtualbox_vagrant_sparse_prototype
+  virtualbox_registered_producer_input       = local.virtualbox_native_producer_prototype_input || local.virtualbox_vagrant_sparse_prototype_input
 }
 
 locals {
@@ -104,7 +111,10 @@ source "virtualbox-ovf" "core" {
   headless         = local.virtualbox_ovf_source_options.headless
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
-  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
+  source_path     = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
+  import_flags    = local.virtualbox_registered_producer_input ? ["--basefolder", local.virtualbox_ovf_source_options.output_directory] : []
+  keep_registered = local.virtualbox_registered_producer_input
+  skip_export     = local.virtualbox_registered_producer_input
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
 

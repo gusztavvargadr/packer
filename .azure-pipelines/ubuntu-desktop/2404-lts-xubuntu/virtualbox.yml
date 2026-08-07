@@ -12,3 +12,9 @@ stages:
       sample: ubuntu-desktop
       image: 2404-lts-xubuntu
       provider: virtualbox
+      artifactTransferAgentOS: Linux
+      prototypeVirtualBoxNativeProducer: true
+      prototypeVirtualBoxVagrantSparse: true
+      artifactTransferBenchmark: true
+      artifactTransferRepresentation: candidate
+      artifactTransferSequence: X

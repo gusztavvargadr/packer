@@ -6,6 +6,7 @@ parameters:
   artifactTransferAgentOS: ''
   build: ''
   prototypeVirtualBoxNativeProducer: false
+  prototypeVirtualBoxVagrantSparse: false
   artifactTransferBenchmark: false
   artifactTransferRepresentation: control
   artifactTransferSequence: ''
@@ -49,11 +50,12 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
+      - ${{ if or(eq(parameters.artifactTransferBenchmark, true), eq(parameters.prototypeVirtualBoxVagrantSparse, true)) }}:
         - script: |
             chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb build-transfer-helper --output-path "$(vagrant.transfer.helper)"
           displayName: Build and validate Vagrant transfer helper
 
+      - ${{ if eq(parameters.artifactTransferBenchmark, true) }}:
         - script: |
             chef exec ruby src/prototypes/artifact-transfer-benchmark/benchmark.rb snapshot --artifact-path "." --output-path "$(benchmarkPath)/preflight.json" --operation preflight --phase complete
           displayName: Validate benchmark instrumentation
@@ -111,11 +113,18 @@ jobs:
         env:
           ${{ if and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.build, 'native')) }}:
             PKR_VAR_virtualbox_native_producer_prototype: true
+          ${{ if and(eq(parameters.prototypeVirtualBoxVagrantSparse, true), eq(parameters.build, 'vagrant')) }}:
+            PKR_VAR_virtualbox_vagrant_sparse_prototype: true
 
       - ${{ if and(eq(parameters.prototypeVirtualBoxNativeProducer, true), eq(parameters.build, 'native')) }}:
         - script: |
             /usr/bin/time -v ruby src/prototypes/virtualbox-native-producer/virtualbox_native_producer.rb representative ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
           displayName: Produce canonical VirtualBox artifact
+
+      - ${{ if and(eq(parameters.prototypeVirtualBoxVagrantSparse, true), eq(parameters.build, 'vagrant')) }}:
+        - script: |
+            /usr/bin/time -v ruby src/prototypes/virtualbox-vagrant-sparse/virtualbox_vagrant_sparse.rb representative ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} amd64 "$(vagrant.transfer.helper)"
+          displayName: Produce sparse VirtualBox Vagrant box
 
       - ${{ if and(eq(parameters.artifactTransferBenchmark, true), eq(parameters.build, 'vagrant'), eq(parameters.provider, 'hyperv')) }}:
         - script: |

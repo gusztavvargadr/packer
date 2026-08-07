@@ -227,12 +227,17 @@ def patch_ovf(path, attachment, disk)
   File.binwrite(path, contents)
 end
 
-def produce(vm_name, target, fail_after_detach: false)
+def produce(vm_name, target, fail_after_detach: false, expected_source_formats: ['VDI'])
   raise "target already exists: #{target}" if File.exist?(target)
 
   state = machine_state(vm_name)
   source_disk = medium_state(state.dig(:attachment, :path))
-  raise "expected Packer's source VDI, found #{source_disk[:format]}" unless source_disk[:format] == 'VDI'
+  unless expected_source_formats.include?(source_disk[:format])
+    raise "expected Packer source format #{expected_source_formats.join(' or ')}, found #{source_disk[:format]}"
+  end
+  if source_disk[:format] == 'VMDK' && source_disk[:format_variant].include?('streamOptimized')
+    raise "Packer source disk is already compressed: #{source_disk[:format_variant]}"
+  end
 
   stage = File.join(File.dirname(File.expand_path(target)), ".#{File.basename(target)}.staging-#{Process.pid}")
   raise "staging path already exists: #{stage}" if File.exist?(stage)
@@ -361,14 +366,14 @@ def write_canonical_checksum(artifact_root)
   File.write(File.join(artifact_root, 'checksum.sha256'), lines.join("\n") + "\n")
 end
 
-def run_representative(artifact_root)
+def run_representative(artifact_root, expected_source_formats: %w[VDI VMDK])
   artifact_root = File.expand_path(artifact_root)
   image = File.join(artifact_root, 'image')
   vm_name = find_registered_vm(image)
   canonical = File.join(artifact_root, ".virtualbox-native-producer-#{Process.pid}")
 
   begin
-    result = produce(vm_name, canonical)
+    result = produce(vm_name, canonical, expected_source_formats: expected_source_formats)
   ensure
     vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
   end
@@ -470,7 +475,9 @@ when ['fixture', 1]
   run_fixture(arguments.first)
 when ['representative', 1]
   run_representative(arguments.first)
+when ['vagrant-representative', 1]
+  run_representative(arguments.first, expected_source_formats: ['VMDK'])
 else
-  warn 'usage: ruby virtualbox_native_producer.rb produce <registered-vm-name> <missing-output-directory> | fixture <missing-output-directory> | representative <native-artifact-directory>'
+  warn 'usage: ruby virtualbox_native_producer.rb produce <registered-vm-name> <missing-output-directory> | fixture <missing-output-directory> | representative <native-artifact-directory> | vagrant-representative <vagrant-artifact-directory>'
   exit 1
 end

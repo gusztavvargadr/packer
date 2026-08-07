@@ -95,19 +95,23 @@ build {
     ]
   }
 
-  post-processors {
-    post-processor "vagrant" {
-      vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
-      output               = "${local.artifacts_directory}/vagrant/vagrant.box"
-    }
+  dynamic "post-processors" {
+    for_each = local.virtualbox_vagrant_sparse_prototype_input ? [] : [true]
 
-    post-processor "manifest" {
-      output = "${local.artifacts_directory}/manifest.json"
-    }
+    content {
+      post-processor "vagrant" {
+        vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
+        output               = "${local.artifacts_directory}/vagrant/vagrant.box"
+      }
 
-    post-processor "checksum" {
-      checksum_types = ["sha256"]
-      output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+      post-processor "manifest" {
+        output = "${local.artifacts_directory}/manifest.json"
+      }
+
+      post-processor "checksum" {
+        checksum_types = ["sha256"]
+        output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+      }
     }
   }
 }

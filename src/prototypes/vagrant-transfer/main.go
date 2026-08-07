@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/tar"
+	"bytes"
 	"compress/flate"
 	"compress/gzip"
 	"crypto/sha256"
@@ -73,6 +74,29 @@ type canonicalizationState struct {
 	Removed   []string     `json:"removed_entries"`
 }
 
+type virtualBoxCanonicalFile struct {
+	Path         string `json:"path"`
+	LogicalBytes int64  `json:"logical_bytes"`
+	SHA256       string `json:"sha256"`
+}
+
+type virtualBoxProducerManifest struct {
+	Canonical struct {
+		Files []virtualBoxCanonicalFile `json:"files"`
+	} `json:"canonical"`
+	CanonicalDisk struct {
+		FormatVariant string `json:"format_variant"`
+	} `json:"canonical_disk"`
+}
+
+type virtualBoxSparseBoxState struct {
+	Schema       string            `json:"schema"`
+	Box          digest            `json:"box"`
+	Architecture string            `json:"architecture"`
+	Provider     string            `json:"provider"`
+	Entries      map[string]digest `json:"entries"`
+}
+
 func main() {
 	if err := run(os.Args[1:]); err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -101,6 +125,11 @@ func run(args []string) error {
 			return usage()
 		}
 		return decode(args[1], args[2], args[3], args[4])
+	case "verify-virtualbox-sparse-box":
+		if len(args) != 5 {
+			return usage()
+		}
+		return verifyVirtualBoxSparseBox(args[1], args[2], args[3], args[4])
 	case "reconstruct":
 		if len(args) != 4 {
 			return usage()
@@ -117,7 +146,150 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: go run . canonicalize-hyperv <source.box> <canonical.box> <result.json> | roundtrip <source.box> <scratch-directory> <packer-plugin-version> | decode <source.box> <raw.tar> <manifest.json> <packer-plugin-version> | reconstruct <raw.tar> <manifest.json> <reconstructed.box> | reconstruct-packer-writes <raw.tar> <manifest.json> <reconstructed.box>")
+	return errors.New("usage: go run . canonicalize-hyperv <source.box> <canonical.box> <result.json> | roundtrip <source.box> <scratch-directory> <packer-plugin-version> | decode <source.box> <raw.tar> <manifest.json> <packer-plugin-version> | verify-virtualbox-sparse-box <source.box> <producer-manifest.json> <architecture> <result.json> | reconstruct <raw.tar> <manifest.json> <reconstructed.box> | reconstruct-packer-writes <raw.tar> <manifest.json> <reconstructed.box>")
+}
+
+func verifyVirtualBoxSparseBox(boxPath, producerManifestPath, architecture, resultPath string) error {
+	contents, err := os.ReadFile(producerManifestPath)
+	if err != nil {
+		return err
+	}
+	var producer virtualBoxProducerManifest
+	if err := json.Unmarshal(contents, &producer); err != nil {
+		return err
+	}
+	if strings.Contains(producer.CanonicalDisk.FormatVariant, "streamOptimized") {
+		return fmt.Errorf("canonical VMDK is compressed: %s", producer.CanonicalDisk.FormatVariant)
+	}
+
+	expected := make(map[string]digest)
+	var expectedOVF digest
+	var expectedVMDK bool
+	var expectedNVRAM bool
+	for _, file := range producer.Canonical.Files {
+		state := digest{Bytes: file.LogicalBytes, SHA256: file.SHA256}
+		name := filepath.Base(file.Path)
+		switch strings.ToLower(filepath.Ext(name)) {
+		case ".ovf":
+			if expectedOVF.SHA256 != "" {
+				return errors.New("producer manifest contains more than one OVF")
+			}
+			expectedOVF = state
+		case ".vmdk":
+			if expectedVMDK {
+				return errors.New("producer manifest contains more than one VMDK")
+			}
+			expectedVMDK = true
+			expected[name] = state
+		case ".nvram":
+			if expectedNVRAM {
+				return errors.New("producer manifest contains more than one NVRAM")
+			}
+			expectedNVRAM = true
+			expected[name] = state
+		default:
+			return fmt.Errorf("unexpected canonical file %q", file.Path)
+		}
+	}
+	if expectedOVF.SHA256 == "" || !expectedVMDK || !expectedNVRAM || len(expected) != 2 {
+		return errors.New("producer manifest must contain exactly one OVF, VMDK, and NVRAM")
+	}
+	expected["box.ovf"] = expectedOVF
+
+	box, err := os.Open(boxPath)
+	if err != nil {
+		return err
+	}
+	defer box.Close()
+	gzipReader, err := gzip.NewReader(box)
+	if err != nil {
+		return err
+	}
+	defer gzipReader.Close()
+
+	entries := make(map[string]digest)
+	var ovfContents []byte
+	var metadataContents []byte
+	reader := tar.NewReader(gzipReader)
+	for {
+		header, nextErr := reader.Next()
+		if errors.Is(nextErr, io.EOF) {
+			break
+		}
+		if nextErr != nil {
+			return nextErr
+		}
+		name, pathErr := safeArchivePath(header.Name)
+		if pathErr != nil {
+			return pathErr
+		}
+		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
+			return fmt.Errorf("unsafe archive entry %q has unsupported type %d", header.Name, header.Typeflag)
+		}
+		if _, exists := entries[name]; exists {
+			return fmt.Errorf("duplicate box entry %q", name)
+		}
+
+		hash := sha256.New()
+		var capture bytes.Buffer
+		output := io.Writer(hash)
+		if name == "box.ovf" || name == "metadata.json" {
+			output = io.MultiWriter(hash, &capture)
+		}
+		written, copyErr := io.Copy(output, reader)
+		if copyErr != nil {
+			return copyErr
+		}
+		entries[name] = digest{Bytes: written, SHA256: hex.EncodeToString(hash.Sum(nil))}
+		if name == "box.ovf" {
+			ovfContents = capture.Bytes()
+		}
+		if name == "metadata.json" {
+			metadataContents = capture.Bytes()
+		}
+	}
+
+	expectedNames := map[string]bool{"Vagrantfile": true, "box.ovf": true, "metadata.json": true}
+	for name, state := range expected {
+		expectedNames[name] = true
+		if entries[name] != state {
+			return fmt.Errorf("box entry %q differs from canonical artifact", name)
+		}
+	}
+	if len(entries) != len(expectedNames) {
+		return fmt.Errorf("box contains %d entries, expected %d", len(entries), len(expectedNames))
+	}
+	for name := range entries {
+		if !expectedNames[name] {
+			return fmt.Errorf("unexpected box entry %q", name)
+		}
+	}
+	if !bytes.Contains(ovfContents, []byte("#sparse")) || bytes.Contains(ovfContents, []byte("#streamOptimized")) {
+		return errors.New("box.ovf does not exclusively declare a sparse VMDK")
+	}
+
+	var metadata map[string]string
+	if err := json.Unmarshal(metadataContents, &metadata); err != nil {
+		return err
+	}
+	if metadata["provider"] != "virtualbox" || metadata["architecture"] != architecture || len(metadata) != 2 {
+		return fmt.Errorf("unexpected metadata.json: %v", metadata)
+	}
+	boxState, err := fileDigest(boxPath)
+	if err != nil {
+		return err
+	}
+	result := virtualBoxSparseBoxState{
+		Schema:       "vagrant-transfer/virtualbox-sparse-box/v1",
+		Box:          boxState,
+		Architecture: architecture,
+		Provider:     "virtualbox",
+		Entries:      entries,
+	}
+	if err := writeJSON(resultPath, result); err != nil {
+		return err
+	}
+	return printJSON(result)
 }
 
 func canonicalizeHyperV(sourcePath, outputPath, resultPath string) error {
