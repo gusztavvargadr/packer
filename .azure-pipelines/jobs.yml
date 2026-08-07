@@ -40,6 +40,12 @@ jobs:
           workingDirectory: ./src/artifact-transfer
           displayName: Initialize artifact transfer
 
+      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+        - script: |
+            ruby --version
+            ruby -c src/artifact-transfer/virtualbox_native.rb
+          displayName: Initialize VirtualBox native artifact transfer
+
       - script: |
           dotnet --info
 
@@ -61,6 +67,11 @@ jobs:
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ eq(parameters.hostArchitecture, 'ARM64') }}
         displayName: Init
+
+      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+        - script: |
+            ruby src/artifact-transfer/virtualbox_native.rb fixture-virtualbox-native
+          displayName: Test VirtualBox native lifecycle
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore
@@ -90,6 +101,14 @@ jobs:
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build
         displayName: Build
+        env:
+          ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+            PKR_VAR_virtualbox_native_handoff: true
+
+      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+        - script: |
+            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-native "$(artifactPath)"
+          displayName: Produce canonical VirtualBox native image
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
@@ -113,6 +132,38 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
         displayName: Clean
         condition: always()
+
+  - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+    - job: verify
+      displayName: Verify clean-job handoff ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      dependsOn: build
+
+      pool:
+        name: default
+        demands:
+          - VSTS_AGENT_CAP_PACKER -equals build
+          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+
+      workspace:
+        clean: all
+
+      variables:
+        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+
+      steps:
+        - checkout: self
+          submodules: recursive
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: current
+            artifact: native-build
+            targetPath: $(artifactPath)
+          displayName: Download VirtualBox native image
+
+        - script: |
+            ruby src/artifact-transfer/virtualbox_native.rb verify-virtualbox-native "$(artifactPath)"
+          displayName: Verify VirtualBox native image
 
   - ${{ if eq(parameters.build, 'vagrant') }}:
     - job: publish
