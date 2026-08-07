@@ -4,6 +4,7 @@ parameters:
   provider: ''
   hostArchitecture: ''
   artifactHandoff: conventional
+  vagrantCanonicalization: none
   build: ''
 
 jobs:
@@ -104,6 +105,12 @@ jobs:
         env:
           ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
             PKR_VAR_virtualbox_native_handoff: true
+
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.vagrantCanonicalization, 'hyperv')) }}:
+        - script: |
+            go run . canonicalize-hyperv-vagrant "$(artifactPath)"
+          workingDirectory: ./src/artifact-transfer
+          displayName: Canonicalize Hyper-V Vagrant box
 
       - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
         - script: |

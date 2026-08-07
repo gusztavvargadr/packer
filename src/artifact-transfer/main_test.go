@@ -16,6 +16,39 @@ import (
 	"github.com/klauspost/pgzip"
 )
 
+func TestCanonicalizeHyperVVagrantRejectsUnsafeOrAmbiguousArchives(t *testing.T) {
+	validVMCX := testEntry{name: "Virtual Machines/machine.vmcx", contents: "configuration"}
+	boxXML := testEntry{name: hyperVBoxXMLPath, contents: "obsolete"}
+	tests := []struct {
+		name    string
+		entries []testEntry
+	}{
+		{name: "missing box xml", entries: []testEntry{validVMCX}},
+		{name: "missing vmcx", entries: []testEntry{boxXML}},
+		{name: "vmcx outside virtual machines", entries: []testEntry{boxXML, {name: "machine.vmcx", contents: "configuration"}}},
+		{name: "ambiguous vmcx", entries: []testEntry{boxXML, validVMCX, {name: "Virtual Machines/other.vmcx", contents: "other configuration"}}},
+		{name: "ambiguous box xml", entries: []testEntry{boxXML, {name: "./Virtual Machines/box.xml", contents: "duplicate"}, validVMCX}},
+		{name: "unsafe path", entries: []testEntry{boxXML, validVMCX, {name: "../escape", contents: "escape"}}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			source := newArtifactFixture(t, test.entries)
+			originalBox := append([]byte(nil), source.box...)
+			originalChecksum := append([]byte(nil), readFile(t, filepath.Join(source.directory, checksumFilename))...)
+
+			if _, err := canonicalizeHyperVVagrant(source.directory); err == nil {
+				t.Fatal("canonicalization unexpectedly accepted an unsafe or ambiguous archive")
+			}
+			if !bytes.Equal(readFile(t, filepath.Join(source.directory, canonicalBoxPath)), originalBox) {
+				t.Fatal("failed canonicalization changed the original Vagrant box")
+			}
+			if !bytes.Equal(readFile(t, filepath.Join(source.directory, checksumFilename)), originalChecksum) {
+				t.Fatal("failed canonicalization changed the original checksum")
+			}
+		})
+	}
+}
+
 func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testing.T) {
 	source := newArtifactFixture(t, []testEntry{
 		{name: "Vagrantfile", contents: "Vagrant.configure(\"2\")"},

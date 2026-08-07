@@ -4,6 +4,7 @@ parameters:
   provider: ''
   hostArchitecture: ''
   artifactHandoff: conventional
+  vagrantCanonicalization: none
 
 stages:
   - stage: native
@@ -17,6 +18,7 @@ stages:
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
           artifactHandoff: ${{ parameters.artifactHandoff }}
+          vagrantCanonicalization: ${{ parameters.vagrantCanonicalization }}
           build: native
 
   - stage: vagrant
@@ -30,4 +32,5 @@ stages:
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
           artifactHandoff: ${{ parameters.artifactHandoff }}
+          vagrantCanonicalization: ${{ parameters.vagrantCanonicalization }}
           build: vagrant

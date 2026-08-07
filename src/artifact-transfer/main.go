@@ -39,6 +39,7 @@ const (
 	reconstructionName  = "packer-vagrant-tar-writer/v1"
 	gzipHeaderHex       = "1f8b080000096e8800ff"
 	archiveSafety       = "validated"
+	hyperVBoxXMLPath    = "Virtual Machines/box.xml"
 	packerBlockSize     = 500000
 	packerFileWriteSize = 32 * 1024
 	tarBlockSize        = 512
@@ -89,20 +90,43 @@ type manifest struct {
 	} `json:"reconstruction"`
 }
 
+type operationMetrics struct {
+	OperationWallSeconds   float64 `json:"operation_wall_seconds"`
+	UserCPUSeconds         float64 `json:"user_cpu_seconds"`
+	SystemCPUSeconds       float64 `json:"system_cpu_seconds"`
+	StagingOutputBytes     int64   `json:"staging_output_bytes"`
+	DiskFreeBytesBefore    uint64  `json:"disk_free_bytes_before"`
+	MinimumDiskFreeBytes   uint64  `json:"minimum_disk_free_bytes"`
+	PeakTemporaryDiskBytes uint64  `json:"peak_temporary_disk_bytes"`
+}
+
 type operationResult struct {
-	Schema                 string       `json:"schema"`
-	Operation              string       `json:"operation"`
-	Canonical              identity     `json:"canonical"`
-	Transfer               identity     `json:"transfer"`
-	Archive                archiveState `json:"archive"`
-	OperationWallSeconds   float64      `json:"operation_wall_seconds"`
-	UserCPUSeconds         float64      `json:"user_cpu_seconds"`
-	SystemCPUSeconds       float64      `json:"system_cpu_seconds"`
-	HandoffWallSeconds     *float64     `json:"handoff_wall_seconds,omitempty"`
-	StagingOutputBytes     int64        `json:"staging_output_bytes"`
-	DiskFreeBytesBefore    uint64       `json:"disk_free_bytes_before"`
-	MinimumDiskFreeBytes   uint64       `json:"minimum_disk_free_bytes"`
-	PeakTemporaryDiskBytes uint64       `json:"peak_temporary_disk_bytes"`
+	Schema             string       `json:"schema"`
+	Operation          string       `json:"operation"`
+	Canonical          identity     `json:"canonical"`
+	Transfer           identity     `json:"transfer"`
+	Archive            archiveState `json:"archive"`
+	HandoffWallSeconds *float64     `json:"handoff_wall_seconds,omitempty"`
+	operationMetrics
+}
+
+type canonicalizationResult struct {
+	Schema              string       `json:"schema"`
+	Operation           string       `json:"operation"`
+	Source              identity     `json:"source"`
+	Canonical           identity     `json:"canonical"`
+	ArchiveBefore       archiveState `json:"archive_before"`
+	ArchiveAfter        archiveState `json:"archive_after"`
+	RemovedPath         string       `json:"removed_path"`
+	VMConfigurationPath string       `json:"vm_configuration_path"`
+	UnchangedEntries    int          `json:"unchanged_entries"`
+	operationMetrics
+}
+
+type rawTarRecordIdentity struct {
+	Path   string
+	Bytes  int64
+	SHA256 string
 }
 
 type cpuTime struct {
@@ -135,6 +159,13 @@ func main() {
 }
 
 func run(arguments []string) error {
+	if len(arguments) == 2 && arguments[0] == "canonicalize-hyperv-vagrant" {
+		result, err := canonicalizeHyperVVagrant(arguments[1])
+		if err != nil {
+			return err
+		}
+		return printJSON(result)
+	}
 	if len(arguments) != 3 {
 		return usage()
 	}
@@ -159,7 +190,314 @@ func run(arguments []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: artifact-transfer prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
+	return errors.New("usage: artifact-transfer canonicalize-hyperv-vagrant <artifact-directory> | prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
+}
+
+func canonicalizeHyperVVagrant(artifactDirectory string) (canonicalizationResult, error) {
+	var result canonicalizationResult
+	measurement, err := beginOperation(artifactDirectory)
+	if err != nil {
+		return result, err
+	}
+	defer measurement.cancel()
+
+	boxPath := filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath))
+	checksumPath := filepath.Join(artifactDirectory, checksumFilename)
+	sourceIdentity, err := fileIdentity(boxPath, canonicalBoxPath)
+	if err != nil {
+		return result, fmt.Errorf("read packaged Hyper-V Vagrant box: %w", err)
+	}
+	if err := verifyPackerChecksum(checksumPath, sourceIdentity); err != nil {
+		return result, err
+	}
+	if err := validateGzipHeader(boxPath); err != nil {
+		return result, err
+	}
+
+	staging, err := os.MkdirTemp(artifactDirectory, ".hyperv-canonicalization-*")
+	if err != nil {
+		return result, err
+	}
+	defer os.RemoveAll(staging)
+	sourceRawPath := filepath.Join(staging, "source.raw.tar")
+	_, archiveBefore, err := decodeAndValidate(boxPath, sourceRawPath)
+	if err != nil {
+		return result, err
+	}
+	canonicalRawPath := filepath.Join(staging, "canonical.raw.tar")
+	proof, err := canonicalizeHyperVRawTar(sourceRawPath, canonicalRawPath)
+	if err != nil {
+		return result, err
+	}
+	archiveAfter, err := validateRawTar(canonicalRawPath)
+	if err != nil {
+		return result, fmt.Errorf("validate canonical Hyper-V archive: %w", err)
+	}
+
+	canonicalBoxPathname := filepath.Join(staging, "vagrant.box")
+	if err := reconstructBox(canonicalRawPath, canonicalBoxPathname); err != nil {
+		return result, fmt.Errorf("rebuild canonical Hyper-V Vagrant box: %w", err)
+	}
+	if err := validateGzipHeader(canonicalBoxPathname); err != nil {
+		return result, err
+	}
+	canonicalIdentity, err := fileIdentity(canonicalBoxPathname, canonicalBoxPath)
+	if err != nil {
+		return result, err
+	}
+	canonicalChecksumPath := filepath.Join(staging, checksumFilename)
+	if err := writeChecksum(canonicalChecksumPath, canonicalIdentity); err != nil {
+		return result, err
+	}
+	if err := verifyPackerChecksum(canonicalChecksumPath, canonicalIdentity); err != nil {
+		return result, fmt.Errorf("verify staged canonical Hyper-V checksum: %w", err)
+	}
+
+	metrics, err := measurement.finishMetrics(canonicalIdentity.Bytes)
+	if err != nil {
+		return result, err
+	}
+	result = canonicalizationResult{
+		Schema:              "artifact-transfer/hyperv-canonicalization/v1",
+		Operation:           "canonicalize-hyperv-vagrant",
+		Source:              sourceIdentity,
+		Canonical:           canonicalIdentity,
+		ArchiveBefore:       archiveBefore,
+		ArchiveAfter:        archiveAfter,
+		RemovedPath:         hyperVBoxXMLPath,
+		VMConfigurationPath: proof.vmConfigurationPath,
+		UnchangedEntries:    len(proof.unchangedEntries),
+		operationMetrics:    metrics,
+	}
+	if err := replaceCanonicalVagrantArtifact(boxPath, checksumPath, canonicalBoxPathname, canonicalChecksumPath, staging); err != nil {
+		return canonicalizationResult{}, err
+	}
+	return result, nil
+}
+
+type hyperVCanonicalizationProof struct {
+	vmConfigurationPath string
+	unchangedEntries    []rawTarRecordIdentity
+}
+
+func canonicalizeHyperVRawTar(sourcePath, outputPath string) (hyperVCanonicalizationProof, error) {
+	var proof hyperVCanonicalizationProof
+	source, err := os.Open(sourcePath)
+	if err != nil {
+		return proof, err
+	}
+	defer source.Close()
+	output, err := os.OpenFile(outputPath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
+	if err != nil {
+		return proof, err
+	}
+	records, err := copyRawTarRecords(output, source, hyperVBoxXMLPath)
+	closeErr := output.Close()
+	if err != nil {
+		return proof, err
+	}
+	if closeErr != nil {
+		return proof, closeErr
+	}
+
+	removed := 0
+	var expected []rawTarRecordIdentity
+	for _, record := range records {
+		if record.Path == hyperVBoxXMLPath {
+			removed++
+			continue
+		}
+		expected = append(expected, record)
+		if path.Dir(record.Path) == "Virtual Machines" && path.Ext(record.Path) == ".vmcx" {
+			if proof.vmConfigurationPath != "" {
+				return proof, fmt.Errorf("ambiguous Hyper-V VM configurations %q and %q", proof.vmConfigurationPath, record.Path)
+			}
+			proof.vmConfigurationPath = record.Path
+		}
+	}
+	if removed != 1 {
+		return proof, fmt.Errorf("Hyper-V archive must contain exactly %q; found %d", hyperVBoxXMLPath, removed)
+	}
+	if proof.vmConfigurationPath == "" {
+		return proof, errors.New("Hyper-V archive must contain exactly one .vmcx in Virtual Machines")
+	}
+
+	canonical, err := os.Open(outputPath)
+	if err != nil {
+		return proof, err
+	}
+	actual, scanErr := copyRawTarRecords(io.Discard, canonical, "")
+	closeErr = canonical.Close()
+	if scanErr != nil {
+		return proof, scanErr
+	}
+	if closeErr != nil {
+		return proof, closeErr
+	}
+	if len(actual) != len(expected) {
+		return proof, errors.New("canonical Hyper-V archive changed the number of preserved entries")
+	}
+	for index := range expected {
+		if actual[index] != expected[index] {
+			return proof, fmt.Errorf("canonical Hyper-V archive changed preserved entry %q", expected[index].Path)
+		}
+	}
+	proof.unchangedEntries = actual
+	return proof, nil
+}
+
+func copyRawTarRecords(destination io.Writer, source io.Reader, skippedPath string) ([]rawTarRecordIdentity, error) {
+	var records []rawTarRecordIdentity
+	header := make([]byte, tarBlockSize)
+	buffer := make([]byte, packerFileWriteSize)
+	for {
+		if _, err := io.ReadFull(source, header); err != nil {
+			return records, err
+		}
+		if isZeroBlock(header) {
+			if err := writeAll(destination, header); err != nil {
+				return records, err
+			}
+			if _, err := io.ReadFull(source, header); err != nil {
+				return records, err
+			}
+			if !isZeroBlock(header) {
+				return records, errors.New("tar trailer contains only one zero block")
+			}
+			if err := writeAll(destination, header); err != nil {
+				return records, err
+			}
+			var extra [1]byte
+			if read, readErr := source.Read(extra[:]); read != 0 || !errors.Is(readErr, io.EOF) {
+				return records, errors.New("raw tar contains bytes after its two-block trailer")
+			}
+			return records, nil
+		}
+
+		name, err := rawTarHeaderPath(header)
+		if err != nil {
+			return records, err
+		}
+		if header[156] != tar.TypeReg && header[156] != tar.TypeRegA {
+			return records, fmt.Errorf("unsafe raw archive entry %q has unsupported type %d", name, header[156])
+		}
+		size, err := tarEntrySize(header)
+		if err != nil {
+			return records, err
+		}
+		writeRecord := name != skippedPath
+		hash := sha256.New()
+		if _, err := hash.Write(header); err != nil {
+			return records, err
+		}
+		if writeRecord {
+			if err := writeAll(destination, header); err != nil {
+				return records, err
+			}
+		}
+		recordBytes := int64(len(header))
+		remaining := size
+		for remaining > 0 {
+			chunk := int64(len(buffer))
+			if remaining < chunk {
+				chunk = remaining
+			}
+			contents := buffer[:int(chunk)]
+			if _, err := io.ReadFull(source, contents); err != nil {
+				return records, err
+			}
+			if _, err := hash.Write(contents); err != nil {
+				return records, err
+			}
+			if writeRecord {
+				if err := writeAll(destination, contents); err != nil {
+					return records, err
+				}
+			}
+			recordBytes += chunk
+			remaining -= chunk
+		}
+		padding := (tarBlockSize - size%tarBlockSize) % tarBlockSize
+		if padding > 0 {
+			contents := buffer[:int(padding)]
+			if _, err := io.ReadFull(source, contents); err != nil {
+				return records, err
+			}
+			if !isZeroBlock(contents) {
+				return records, errors.New("tar entry padding contains non-zero bytes")
+			}
+			if _, err := hash.Write(contents); err != nil {
+				return records, err
+			}
+			if writeRecord {
+				if err := writeAll(destination, contents); err != nil {
+					return records, err
+				}
+			}
+			recordBytes += padding
+		}
+		records = append(records, rawTarRecordIdentity{Path: name, Bytes: recordBytes, SHA256: hex.EncodeToString(hash.Sum(nil))})
+	}
+}
+
+func rawTarHeaderPath(header []byte) (string, error) {
+	name := strings.TrimRight(string(header[0:100]), "\x00")
+	prefix := strings.TrimRight(string(header[345:500]), "\x00")
+	if prefix != "" {
+		name = prefix + "/" + name
+	}
+	if strings.ContainsRune(name, '\x00') {
+		return "", errors.New("tar header path contains embedded NUL")
+	}
+	cleaned, err := safeArchivePath(name)
+	if err != nil {
+		return "", err
+	}
+	if cleaned != name {
+		return "", fmt.Errorf("ambiguous archive path %q is not canonical", name)
+	}
+	return name, nil
+}
+
+func replaceCanonicalVagrantArtifact(boxPath, checksumPath, newBoxPath, newChecksumPath, staging string) error {
+	backupBoxPath := filepath.Join(staging, "packaged-vagrant.box")
+	backupChecksumPath := filepath.Join(staging, "packaged-checksum.sha256")
+	if err := os.Rename(boxPath, backupBoxPath); err != nil {
+		return fmt.Errorf("stage packaged Hyper-V Vagrant box: %w", err)
+	}
+	if err := os.Rename(checksumPath, backupChecksumPath); err != nil {
+		return errors.Join(
+			fmt.Errorf("stage packaged Hyper-V checksum: %w", err),
+			func() error {
+				if rollbackErr := os.Rename(backupBoxPath, boxPath); rollbackErr != nil {
+					return fmt.Errorf("restore packaged Hyper-V Vagrant box: %w", rollbackErr)
+				}
+				return nil
+			}(),
+		)
+	}
+	rollbackOriginals := func(removeCanonical bool) error {
+		var rollbackErrors []error
+		if removeCanonical {
+			if err := os.Remove(boxPath); err != nil && !os.IsNotExist(err) {
+				rollbackErrors = append(rollbackErrors, fmt.Errorf("remove incomplete canonical Hyper-V Vagrant box: %w", err))
+			}
+		}
+		if err := os.Rename(backupBoxPath, boxPath); err != nil {
+			rollbackErrors = append(rollbackErrors, fmt.Errorf("restore packaged Hyper-V Vagrant box: %w", err))
+		}
+		if err := os.Rename(backupChecksumPath, checksumPath); err != nil {
+			rollbackErrors = append(rollbackErrors, fmt.Errorf("restore packaged Hyper-V checksum: %w", err))
+		}
+		return errors.Join(rollbackErrors...)
+	}
+	if err := os.Rename(newBoxPath, boxPath); err != nil {
+		return errors.Join(fmt.Errorf("promote canonical Hyper-V Vagrant box: %w", err), rollbackOriginals(false))
+	}
+	if err := os.Rename(newChecksumPath, checksumPath); err != nil {
+		return errors.Join(fmt.Errorf("promote canonical Hyper-V checksum: %w", err), rollbackOriginals(true))
+	}
+	return nil
 }
 
 func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operationResult, error) {
@@ -575,68 +913,15 @@ func reconstructBox(rawPath, outputPath string) error {
 }
 
 func copyPackerTarWrites(destination io.Writer, source io.Reader) (int64, error) {
-	var total int64
-	header := make([]byte, tarBlockSize)
-	buffer := make([]byte, packerFileWriteSize)
-	for {
-		if _, err := io.ReadFull(source, header); err != nil {
-			return total, err
-		}
-		if err := writeAll(destination, header); err != nil {
-			return total, err
-		}
-		total += int64(len(header))
-		if isZeroBlock(header) {
-			if _, err := io.ReadFull(source, header); err != nil {
-				return total, err
-			}
-			if !isZeroBlock(header) {
-				return total, errors.New("tar trailer contains only one zero block")
-			}
-			if err := writeAll(destination, header); err != nil {
-				return total, err
-			}
-			total += int64(len(header))
-			var extra [1]byte
-			if read, readErr := source.Read(extra[:]); read != 0 || !errors.Is(readErr, io.EOF) {
-				return total, errors.New("raw tar contains bytes after its two-block trailer")
-			}
-			return total, nil
-		}
-
-		size, err := tarEntrySize(header)
-		if err != nil {
-			return total, err
-		}
-		remaining := size
-		for remaining > 0 {
-			chunk := int64(len(buffer))
-			if remaining < chunk {
-				chunk = remaining
-			}
-			if _, err := io.ReadFull(source, buffer[:chunk]); err != nil {
-				return total, err
-			}
-			if err := writeAll(destination, buffer[:chunk]); err != nil {
-				return total, err
-			}
-			total += chunk
-			remaining -= chunk
-		}
-		padding := (tarBlockSize - size%tarBlockSize) % tarBlockSize
-		if padding > 0 {
-			if _, err := io.ReadFull(source, buffer[:padding]); err != nil {
-				return total, err
-			}
-			if !isZeroBlock(buffer[:padding]) {
-				return total, errors.New("tar entry padding contains non-zero bytes")
-			}
-			if err := writeAll(destination, buffer[:padding]); err != nil {
-				return total, err
-			}
-			total += padding
-		}
+	records, err := copyRawTarRecords(destination, source, "")
+	if err != nil {
+		return 0, err
 	}
+	total := int64(2 * tarBlockSize)
+	for _, record := range records {
+		total += record.Bytes
+	}
+	return total, nil
 }
 
 func tarEntrySize(header []byte) (int64, error) {
@@ -821,21 +1106,31 @@ func beginOperation(probePath string) (*operationMeasurement, error) {
 }
 
 func (measurement *operationMeasurement) finish(operation string, contract manifest, stagingBytes int64) (operationResult, error) {
+	metrics, err := measurement.finishMetrics(stagingBytes)
+	if err != nil {
+		return operationResult{}, err
+	}
+	return operationResult{
+		Schema:           "artifact-transfer/operation/v1",
+		Operation:        operation,
+		Canonical:        contract.Canonical,
+		Transfer:         contract.Transfer,
+		Archive:          contract.Archive,
+		operationMetrics: metrics,
+	}, nil
+}
+
+func (measurement *operationMeasurement) finishMetrics(stagingBytes int64) (operationMetrics, error) {
 	finishedCPU, err := processCPU()
 	if err != nil {
-		return operationResult{}, fmt.Errorf("measure process CPU: %w", err)
+		return operationMetrics{}, fmt.Errorf("measure process CPU: %w", err)
 	}
 	disk, err := measurement.disk.finish()
 	measurement.disk = nil
 	if err != nil {
-		return operationResult{}, fmt.Errorf("measure temporary disk: %w", err)
+		return operationMetrics{}, fmt.Errorf("measure temporary disk: %w", err)
 	}
-	return operationResult{
-		Schema:                 "artifact-transfer/operation/v1",
-		Operation:              operation,
-		Canonical:              contract.Canonical,
-		Transfer:               contract.Transfer,
-		Archive:                contract.Archive,
+	return operationMetrics{
 		OperationWallSeconds:   time.Since(measurement.startedAt).Seconds(),
 		UserCPUSeconds:         finishedCPU.UserSeconds - measurement.startedCPU.UserSeconds,
 		SystemCPUSeconds:       finishedCPU.SystemSeconds - measurement.startedCPU.SystemSeconds,

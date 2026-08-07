@@ -2,6 +2,8 @@
 
 This module owns the internal prepare, reconstruct, and verify contract used to hand canonical image artifacts between clean Azure Pipeline jobs. Its supported representations are a Vagrant box produced by Packer Vagrant plugin 1.1.6 and a VirtualBox native image produced from a powered-off registered VM.
 
+`canonicalize-hyperv-vagrant` corrects a packaged Hyper-V box before its normal boot test and final checksum are accepted. It requires exactly `Virtual Machines/box.xml` and one `.vmcx` directly under `Virtual Machines`, rejects unsafe or ambiguous archives, copies every retained raw-tar record byte-for-byte, independently verifies those record identities, atomically replaces `vagrant/vagrant.box`, and rewrites `checksum.sha256` for the corrected canonical bytes.
+
 `prepare-vagrant` accepts the conventional artifact directory containing `vagrant/vagrant.box` and `checksum.sha256`. It first verifies the Packer checksum and archive safety, then atomically creates a transfer directory containing only the exact gzip-decoded `vagrant.raw.tar` and `manifest.json`.
 
 `reconstruct-vagrant` accepts that two-file payload and atomically recreates the conventional artifact directory. Reconstruction validates the manifest, raw-tar identity and archive again, replays the recorded Packer tar-writer schedule, and accepts `vagrant/vagrant.box` only when its length and SHA-256 match the canonical identity. `verify-vagrant` independently checks the reconstructed directory and checksum before a downstream consumer runs.
