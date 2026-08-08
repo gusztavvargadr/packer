@@ -418,7 +418,7 @@ def prepare_vagrant(artifact_root, guest_architecture)
     File.join(artifact_root, 'checksum.sha256'),
     File.join(artifact_root, 'virtualbox-vagrant.json')
   ]
-  existing = outputs.select { |path| File.lexists?(path) }
+  existing = outputs.select { |path| File.exist?(path) || File.symlink?(path) }
   raise "VirtualBox Vagrant package outputs already exist: #{existing.join(', ')}" unless existing.empty?
   started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   cpu_started = Process.times

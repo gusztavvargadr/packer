@@ -391,7 +391,7 @@ func verifyVirtualBoxVagrantBox(boxPath string, contract virtualBoxVagrantContra
 		return nil, fmt.Errorf("malformed VirtualBox metadata.json: %w", err)
 	}
 	if len(metadata) != 2 || metadata["provider"] != contract.Provider || metadata["architecture"] != contract.GuestArchitecture {
-		return nil, fmt.Errorf("VirtualBox metadata.json differs from the provider and architecture contract: %v", metadata)
+		return nil, fmt.Errorf("VirtualBox metadata.json differs from the provider and guest architecture contract: %v", metadata)
 	}
 	entries := make([]identity, 0, len(actual))
 	for _, entry := range actual {

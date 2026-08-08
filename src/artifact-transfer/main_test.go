@@ -69,18 +69,18 @@ func TestVirtualBoxSparseVagrantPackageRejectsContractViolations(t *testing.T) {
 	vmdk := "canonical monolithic-sparse disk"
 	nvram := "canonical firmware state"
 	tests := []struct {
-		name         string
-		variant      string
-		architecture string
-		metadata     string
-		packagedVMDK string
-		extra        []testEntry
+		name              string
+		variant           string
+		guestArchitecture string
+		metadata          string
+		packagedVMDK      string
+		extra             []testEntry
 	}{
-		{name: "stream optimized source", variant: "streamOptimized", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk},
-		{name: "wrong guest architecture", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"arm64","provider":"virtualbox"}`, packagedVMDK: vmdk},
-		{name: "changed canonical disk", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: "changed disk"},
-		{name: "unexpected archive entry", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "unexpected", contents: "ambiguous"}}},
-		{name: "unsafe archive path", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "../escape", contents: "unsafe"}}},
+		{name: "stream optimized source", variant: "streamOptimized", guestArchitecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk},
+		{name: "wrong guest architecture", variant: "dynamic default", guestArchitecture: "amd64", metadata: `{"architecture":"arm64","provider":"virtualbox"}`, packagedVMDK: vmdk},
+		{name: "changed canonical disk", variant: "dynamic default", guestArchitecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: "changed disk"},
+		{name: "unexpected archive entry", variant: "dynamic default", guestArchitecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "unexpected", contents: "ambiguous"}}},
+		{name: "unsafe archive path", variant: "dynamic default", guestArchitecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "../escape", contents: "unsafe"}}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestVirtualBoxSparseVagrantPackageRejectsContractViolations(t *testing.T) {
 			source := newArtifactFixture(t, entries)
 			nativeManifest := writeVirtualBoxNativeManifest(t, ovf, nvram, vmdk, test.variant)
 
-			if _, err := verifyVirtualBoxVagrantPackage(source.directory, nativeManifest, test.architecture, filepath.Join(source.directory, virtualBoxVagrantContractFilename)); err == nil {
+			if _, err := verifyVirtualBoxVagrantPackage(source.directory, nativeManifest, test.guestArchitecture, filepath.Join(source.directory, virtualBoxVagrantContractFilename)); err == nil {
 				t.Fatal("verification unexpectedly accepted an invalid sparse package")
 			}
 		})
