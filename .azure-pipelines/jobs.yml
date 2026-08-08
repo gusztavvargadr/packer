@@ -3,6 +3,7 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
+  guestArchitecture: amd64
   artifactHandoff: conventional
   vagrantCanonicalization: none
   build: ''
@@ -34,14 +35,14 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'vagrant-raw-tar')) }}:
+      - ${{ if and(eq(parameters.build, 'vagrant'), or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse'))) }}:
         - script: |
             go version
             go test ./...
           workingDirectory: ./src/artifact-transfer
           displayName: Initialize artifact transfer
 
-      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+      - ${{ if and(or(eq(parameters.build, 'native'), eq(parameters.build, 'vagrant')), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
         - script: |
             ruby --version
             ruby -c src/artifact-transfer/virtualbox_native.rb
@@ -105,6 +106,8 @@ jobs:
         env:
           ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
             PKR_VAR_virtualbox_native_handoff: true
+          ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+            PKR_VAR_virtualbox_vagrant_handoff: true
 
       - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.vagrantCanonicalization, 'hyperv')) }}:
         - script: |
@@ -117,11 +120,16 @@ jobs:
             ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-native "$(artifactPath)"
           displayName: Produce canonical VirtualBox native image
 
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+        - script: |
+            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-vagrant "$(artifactPath)" "${{ parameters.guestArchitecture }}"
+          displayName: Package canonical VirtualBox Vagrant box
+
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'vagrant-raw-tar')) }}:
+      - ${{ if and(eq(parameters.build, 'vagrant'), or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse'))) }}:
         - script: |
             go run . prepare-vagrant "$(artifactPath)" "$(artifactTransferPath)"
           workingDirectory: ./src/artifact-transfer
@@ -176,7 +184,7 @@ jobs:
     - job: publish
       displayName: Hand off and publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
-      ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+      ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
         condition: succeeded()
       ${{ else }}:
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -201,7 +209,7 @@ jobs:
         - checkout: self
           submodules: recursive
 
-        - ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+        - ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
           - script: |
               go version
               go test ./...
@@ -224,7 +232,7 @@ jobs:
           displayName: Init
           condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-        - ${{ if eq(parameters.artifactHandoff, 'vagrant-raw-tar') }}:
+        - ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
           - task: DownloadPipelineArtifact@2
             inputs:
               source: current

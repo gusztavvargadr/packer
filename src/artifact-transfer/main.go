@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
+	"sort"
 	"strings"
 	"time"
 
@@ -24,25 +25,27 @@ import (
 )
 
 const (
-	manifestSchema      = "artifact-transfer/vagrant-box/v1"
-	manifestFilename    = "manifest.json"
-	rawTarFilename      = "vagrant.raw.tar"
-	canonicalBoxPath    = "vagrant/vagrant.box"
-	checksumFilename    = "checksum.sha256"
-	packerPluginSource  = "github.com/hashicorp/vagrant"
-	packerPluginVersion = "1.1.6"
-	pgzipModule         = "github.com/klauspost/pgzip"
-	pgzipVersion        = "v0.0.0-20151221113845-47f36e165cec"
-	deflateModule       = "github.com/klauspost/compress"
-	deflateVersion      = "v1.13.6"
-	compressionPolicy   = "runtime.GOMAXPROCS(-1)"
-	reconstructionName  = "packer-vagrant-tar-writer/v1"
-	gzipHeaderHex       = "1f8b080000096e8800ff"
-	archiveSafety       = "validated"
-	hyperVBoxXMLPath    = "Virtual Machines/box.xml"
-	packerBlockSize     = 500000
-	packerFileWriteSize = 32 * 1024
-	tarBlockSize        = 512
+	manifestSchema                    = "artifact-transfer/vagrant-box/v1"
+	manifestFilename                  = "manifest.json"
+	rawTarFilename                    = "vagrant.raw.tar"
+	canonicalBoxPath                  = "vagrant/vagrant.box"
+	checksumFilename                  = "checksum.sha256"
+	virtualBoxVagrantContractFilename = "virtualbox-vagrant.json"
+	virtualBoxVagrantContractSchema   = "artifact-transfer/virtualbox-vagrant/v1"
+	packerPluginSource                = "github.com/hashicorp/vagrant"
+	packerPluginVersion               = "1.1.6"
+	pgzipModule                       = "github.com/klauspost/pgzip"
+	pgzipVersion                      = "v0.0.0-20151221113845-47f36e165cec"
+	deflateModule                     = "github.com/klauspost/compress"
+	deflateVersion                    = "v1.13.6"
+	compressionPolicy                 = "runtime.GOMAXPROCS(-1)"
+	reconstructionName                = "packer-vagrant-tar-writer/v1"
+	gzipHeaderHex                     = "1f8b080000096e8800ff"
+	archiveSafety                     = "validated"
+	hyperVBoxXMLPath                  = "Virtual Machines/box.xml"
+	packerBlockSize                   = 500000
+	packerFileWriteSize               = 32 * 1024
+	tarBlockSize                      = 512
 )
 
 type identity struct {
@@ -88,6 +91,27 @@ type manifest struct {
 		Padding        string `json:"padding"`
 		TrailerWrites  int    `json:"trailer_writes"`
 	} `json:"reconstruction"`
+	VirtualBox *virtualBoxVagrantContract `json:"virtualbox,omitempty"`
+}
+
+type virtualBoxNativeManifest struct {
+	Schema        string `json:"schema"`
+	CanonicalDisk struct {
+		Format        string `json:"format"`
+		FormatVariant string `json:"format_variant"`
+	} `json:"canonical_disk"`
+	Canonical struct {
+		Files []identity `json:"files"`
+	} `json:"canonical"`
+}
+
+type virtualBoxVagrantContract struct {
+	Schema       string     `json:"schema"`
+	Architecture string     `json:"architecture"`
+	Provider     string     `json:"provider"`
+	DiskFormat   string     `json:"disk_format"`
+	Box          identity   `json:"box"`
+	Entries      []identity `json:"entries"`
 }
 
 type operationMetrics struct {
@@ -101,12 +125,13 @@ type operationMetrics struct {
 }
 
 type operationResult struct {
-	Schema             string       `json:"schema"`
-	Operation          string       `json:"operation"`
-	Canonical          identity     `json:"canonical"`
-	Transfer           identity     `json:"transfer"`
-	Archive            archiveState `json:"archive"`
-	HandoffWallSeconds *float64     `json:"handoff_wall_seconds,omitempty"`
+	Schema             string                     `json:"schema"`
+	Operation          string                     `json:"operation"`
+	Canonical          identity                   `json:"canonical"`
+	Transfer           identity                   `json:"transfer"`
+	Archive            archiveState               `json:"archive"`
+	VirtualBox         *virtualBoxVagrantContract `json:"virtualbox,omitempty"`
+	HandoffWallSeconds *float64                   `json:"handoff_wall_seconds,omitempty"`
 	operationMetrics
 }
 
@@ -166,6 +191,13 @@ func run(arguments []string) error {
 		}
 		return printJSON(result)
 	}
+	if len(arguments) == 5 && arguments[0] == "verify-virtualbox-vagrant" {
+		result, err := verifyVirtualBoxVagrantPackage(arguments[1], arguments[2], arguments[3], arguments[4])
+		if err != nil {
+			return err
+		}
+		return printJSON(result)
+	}
 	if len(arguments) != 3 {
 		return usage()
 	}
@@ -190,7 +222,231 @@ func run(arguments []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: artifact-transfer canonicalize-hyperv-vagrant <artifact-directory> | prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
+	return errors.New("usage: artifact-transfer canonicalize-hyperv-vagrant <artifact-directory> | verify-virtualbox-vagrant <artifact-directory> <native-manifest> <architecture> <contract-output> | prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
+}
+
+func verifyVirtualBoxVagrantPackage(artifactDirectory, nativeManifestPath, architecture, contractPath string) (virtualBoxVagrantContract, error) {
+	var result virtualBoxVagrantContract
+	contents, err := os.ReadFile(nativeManifestPath)
+	if err != nil {
+		return result, fmt.Errorf("read VirtualBox native manifest: %w", err)
+	}
+	var native virtualBoxNativeManifest
+	if err := json.Unmarshal(contents, &native); err != nil {
+		return result, fmt.Errorf("malformed VirtualBox native manifest: %w", err)
+	}
+	if native.Schema != "artifact-transfer/virtualbox-native/v1" {
+		return result, fmt.Errorf("unsupported VirtualBox native manifest schema %q", native.Schema)
+	}
+	if native.CanonicalDisk.Format != "VMDK" || native.CanonicalDisk.FormatVariant != "dynamic default" {
+		return result, fmt.Errorf("expected canonical monolithic-sparse VMDK, found %s %s", native.CanonicalDisk.Format, native.CanonicalDisk.FormatVariant)
+	}
+	expected, err := virtualBoxPackageEntries(native.Canonical.Files)
+	if err != nil {
+		return result, err
+	}
+	result = virtualBoxVagrantContract{
+		Schema:       virtualBoxVagrantContractSchema,
+		Architecture: architecture,
+		Provider:     "virtualbox",
+		DiskFormat:   "monolithic-sparse",
+		Entries:      expected,
+	}
+	boxPath := filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath))
+	result.Box, err = fileIdentity(boxPath, canonicalBoxPath)
+	if err != nil {
+		return result, fmt.Errorf("read VirtualBox Vagrant box: %w", err)
+	}
+	result.Entries, err = verifyVirtualBoxVagrantBox(boxPath, result)
+	if err != nil {
+		return result, err
+	}
+	if err := validateVirtualBoxVagrantContract(result); err != nil {
+		return result, err
+	}
+	if err := verifyPackerChecksum(filepath.Join(artifactDirectory, checksumFilename), result.Box); err != nil {
+		return result, err
+	}
+	if err := requireAbsent(contractPath, "VirtualBox Vagrant contract"); err != nil {
+		return result, err
+	}
+	if err := writeJSON(contractPath, result); err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func virtualBoxPackageEntries(files []identity) ([]identity, error) {
+	if len(files) != 3 {
+		return nil, fmt.Errorf("VirtualBox native manifest must contain exactly one OVF, NVRAM, and VMDK; found %d files", len(files))
+	}
+	entries := make([]identity, 0, 5)
+	exts := make(map[string]bool)
+	paths := make(map[string]bool)
+	for _, file := range files {
+		if err := validateIdentity(file, file.Path); err != nil {
+			return nil, fmt.Errorf("invalid canonical VirtualBox file identity: %w", err)
+		}
+		extension := strings.ToLower(filepath.Ext(file.Path))
+		if extension != ".ovf" && extension != ".nvram" && extension != ".vmdk" {
+			return nil, fmt.Errorf("unexpected canonical VirtualBox file %q", file.Path)
+		}
+		if exts[extension] {
+			return nil, fmt.Errorf("VirtualBox native manifest contains more than one %s file", extension)
+		}
+		exts[extension] = true
+		name := filepath.Base(file.Path)
+		if extension == ".ovf" {
+			name = "box.ovf"
+		}
+		key := strings.ToLower(name)
+		if paths[key] {
+			return nil, fmt.Errorf("ambiguous canonical VirtualBox package path %q", name)
+		}
+		paths[key] = true
+		file.Path = name
+		entries = append(entries, file)
+	}
+	if !exts[".ovf"] || !exts[".nvram"] || !exts[".vmdk"] {
+		return nil, errors.New("VirtualBox native manifest must contain exactly one OVF, NVRAM, and VMDK")
+	}
+	return entries, nil
+}
+
+func verifyVirtualBoxVagrantBox(boxPath string, contract virtualBoxVagrantContract) ([]identity, error) {
+	if contract.Schema != virtualBoxVagrantContractSchema || contract.Provider != "virtualbox" || contract.DiskFormat != "monolithic-sparse" {
+		return nil, errors.New("unsupported VirtualBox Vagrant package contract")
+	}
+	if contract.Architecture != "amd64" && contract.Architecture != "arm64" {
+		return nil, fmt.Errorf("unsupported VirtualBox Vagrant architecture %q", contract.Architecture)
+	}
+	box, err := os.Open(boxPath)
+	if err != nil {
+		return nil, err
+	}
+	defer box.Close()
+	reader, err := gzip.NewReader(box)
+	if err != nil {
+		return nil, fmt.Errorf("open VirtualBox Vagrant box: %w", err)
+	}
+	defer reader.Close()
+
+	expected := make(map[string]identity, len(contract.Entries))
+	for _, entry := range contract.Entries {
+		if err := validateIdentity(entry, entry.Path); err != nil {
+			return nil, fmt.Errorf("invalid expected VirtualBox Vagrant entry identity: %w", err)
+		}
+		expected[strings.ToLower(entry.Path)] = entry
+	}
+	actual := make(map[string]identity, len(contract.Entries))
+	var ovfContents, metadataContents bytes.Buffer
+	tarReader := tar.NewReader(reader)
+	for {
+		header, nextErr := tarReader.Next()
+		if errors.Is(nextErr, io.EOF) {
+			break
+		}
+		if nextErr != nil {
+			return nil, fmt.Errorf("read VirtualBox Vagrant box: %w", nextErr)
+		}
+		name, pathErr := safeArchivePath(header.Name)
+		if pathErr != nil {
+			return nil, pathErr
+		}
+		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
+			return nil, fmt.Errorf("unsafe archive entry %q has unsupported type %d", header.Name, header.Typeflag)
+		}
+		key := strings.ToLower(name)
+		if _, exists := actual[key]; exists {
+			return nil, fmt.Errorf("duplicate or ambiguous VirtualBox Vagrant box entry %q", header.Name)
+		}
+		hash := sha256.New()
+		output := io.Writer(hash)
+		if key == "box.ovf" {
+			output = io.MultiWriter(hash, &ovfContents)
+		}
+		if key == "metadata.json" {
+			output = io.MultiWriter(hash, &metadataContents)
+		}
+		written, copyErr := io.Copy(output, tarReader)
+		if copyErr != nil {
+			return nil, copyErr
+		}
+		actual[key] = identity{Path: name, Bytes: written, SHA256: hex.EncodeToString(hash.Sum(nil))}
+	}
+	if len(actual) != 5 {
+		return nil, fmt.Errorf("VirtualBox Vagrant box contains %d entries, expected 5", len(actual))
+	}
+	for key, wanted := range expected {
+		got, exists := actual[key]
+		if !exists || got != wanted {
+			return nil, fmt.Errorf("VirtualBox Vagrant box entry %q differs from the canonical contract", wanted.Path)
+		}
+	}
+	if !bytes.Contains(ovfContents.Bytes(), []byte("#sparse")) || bytes.Contains(ovfContents.Bytes(), []byte("#streamOptimized")) {
+		return nil, errors.New("box.ovf does not exclusively declare a sparse VMDK")
+	}
+	var metadata map[string]string
+	if err := json.Unmarshal(metadataContents.Bytes(), &metadata); err != nil {
+		return nil, fmt.Errorf("malformed VirtualBox metadata.json: %w", err)
+	}
+	if len(metadata) != 2 || metadata["provider"] != contract.Provider || metadata["architecture"] != contract.Architecture {
+		return nil, fmt.Errorf("VirtualBox metadata.json differs from the provider and architecture contract: %v", metadata)
+	}
+	entries := make([]identity, 0, len(actual))
+	for _, entry := range actual {
+		entries = append(entries, entry)
+	}
+	sort.Slice(entries, func(left, right int) bool { return entries[left].Path < entries[right].Path })
+	return entries, nil
+}
+
+func validateVirtualBoxVagrantContract(contract virtualBoxVagrantContract) error {
+	if contract.Schema != virtualBoxVagrantContractSchema || contract.Provider != "virtualbox" || contract.DiskFormat != "monolithic-sparse" {
+		return errors.New("unsupported VirtualBox Vagrant package contract")
+	}
+	if contract.Architecture != "amd64" && contract.Architecture != "arm64" {
+		return fmt.Errorf("unsupported VirtualBox Vagrant architecture %q", contract.Architecture)
+	}
+	if err := validateIdentity(contract.Box, canonicalBoxPath); err != nil {
+		return fmt.Errorf("invalid VirtualBox Vagrant box identity: %w", err)
+	}
+	if len(contract.Entries) != 5 {
+		return errors.New("VirtualBox Vagrant package contract must contain exactly five entries")
+	}
+	required := map[string]bool{"Vagrantfile": true, "box.ovf": true, "metadata.json": true}
+	exts := map[string]bool{".nvram": false, ".vmdk": false}
+	seen := make(map[string]bool)
+	for _, entry := range contract.Entries {
+		if err := validateIdentity(entry, entry.Path); err != nil {
+			return fmt.Errorf("invalid VirtualBox Vagrant entry identity: %w", err)
+		}
+		if entry.Path != filepath.Base(entry.Path) {
+			return fmt.Errorf("VirtualBox Vagrant entry must be at the archive root: %q", entry.Path)
+		}
+		key := strings.ToLower(entry.Path)
+		if seen[key] {
+			return fmt.Errorf("ambiguous VirtualBox Vagrant package entry %q", entry.Path)
+		}
+		seen[key] = true
+		if required[entry.Path] {
+			continue
+		}
+		extension := strings.ToLower(filepath.Ext(entry.Path))
+		if _, exists := exts[extension]; !exists || exts[extension] {
+			return fmt.Errorf("unexpected VirtualBox Vagrant package entry %q", entry.Path)
+		}
+		exts[extension] = true
+	}
+	for name := range required {
+		if !seen[strings.ToLower(name)] {
+			return fmt.Errorf("VirtualBox Vagrant package contract is missing %q", name)
+		}
+	}
+	if !exts[".nvram"] || !exts[".vmdk"] {
+		return errors.New("VirtualBox Vagrant package contract is missing its NVRAM or VMDK")
+	}
+	return nil
 }
 
 func canonicalizeHyperVVagrant(artifactDirectory string) (canonicalizationResult, error) {
@@ -526,6 +782,18 @@ func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operat
 	if err := validateGzipHeader(canonicalPath); err != nil {
 		return result, err
 	}
+	virtualBox, err := readOptionalVirtualBoxVagrantContract(artifactDirectory)
+	if err != nil {
+		return result, err
+	}
+	if virtualBox != nil {
+		if canonical != virtualBox.Box {
+			return result, errors.New("VirtualBox Vagrant package contract identifies different canonical box bytes")
+		}
+		if _, err := verifyVirtualBoxVagrantBox(canonicalPath, *virtualBox); err != nil {
+			return result, err
+		}
+	}
 
 	staging, err := os.MkdirTemp(parent, ".artifact-transfer-*")
 	if err != nil {
@@ -543,6 +811,7 @@ func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operat
 	if err != nil {
 		return result, err
 	}
+	contract.VirtualBox = virtualBox
 	if err := writeJSON(filepath.Join(staging, manifestFilename), contract); err != nil {
 		return result, err
 	}
@@ -630,6 +899,11 @@ func verifyVagrantTransfer(transferDirectory, artifactDirectory string) (operati
 	}
 	if err := verifyPackerChecksum(filepath.Join(artifactDirectory, checksumFilename), actual); err != nil {
 		return result, err
+	}
+	if contract.VirtualBox != nil {
+		if _, err := verifyVirtualBoxVagrantBox(filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath)), *contract.VirtualBox); err != nil {
+			return result, err
+		}
 	}
 	result, err = measurement.finish("verify-vagrant", contract, 0)
 	if err != nil {
@@ -755,6 +1029,14 @@ func validateManifest(value manifest) error {
 	if value.Reconstruction.Schedule != reconstructionName || value.Reconstruction.HeaderBytes != tarBlockSize || value.Reconstruction.FileWriteBytes != packerFileWriteSize || value.Reconstruction.Padding != "explicit" || value.Reconstruction.TrailerWrites != 2 {
 		return errors.New("unsupported reconstruction contract")
 	}
+	if value.VirtualBox != nil {
+		if err := validateVirtualBoxVagrantContract(*value.VirtualBox); err != nil {
+			return err
+		}
+		if value.VirtualBox.Box != value.Canonical {
+			return errors.New("VirtualBox Vagrant package contract differs from the canonical transfer identity")
+		}
+	}
 	module, version := buildModule(pgzipModule)
 	if module != value.Compression.PGzip.Module || version != value.Compression.PGzip.Version {
 		return fmt.Errorf("pgzip dependency mismatch: manifest requires %s %s, executable contains %s %s", value.Compression.PGzip.Module, value.Compression.PGzip.Version, module, version)
@@ -764,6 +1046,39 @@ func validateManifest(value manifest) error {
 		return fmt.Errorf("DEFLATE dependency mismatch: manifest requires %s %s, executable contains %s %s", value.Compression.Deflate.Module, value.Compression.Deflate.Version, module, version)
 	}
 	return nil
+}
+
+func readOptionalVirtualBoxVagrantContract(artifactDirectory string) (*virtualBoxVagrantContract, error) {
+	filename := filepath.Join(artifactDirectory, virtualBoxVagrantContractFilename)
+	info, err := os.Lstat(filename)
+	if os.IsNotExist(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	if !info.Mode().IsRegular() {
+		return nil, errors.New("VirtualBox Vagrant package contract is not a regular file")
+	}
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	decoder.DisallowUnknownFields()
+	var contract virtualBoxVagrantContract
+	if err := decoder.Decode(&contract); err != nil {
+		return nil, fmt.Errorf("malformed VirtualBox Vagrant package contract: %w", err)
+	}
+	var extra any
+	if err := decoder.Decode(&extra); !errors.Is(err, io.EOF) {
+		return nil, errors.New("malformed VirtualBox Vagrant package contract: trailing JSON value")
+	}
+	if err := validateVirtualBoxVagrantContract(contract); err != nil {
+		return nil, err
+	}
+	return &contract, nil
 }
 
 func validateIdentity(value identity, expectedPath string) error {
@@ -1170,6 +1485,7 @@ func (measurement *operationMeasurement) finish(operation string, contract manif
 		Canonical:        contract.Canonical,
 		Transfer:         contract.Transfer,
 		Archive:          contract.Archive,
+		VirtualBox:       contract.VirtualBox,
 		operationMetrics: metrics,
 	}, nil
 }

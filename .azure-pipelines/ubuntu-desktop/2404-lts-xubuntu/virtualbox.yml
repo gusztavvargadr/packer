@@ -12,3 +12,5 @@ stages:
       sample: ubuntu-desktop
       image: 2404-lts-xubuntu
       provider: virtualbox
+      guestArchitecture: amd64
+      artifactHandoff: virtualbox-native-sparse

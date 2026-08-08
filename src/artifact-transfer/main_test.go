@@ -17,6 +17,116 @@ import (
 	"github.com/klauspost/pgzip"
 )
 
+func TestVirtualBoxSparseVagrantPackageSurvivesExactHandoff(t *testing.T) {
+	ovf := `<Disk ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#sparse"/>`
+	vmdk := "canonical monolithic-sparse disk"
+	nvram := "canonical firmware state"
+	source := newArtifactFixture(t, []testEntry{
+		{name: "Vagrantfile", contents: `Vagrant.configure("2")`},
+		{name: "box.ovf", contents: ovf},
+		{name: "image.nvram", contents: nvram},
+		{name: "image.vmdk", contents: vmdk},
+		{name: "metadata.json", contents: `{"architecture":"amd64","provider":"virtualbox"}`},
+	})
+	nativeManifest := filepath.Join(t.TempDir(), "native-manifest.json")
+	writeFile(t, nativeManifest, []byte(`{
+  "schema": "artifact-transfer/virtualbox-native/v1",
+  "canonical_disk": {"format": "VMDK", "format_variant": "dynamic default"},
+  "canonical": {"files": [
+    {"path": "image/image.ovf", "bytes": 85, "sha256": "`+testSHA256(ovf)+`"},
+    {"path": "image/image.nvram", "bytes": 24, "sha256": "`+testSHA256(nvram)+`"},
+    {"path": "image/image.vmdk", "bytes": 32, "sha256": "`+testSHA256(vmdk)+`"}
+  ]}
+}`))
+	contractPath := filepath.Join(source.directory, virtualBoxVagrantContractFilename)
+
+	if _, err := verifyVirtualBoxVagrantPackage(source.directory, nativeManifest, "amd64", contractPath); err != nil {
+		t.Fatal(err)
+	}
+	transfer := filepath.Join(t.TempDir(), "transfer")
+	if _, err := prepareVagrantTransfer(source.directory, transfer); err != nil {
+		t.Fatal(err)
+	}
+	output := filepath.Join(t.TempDir(), "artifact")
+	if _, err := reconstructVagrantTransfer(transfer, output); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := verifyVagrantTransfer(transfer, output); err != nil {
+		t.Fatal(err)
+	}
+
+	contract, _, err := validateTransferPayload(transfer)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if contract.VirtualBox == nil || contract.VirtualBox.Architecture != "amd64" || contract.VirtualBox.Provider != "virtualbox" {
+		t.Fatalf("transfer did not preserve the sparse package contract: %#v", contract.VirtualBox)
+	}
+}
+
+func TestVirtualBoxSparseVagrantPackageRejectsContractViolations(t *testing.T) {
+	ovf := `<Disk ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#sparse"/>`
+	vmdk := "canonical monolithic-sparse disk"
+	nvram := "canonical firmware state"
+	tests := []struct {
+		name         string
+		variant      string
+		architecture string
+		metadata     string
+		packagedVMDK string
+		extra        []testEntry
+	}{
+		{name: "stream optimized source", variant: "streamOptimized", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk},
+		{name: "wrong guest architecture", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"arm64","provider":"virtualbox"}`, packagedVMDK: vmdk},
+		{name: "changed canonical disk", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: "changed disk"},
+		{name: "unexpected archive entry", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "unexpected", contents: "ambiguous"}}},
+		{name: "unsafe archive path", variant: "dynamic default", architecture: "amd64", metadata: `{"architecture":"amd64","provider":"virtualbox"}`, packagedVMDK: vmdk, extra: []testEntry{{name: "../escape", contents: "unsafe"}}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			entries := []testEntry{
+				{name: "Vagrantfile", contents: `Vagrant.configure("2")`},
+				{name: "box.ovf", contents: ovf},
+				{name: "image.nvram", contents: nvram},
+				{name: "image.vmdk", contents: test.packagedVMDK},
+				{name: "metadata.json", contents: test.metadata},
+			}
+			entries = append(entries, test.extra...)
+			source := newArtifactFixture(t, entries)
+			nativeManifest := writeVirtualBoxNativeManifest(t, ovf, nvram, vmdk, test.variant)
+
+			if _, err := verifyVirtualBoxVagrantPackage(source.directory, nativeManifest, test.architecture, filepath.Join(source.directory, virtualBoxVagrantContractFilename)); err == nil {
+				t.Fatal("verification unexpectedly accepted an invalid sparse package")
+			}
+		})
+	}
+}
+
+func writeVirtualBoxNativeManifest(t *testing.T, ovf, nvram, vmdk, variant string) string {
+	t.Helper()
+	value := map[string]any{
+		"schema":         "artifact-transfer/virtualbox-native/v1",
+		"canonical_disk": map[string]any{"format": "VMDK", "format_variant": variant},
+		"canonical": map[string]any{"files": []map[string]any{
+			{"path": "image/image.ovf", "bytes": len(ovf), "sha256": testSHA256(ovf)},
+			{"path": "image/image.nvram", "bytes": len(nvram), "sha256": testSHA256(nvram)},
+			{"path": "image/image.vmdk", "bytes": len(vmdk), "sha256": testSHA256(vmdk)},
+		}},
+	}
+	contents, err := json.Marshal(value)
+	if err != nil {
+		t.Fatal(err)
+	}
+	path := filepath.Join(t.TempDir(), "native-manifest.json")
+	writeFile(t, path, contents)
+	return path
+}
+
+func testSHA256(contents string) string {
+	hash := sha256.Sum256([]byte(contents))
+	return hex.EncodeToString(hash[:])
+}
+
 func TestCanonicalizeHyperVVagrantRejectsUnsafeOrAmbiguousArchives(t *testing.T) {
 	validVMCX := testEntry{name: "Virtual Machines/machine.vmcx", contents: "configuration"}
 	boxXML := testEntry{name: hyperVBoxXMLPath, contents: "obsolete"}

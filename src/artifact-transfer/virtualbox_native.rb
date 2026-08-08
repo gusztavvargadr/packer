@@ -15,8 +15,9 @@ def emit(event, state = {})
   puts JSON.generate({ event: event }.merge(state))
 end
 
-def run_command(*arguments, allow_failure: false)
-  stdout, stderr, status = Open3.capture3(*arguments)
+def run_command(*arguments, allow_failure: false, chdir: nil)
+  options = chdir.nil? ? {} : { chdir: chdir }
+  stdout, stderr, status = Open3.capture3(*arguments, **options)
   return [stdout, stderr, status] if status.success? || allow_failure
 
   raise "#{arguments.join(' ')} failed (#{status.exitstatus}):\n#{stdout}#{stderr}"
@@ -241,12 +242,17 @@ def write_contract(root, machine, source_disk, canonical_disk, capacity, handoff
   manifest
 end
 
-def produce(vm_name, target, fail_after_detach: false)
+def produce(vm_name, target, fail_after_detach: false, expected_source_formats: ['VDI'])
   raise "target already exists: #{target}" if File.exist?(target)
   handoff_started = Time.now.utc
   state = machine_state(vm_name)
   source_disk = medium_state(state.dig(:attachment, :path))
-  raise "expected Packer's source VDI, found #{source_disk[:format]}" unless source_disk[:format] == 'VDI'
+  unless expected_source_formats.include?(source_disk[:format])
+    raise "expected Packer source format #{expected_source_formats.join(' or ')}, found #{source_disk[:format]}"
+  end
+  if source_disk[:format] == 'VMDK' && source_disk[:format_variant].include?('streamOptimized')
+    raise "Packer source disk is already compressed: #{source_disk[:format_variant]}"
+  end
 
   parent = File.dirname(File.expand_path(target))
   source_allocated = allocated_bytes(state.dig(:attachment, :path))
@@ -361,6 +367,65 @@ def prepare(artifact_root)
       FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
     end
     raise
+  end
+end
+
+def prepare_vagrant(artifact_root, architecture)
+  artifact_root = File.expand_path(artifact_root)
+  image = File.join(artifact_root, 'image')
+  vm_name = find_registered_vm(image)
+  canonical = File.join(artifact_root, ".virtualbox-vagrant-#{Process.pid}")
+  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  cpu_started = Process.times
+  begin
+    result = produce(vm_name, canonical, expected_source_formats: %w[VDI VMDK])
+  ensure
+    vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
+  end
+
+  begin
+    remaining = Dir.children(image)
+    raise "build-owned VM cleanup left source image files: #{remaining.join(', ')}" unless remaining.empty?
+
+    template = File.expand_path('virtualbox-vagrant.pkr.hcl', __dir__)
+    packer = ENV.fetch('PACKER', 'packer')
+    run_command(packer, 'init', template)
+    run_command(
+      packer, 'build', '-force',
+      '-var', "architecture=#{architecture}",
+      '-var', "artifact_root=#{artifact_root}",
+      '-var', "canonical_root=#{canonical}",
+      template
+    )
+    contract = File.join(artifact_root, 'virtualbox-vagrant.json')
+    verification, = run_command(
+      'go', 'run', '.', 'verify-virtualbox-vagrant', artifact_root,
+      File.join(canonical, 'manifest.json'), architecture, contract,
+      chdir: __dir__
+    )
+    cpu = Process.times
+    emit(
+      'virtualbox_vagrant_package_complete',
+      artifact_root: artifact_root,
+      architecture: architecture,
+      canonical_files: result.dig(:canonical, :files),
+      verification: JSON.parse(verification),
+      operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
+      process_user_cpu_seconds: cpu.utime - cpu_started.utime,
+      process_system_cpu_seconds: cpu.stime - cpu_started.stime,
+      child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
+      child_system_cpu_seconds: cpu.cstime - cpu_started.cstime,
+      peak_temporary_disk_bytes: allocated_bytes(canonical) + allocated_bytes(File.join(artifact_root, 'vagrant'))
+    )
+  rescue StandardError
+    FileUtils.rm_rf(File.join(artifact_root, 'vagrant'))
+    FileUtils.rm_f(File.join(artifact_root, 'manifest.json'))
+    FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
+    FileUtils.rm_f(File.join(artifact_root, 'virtualbox-vagrant.json'))
+    raise
+  ensure
+    FileUtils.rm_rf(canonical)
+    Dir.rmdir(image) if File.directory?(image) && Dir.empty?(image)
   end
 end
 
@@ -481,11 +546,13 @@ when ['produce-virtualbox-native', 2]
   produce(*arguments)
 when ['prepare-virtualbox-native', 1]
   prepare(arguments.first)
+when ['prepare-virtualbox-vagrant', 2]
+  prepare_vagrant(*arguments)
 when ['verify-virtualbox-native', 1]
   verify(arguments.first)
 when ['fixture-virtualbox-native', 0]
   run_fixture
 else
-  warn 'usage: virtualbox_native.rb produce-virtualbox-native <registered-vm-name> <missing-output-directory> | prepare-virtualbox-native <artifact-directory> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
+  warn 'usage: virtualbox_native.rb produce-virtualbox-native <registered-vm-name> <missing-output-directory> | prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
   exit 1
 end
