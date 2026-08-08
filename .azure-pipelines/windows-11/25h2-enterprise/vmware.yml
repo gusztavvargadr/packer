@@ -7,3 +7,4 @@ stages:
       sample: windows-11
       image: 25h2-enterprise
       provider: vmware
+      artifactHandoff: vagrant-raw-tar

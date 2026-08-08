@@ -3,6 +3,8 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
+  artifactHandoff: conventional
+  vagrantCanonicalization: none
 
 stages:
   - stage: native
@@ -15,6 +17,8 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
+          artifactHandoff: ${{ parameters.artifactHandoff }}
+          vagrantCanonicalization: ${{ parameters.vagrantCanonicalization }}
           build: native
 
   - stage: vagrant
@@ -27,4 +31,6 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
+          artifactHandoff: ${{ parameters.artifactHandoff }}
+          vagrantCanonicalization: ${{ parameters.vagrantCanonicalization }}
           build: vagrant

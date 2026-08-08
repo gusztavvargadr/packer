@@ -7,3 +7,5 @@ stages:
       sample: windows-11
       image: 25h2-enterprise
       provider: hyperv
+      artifactHandoff: vagrant-raw-tar
+      vagrantCanonicalization: hyperv
