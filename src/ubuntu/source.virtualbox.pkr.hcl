@@ -20,6 +20,7 @@ variable "virtualbox_vagrant_handoff" {
 locals {
   virtualbox_native_handoff_input  = var.virtualbox_native_handoff
   virtualbox_vagrant_handoff_input = var.virtualbox_vagrant_handoff
+  virtualbox_registered_handoff    = local.image_provider == "virtualbox" && (local.virtualbox_native_handoff_input || local.virtualbox_vagrant_handoff_input)
   virtualbox_vagrant_package       = local.virtualbox_vagrant_handoff_input && local.image_provider == "virtualbox"
 }
 
@@ -112,9 +113,9 @@ source "virtualbox-ovf" "core" {
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
   source_path     = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
-  import_flags    = local.virtualbox_vagrant_package ? ["--basefolder", local.virtualbox_ovf_source_options.output_directory] : []
-  keep_registered = local.virtualbox_vagrant_package
-  skip_export     = local.virtualbox_vagrant_package
+  import_flags    = local.virtualbox_registered_handoff ? ["--basefolder", local.virtualbox_ovf_source_options.output_directory] : []
+  keep_registered = local.virtualbox_registered_handoff
+  skip_export     = local.virtualbox_registered_handoff
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
 
