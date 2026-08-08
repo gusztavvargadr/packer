@@ -106,12 +106,12 @@ type virtualBoxNativeManifest struct {
 }
 
 type virtualBoxVagrantContract struct {
-	Schema       string     `json:"schema"`
-	Architecture string     `json:"architecture"`
-	Provider     string     `json:"provider"`
-	DiskFormat   string     `json:"disk_format"`
-	Box          identity   `json:"box"`
-	Entries      []identity `json:"entries"`
+	Schema            string     `json:"schema"`
+	GuestArchitecture string     `json:"guest_architecture"`
+	Provider          string     `json:"provider"`
+	DiskFormat        string     `json:"disk_format"`
+	Box               identity   `json:"box"`
+	Entries           []identity `json:"entries"`
 }
 
 type operationMetrics struct {
@@ -222,10 +222,10 @@ func run(arguments []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: artifact-transfer canonicalize-hyperv-vagrant <artifact-directory> | verify-virtualbox-vagrant <artifact-directory> <native-manifest> <architecture> <contract-output> | prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
+	return errors.New("usage: artifact-transfer canonicalize-hyperv-vagrant <artifact-directory> | verify-virtualbox-vagrant <artifact-directory> <native-manifest> <guest-architecture> <contract-output> | prepare-vagrant <artifact-directory> <transfer-directory> | reconstruct-vagrant <transfer-directory> <artifact-directory> | verify-vagrant <transfer-directory> <artifact-directory>")
 }
 
-func verifyVirtualBoxVagrantPackage(artifactDirectory, nativeManifestPath, architecture, contractPath string) (virtualBoxVagrantContract, error) {
+func verifyVirtualBoxVagrantPackage(artifactDirectory, nativeManifestPath, guestArchitecture, contractPath string) (virtualBoxVagrantContract, error) {
 	var result virtualBoxVagrantContract
 	contents, err := os.ReadFile(nativeManifestPath)
 	if err != nil {
@@ -246,11 +246,11 @@ func verifyVirtualBoxVagrantPackage(artifactDirectory, nativeManifestPath, archi
 		return result, err
 	}
 	result = virtualBoxVagrantContract{
-		Schema:       virtualBoxVagrantContractSchema,
-		Architecture: architecture,
-		Provider:     "virtualbox",
-		DiskFormat:   "monolithic-sparse",
-		Entries:      expected,
+		Schema:            virtualBoxVagrantContractSchema,
+		GuestArchitecture: guestArchitecture,
+		Provider:          "virtualbox",
+		DiskFormat:        "monolithic-sparse",
+		Entries:           expected,
 	}
 	boxPath := filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath))
 	result.Box, err = fileIdentity(boxPath, canonicalBoxPath)
@@ -317,8 +317,8 @@ func verifyVirtualBoxVagrantBox(boxPath string, contract virtualBoxVagrantContra
 	if contract.Schema != virtualBoxVagrantContractSchema || contract.Provider != "virtualbox" || contract.DiskFormat != "monolithic-sparse" {
 		return nil, errors.New("unsupported VirtualBox Vagrant package contract")
 	}
-	if contract.Architecture != "amd64" && contract.Architecture != "arm64" {
-		return nil, fmt.Errorf("unsupported VirtualBox Vagrant architecture %q", contract.Architecture)
+	if contract.GuestArchitecture != "amd64" && contract.GuestArchitecture != "arm64" {
+		return nil, fmt.Errorf("unsupported VirtualBox Vagrant guest architecture %q", contract.GuestArchitecture)
 	}
 	box, err := os.Open(boxPath)
 	if err != nil {
@@ -390,7 +390,7 @@ func verifyVirtualBoxVagrantBox(boxPath string, contract virtualBoxVagrantContra
 	if err := json.Unmarshal(metadataContents.Bytes(), &metadata); err != nil {
 		return nil, fmt.Errorf("malformed VirtualBox metadata.json: %w", err)
 	}
-	if len(metadata) != 2 || metadata["provider"] != contract.Provider || metadata["architecture"] != contract.Architecture {
+	if len(metadata) != 2 || metadata["provider"] != contract.Provider || metadata["architecture"] != contract.GuestArchitecture {
 		return nil, fmt.Errorf("VirtualBox metadata.json differs from the provider and architecture contract: %v", metadata)
 	}
 	entries := make([]identity, 0, len(actual))
@@ -405,8 +405,8 @@ func validateVirtualBoxVagrantContract(contract virtualBoxVagrantContract) error
 	if contract.Schema != virtualBoxVagrantContractSchema || contract.Provider != "virtualbox" || contract.DiskFormat != "monolithic-sparse" {
 		return errors.New("unsupported VirtualBox Vagrant package contract")
 	}
-	if contract.Architecture != "amd64" && contract.Architecture != "arm64" {
-		return fmt.Errorf("unsupported VirtualBox Vagrant architecture %q", contract.Architecture)
+	if contract.GuestArchitecture != "amd64" && contract.GuestArchitecture != "arm64" {
+		return fmt.Errorf("unsupported VirtualBox Vagrant guest architecture %q", contract.GuestArchitecture)
 	}
 	if err := validateIdentity(contract.Box, canonicalBoxPath); err != nil {
 		return fmt.Errorf("invalid VirtualBox Vagrant box identity: %w", err)

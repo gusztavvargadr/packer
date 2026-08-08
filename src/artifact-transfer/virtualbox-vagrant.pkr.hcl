@@ -7,7 +7,7 @@ packer {
   }
 }
 
-variable "architecture" {
+variable "guest_architecture" {
   type = string
 }
 
@@ -20,9 +20,9 @@ variable "canonical_root" {
 }
 
 locals {
-  architecture_input   = var.architecture
-  artifact_root_input  = var.artifact_root
-  canonical_root_input = var.canonical_root
+  guest_architecture_input = var.guest_architecture
+  artifact_root_input      = var.artifact_root
+  canonical_root_input     = var.canonical_root
 
   canonical_image_files = [
     for relative_path in fileset(local.canonical_root_input, "image/*") :
@@ -45,7 +45,7 @@ build {
     }
 
     post-processor "vagrant" {
-      architecture         = local.architecture_input
+      architecture         = local.guest_architecture_input
       output               = "${local.artifact_root_input}/vagrant/vagrant.box"
       provider_override    = "virtualbox"
       vagrantfile_template = "${local.artifact_root_input}/Vagrantfile"

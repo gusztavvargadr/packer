@@ -59,7 +59,7 @@ func TestVirtualBoxSparseVagrantPackageSurvivesExactHandoff(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if contract.VirtualBox == nil || contract.VirtualBox.Architecture != "amd64" || contract.VirtualBox.Provider != "virtualbox" {
+	if contract.VirtualBox == nil || contract.VirtualBox.GuestArchitecture != "amd64" || contract.VirtualBox.Provider != "virtualbox" {
 		t.Fatalf("transfer did not preserve the sparse package contract: %#v", contract.VirtualBox)
 	}
 }

@@ -123,6 +123,43 @@ def free_bytes(path)
   Integer(output.lines.last.split[3], 10) * 1024
 end
 
+def measure_disk_usage(path)
+  initial = free_bytes(path)
+  minimum = initial
+  stopped = false
+  sample_error = nil
+  sampler = Thread.new do
+    until stopped
+      begin
+        sleep 0.25
+        break if stopped
+
+        available = free_bytes(path)
+        minimum = [minimum, available].min
+      rescue StandardError => error
+        sample_error ||= error
+        break
+      end
+    end
+  end
+  value = yield
+  stopped = true
+  sampler.join
+  raise sample_error unless sample_error.nil?
+
+  [
+    value,
+    {
+      disk_free_bytes_before: initial,
+      minimum_disk_free_bytes: minimum,
+      peak_temporary_disk_bytes: initial - minimum
+    }
+  ]
+ensure
+  stopped = true
+  sampler&.join if sampler&.alive?
+end
+
 def file_identity(root, filename)
   {
     path: filename.delete_prefix("#{root}#{File::SEPARATOR}"),
@@ -348,7 +385,7 @@ def prepare(artifact_root)
   promoted = false
   begin
     remaining = Dir.children(image)
-    raise "build-owned VM cleanup left source image files: #{remaining.join(', ')}" unless remaining.empty?
+    raise "build-owned VM cleanup left image source files: #{remaining.join(', ')}" unless remaining.empty?
     Dir.rmdir(image)
     File.rename(File.join(canonical, 'image'), image)
     promoted = true
@@ -370,11 +407,19 @@ def prepare(artifact_root)
   end
 end
 
-def prepare_vagrant(artifact_root, architecture)
+def prepare_vagrant(artifact_root, guest_architecture)
   artifact_root = File.expand_path(artifact_root)
   image = File.join(artifact_root, 'image')
   vm_name = find_registered_vm(image)
   canonical = File.join(artifact_root, ".virtualbox-vagrant-#{Process.pid}")
+  outputs = [
+    File.join(artifact_root, 'vagrant'),
+    File.join(artifact_root, 'manifest.json'),
+    File.join(artifact_root, 'checksum.sha256'),
+    File.join(artifact_root, 'virtualbox-vagrant.json')
+  ]
+  existing = outputs.select { |path| File.lexists?(path) }
+  raise "VirtualBox Vagrant package outputs already exist: #{existing.join(', ')}" unless existing.empty?
   started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   cpu_started = Process.times
   begin
@@ -385,29 +430,31 @@ def prepare_vagrant(artifact_root, architecture)
 
   begin
     remaining = Dir.children(image)
-    raise "build-owned VM cleanup left source image files: #{remaining.join(', ')}" unless remaining.empty?
+    raise "build-owned VM cleanup left image source files: #{remaining.join(', ')}" unless remaining.empty?
 
     template = File.expand_path('virtualbox-vagrant.pkr.hcl', __dir__)
     packer = ENV.fetch('PACKER', 'packer')
     run_command(packer, 'init', template)
-    run_command(
-      packer, 'build', '-force',
-      '-var', "architecture=#{architecture}",
-      '-var', "artifact_root=#{artifact_root}",
-      '-var', "canonical_root=#{canonical}",
-      template
-    )
+    _, packaging_disk = measure_disk_usage(artifact_root) do
+      run_command(
+        packer, 'build', '-force',
+        '-var', "guest_architecture=#{guest_architecture}",
+        '-var', "artifact_root=#{artifact_root}",
+        '-var', "canonical_root=#{canonical}",
+        template
+      )
+    end
     contract = File.join(artifact_root, 'virtualbox-vagrant.json')
     verification, = run_command(
       'go', 'run', '.', 'verify-virtualbox-vagrant', artifact_root,
-      File.join(canonical, 'manifest.json'), architecture, contract,
+      File.join(canonical, 'manifest.json'), guest_architecture, contract,
       chdir: __dir__
     )
     cpu = Process.times
     emit(
       'virtualbox_vagrant_package_complete',
       artifact_root: artifact_root,
-      architecture: architecture,
+      guest_architecture: guest_architecture,
       canonical_files: result.dig(:canonical, :files),
       verification: JSON.parse(verification),
       operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
@@ -415,7 +462,8 @@ def prepare_vagrant(artifact_root, architecture)
       process_system_cpu_seconds: cpu.stime - cpu_started.stime,
       child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
       child_system_cpu_seconds: cpu.cstime - cpu_started.cstime,
-      peak_temporary_disk_bytes: allocated_bytes(canonical) + allocated_bytes(File.join(artifact_root, 'vagrant'))
+      packaging_output_allocated_bytes: allocated_bytes(File.join(artifact_root, 'vagrant')),
+      **packaging_disk
     )
   rescue StandardError
     FileUtils.rm_rf(File.join(artifact_root, 'vagrant'))
@@ -553,6 +601,6 @@ when ['verify-virtualbox-native', 1]
 when ['fixture-virtualbox-native', 0]
   run_fixture
 else
-  warn 'usage: virtualbox_native.rb produce-virtualbox-native <registered-vm-name> <missing-output-directory> | prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
+  warn 'usage: virtualbox_native.rb produce-virtualbox-native <registered-vm-name> <missing-output-directory> | prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <guest-architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
   exit 1
 end
