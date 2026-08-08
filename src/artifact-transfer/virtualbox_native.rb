@@ -279,13 +279,13 @@ def write_contract(root, machine, source_disk, canonical_disk, capacity, handoff
   manifest
 end
 
-def produce(vm_name, target, fail_after_detach: false, expected_source_formats: ['VDI'])
+def produce(vm_name, target, fail_after_detach: false)
   raise "target already exists: #{target}" if File.exist?(target)
   handoff_started = Time.now.utc
   state = machine_state(vm_name)
   source_disk = medium_state(state.dig(:attachment, :path))
-  unless expected_source_formats.include?(source_disk[:format])
-    raise "expected Packer source format #{expected_source_formats.join(' or ')}, found #{source_disk[:format]}"
+  unless %w[VDI VMDK].include?(source_disk[:format])
+    raise "expected Packer source format VDI or VMDK, found #{source_disk[:format]}"
   end
   if source_disk[:format] == 'VMDK' && source_disk[:format_variant].include?('streamOptimized')
     raise "Packer source disk is already compressed: #{source_disk[:format_variant]}"
@@ -423,7 +423,7 @@ def prepare_vagrant(artifact_root, guest_architecture)
   started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   cpu_started = Process.times
   begin
-    result = produce(vm_name, canonical, expected_source_formats: %w[VDI VMDK])
+    result = produce(vm_name, canonical)
   ensure
     vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
   end
@@ -559,8 +559,10 @@ def run_fixture
   suffix = "#{Process.pid}-#{Time.now.to_i}"
   failed_vm = "artifact-transfer-vbox-failure-#{suffix}"
   vm_name = "artifact-transfer-vbox-fixture-#{suffix}"
+  derived_vm = "artifact-transfer-vbox-derived-#{suffix}"
   failed_output = File.join(root, 'packer-failure')
   artifact = File.join(root, 'artifact')
+  derived_artifact = File.join(root, 'derived-artifact')
   FileUtils.mkdir_p(artifact)
   begin
     failed_status = packer_fixture(template, failed_vm, failed_output, fail_build: true).last
@@ -579,9 +581,19 @@ def run_fixture
     raise 'producer left partial output behind' if File.exist?(failure_target)
     machine_state(vm_name)
     prepare(artifact)
-    verify_real_import(Dir.glob(File.join(artifact, 'image', '*.ovf')).fetch(0), vm_name)
+    canonical_ovf = Dir.glob(File.join(artifact, 'image', '*.ovf')).fetch(0)
+    FileUtils.mkdir_p(File.join(derived_artifact, 'image'))
+    vbox('import', canonical_ovf, '--vsys', '0', '--vmname', derived_vm, '--basefolder', File.join(derived_artifact, 'image'))
+    raise 'canonical OVF import did not leave its derived VM registered' unless registered?(derived_vm)
+    derived_source = medium_state(machine_state(derived_vm).dig(:attachment, :path))
+    unless derived_source.values_at(:format, :format_variant) == ['VMDK', 'dynamic default']
+      raise "expected derived image source VMDK dynamic default, found #{derived_source[:format]} #{derived_source[:format_variant]}"
+    end
+    prepare(derived_artifact)
+    verify_real_import(Dir.glob(File.join(derived_artifact, 'image', '*.ovf')).fetch(0), derived_vm)
     emit('fixture_complete')
   ensure
+    vbox('unregistervm', derived_vm, '--delete', allow_failure: true) if registered?(derived_vm)
     vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
     vbox('unregistervm', failed_vm, '--delete', allow_failure: true) if registered?(failed_vm)
     FileUtils.rm_rf(root)
