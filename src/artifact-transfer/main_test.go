@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"testing"
+	"time"
 
 	"github.com/klauspost/pgzip"
 )
@@ -98,6 +99,28 @@ func TestVagrantTransferReconstructsAndVerifiesCanonicalBoxByteExactly(t *testin
 	expectedChecksum := source.sha256 + "\tvagrant.box\n"
 	if string(checksum) != expectedChecksum {
 		t.Fatalf("unexpected reconstructed checksum: %q", checksum)
+	}
+}
+
+func TestVagrantTransferReconstructsGNUArchiveByteExactly(t *testing.T) {
+	source := newArtifactFixture(t, []testEntry{{
+		name:       "metadata.json",
+		contents:   `{"architecture":"amd64","provider":"vmware_desktop"}`,
+		format:     tar.FormatGNU,
+		accessTime: time.Unix(1, 0),
+		changeTime: time.Unix(2, 0),
+	}})
+	transfer := filepath.Join(t.TempDir(), "transfer")
+	output := filepath.Join(t.TempDir(), "artifact")
+
+	if _, err := prepareVagrantTransfer(source.directory, transfer); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := reconstructVagrantTransfer(transfer, output); err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(source.box, readFile(t, filepath.Join(output, canonicalBoxPath))) {
+		t.Fatal("reconstructed GNU-format vagrant.box differs from the canonical box")
 	}
 }
 
@@ -217,10 +240,13 @@ func TestReconstructVagrantTransferFailsClosed(t *testing.T) {
 }
 
 type testEntry struct {
-	name     string
-	contents string
-	link     string
-	typeflag byte
+	name       string
+	contents   string
+	link       string
+	typeflag   byte
+	format     tar.Format
+	accessTime time.Time
+	changeTime time.Time
 }
 
 type artifactFixture struct {
@@ -238,7 +264,10 @@ func newArtifactFixture(t *testing.T, entries []testEntry) artifactFixture {
 		if typeflag == 0 {
 			typeflag = tar.TypeReg
 		}
-		header := &tar.Header{Name: entry.name, Linkname: entry.link, Mode: 0o644, Size: int64(len(entry.contents)), Typeflag: typeflag}
+		header := &tar.Header{
+			Name: entry.name, Linkname: entry.link, Mode: 0o644, Size: int64(len(entry.contents)), Typeflag: typeflag,
+			Format: entry.format, AccessTime: entry.accessTime, ChangeTime: entry.changeTime,
+		}
 		if typeflag != tar.TypeReg && typeflag != tar.TypeRegA {
 			header.Size = 0
 		}

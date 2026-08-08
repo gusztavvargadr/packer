@@ -914,15 +914,68 @@ func reconstructBox(rawPath, outputPath string) error {
 }
 
 func copyPackerTarWrites(destination io.Writer, source io.Reader) (int64, error) {
-	records, err := copyRawTarRecords(destination, source, "")
-	if err != nil {
-		return 0, err
+	var total int64
+	header := make([]byte, tarBlockSize)
+	buffer := make([]byte, packerFileWriteSize)
+	for {
+		if _, err := io.ReadFull(source, header); err != nil {
+			return total, err
+		}
+		if err := writeAll(destination, header); err != nil {
+			return total, err
+		}
+		total += int64(len(header))
+		if isZeroBlock(header) {
+			if _, err := io.ReadFull(source, header); err != nil {
+				return total, err
+			}
+			if !isZeroBlock(header) {
+				return total, errors.New("tar trailer contains only one zero block")
+			}
+			if err := writeAll(destination, header); err != nil {
+				return total, err
+			}
+			total += int64(len(header))
+			var extra [1]byte
+			if read, readErr := source.Read(extra[:]); read != 0 || !errors.Is(readErr, io.EOF) {
+				return total, errors.New("raw tar contains bytes after its two-block trailer")
+			}
+			return total, nil
+		}
+
+		size, err := tarEntrySize(header)
+		if err != nil {
+			return total, err
+		}
+		remaining := size
+		for remaining > 0 {
+			chunk := int64(len(buffer))
+			if remaining < chunk {
+				chunk = remaining
+			}
+			if _, err := io.ReadFull(source, buffer[:chunk]); err != nil {
+				return total, err
+			}
+			if err := writeAll(destination, buffer[:chunk]); err != nil {
+				return total, err
+			}
+			total += chunk
+			remaining -= chunk
+		}
+		padding := (tarBlockSize - size%tarBlockSize) % tarBlockSize
+		if padding > 0 {
+			if _, err := io.ReadFull(source, buffer[:padding]); err != nil {
+				return total, err
+			}
+			if !isZeroBlock(buffer[:padding]) {
+				return total, errors.New("tar entry padding contains non-zero bytes")
+			}
+			if err := writeAll(destination, buffer[:padding]); err != nil {
+				return total, err
+			}
+			total += padding
+		}
 	}
-	total := int64(2 * tarBlockSize)
-	for _, record := range records {
-		total += record.Bytes
-	}
-	return total, nil
 }
 
 func tarEntrySize(header []byte) (int64, error) {
