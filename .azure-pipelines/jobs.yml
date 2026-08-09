@@ -89,16 +89,6 @@ jobs:
           workingDirectory: ./src/artifact-transfer
           displayName: Canonicalize Hyper-V Vagrant box
 
-      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
-        - script: |
-            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-native "$(artifactPath)"
-          displayName: Produce canonical VirtualBox native image
-
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.provider, 'virtualbox')) }}:
-        - script: |
-            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-vagrant "$(artifactPath)"
-          displayName: Package canonical VirtualBox Vagrant box
-
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test

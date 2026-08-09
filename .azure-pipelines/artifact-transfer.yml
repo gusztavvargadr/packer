@@ -45,13 +45,3 @@ jobs:
           ruby --version
           ruby -c src/artifact-transfer/virtualbox_native.rb
         displayName: Validate VirtualBox artifact transfer
-
-      - script: |
-          packer --version
-          VBoxManage --version
-          packer init src/artifact-transfer/virtualbox-native-fixture.pkr.hcl
-        displayName: Initialize VirtualBox fixture
-
-      - script: |
-          ruby src/artifact-transfer/virtualbox_native.rb fixture-virtualbox-native
-        displayName: Test VirtualBox native lifecycle

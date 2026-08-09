@@ -136,6 +136,44 @@ build {
       }
     }
   }
+
+  dynamic "post-processors" {
+    for_each = local.virtualbox_vagrant_package ? [true] : []
+
+    content {
+      post-processor "shell-local" {
+        inline = [
+          "ruby \"${path.root}/../artifact-transfer/virtualbox_native.rb\" prepare-virtualbox-vagrant \"${local.artifacts_directory}\""
+        ]
+      }
+
+      post-processor "artifice" {
+        files = ["${local.artifacts_directory}/image/*"]
+      }
+
+      post-processor "vagrant" {
+        architecture         = local.image_architecture
+        output               = "${local.artifacts_directory}/vagrant/vagrant.box"
+        provider_override    = "virtualbox"
+        vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
+      }
+
+      post-processor "manifest" {
+        output = "${local.artifacts_directory}/manifest.json"
+      }
+
+      post-processor "checksum" {
+        checksum_types = ["sha256"]
+        output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+      }
+
+      post-processor "shell-local" {
+        inline = [
+          "ruby \"${path.root}/../artifact-transfer/virtualbox_native.rb\" complete-virtualbox-vagrant \"${local.artifacts_directory}\""
+        ]
+      }
+    }
+  }
 }
 
 build {

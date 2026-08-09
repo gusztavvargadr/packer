@@ -162,6 +162,22 @@ build {
     elevated_password = local.communicator.password
   }
 
+  dynamic "post-processors" {
+    for_each = local.virtualbox_native_build ? [true] : []
+
+    content {
+      post-processor "shell-local" {
+        inline = [
+          "ruby \"${path.root}/../artifact-transfer/virtualbox_native.rb\" prepare-virtualbox-native \"${local.artifacts_directory}\""
+        ]
+      }
+
+      post-processor "artifice" {
+        files = ["${local.artifacts_directory}/image/*"]
+      }
+    }
+  }
+
   post-processor "manifest" {
     output = "${local.artifacts_directory}/manifest.json"
     except = local.virtualbox_native_build ? ["virtualbox-iso.core", "virtualbox-ovf.core"] : []

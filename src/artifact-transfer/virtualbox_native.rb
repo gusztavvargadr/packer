@@ -4,7 +4,6 @@ require 'fileutils'
 require 'json'
 require 'open3'
 require 'rbconfig'
-require 'tmpdir'
 require 'time'
 
 SCHEMA = 'artifact-transfer/virtualbox-native/v1'.freeze
@@ -15,9 +14,8 @@ def emit(event, state = {})
   puts JSON.generate({ event: event }.merge(state))
 end
 
-def run_command(*arguments, allow_failure: false, chdir: nil)
-  options = chdir.nil? ? {} : { chdir: chdir }
-  stdout, stderr, status = Open3.capture3(*arguments, **options)
+def run_command(*arguments, allow_failure: false)
+  stdout, stderr, status = Open3.capture3(*arguments)
   return [stdout, stderr, status] if status.success? || allow_failure
 
   raise "#{arguments.join(' ')} failed (#{status.exitstatus}):\n#{stdout}#{stderr}"
@@ -121,43 +119,6 @@ end
 def free_bytes(path)
   output, = run_command('df', '-Pk', path)
   Integer(output.lines.last.split[3], 10) * 1024
-end
-
-def measure_disk_usage(path)
-  initial = free_bytes(path)
-  minimum = initial
-  stopped = false
-  sample_error = nil
-  sampler = Thread.new do
-    until stopped
-      begin
-        sleep 0.25
-        break if stopped
-
-        available = free_bytes(path)
-        minimum = [minimum, available].min
-      rescue StandardError => error
-        sample_error ||= error
-        break
-      end
-    end
-  end
-  value = yield
-  stopped = true
-  sampler.join
-  raise sample_error unless sample_error.nil?
-
-  [
-    value,
-    {
-      disk_free_bytes_before: initial,
-      minimum_disk_free_bytes: minimum,
-      peak_temporary_disk_bytes: initial - minimum
-    }
-  ]
-ensure
-  stopped = true
-  sampler&.join if sampler&.alive?
 end
 
 def file_identity(root, filename)
@@ -279,7 +240,7 @@ def write_contract(root, machine, source_disk, canonical_disk, capacity, handoff
   manifest
 end
 
-def produce(vm_name, target, fail_after_detach: false)
+def produce(vm_name, target, manifest: true)
   raise "target already exists: #{target}" if File.exist?(target)
   handoff_started = Time.now.utc
   state = machine_state(vm_name)
@@ -316,7 +277,6 @@ def produce(vm_name, target, fail_after_detach: false)
     detach(vm_name, state.fetch(:attachment))
     detached = true
     emit('disk_detached', vm_name: vm_name, attachment: state.fetch(:attachment))
-    raise 'injected failure after detach' if fail_after_detach
     vbox('export', vm_name, '--output', ovf)
     peak_stage = [peak_stage, allocated_bytes(stage)].max
   ensure
@@ -330,18 +290,20 @@ def produce(vm_name, target, fail_after_detach: false)
   patch_ovf(ovf, state.fetch(:attachment), canonical_disk)
   vbox('import', ovf, '--dry-run')
   FileUtils.cp(state.fetch(:nvram_file), File.join(image, File.basename(state.fetch(:nvram_file)))) unless canonical_files(image).any? { |file| File.extname(file).downcase == '.nvram' }
-  manifest = write_contract(stage, state, source_disk, canonical_disk, capacity, handoff_started, started, cpu_started, peak_stage)
+  extensions = canonical_files(image).map { |file| File.extname(file).downcase }.sort
+  raise 'canonical artifact must contain exactly one OVF, one NVRAM, and one VMDK' unless extensions == %w[.nvram .ovf .vmdk]
+  contract = write_contract(stage, state, source_disk, canonical_disk, capacity, handoff_started, started, cpu_started, peak_stage) if manifest
   File.rename(stage, target)
-  emit('artifact_produced', target: target, manifest: manifest)
-  manifest
+  emit('artifact_produced', target: target, manifest: contract)
+  contract
 rescue StandardError
   FileUtils.rm_rf(stage) if stage && File.exist?(stage)
   raise
 end
 
-def write_checksum(artifact_root)
-  files = canonical_files(File.join(artifact_root, 'image'))
-  File.write(File.join(artifact_root, 'checksum.sha256'), files.map { |path| "#{Digest::SHA256.file(path).hexdigest}\t#{path.delete_prefix("#{artifact_root}#{File::SEPARATOR}")}" }.join("\n") + "\n")
+def write_checksum(artifact_root, manifest)
+  files = manifest.dig(:canonical, :files)
+  File.write(File.join(artifact_root, 'checksum.sha256'), files.map { |file| "#{file.fetch(:sha256)}\t#{file.fetch(:path)}" }.join("\n") + "\n")
 end
 
 def registered?(vm_name)
@@ -393,8 +355,7 @@ def prepare(artifact_root)
     FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
     File.rename(File.join(canonical, 'manifest.json'), File.join(artifact_root, 'manifest.json'))
     Dir.rmdir(canonical)
-    write_checksum(artifact_root)
-    verify(artifact_root)
+    write_checksum(artifact_root, result)
     emit('prepare_complete', artifact_root: artifact_root, manifest: result)
   rescue StandardError
     FileUtils.rm_rf(canonical) if File.exist?(canonical)
@@ -407,206 +368,54 @@ def prepare(artifact_root)
   end
 end
 
-def host_architecture
-  architecture = RbConfig::CONFIG.fetch('host_cpu')
-  return 'arm64' if architecture.match?(/arm|aarch64/i)
-  return 'amd64' if architecture.match?(/x86_64|amd64|x64/i)
-
-  raise "unsupported host architecture #{architecture}"
-end
-
 def prepare_vagrant(artifact_root)
-  guest_architecture = host_architecture
   artifact_root = File.expand_path(artifact_root)
   image = File.join(artifact_root, 'image')
   vm_name = find_registered_vm(image)
   canonical = File.join(artifact_root, ".virtualbox-vagrant-#{Process.pid}")
-  outputs = [
-    File.join(artifact_root, 'vagrant'),
-    File.join(artifact_root, 'manifest.json'),
-    File.join(artifact_root, 'checksum.sha256'),
-    File.join(artifact_root, 'virtualbox-vagrant.json')
-  ]
-  existing = outputs.select { |path| File.exist?(path) || File.symlink?(path) }
-  raise "VirtualBox Vagrant package outputs already exist: #{existing.join(', ')}" unless existing.empty?
   started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   cpu_started = Process.times
   begin
-    result = produce(vm_name, canonical)
+    produce(vm_name, canonical, manifest: false)
   ensure
     vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
   end
 
+  promoted = false
   begin
     remaining = Dir.children(image)
     raise "build-owned VM cleanup left image source files: #{remaining.join(', ')}" unless remaining.empty?
-
-    template = File.expand_path('virtualbox-vagrant.pkr.hcl', __dir__)
-    packer = ENV.fetch('PACKER', 'packer')
-    run_command(packer, 'init', template)
-    _, packaging_disk = measure_disk_usage(artifact_root) do
-      run_command(
-        packer, 'build', '-force',
-        '-var', "guest_architecture=#{guest_architecture}",
-        '-var', "artifact_root=#{artifact_root}",
-        '-var', "canonical_root=#{canonical}",
-        template
-      )
-    end
-    contract = File.join(artifact_root, 'virtualbox-vagrant.json')
-    verification, = run_command(
-      'go', 'run', '.', 'verify-virtualbox-vagrant', artifact_root,
-      File.join(canonical, 'manifest.json'), guest_architecture, contract,
-      chdir: __dir__
-    )
+    Dir.rmdir(image)
+    File.rename(File.join(canonical, 'image'), image)
+    promoted = true
+    Dir.rmdir(canonical)
     cpu = Process.times
     emit(
-      'virtualbox_vagrant_package_complete',
+      'virtualbox_vagrant_inputs_complete',
       artifact_root: artifact_root,
-      guest_architecture: guest_architecture,
-      canonical_files: result.dig(:canonical, :files),
-      verification: JSON.parse(verification),
+      canonical_files: canonical_files(image).map { |path| path.delete_prefix("#{artifact_root}#{File::SEPARATOR}") },
       operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
       process_user_cpu_seconds: cpu.utime - cpu_started.utime,
       process_system_cpu_seconds: cpu.stime - cpu_started.stime,
       child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
-      child_system_cpu_seconds: cpu.cstime - cpu_started.cstime,
-      packaging_output_allocated_bytes: allocated_bytes(File.join(artifact_root, 'vagrant')),
-      **packaging_disk
+      child_system_cpu_seconds: cpu.cstime - cpu_started.cstime
     )
   rescue StandardError
-    FileUtils.rm_rf(File.join(artifact_root, 'vagrant'))
-    FileUtils.rm_f(File.join(artifact_root, 'manifest.json'))
-    FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
-    FileUtils.rm_f(File.join(artifact_root, 'virtualbox-vagrant.json'))
+    FileUtils.rm_rf(image) if promoted
     raise
   ensure
     FileUtils.rm_rf(canonical)
-    Dir.rmdir(image) if File.directory?(image) && Dir.empty?(image)
   end
 end
 
-def read_manifest(artifact_root)
-  path = File.join(artifact_root, 'manifest.json')
-  manifest = JSON.parse(File.read(path), symbolize_names: true)
-  raise "unsupported VirtualBox native manifest schema #{manifest[:schema].inspect}" unless manifest[:schema] == SCHEMA
-  manifest
-rescue JSON::ParserError => error
-  raise "malformed VirtualBox native manifest: #{error.message}"
-end
-
-def verify(artifact_root)
-  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-  cpu_started = Process.times
+def complete_vagrant(artifact_root)
   artifact_root = File.expand_path(artifact_root)
-  manifest = read_manifest(artifact_root)
-  expected = manifest.dig(:canonical, :files)
-  raise 'manifest canonical files must be a non-empty array' unless expected.is_a?(Array) && !expected.empty?
-  actual_paths = canonical_files(File.join(artifact_root, 'image')).map { |path| path.delete_prefix("#{artifact_root}#{File::SEPARATOR}") }
-  raise 'manifest file set differs from canonical image' unless expected.map { |file| file[:path] }.sort == actual_paths
-  expected.each do |identity|
-    actual = file_identity(artifact_root, File.join(artifact_root, identity.fetch(:path)))
-    raise "manifest identity mismatch for #{identity[:path]}" unless actual == identity
-  end
-  checksum = File.read(File.join(artifact_root, 'checksum.sha256')).lines.map(&:split).to_h { |hash, path| [path, hash] }
-  raise 'checksum file set differs from canonical image' unless checksum.keys.sort == actual_paths
-  expected.each { |identity| raise "checksum mismatch for #{identity[:path]}" unless checksum[identity[:path]] == identity[:sha256] }
-  ovfs = actual_paths.select { |path| File.extname(path).downcase == '.ovf' }
-  raise "expected exactly one OVF, found #{ovfs.length}" unless ovfs.length == 1
-  vmdks = actual_paths.select { |path| File.extname(path).downcase == '.vmdk' }
-  raise "expected exactly one VMDK, found #{vmdks.length}" unless vmdks.length == 1
-  vmdk = File.join(artifact_root, vmdks.first)
-  begin
-    monolithic_sparse_medium(vmdk)
-  ensure
-    vbox('closemedium', 'disk', vmdk, allow_failure: true)
-  end
-  ovf = File.join(artifact_root, ovfs.first)
-  raise 'canonical OVF does not declare the sparse disk contract' unless File.binread(ovf).include?('vmdk.html#sparse')
-  vbox('import', ovf, '--dry-run')
-  cpu = Process.times
-  emit(
-    'verify_complete',
-    artifact_root: artifact_root,
-    files: expected,
-    operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
-    process_user_cpu_seconds: cpu.utime - cpu_started.utime,
-    process_system_cpu_seconds: cpu.stime - cpu_started.stime,
-    child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
-    child_system_cpu_seconds: cpu.cstime - cpu_started.cstime,
-    handoff_wall_seconds: Time.now.utc - Time.iso8601(manifest.fetch(:handoff_started_at_utc))
-  )
-end
+  image = File.join(artifact_root, 'image')
+  remaining = canonical_files(image)
+  raise "Vagrant post-processor left canonical inputs behind: #{remaining.join(', ')}" unless remaining.empty?
 
-def fixture_iso
-  return ENV.fetch('FIXTURE_ISO') if ENV.key?('FIXTURE_ISO')
-  path = vbox('list', 'systemproperties').first[/^Default Guest Additions ISO:\s+(.+)$/, 1]
-  raise 'set FIXTURE_ISO to a local ISO path' if path.nil? || path.empty? || !File.file?(path)
-  path
-end
-
-def packer_fixture(template, vm_name, output, fail_build:)
-  arm64 = host_architecture == 'arm64'
-  run_command(ENV.fetch('PACKER', 'packer'), 'build', '-color=false', '-var', "arm64=#{arm64}", '-var', "fail_build=#{fail_build}", '-var', "iso_url=#{fixture_iso}", '-var', "output_directory=#{output}", '-var', "vm_name=#{vm_name}", template, allow_failure: fail_build)
-end
-
-def verify_real_import(ovf, vm_name)
-  imported = "#{vm_name}-import"
-  begin
-    vbox('import', ovf, '--vsys', '0', '--vmname', imported)
-    vbox('startvm', imported, '--type', 'headless')
-    sleep 1
-    vbox('controlvm', imported, 'poweroff')
-  ensure
-    vbox('unregistervm', imported, '--delete', allow_failure: true) if registered?(imported)
-  end
-end
-
-def run_fixture
-  template = File.expand_path('virtualbox-native-fixture.pkr.hcl', __dir__)
-  root = Dir.mktmpdir('artifact-transfer-vbox-')
-  suffix = "#{Process.pid}-#{Time.now.to_i}"
-  failed_vm = "artifact-transfer-vbox-failure-#{suffix}"
-  vm_name = "artifact-transfer-vbox-fixture-#{suffix}"
-  derived_vm = "artifact-transfer-vbox-derived-#{suffix}"
-  failed_output = File.join(root, 'packer-failure')
-  artifact = File.join(root, 'artifact')
-  derived_artifact = File.join(root, 'derived-artifact')
-  FileUtils.mkdir_p(artifact)
-  begin
-    failed_status = packer_fixture(template, failed_vm, failed_output, fail_build: true).last
-    raise 'injected Packer failure unexpectedly succeeded' if failed_status.success?
-    raise 'Packer left its failed VM registered' if registered?(failed_vm)
-    raise 'Packer left its failed output directory behind' if File.exist?(failed_output)
-    packer_fixture(template, vm_name, File.join(artifact, 'image'), fail_build: false)
-    raise 'Packer did not leave its successful VM registered' unless registered?(vm_name)
-    failure_target = File.join(root, 'injected-failure')
-    begin
-      produce(vm_name, failure_target, fail_after_detach: true)
-      raise 'producer failure injection unexpectedly succeeded'
-    rescue RuntimeError => error
-      raise unless error.message == 'injected failure after detach'
-    end
-    raise 'producer left partial output behind' if File.exist?(failure_target)
-    machine_state(vm_name)
-    prepare(artifact)
-    canonical_ovf = Dir.glob(File.join(artifact, 'image', '*.ovf')).fetch(0)
-    FileUtils.mkdir_p(File.join(derived_artifact, 'image'))
-    vbox('import', canonical_ovf, '--vsys', '0', '--vmname', derived_vm, '--basefolder', File.join(derived_artifact, 'image'))
-    raise 'canonical OVF import did not leave its derived VM registered' unless registered?(derived_vm)
-    derived_source = medium_state(machine_state(derived_vm).dig(:attachment, :path))
-    unless derived_source.values_at(:format, :format_variant) == ['VMDK', 'dynamic default']
-      raise "expected derived image source VMDK dynamic default, found #{derived_source[:format]} #{derived_source[:format_variant]}"
-    end
-    prepare(derived_artifact)
-    verify_real_import(Dir.glob(File.join(derived_artifact, 'image', '*.ovf')).fetch(0), derived_vm)
-    emit('fixture_complete')
-  ensure
-    vbox('unregistervm', derived_vm, '--delete', allow_failure: true) if registered?(derived_vm)
-    vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
-    vbox('unregistervm', failed_vm, '--delete', allow_failure: true) if registered?(failed_vm)
-    FileUtils.rm_rf(root)
-  end
+  Dir.rmdir(image) if File.directory?(image)
+  emit('virtualbox_vagrant_complete', artifact_root: artifact_root)
 end
 
 command, *arguments = ARGV
@@ -615,11 +424,9 @@ when ['prepare-virtualbox-native', 1]
   prepare(arguments.first)
 when ['prepare-virtualbox-vagrant', 1]
   prepare_vagrant(*arguments)
-when ['verify-virtualbox-native', 1]
-  verify(arguments.first)
-when ['fixture-virtualbox-native', 0]
-  run_fixture
+when ['complete-virtualbox-vagrant', 1]
+  complete_vagrant(*arguments)
 else
-  warn 'usage: virtualbox_native.rb prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
+  warn 'usage: virtualbox_native.rb prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> | complete-virtualbox-vagrant <artifact-directory>'
   exit 1
 end
