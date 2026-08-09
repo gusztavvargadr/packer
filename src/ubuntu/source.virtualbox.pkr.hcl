@@ -8,6 +8,10 @@ packer {
 }
 
 locals {
+  virtualbox_build = local.image_provider == "virtualbox"
+}
+
+locals {
   virtualbox_source_options = {
     audio_controller     = "ac97"
     chipset              = "piix3"
@@ -22,6 +26,8 @@ locals {
     nested_virt          = false
     nic_type             = "82540EM"
     post_shutdown_delay  = "15s"
+    keep_registered      = true
+    skip_export          = true
     usb                  = false
     usb_controller       = "ehci"
   }
@@ -77,6 +83,8 @@ source "virtualbox-iso" "core" {
   boot_wait              = local.virtualbox_iso_source_options.boot_wait
   shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
+  keep_registered        = local.virtualbox_iso_source_options.keep_registered
+  skip_export            = local.virtualbox_iso_source_options.skip_export
 
   communicator = local.communicator.type
   ssh_username = local.communicator.username
@@ -93,7 +101,10 @@ source "virtualbox-ovf" "core" {
   headless         = local.virtualbox_ovf_source_options.headless
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
-  source_path = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
+  source_path     = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
+  import_flags    = ["--basefolder", local.virtualbox_ovf_source_options.output_directory]
+  keep_registered = local.virtualbox_ovf_source_options.keep_registered
+  skip_export     = local.virtualbox_ovf_source_options.skip_export
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
 

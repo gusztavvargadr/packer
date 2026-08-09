@@ -25,6 +25,10 @@ jobs:
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
+      ${{ if eq(parameters.build, 'native') }}:
+        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/native
+      ${{ if eq(parameters.build, 'vagrant') }}:
+        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant/image
 
     steps:
       - checkout: self
@@ -85,7 +89,7 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - publish: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      - publish: $(artifactPath)
         artifact: ${{ parameters.build }}-build
         displayName: Publish artifacts
 
@@ -111,6 +115,8 @@ jobs:
       variables:
         - group: environment-vagrant-cloud
         - group: environment-hcp-vagrant
+        - name: artifactPath
+          value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant/image
 
       steps:
         - checkout: self
@@ -134,8 +140,12 @@ jobs:
           inputs:
             source: current
             artifact: vagrant-build
-            targetPath: ./artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant
+            targetPath: $(artifactPath)
           displayName: Download artifacts
+
+        - script: |
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore
+          displayName: Restore
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish

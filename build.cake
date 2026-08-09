@@ -16,16 +16,27 @@ var platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu
 var sampleDirectory = Directory($"samples/{sample}");
 var platformDirectory = Directory($"../../src/{platform}");
 var artifactsDirectory = Directory($"artifacts");
+var configurationImageDirectory = Directory($"artifacts/{sample}/{image}/{provider}/{build}/image");
 
 Task("init")
   .Does(() => {
     PackerInit();
   });
 
-Task("restore")
+Task("restore-configuration")
   .Does(() => {
     PackerBuild("restore");
   });
+
+Task("restore-box")
+  .IsDependentOn("restore-configuration")
+  .WithCriteria(() => build == "vagrant" && DirectoryExists(configurationImageDirectory))
+  .Does(() => {
+    PackerBuild("restore-box");
+  });
+
+Task("restore")
+  .IsDependentOn("restore-box");
 
 Task("build")
   .Does(() => {

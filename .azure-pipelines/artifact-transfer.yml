@@ -1,0 +1,47 @@
+trigger: none
+pr: none
+
+jobs:
+  - job: validate
+    displayName: Validate artifact transfer $(hostedImage)
+
+    strategy:
+      matrix:
+        windows:
+          hostedImage: windows-2025
+        linux:
+          hostedImage: ubuntu-22.04
+
+    pool:
+      vmImage: $(hostedImage)
+
+    workspace:
+      clean: all
+
+    steps:
+      - checkout: self
+        submodules: recursive
+
+      - script: |
+          sudo apt-get update
+          sudo apt-get install --yes libarchive-tools
+        displayName: Install archive tools
+        condition: eq(variables['Agent.OS'], 'Linux')
+
+      - script: |
+          dotnet --info
+          dotnet tool restore
+          ruby -e "require 'rbconfig'; command = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/i ? 'tar' : 'bsdtar'; exit(system(command, '--version') ? 0 : 1)"
+          dotnet cake src/artifact-transfer/build.cake
+        displayName: Test artifact transfer
+
+      - script: |
+          ruby --version
+          ruby -c src/artifact-transfer/vagrant_box.rb
+          ruby -c src/artifact-transfer/vagrant_box_test.rb
+          ruby -c src/artifact-transfer/virtualbox_native.rb
+          ruby -e "require 'yaml'; Dir['.azure-pipelines/**/*.{yml,yaml}'].each { |file| YAML.load_file(file) }"
+          packer fmt -check src
+          git diff --check
+          git diff --exit-code
+        displayName: Validate artifact transfer
