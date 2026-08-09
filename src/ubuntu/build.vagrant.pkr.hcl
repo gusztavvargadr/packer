@@ -141,7 +141,7 @@ build {
 
     post-processor "vagrant" {
       architecture         = local.image_architecture
-      keep_input_artifact  = true
+      keep_input_artifact  = !local.virtualbox_build
       output               = "${local.artifacts_directory}/vagrant/vagrant.box"
       provider_override    = local.virtualbox_build ? "virtualbox" : ""
       vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
