@@ -9,8 +9,8 @@ jobs:
       matrix:
         windows:
           hostedImage: windows-2025
-        macos:
-          hostedImage: macOS-15
+        linux:
+          hostedImage: ubuntu-22.04
 
     pool:
       vmImage: $(hostedImage)
@@ -21,6 +21,12 @@ jobs:
     steps:
       - checkout: self
         submodules: recursive
+
+      - script: |
+          sudo apt-get update
+          sudo apt-get install --yes libarchive-tools
+        displayName: Install archive tools
+        condition: eq(variables['Agent.OS'], 'Linux')
 
       - script: |
           dotnet --info
