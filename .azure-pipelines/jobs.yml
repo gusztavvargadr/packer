@@ -151,6 +151,9 @@ jobs:
         demands:
           - VSTS_AGENT_CAP_PACKER -equals build
           - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+          - ${{ if ne(parameters.hostArchitecture, '') }}:
+            - Agent.OS -equals Darwin
+            - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
 
       workspace:
         clean: all
