@@ -120,7 +120,7 @@ build {
 
   post-processors {
     dynamic "post-processor" {
-      for_each = local.virtualbox_vagrant_package ? [true] : []
+      for_each = local.virtualbox_build ? [true] : []
       labels   = ["shell-local"]
 
       content {
@@ -131,7 +131,7 @@ build {
     }
 
     dynamic "post-processor" {
-      for_each = local.virtualbox_vagrant_package ? [true] : []
+      for_each = local.virtualbox_build ? [true] : []
       labels   = ["artifice"]
 
       content {
@@ -139,31 +139,16 @@ build {
       }
     }
 
-    dynamic "post-processor" {
-      for_each = local.virtualbox_vagrant_package ? [] : [true]
-      labels   = ["vagrant"]
-
-      content {
-        keep_input_artifact  = true
-        vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
-        output               = "${local.artifacts_directory}/vagrant/vagrant.box"
-      }
+    post-processor "vagrant" {
+      architecture         = local.image_architecture
+      keep_input_artifact  = true
+      output               = "${local.artifacts_directory}/vagrant/vagrant.box"
+      provider_override    = local.virtualbox_build ? "virtualbox" : ""
+      vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
     }
 
     dynamic "post-processor" {
-      for_each = local.virtualbox_vagrant_package ? [true] : []
-      labels   = ["vagrant"]
-
-      content {
-        architecture         = local.image_architecture
-        output               = "${local.artifacts_directory}/vagrant/vagrant.box"
-        provider_override    = "virtualbox"
-        vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
-      }
-    }
-
-    dynamic "post-processor" {
-      for_each = local.virtualbox_vagrant_package ? [true] : []
+      for_each = local.virtualbox_build ? [true] : []
       labels   = ["shell-local"]
 
       content {

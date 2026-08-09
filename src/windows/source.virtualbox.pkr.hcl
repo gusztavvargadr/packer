@@ -8,8 +8,7 @@ packer {
 }
 
 locals {
-  virtualbox_native_build    = local.image_provider == "virtualbox" && local.native_build
-  virtualbox_vagrant_package = local.image_provider == "virtualbox" && local.vagrant_build
+  virtualbox_build = local.image_provider == "virtualbox"
 }
 
 locals {
@@ -27,6 +26,8 @@ locals {
     mouse                = "ps2"
     nic_type             = "82540EM"
     post_shutdown_delay  = "15s"
+    keep_registered      = true
+    skip_export          = true
     usb                  = false
     usb_controller       = "ehci"
   }
@@ -83,8 +84,8 @@ source "virtualbox-iso" "core" {
   boot_wait              = local.virtualbox_iso_source_options.boot_wait
   shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
-  keep_registered        = true
-  skip_export            = true
+  keep_registered        = local.virtualbox_iso_source_options.keep_registered
+  skip_export            = local.virtualbox_iso_source_options.skip_export
 
   communicator = local.communicator.type
   ssh_username = local.communicator.username
@@ -103,8 +104,8 @@ source "virtualbox-ovf" "core" {
 
   source_path     = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
   import_flags    = ["--basefolder", local.virtualbox_ovf_source_options.output_directory]
-  keep_registered = true
-  skip_export     = true
+  keep_registered = local.virtualbox_ovf_source_options.keep_registered
+  skip_export     = local.virtualbox_ovf_source_options.skip_export
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
   post_shutdown_delay  = local.virtualbox_ovf_source_options.post_shutdown_delay

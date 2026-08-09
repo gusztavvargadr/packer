@@ -164,7 +164,7 @@ build {
 
   post-processors {
     dynamic "post-processor" {
-      for_each = local.virtualbox_native_build ? [true] : []
+      for_each = local.virtualbox_build ? [true] : []
       labels   = ["shell-local"]
 
       content {
@@ -175,7 +175,7 @@ build {
     }
 
     dynamic "post-processor" {
-      for_each = local.virtualbox_native_build ? [true] : []
+      for_each = local.virtualbox_build ? [true] : []
       labels   = ["artifice"]
 
       content {

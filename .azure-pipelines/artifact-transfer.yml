@@ -3,33 +3,20 @@ pr: none
 
 jobs:
   - job: validate
-    displayName: Validate artifact transfer $(hostOS)/$(hostArchitecture)
+    displayName: Validate artifact transfer $(hostedImage)
 
     strategy:
       matrix:
-        linux_amd64:
-          hostOS: Linux
-          hostArchitecture: X64
-        windows_amd64:
-          hostOS: Windows_NT
-          hostArchitecture: X64
-        macos_arm64:
-          hostOS: Darwin
-          hostArchitecture: ARM64
-      maxParallel: 3
+        windows:
+          hostedImage: windows-2025
+        macos:
+          hostedImage: macOS-15
 
     pool:
-      name: default
-      demands:
-        - VSTS_AGENT_CAP_PACKER -equals build
-        - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals virtualbox
-        - Agent.OS -equals $(hostOS)
-        - Agent.OSArchitecture -equals $(hostArchitecture)
+      vmImage: $(hostedImage)
 
     workspace:
       clean: all
-
-    timeoutInMinutes: 30
 
     steps:
       - checkout: self
@@ -39,7 +26,7 @@ jobs:
           dotnet --info
           dotnet tool restore
           ruby -e "require 'rbconfig'; command = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/i ? 'tar' : 'bsdtar'; exit(system(command, '--version') ? 0 : 1)"
-          dotnet cake --target test-artifact-transfer
+          dotnet cake src/artifact-transfer/build.cake
         displayName: Test artifact transfer
 
       - script: |
