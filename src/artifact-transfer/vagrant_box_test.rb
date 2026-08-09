@@ -10,6 +10,7 @@ module ArtifactTransfer
     module_function
 
     SCRIPT = File.expand_path('vagrant_box.rb', __dir__).freeze
+    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
 
     def run_command(*arguments, chdir: nil, allow_failure: false)
       options = {}
@@ -35,13 +36,13 @@ module ArtifactTransfer
       end
       box = File.join(directory, 'vagrant.box')
       entries = Dir.children(contents).sort
-      run_command('bsdtar', '-czf', box, *entries, chdir: contents)
+      run_command(ARCHIVE_COMMAND, '-czf', box, *entries, chdir: contents)
       box
     end
 
     def extract_box(box, directory)
       FileUtils.mkdir_p(directory)
-      run_command('bsdtar', '-xf', box, '-C', directory)
+      run_command(ARCHIVE_COMMAND, '-xf', box, '-C', directory)
     end
 
     def run_module(command, artifact_directory, allow_failure: false)
@@ -127,7 +128,7 @@ module ArtifactTransfer
         File.write(File.join(contents, 'metadata.json'), '{')
         malformed_box = File.join(vagrant, 'vagrant.box')
         entries = Dir.children(contents).sort
-        run_command('bsdtar', '-czf', malformed_box, *entries, chdir: contents)
+        run_command(ARCHIVE_COMMAND, '-czf', malformed_box, *entries, chdir: contents)
         original_sha256 = Digest::SHA256.file(malformed_box).hexdigest
 
         _stdout, stderr, status = run_module('prepare', artifact, allow_failure: true)

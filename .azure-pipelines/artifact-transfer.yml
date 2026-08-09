@@ -38,7 +38,7 @@ jobs:
       - script: |
           dotnet --info
           dotnet tool restore
-          bsdtar --version
+          ruby -e "require 'rbconfig'; command = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/i ? 'tar' : 'bsdtar'; exit(system(command, '--version') ? 0 : 1)"
           dotnet cake --target test-artifact-transfer
         displayName: Test artifact transfer
 

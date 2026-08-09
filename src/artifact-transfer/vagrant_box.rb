@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'json'
 require 'open3'
+require 'rbconfig'
 
 module ArtifactTransfer
   module VagrantBox
@@ -9,6 +10,7 @@ module ArtifactTransfer
     BOX_PATH = File.join('vagrant', 'vagrant.box').freeze
     IMAGE_PATH = 'image'.freeze
     METADATA_PATH = 'metadata.json'.freeze
+    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
 
     def run_command(*arguments, chdir: nil)
       options = {}
@@ -60,7 +62,7 @@ module ArtifactTransfer
 
     def extract_box(box, image)
       FileUtils.mkdir_p(image)
-      run_command('bsdtar', '-xf', box, '-C', image)
+      run_command(ARCHIVE_COMMAND, '-xf', box, '-C', image)
     end
 
     def package_box(image, box)
@@ -68,7 +70,7 @@ module ArtifactTransfer
       raise "Vagrant image is empty: #{image}" if entries.empty?
 
       FileUtils.mkdir_p(File.dirname(box))
-      run_command('bsdtar', '-czf', box, *entries, chdir: image)
+      run_command(ARCHIVE_COMMAND, '-czf', box, *entries, chdir: image)
     end
 
     def correct_hyperv(image)
