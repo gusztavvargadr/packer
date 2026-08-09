@@ -3,7 +3,6 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
-  guestArchitecture: amd64
 
 stages:
   - stage: native
@@ -16,7 +15,6 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
-          guestArchitecture: ${{ parameters.guestArchitecture }}
           build: native
 
   - stage: vagrant
@@ -29,5 +27,4 @@ stages:
           image: ${{ parameters.image }}
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
-          guestArchitecture: ${{ parameters.guestArchitecture }}
           build: vagrant

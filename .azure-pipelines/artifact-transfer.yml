@@ -1,0 +1,57 @@
+trigger: none
+pr: none
+
+jobs:
+  - job: validate
+    displayName: Validate artifact transfer $(hostOS)/$(hostArchitecture)
+
+    strategy:
+      matrix:
+        linux_amd64:
+          hostOS: Linux
+          hostArchitecture: X64
+        windows_amd64:
+          hostOS: Windows_NT
+          hostArchitecture: X64
+        macos_arm64:
+          hostOS: Darwin
+          hostArchitecture: ARM64
+      maxParallel: 3
+
+    pool:
+      name: default
+      demands:
+        - VSTS_AGENT_CAP_PACKER -equals build
+        - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals virtualbox
+        - Agent.OS -equals $(hostOS)
+        - Agent.OSArchitecture -equals $(hostArchitecture)
+
+    workspace:
+      clean: all
+
+    timeoutInMinutes: 30
+
+    steps:
+      - checkout: self
+        submodules: recursive
+
+      - script: |
+          go version
+          go test ./...
+        workingDirectory: ./src/artifact-transfer
+        displayName: Test artifact transfer
+
+      - script: |
+          ruby --version
+          ruby -c src/artifact-transfer/virtualbox_native.rb
+        displayName: Validate VirtualBox artifact transfer
+
+      - script: |
+          packer --version
+          VBoxManage --version
+          packer init src/artifact-transfer/virtualbox-native-fixture.pkr.hcl
+        displayName: Initialize VirtualBox fixture
+
+      - script: |
+          ruby src/artifact-transfer/virtualbox_native.rb fixture-virtualbox-native
+        displayName: Test VirtualBox native lifecycle

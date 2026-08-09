@@ -13,4 +13,3 @@ stages:
       image: 2204-arm64
       provider: virtualbox
       hostArchitecture: ARM64
-      guestArchitecture: arm64

@@ -407,7 +407,16 @@ def prepare(artifact_root)
   end
 end
 
-def prepare_vagrant(artifact_root, guest_architecture)
+def host_architecture
+  architecture = RbConfig::CONFIG.fetch('host_cpu')
+  return 'arm64' if architecture.match?(/arm|aarch64/i)
+  return 'amd64' if architecture.match?(/x86_64|amd64|x64/i)
+
+  raise "unsupported host architecture #{architecture}"
+end
+
+def prepare_vagrant(artifact_root)
+  guest_architecture = host_architecture
   artifact_root = File.expand_path(artifact_root)
   image = File.join(artifact_root, 'image')
   vm_name = find_registered_vm(image)
@@ -537,7 +546,7 @@ def fixture_iso
 end
 
 def packer_fixture(template, vm_name, output, fail_build:)
-  arm64 = RbConfig::CONFIG['host_cpu'].match?(/arm|aarch64/i)
+  arm64 = host_architecture == 'arm64'
   run_command(ENV.fetch('PACKER', 'packer'), 'build', '-color=false', '-var', "arm64=#{arm64}", '-var', "fail_build=#{fail_build}", '-var', "iso_url=#{fixture_iso}", '-var', "output_directory=#{output}", '-var', "vm_name=#{vm_name}", template, allow_failure: fail_build)
 end
 
@@ -604,13 +613,13 @@ command, *arguments = ARGV
 case [command, arguments.length]
 when ['prepare-virtualbox-native', 1]
   prepare(arguments.first)
-when ['prepare-virtualbox-vagrant', 2]
+when ['prepare-virtualbox-vagrant', 1]
   prepare_vagrant(*arguments)
 when ['verify-virtualbox-native', 1]
   verify(arguments.first)
 when ['fixture-virtualbox-native', 0]
   run_fixture
 else
-  warn 'usage: virtualbox_native.rb prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <guest-architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
+  warn 'usage: virtualbox_native.rb prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
   exit 1
 end

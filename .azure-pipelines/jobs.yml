@@ -3,7 +3,6 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
-  guestArchitecture: amd64
   build: ''
 
 jobs:
@@ -33,19 +32,6 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - ${{ if eq(parameters.build, 'vagrant') }}:
-        - script: |
-            go version
-            go test ./...
-          workingDirectory: ./src/artifact-transfer
-          displayName: Initialize artifact transfer
-
-      - ${{ if eq(parameters.provider, 'virtualbox') }}:
-        - script: |
-            ruby --version
-            ruby -c src/artifact-transfer/virtualbox_native.rb
-          displayName: Initialize VirtualBox native artifact transfer
-
       - script: |
           dotnet --info
 
@@ -67,11 +53,6 @@ jobs:
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ eq(parameters.hostArchitecture, 'ARM64') }}
         displayName: Init
-
-      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
-        - script: |
-            ruby src/artifact-transfer/virtualbox_native.rb fixture-virtualbox-native
-          displayName: Test VirtualBox native lifecycle
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore
@@ -115,7 +96,7 @@ jobs:
 
       - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.provider, 'virtualbox')) }}:
         - script: |
-            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-vagrant "$(artifactPath)" "${{ parameters.guestArchitecture }}"
+            ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-vagrant "$(artifactPath)"
           displayName: Package canonical VirtualBox Vagrant box
 
       - script: |
@@ -141,46 +122,11 @@ jobs:
         displayName: Clean
         condition: always()
 
-  - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
-    - job: verify
-      displayName: Verify clean-job handoff ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-      dependsOn: build
-
-      pool:
-        name: default
-        demands:
-          - VSTS_AGENT_CAP_PACKER -equals build
-          - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
-          - ${{ if ne(parameters.hostArchitecture, '') }}:
-            - Agent.OS -equals Darwin
-            - Agent.OSArchitecture -equals ${{ parameters.hostArchitecture }}
-
-      workspace:
-        clean: all
-
-      variables:
-        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-
-      steps:
-        - checkout: self
-          submodules: recursive
-
-        - task: DownloadPipelineArtifact@2
-          inputs:
-            source: current
-            artifact: native-build
-            targetPath: $(artifactPath)
-          displayName: Download VirtualBox native image
-
-        - script: |
-            ruby src/artifact-transfer/virtualbox_native.rb verify-virtualbox-native "$(artifactPath)"
-          displayName: Verify VirtualBox native image
-
   - ${{ if eq(parameters.build, 'vagrant') }}:
     - job: publish
-      displayName: Hand off and publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
-      condition: succeeded()
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
       pool:
         name: default
@@ -203,12 +149,6 @@ jobs:
           submodules: recursive
 
         - script: |
-            go version
-            go test ./...
-          workingDirectory: ./src/artifact-transfer
-          displayName: Initialize artifact transfer
-
-        - script: |
             dotnet --info
 
             dotnet tool restore
@@ -217,12 +157,10 @@ jobs:
         - script: |
             packer --version
           displayName: Initialize Packer
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init
           displayName: Init
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         - task: DownloadPipelineArtifact@2
           inputs:
@@ -248,7 +186,6 @@ jobs:
             VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
             HCP_CLIENT_ID: $(hcp-client-id)
             HCP_CLIENT_SECRET: $(hcp-client-secret)
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean

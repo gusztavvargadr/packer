@@ -13,4 +13,3 @@ stages:
       image: community-ubuntu-server-arm64
       provider: virtualbox
       hostArchitecture: ARM64
-      guestArchitecture: arm64
