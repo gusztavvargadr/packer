@@ -166,6 +166,7 @@ build {
       labels   = ["vagrant"]
 
       content {
+        keep_input_artifact  = true
         vagrantfile_template = "${local.artifacts_directory}/Vagrantfile"
         output               = "${local.artifacts_directory}/vagrant/vagrant.box"
       }

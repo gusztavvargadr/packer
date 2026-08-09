@@ -25,7 +25,10 @@ jobs:
 
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
-      artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+      ${{ if eq(parameters.build, 'native') }}:
+        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/native
+      ${{ if eq(parameters.build, 'vagrant') }}:
+        artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant/image
 
     steps:
       - checkout: self
@@ -86,14 +89,9 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - ${{ if eq(parameters.build, 'vagrant') }}:
-        - publish: $(artifactPath)/image
-          artifact: ${{ parameters.build }}-build
-          displayName: Publish artifacts
-      - ${{ if eq(parameters.build, 'native') }}:
-        - publish: $(artifactPath)
-          artifact: ${{ parameters.build }}-build
-          displayName: Publish artifacts
+      - publish: $(artifactPath)
+        artifact: ${{ parameters.build }}-build
+        displayName: Publish artifacts
 
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean
@@ -118,7 +116,7 @@ jobs:
         - group: environment-vagrant-cloud
         - group: environment-hcp-vagrant
         - name: artifactPath
-          value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
+          value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant/image
 
       steps:
         - checkout: self
@@ -142,7 +140,7 @@ jobs:
           inputs:
             source: current
             artifact: vagrant-build
-            targetPath: $(artifactPath)/image
+            targetPath: $(artifactPath)
           displayName: Download artifacts
 
         - script: |
