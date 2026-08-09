@@ -35,7 +35,7 @@ Run quick formatting and syntax checks directly in the main task. Keep complete 
 
 ## Azure home-lab build agents
 
-Azure Pipelines uses three physical home-lab hosts. The Linux AMD64 host supports QEMU, VirtualBox, and VMware; the Windows AMD64 host supports Hyper-V, VirtualBox, and VMware; and the macOS ARM64 host supports VirtualBox and VMware. Each host runs only one provider-specific Azure agent service and one build at a time. Different agent names on the same physical host do not provide additional concurrency. One build may run concurrently on each physical host when their required providers and architectures differ.
+Azure Pipelines uses several physical home-lab hosts with different provider capabilities. Each host runs only one provider-specific Azure agent service and one build at a time. Different agent names on the same physical host do not provide additional concurrency. One build may run concurrently on each physical host when their required providers and architectures differ.
 
 Provider changes require manual intervention: ask the user to stop the current agent service and start the required provider-specific service, then wait for confirmation before queueing. Do not change agent services or install host tools without explicit authorization.
 
