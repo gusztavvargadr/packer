@@ -93,6 +93,7 @@ module ArtifactTransfer
       Dir.mkdir(backup)
       backed_up = []
       promoted = []
+      preserve_backup = false
       begin
         names.each do |name|
           source = File.join(staging, name)
@@ -118,11 +119,12 @@ module ArtifactTransfer
           rollback_errors << rollback_error
         end
         unless rollback_errors.empty?
-          raise "#{error.message}\nrollback failed: #{rollback_errors.map(&:message).join('; ')}"
+          preserve_backup = true
+          raise "#{error.message}\nrollback failed: #{rollback_errors.map(&:message).join('; ')}\noriginal artifacts remain recoverable in #{backup}"
         end
         raise
       ensure
-        FileUtils.rm_rf(backup) if File.exist?(backup)
+        FileUtils.rm_rf(backup) if File.exist?(backup) && !preserve_backup
       end
     end
 
