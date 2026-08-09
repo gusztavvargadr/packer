@@ -7,4 +7,3 @@ stages:
       sample: ubuntu-server
       image: 2404-lts
       provider: virtualbox
-      artifactHandoff: virtualbox-native-sparse

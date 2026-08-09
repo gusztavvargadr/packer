@@ -602,8 +602,6 @@ end
 
 command, *arguments = ARGV
 case [command, arguments.length]
-when ['produce-virtualbox-native', 2]
-  produce(*arguments)
 when ['prepare-virtualbox-native', 1]
   prepare(arguments.first)
 when ['prepare-virtualbox-vagrant', 2]
@@ -613,6 +611,6 @@ when ['verify-virtualbox-native', 1]
 when ['fixture-virtualbox-native', 0]
   run_fixture
 else
-  warn 'usage: virtualbox_native.rb produce-virtualbox-native <registered-vm-name> <missing-output-directory> | prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <guest-architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
+  warn 'usage: virtualbox_native.rb prepare-virtualbox-native <artifact-directory> | prepare-virtualbox-vagrant <artifact-directory> <guest-architecture> | verify-virtualbox-native <artifact-directory> | fixture-virtualbox-native'
   exit 1
 end

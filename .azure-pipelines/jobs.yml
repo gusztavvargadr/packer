@@ -4,8 +4,6 @@ parameters:
   provider: ''
   hostArchitecture: ''
   guestArchitecture: amd64
-  artifactHandoff: conventional
-  vagrantCanonicalization: none
   build: ''
 
 jobs:
@@ -35,14 +33,14 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse'))) }}:
+      - ${{ if eq(parameters.build, 'vagrant') }}:
         - script: |
             go version
             go test ./...
           workingDirectory: ./src/artifact-transfer
           displayName: Initialize artifact transfer
 
-      - ${{ if and(or(eq(parameters.build, 'native'), eq(parameters.build, 'vagrant')), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+      - ${{ if eq(parameters.provider, 'virtualbox') }}:
         - script: |
             ruby --version
             ruby -c src/artifact-transfer/virtualbox_native.rb
@@ -70,7 +68,7 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target init --reportHostAndProvider ${{ eq(parameters.hostArchitecture, 'ARM64') }}
         displayName: Init
 
-      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
         - script: |
             ruby src/artifact-transfer/virtualbox_native.rb fixture-virtualbox-native
           displayName: Test VirtualBox native lifecycle
@@ -103,24 +101,19 @@ jobs:
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build
         displayName: Build
-        env:
-          ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
-            PKR_VAR_virtualbox_native_handoff: true
-          ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
-            PKR_VAR_virtualbox_vagrant_handoff: true
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.vagrantCanonicalization, 'hyperv')) }}:
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.provider, 'hyperv')) }}:
         - script: |
             go run . canonicalize-hyperv-vagrant "$(artifactPath)"
           workingDirectory: ./src/artifact-transfer
           displayName: Canonicalize Hyper-V Vagrant box
 
-      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+      - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
         - script: |
             ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-native "$(artifactPath)"
           displayName: Produce canonical VirtualBox native image
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.provider, 'virtualbox')) }}:
         - script: |
             ruby src/artifact-transfer/virtualbox_native.rb prepare-virtualbox-vagrant "$(artifactPath)" "${{ parameters.guestArchitecture }}"
           displayName: Package canonical VirtualBox Vagrant box
@@ -129,7 +122,7 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse'))) }}:
+      - ${{ if eq(parameters.build, 'vagrant') }}:
         - script: |
             go run . prepare-vagrant "$(artifactPath)" "$(artifactTransferPath)"
           workingDirectory: ./src/artifact-transfer
@@ -138,7 +131,7 @@ jobs:
         - publish: $(artifactTransferPath)
           artifact: vagrant-transfer
           displayName: Publish Vagrant transfer
-      - ${{ else }}:
+      - ${{ if eq(parameters.build, 'native') }}:
         - publish: $(artifactPath)
           artifact: ${{ parameters.build }}-build
           displayName: Publish artifacts
@@ -148,7 +141,7 @@ jobs:
         displayName: Clean
         condition: always()
 
-  - ${{ if and(eq(parameters.build, 'native'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
+  - ${{ if and(eq(parameters.build, 'native'), eq(parameters.provider, 'virtualbox')) }}:
     - job: verify
       displayName: Verify clean-job handoff ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
@@ -184,10 +177,7 @@ jobs:
     - job: publish
       displayName: Hand off and publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
-      ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
-        condition: succeeded()
-      ${{ else }}:
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: succeeded()
 
       pool:
         name: default
@@ -209,12 +199,11 @@ jobs:
         - checkout: self
           submodules: recursive
 
-        - ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
-          - script: |
-              go version
-              go test ./...
-            workingDirectory: ./src/artifact-transfer
-            displayName: Initialize artifact transfer
+        - script: |
+            go version
+            go test ./...
+          workingDirectory: ./src/artifact-transfer
+          displayName: Initialize artifact transfer
 
         - script: |
             dotnet --info
@@ -232,30 +221,22 @@ jobs:
           displayName: Init
           condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-        - ${{ if or(eq(parameters.artifactHandoff, 'vagrant-raw-tar'), eq(parameters.artifactHandoff, 'virtualbox-native-sparse')) }}:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: current
-              artifact: vagrant-transfer
-              targetPath: $(artifactTransferPath)
-            displayName: Download Vagrant transfer
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            source: current
+            artifact: vagrant-transfer
+            targetPath: $(artifactTransferPath)
+          displayName: Download Vagrant transfer
 
-          - script: |
-              go run . reconstruct-vagrant "$(artifactTransferPath)" "$(artifactPath)"
-            workingDirectory: ./src/artifact-transfer
-            displayName: Reconstruct Vagrant artifact
+        - script: |
+            go run . reconstruct-vagrant "$(artifactTransferPath)" "$(artifactPath)"
+          workingDirectory: ./src/artifact-transfer
+          displayName: Reconstruct Vagrant artifact
 
-          - script: |
-              go run . verify-vagrant "$(artifactTransferPath)" "$(artifactPath)"
-            workingDirectory: ./src/artifact-transfer
-            displayName: Verify Vagrant artifact
-        - ${{ else }}:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              source: current
-              artifact: vagrant-build
-              targetPath: $(artifactPath)
-            displayName: Download artifacts
+        - script: |
+            go run . verify-vagrant "$(artifactTransferPath)" "$(artifactPath)"
+          workingDirectory: ./src/artifact-transfer
+          displayName: Verify Vagrant artifact
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish

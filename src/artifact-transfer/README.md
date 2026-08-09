@@ -2,6 +2,8 @@
 
 This module owns the internal prepare, reconstruct, and verify contract used to hand canonical image artifacts between clean Azure Pipeline jobs. Its supported representations are a Vagrant box produced by Packer Vagrant plugin 1.1.6 and a VirtualBox native image produced from a powered-off registered VM.
 
+The shared pipeline routes every Vagrant box through the exact raw-tar handoff, canonicalizes every Hyper-V Vagrant box, and routes every VirtualBox native image and Vagrant box through the sparse-preserving provider contract. These are ordinary artifact-type and provider behaviors rather than opt-in migration modes.
+
 `canonicalize-hyperv-vagrant` corrects a packaged Hyper-V box before its normal boot test and final checksum are accepted. It requires exactly `Virtual Machines/box.xml` and one `.vmcx` directly under `Virtual Machines`, rejects unsafe or ambiguous archives, copies every retained raw-tar record byte-for-byte, independently verifies those record identities, atomically replaces `vagrant/vagrant.box`, and rewrites `checksum.sha256` for the corrected canonical bytes.
 
 `prepare-vagrant` accepts the conventional artifact directory containing `vagrant/vagrant.box` and `checksum.sha256`. It first verifies the Packer checksum and archive safety, then atomically creates a transfer directory containing only the exact gzip-decoded `vagrant.raw.tar` and `manifest.json`.
@@ -17,5 +19,3 @@ Each operation reports its wall time, process user/system CPU, staging output si
 `virtualbox_native.rb prepare-virtualbox-native` replaces Packer's registered VDI or non-stream-optimized VMDK handoff with a canonical OVF, NVRAM, and monolithic-sparse VMDK. It preflights free space, stages atomically, restores the exact disk attachment on every path, removes only the Packer VM it owns, writes a versioned per-file manifest and checksum, and validates the OVF before publication. `verify-virtualbox-native` verifies the complete file set, every length and SHA-256, the positive VirtualBox `VMDK`/`dynamic default` medium contract, the sparse OVF declaration, and VirtualBox importability in a clean job.
 
 `virtualbox_native.rb fixture-virtualbox-native` owns temporary Packer and derived-import VMs and proves Packer cleanup, exact attachment restoration after an injected post-detachment failure, partial-output cleanup, canonical preparation from both an ISO-backed VDI and an OVF-backed VMDK, real import and start behavior, and final VM cleanup.
-
-`virtualbox_native.rb produce-virtualbox-native` exposes the lower-level caller-owned VM boundary. It never unregisters or deletes that VM; only `prepare-virtualbox-native`, which discovers the VM created and handed off by the current Packer build, performs build-owned VM cleanup.

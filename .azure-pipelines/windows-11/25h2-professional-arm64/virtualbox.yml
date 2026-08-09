@@ -8,3 +8,4 @@ stages:
       image: 25h2-professional-arm64
       provider: virtualbox
       hostArchitecture: ARM64
+      guestArchitecture: arm64

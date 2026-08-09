@@ -7,4 +7,3 @@ stages:
       sample: windows-11
       image: 25h2-enterprise
       provider: qemu
-      artifactHandoff: vagrant-raw-tar
