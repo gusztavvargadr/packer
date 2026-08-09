@@ -8,9 +8,8 @@ packer {
 }
 
 locals {
-  virtualbox_native_build      = local.image_provider == "virtualbox" && local.native_build
-  virtualbox_registered_build  = local.image_provider == "virtualbox" && (local.native_build || local.vagrant_build)
-  virtualbox_vagrant_package   = local.image_provider == "virtualbox" && local.vagrant_build
+  virtualbox_native_build    = local.image_provider == "virtualbox" && local.native_build
+  virtualbox_vagrant_package = local.image_provider == "virtualbox" && local.vagrant_build
 }
 
 locals {
@@ -67,7 +66,6 @@ source "virtualbox-iso" "core" {
   hard_drive_interface = local.virtualbox_iso_source_options.hard_drive_interface
   iso_interface        = local.virtualbox_iso_source_options.iso_interface
   keyboard             = local.virtualbox_iso_source_options.keyboard
-  keep_registered      = local.virtualbox_native_build
   mouse                = local.virtualbox_iso_source_options.mouse
   nested_virt          = local.virtualbox_iso_source_options.nested_virt
   nic_type             = local.virtualbox_iso_source_options.nic_type
@@ -85,7 +83,8 @@ source "virtualbox-iso" "core" {
   boot_wait              = local.virtualbox_iso_source_options.boot_wait
   shutdown_command       = local.virtualbox_iso_source_options.shutdown_command
   shutdown_timeout       = local.virtualbox_iso_source_options.shutdown_timeout
-  skip_export            = local.virtualbox_native_build
+  keep_registered        = true
+  skip_export            = true
 
   communicator = local.communicator.type
   ssh_username = local.communicator.username
@@ -103,9 +102,9 @@ source "virtualbox-ovf" "core" {
   output_directory = local.virtualbox_ovf_source_options.output_directory
 
   source_path     = "${local.virtualbox_ovf_source_options.import_directory}/${join("", fileset(local.virtualbox_ovf_source_options.import_directory, "image/*.ovf"))}"
-  import_flags    = local.virtualbox_registered_build ? ["--basefolder", local.virtualbox_ovf_source_options.output_directory] : []
-  keep_registered = local.virtualbox_registered_build
-  skip_export     = local.virtualbox_registered_build
+  import_flags    = ["--basefolder", local.virtualbox_ovf_source_options.output_directory]
+  keep_registered = true
+  skip_export     = true
 
   guest_additions_mode = local.virtualbox_ovf_source_options.guest_additions_mode
   post_shutdown_delay  = local.virtualbox_ovf_source_options.post_shutdown_delay

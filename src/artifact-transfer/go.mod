@@ -4,7 +4,7 @@ go 1.24.2
 
 require github.com/klauspost/pgzip v0.0.0-20151221113845-47f36e165cec
 
-require golang.org/x/sys v0.34.0
+require golang.org/x/sys v0.34.0 // indirect
 
 require (
 	github.com/klauspost/compress v1.13.6 // indirect

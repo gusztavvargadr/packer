@@ -124,31 +124,35 @@ build {
     }
   }
 
-  dynamic "post-processors" {
-    for_each = local.virtualbox_native_build ? [true] : []
+  post-processors {
+    dynamic "post-processor" {
+      for_each = local.virtualbox_native_build ? [true] : []
+      labels   = ["shell-local"]
 
-    content {
-      post-processor "shell-local" {
+      content {
         inline = [
           "ruby \"${path.root}/../artifact-transfer/virtualbox_native.rb\" prepare-virtualbox-native \"${local.artifacts_directory}\""
         ]
       }
+    }
 
-      post-processor "artifice" {
+    dynamic "post-processor" {
+      for_each = local.virtualbox_native_build ? [true] : []
+      labels   = ["artifice"]
+
+      content {
         files = ["${local.artifacts_directory}/image/*"]
       }
     }
-  }
 
-  post-processor "manifest" {
-    output = "${local.artifacts_directory}/manifest.json"
-    except = local.virtualbox_native_build ? ["virtualbox-iso.core", "virtualbox-ovf.core"] : []
-  }
+    post-processor "manifest" {
+      output = "${local.artifacts_directory}/manifest.json"
+    }
 
-  post-processor "checksum" {
-    checksum_types = ["sha256"]
-    output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
-    except         = local.virtualbox_native_build ? ["virtualbox-iso.core", "virtualbox-ovf.core"] : []
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+    }
   }
 }
 

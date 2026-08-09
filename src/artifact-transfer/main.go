@@ -90,24 +90,12 @@ type manifest struct {
 	} `json:"reconstruction"`
 }
 
-type operationMetrics struct {
-	OperationWallSeconds   float64 `json:"operation_wall_seconds"`
-	UserCPUSeconds         float64 `json:"user_cpu_seconds"`
-	SystemCPUSeconds       float64 `json:"system_cpu_seconds"`
-	StagingOutputBytes     int64   `json:"staging_output_bytes"`
-	DiskFreeBytesBefore    uint64  `json:"disk_free_bytes_before"`
-	MinimumDiskFreeBytes   uint64  `json:"minimum_disk_free_bytes"`
-	PeakTemporaryDiskBytes uint64  `json:"peak_temporary_disk_bytes"`
-}
-
 type operationResult struct {
-	Schema             string       `json:"schema"`
-	Operation          string       `json:"operation"`
-	Canonical          identity     `json:"canonical"`
-	Transfer           identity     `json:"transfer"`
-	Archive            archiveState `json:"archive"`
-	HandoffWallSeconds *float64     `json:"handoff_wall_seconds,omitempty"`
-	operationMetrics
+	Schema    string       `json:"schema"`
+	Operation string       `json:"operation"`
+	Canonical identity     `json:"canonical"`
+	Transfer  identity     `json:"transfer"`
+	Archive   archiveState `json:"archive"`
 }
 
 type canonicalizationResult struct {
@@ -120,35 +108,12 @@ type canonicalizationResult struct {
 	RemovedPath         string       `json:"removed_path"`
 	VMConfigurationPath string       `json:"vm_configuration_path"`
 	UnchangedEntries    int          `json:"unchanged_entries"`
-	operationMetrics
 }
 
 type rawTarRecordIdentity struct {
 	Path   string
 	Bytes  int64
 	SHA256 string
-}
-
-type cpuTime struct {
-	UserSeconds   float64
-	SystemSeconds float64
-}
-
-type diskMeasurement struct {
-	MinimumBytes uint64
-	Err          error
-}
-
-type diskSampler struct {
-	initialBytes uint64
-	stop         chan struct{}
-	done         chan diskMeasurement
-}
-
-type operationMeasurement struct {
-	startedAt  time.Time
-	startedCPU cpuTime
-	disk       *diskSampler
 }
 
 func main() {
@@ -195,11 +160,6 @@ func usage() error {
 
 func canonicalizeHyperVVagrant(artifactDirectory string) (canonicalizationResult, error) {
 	var result canonicalizationResult
-	measurement, err := beginOperation(artifactDirectory)
-	if err != nil {
-		return result, err
-	}
-	defer measurement.cancel()
 
 	boxPath := filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath))
 	checksumPath := filepath.Join(artifactDirectory, checksumFilename)
@@ -253,10 +213,6 @@ func canonicalizeHyperVVagrant(artifactDirectory string) (canonicalizationResult
 		return result, fmt.Errorf("verify staged canonical Hyper-V checksum: %w", err)
 	}
 
-	metrics, err := measurement.finishMetrics(canonicalIdentity.Bytes)
-	if err != nil {
-		return result, err
-	}
 	result = canonicalizationResult{
 		Schema:              "artifact-transfer/hyperv-canonicalization/v1",
 		Operation:           "canonicalize-hyperv-vagrant",
@@ -267,7 +223,6 @@ func canonicalizeHyperVVagrant(artifactDirectory string) (canonicalizationResult
 		RemovedPath:         hyperVBoxXMLPath,
 		VMConfigurationPath: proof.vmConfigurationPath,
 		UnchangedEntries:    len(proof.unchangedEntries),
-		operationMetrics:    metrics,
 	}
 	if err := replaceCanonicalVagrantArtifact(boxPath, checksumPath, canonicalBoxPathname, canonicalChecksumPath, staging); err != nil {
 		return canonicalizationResult{}, err
@@ -510,11 +465,6 @@ func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operat
 	if err := os.MkdirAll(parent, 0o755); err != nil {
 		return result, err
 	}
-	measurement, err := beginOperation(parent)
-	if err != nil {
-		return result, err
-	}
-	defer measurement.cancel()
 	canonicalPath := filepath.Join(artifactDirectory, filepath.FromSlash(canonicalBoxPath))
 	canonical, err := fileIdentity(canonicalPath, canonicalBoxPath)
 	if err != nil {
@@ -539,7 +489,7 @@ func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operat
 	}
 	transfer.Path = rawTarFilename
 
-	contract, err := newManifest(measurement.startedAt.UTC(), canonical, transfer, archive)
+	contract, err := newManifest(time.Now().UTC(), canonical, transfer, archive)
 	if err != nil {
 		return result, err
 	}
@@ -550,7 +500,7 @@ func prepareVagrantTransfer(artifactDirectory, transferDirectory string) (operat
 		return result, fmt.Errorf("promote transfer payload: %w", err)
 	}
 
-	return measurement.finish("prepare-vagrant", contract, transfer.Bytes)
+	return newOperationResult("prepare-vagrant", contract), nil
 }
 
 func reconstructVagrantTransfer(transferDirectory, artifactDirectory string) (operationResult, error) {
@@ -563,11 +513,6 @@ func reconstructVagrantTransfer(transferDirectory, artifactDirectory string) (op
 	if err := os.MkdirAll(parent, 0o755); err != nil {
 		return result, err
 	}
-	measurement, err := beginOperation(parent)
-	if err != nil {
-		return result, err
-	}
-	defer measurement.cancel()
 	contract, rawPath, err := validateTransferPayload(transferDirectory)
 	if err != nil {
 		return result, err
@@ -598,22 +543,11 @@ func reconstructVagrantTransfer(transferDirectory, artifactDirectory string) (op
 		return result, fmt.Errorf("promote reconstructed artifact: %w", err)
 	}
 
-	result, err = measurement.finish("reconstruct-vagrant", contract, actual.Bytes)
-	if err != nil {
-		return result, err
-	}
-	handoff := time.Since(contract.HandoffStartedAtUTC).Seconds()
-	result.HandoffWallSeconds = &handoff
-	return result, nil
+	return newOperationResult("reconstruct-vagrant", contract), nil
 }
 
 func verifyVagrantTransfer(transferDirectory, artifactDirectory string) (operationResult, error) {
 	var result operationResult
-	measurement, err := beginOperation(filepath.Dir(artifactDirectory))
-	if err != nil {
-		return result, err
-	}
-	defer measurement.cancel()
 	contract, _, err := validateTransferPayload(transferDirectory)
 	if err != nil {
 		return result, err
@@ -631,13 +565,7 @@ func verifyVagrantTransfer(transferDirectory, artifactDirectory string) (operati
 	if err := verifyPackerChecksum(filepath.Join(artifactDirectory, checksumFilename), actual); err != nil {
 		return result, err
 	}
-	result, err = measurement.finish("verify-vagrant", contract, 0)
-	if err != nil {
-		return result, err
-	}
-	handoff := time.Since(contract.HandoffStartedAtUTC).Seconds()
-	result.HandoffWallSeconds = &handoff
-	return result, nil
+	return newOperationResult("verify-vagrant", contract), nil
 }
 
 func newManifest(preparedAt time.Time, canonical, transfer identity, archive archiveState) (manifest, error) {
@@ -1147,114 +1075,14 @@ func buildModule(module string) (string, string) {
 	return module, "unknown"
 }
 
-func beginOperation(probePath string) (*operationMeasurement, error) {
-	startedCPU, err := processCPU()
-	if err != nil {
-		return nil, fmt.Errorf("measure process CPU: %w", err)
-	}
-	disk, err := startDiskSampler(probePath)
-	if err != nil {
-		return nil, fmt.Errorf("measure temporary disk: %w", err)
-	}
-	return &operationMeasurement{startedAt: time.Now(), startedCPU: startedCPU, disk: disk}, nil
-}
-
-func (measurement *operationMeasurement) finish(operation string, contract manifest, stagingBytes int64) (operationResult, error) {
-	metrics, err := measurement.finishMetrics(stagingBytes)
-	if err != nil {
-		return operationResult{}, err
-	}
+func newOperationResult(operation string, contract manifest) operationResult {
 	return operationResult{
-		Schema:           "artifact-transfer/operation/v1",
-		Operation:        operation,
-		Canonical:        contract.Canonical,
-		Transfer:         contract.Transfer,
-		Archive:          contract.Archive,
-		operationMetrics: metrics,
-	}, nil
-}
-
-func (measurement *operationMeasurement) finishMetrics(stagingBytes int64) (operationMetrics, error) {
-	finishedCPU, err := processCPU()
-	if err != nil {
-		return operationMetrics{}, fmt.Errorf("measure process CPU: %w", err)
+		Schema:    "artifact-transfer/operation/v1",
+		Operation: operation,
+		Canonical: contract.Canonical,
+		Transfer:  contract.Transfer,
+		Archive:   contract.Archive,
 	}
-	disk, err := measurement.disk.finish()
-	measurement.disk = nil
-	if err != nil {
-		return operationMetrics{}, fmt.Errorf("measure temporary disk: %w", err)
-	}
-	return operationMetrics{
-		OperationWallSeconds:   time.Since(measurement.startedAt).Seconds(),
-		UserCPUSeconds:         finishedCPU.UserSeconds - measurement.startedCPU.UserSeconds,
-		SystemCPUSeconds:       finishedCPU.SystemSeconds - measurement.startedCPU.SystemSeconds,
-		StagingOutputBytes:     stagingBytes,
-		DiskFreeBytesBefore:    disk.initialBytes,
-		MinimumDiskFreeBytes:   disk.minimumBytes,
-		PeakTemporaryDiskBytes: disk.peakBytes(),
-	}, nil
-}
-
-func (measurement *operationMeasurement) cancel() {
-	if measurement.disk != nil {
-		_, _ = measurement.disk.finish()
-		measurement.disk = nil
-	}
-}
-
-func startDiskSampler(path string) (*diskSampler, error) {
-	initial, err := freeDiskBytes(path)
-	if err != nil {
-		return nil, err
-	}
-	sampler := &diskSampler{initialBytes: initial, stop: make(chan struct{}), done: make(chan diskMeasurement, 1)}
-	go func() {
-		minimum := initial
-		var sampleErr error
-		ticker := time.NewTicker(250 * time.Millisecond)
-		defer ticker.Stop()
-		for {
-			select {
-			case <-ticker.C:
-				available, err := freeDiskBytes(path)
-				if err != nil && sampleErr == nil {
-					sampleErr = err
-				}
-				if err == nil && available < minimum {
-					minimum = available
-				}
-			case <-sampler.stop:
-				available, err := freeDiskBytes(path)
-				if err != nil && sampleErr == nil {
-					sampleErr = err
-				}
-				if err == nil && available < minimum {
-					minimum = available
-				}
-				sampler.done <- diskMeasurement{MinimumBytes: minimum, Err: sampleErr}
-				return
-			}
-		}
-	}()
-	return sampler, nil
-}
-
-type completedDiskMeasurement struct {
-	initialBytes uint64
-	minimumBytes uint64
-}
-
-func (sampler *diskSampler) finish() (completedDiskMeasurement, error) {
-	close(sampler.stop)
-	result := <-sampler.done
-	return completedDiskMeasurement{initialBytes: sampler.initialBytes, minimumBytes: result.MinimumBytes}, result.Err
-}
-
-func (measurement completedDiskMeasurement) peakBytes() uint64 {
-	if measurement.minimumBytes >= measurement.initialBytes {
-		return 0
-	}
-	return measurement.initialBytes - measurement.minimumBytes
 }
 
 func writeJSON(filename string, value any) error {

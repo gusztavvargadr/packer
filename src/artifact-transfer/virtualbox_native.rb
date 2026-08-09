@@ -4,9 +4,9 @@ require 'fileutils'
 require 'json'
 require 'open3'
 require 'rbconfig'
-require 'time'
 
-SCHEMA = 'artifact-transfer/virtualbox-native/v1'.freeze
+SCHEMA = 'artifact-transfer/virtualbox-native/v2'.freeze
+VIRTUALBOX_MANIFEST_FILENAME = 'virtualbox-manifest.json'.freeze
 MIB = 1024 * 1024
 CAPACITY_MARGIN = 64 * MIB
 
@@ -207,14 +207,12 @@ def patch_ovf(path, attachment, disk)
   File.binwrite(path, contents.sub(original, replacement))
 end
 
-def write_contract(root, machine, source_disk, canonical_disk, capacity, handoff_started, started, cpu_started, peak_stage)
+def write_contract(root, machine, source_disk, canonical_disk, capacity)
   image = File.join(root, 'image')
   files = canonical_files(image).map { |filename| file_identity(root, filename) }
   raise 'canonical artifact must contain exactly one OVF, one NVRAM, and one VMDK' unless files.map { |file| File.extname(file[:path]).downcase }.sort == %w[.nvram .ovf .vmdk]
-  cpu = Process.times
   manifest = {
     schema: SCHEMA,
-    handoff_started_at_utc: handoff_started.iso8601(9),
     producer: {
       packer_virtualbox_plugin_version: packer_virtualbox_plugin_version,
       virtualbox_version: vbox('--version').first.strip,
@@ -225,24 +223,14 @@ def write_contract(root, machine, source_disk, canonical_disk, capacity, handoff
     source_disk: source_disk,
     canonical_disk: canonical_disk,
     capacity: capacity,
-    canonical: { files: files },
-    metrics: {
-      operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
-      process_user_cpu_seconds: cpu.utime - cpu_started.utime,
-      process_system_cpu_seconds: cpu.stime - cpu_started.stime,
-      child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
-      child_system_cpu_seconds: cpu.cstime - cpu_started.cstime,
-      peak_staging_allocated_bytes: peak_stage,
-      peak_combined_allocated_bytes: capacity.fetch(:source_allocated_bytes) + peak_stage
-    }
+    canonical: { files: files }
   }
-  File.write(File.join(root, 'manifest.json'), JSON.pretty_generate(manifest) + "\n")
+  File.write(File.join(root, VIRTUALBOX_MANIFEST_FILENAME), JSON.pretty_generate(manifest) + "\n")
   manifest
 end
 
 def produce(vm_name, target, manifest: true)
   raise "target already exists: #{target}" if File.exist?(target)
-  handoff_started = Time.now.utc
   state = machine_state(vm_name)
   source_disk = medium_state(state.dig(:attachment, :path))
   unless %w[VDI VMDK].include?(source_disk[:format])
@@ -264,21 +252,16 @@ def produce(vm_name, target, manifest: true)
   FileUtils.mkdir_p(image)
   vmdk = File.join(image, "#{vm_name}.vmdk")
   ovf = File.join(image, "#{vm_name}.ovf")
-  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-  cpu_started = Process.times
-  peak_stage = allocated_bytes(stage)
   detached = false
   canonical_registered = false
   begin
     vbox('clonemedium', 'disk', state.dig(:attachment, :path), vmdk, '--format', 'VMDK', '--variant', 'Standard')
     canonical_registered = true
     canonical_disk = monolithic_sparse_medium(vmdk)
-    peak_stage = [peak_stage, allocated_bytes(stage)].max
     detach(vm_name, state.fetch(:attachment))
     detached = true
     emit('disk_detached', vm_name: vm_name, attachment: state.fetch(:attachment))
     vbox('export', vm_name, '--output', ovf)
-    peak_stage = [peak_stage, allocated_bytes(stage)].max
   ensure
     if detached
       attach(vm_name, state.fetch(:attachment))
@@ -292,18 +275,13 @@ def produce(vm_name, target, manifest: true)
   FileUtils.cp(state.fetch(:nvram_file), File.join(image, File.basename(state.fetch(:nvram_file)))) unless canonical_files(image).any? { |file| File.extname(file).downcase == '.nvram' }
   extensions = canonical_files(image).map { |file| File.extname(file).downcase }.sort
   raise 'canonical artifact must contain exactly one OVF, one NVRAM, and one VMDK' unless extensions == %w[.nvram .ovf .vmdk]
-  contract = write_contract(stage, state, source_disk, canonical_disk, capacity, handoff_started, started, cpu_started, peak_stage) if manifest
+  contract = write_contract(stage, state, source_disk, canonical_disk, capacity) if manifest
   File.rename(stage, target)
   emit('artifact_produced', target: target, manifest: contract)
   contract
 rescue StandardError
   FileUtils.rm_rf(stage) if stage && File.exist?(stage)
   raise
-end
-
-def write_checksum(artifact_root, manifest)
-  files = manifest.dig(:canonical, :files)
-  File.write(File.join(artifact_root, 'checksum.sha256'), files.map { |file| "#{file.fetch(:sha256)}\t#{file.fetch(:path)}" }.join("\n") + "\n")
 end
 
 def registered?(vm_name)
@@ -351,18 +329,15 @@ def prepare(artifact_root)
     Dir.rmdir(image)
     File.rename(File.join(canonical, 'image'), image)
     promoted = true
-    FileUtils.rm_f(File.join(artifact_root, 'manifest.json'))
-    FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
-    File.rename(File.join(canonical, 'manifest.json'), File.join(artifact_root, 'manifest.json'))
+    FileUtils.rm_f(File.join(artifact_root, VIRTUALBOX_MANIFEST_FILENAME))
+    File.rename(File.join(canonical, VIRTUALBOX_MANIFEST_FILENAME), File.join(artifact_root, VIRTUALBOX_MANIFEST_FILENAME))
     Dir.rmdir(canonical)
-    write_checksum(artifact_root, result)
     emit('prepare_complete', artifact_root: artifact_root, manifest: result)
   rescue StandardError
     FileUtils.rm_rf(canonical) if File.exist?(canonical)
     if promoted
       FileUtils.rm_rf(image)
-      FileUtils.rm_f(File.join(artifact_root, 'manifest.json'))
-      FileUtils.rm_f(File.join(artifact_root, 'checksum.sha256'))
+      FileUtils.rm_f(File.join(artifact_root, VIRTUALBOX_MANIFEST_FILENAME))
     end
     raise
   end
@@ -373,8 +348,6 @@ def prepare_vagrant(artifact_root)
   image = File.join(artifact_root, 'image')
   vm_name = find_registered_vm(image)
   canonical = File.join(artifact_root, ".virtualbox-vagrant-#{Process.pid}")
-  started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-  cpu_started = Process.times
   begin
     produce(vm_name, canonical, manifest: false)
   ensure
@@ -389,16 +362,10 @@ def prepare_vagrant(artifact_root)
     File.rename(File.join(canonical, 'image'), image)
     promoted = true
     Dir.rmdir(canonical)
-    cpu = Process.times
     emit(
       'virtualbox_vagrant_inputs_complete',
       artifact_root: artifact_root,
-      canonical_files: canonical_files(image).map { |path| path.delete_prefix("#{artifact_root}#{File::SEPARATOR}") },
-      operation_wall_seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - started,
-      process_user_cpu_seconds: cpu.utime - cpu_started.utime,
-      process_system_cpu_seconds: cpu.stime - cpu_started.stime,
-      child_user_cpu_seconds: cpu.cutime - cpu_started.cutime,
-      child_system_cpu_seconds: cpu.cstime - cpu_started.cstime
+      canonical_files: canonical_files(image).map { |path| path.delete_prefix("#{artifact_root}#{File::SEPARATOR}") }
     )
   rescue StandardError
     FileUtils.rm_rf(image) if promoted
