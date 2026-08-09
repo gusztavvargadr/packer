@@ -80,6 +80,29 @@ build {
 }
 
 build {
+  name = "vagrant-restore-box"
+
+  sources = ["null.core"]
+
+  provisioner "shell-local" {
+    inline = [
+      "ruby \"${path.root}/../artifact-transfer/vagrant_box.rb\" restore \"${local.artifacts_directory}\""
+    ]
+  }
+
+  post-processors {
+    post-processor "artifice" {
+      files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
+    }
+
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
+    }
+  }
+}
+
+build {
   name = "vagrant-build"
 
   sources = local.vagrant_build ? compact([lookup(local.vagrant_import_sources, local.image_provider, "")]) : ["null.core"]
@@ -138,15 +161,6 @@ build {
       }
     }
 
-    post-processor "manifest" {
-      output = "${local.artifacts_directory}/manifest.json"
-    }
-
-    post-processor "checksum" {
-      checksum_types = ["sha256"]
-      output         = "${local.artifacts_directory}/checksum.{{ .ChecksumType }}"
-    }
-
     dynamic "post-processor" {
       for_each = local.virtualbox_vagrant_package ? [true] : []
       labels   = ["shell-local"]
@@ -156,6 +170,12 @@ build {
           "ruby \"${path.root}/../artifact-transfer/virtualbox_native.rb\" complete-virtualbox-vagrant \"${local.artifacts_directory}\""
         ]
       }
+    }
+
+    post-processor "shell-local" {
+      inline = [
+        "ruby \"${path.root}/../artifact-transfer/vagrant_box.rb\" prepare \"${local.artifacts_directory}\""
+      ]
     }
   }
 }

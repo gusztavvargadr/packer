@@ -36,12 +36,19 @@ jobs:
         submodules: recursive
 
       - script: |
-          go version
-          go test ./...
-        workingDirectory: ./src/artifact-transfer
+          dotnet --info
+          dotnet tool restore
+          bsdtar --version
+          dotnet cake --target test-artifact-transfer
         displayName: Test artifact transfer
 
       - script: |
           ruby --version
+          ruby -c src/artifact-transfer/vagrant_box.rb
+          ruby -c src/artifact-transfer/vagrant_box_test.rb
           ruby -c src/artifact-transfer/virtualbox_native.rb
-        displayName: Validate VirtualBox artifact transfer
+          ruby -e "require 'yaml'; Dir['.azure-pipelines/**/*.{yml,yaml}'].each { |file| YAML.load_file(file) }"
+          packer fmt -check src
+          git diff --check
+          git diff --exit-code
+        displayName: Validate artifact transfer

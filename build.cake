@@ -6,16 +6,17 @@ var author = Argument("author", "gusztavvargadr");
 var version = Argument("version", "2607.1.0");
 
 var configurationParts = configuration.Split('/', StringSplitOptions.RemoveEmptyEntries);
-var sample = configurationParts.ElementAtOrDefault(0) ?? Argument<string>("sample");
-var image = configurationParts.ElementAtOrDefault(1) ?? Argument<string>("image");
-var provider = configurationParts.ElementAtOrDefault(2) ?? Argument<string>("provider");
-var build = configurationParts.ElementAtOrDefault(3) ?? Argument<string>("build");
+var sample = configurationParts.ElementAtOrDefault(0) ?? Argument("sample", string.Empty);
+var image = configurationParts.ElementAtOrDefault(1) ?? Argument("image", string.Empty);
+var provider = configurationParts.ElementAtOrDefault(2) ?? Argument("provider", string.Empty);
+var build = configurationParts.ElementAtOrDefault(3) ?? Argument("build", string.Empty);
 
 var platform = (sample.Contains("ubuntu") || sample.Contains("linux")) ? "ubuntu" : "windows";
 
 var sampleDirectory = Directory($"samples/{sample}");
 var platformDirectory = Directory($"../../src/{platform}");
 var artifactsDirectory = Directory($"artifacts");
+var configurationImageDirectory = Directory($"artifacts/{sample}/{image}/{provider}/{build}/image");
 
 Task("init")
   .Does(() => {
@@ -25,6 +26,9 @@ Task("init")
 Task("restore")
   .Does(() => {
     PackerBuild("restore");
+    if (build == "vagrant" && DirectoryExists(configurationImageDirectory)) {
+      PackerBuild("restore-box");
+    }
   });
 
 Task("build")
@@ -50,6 +54,20 @@ Task("download")
 Task("clean")
   .Does(() => {
     CleanDirectory(artifactsDirectory);
+  });
+
+Task("test-artifact-transfer")
+  .Does(() => {
+    var arguments = new ProcessArgumentBuilder();
+    arguments.AppendQuoted("src/artifact-transfer/vagrant_box_test.rb");
+
+    var result = StartProcess("ruby", new ProcessSettings {
+      Arguments = arguments
+    });
+
+    if (result != 0) {
+      throw new Exception($"Artifact transfer tests failed with code {result}.");
+    }
   });
 
 Task("default")

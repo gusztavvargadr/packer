@@ -26,7 +26,6 @@ jobs:
     variables:
       sourcePipelineArtifactsPath: $[ replace(variables['resources.pipeline.source.pipelineName'], '.', '/') ]
       artifactPath: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-      artifactTransferPath: $(Pipeline.Workspace)/artifact-transfer-payload/${{ parameters.build }}
 
     steps:
       - checkout: self
@@ -83,25 +82,14 @@ jobs:
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target build
         displayName: Build
 
-      - ${{ if and(eq(parameters.build, 'vagrant'), eq(parameters.provider, 'hyperv')) }}:
-        - script: |
-            go run . canonicalize-hyperv-vagrant "$(artifactPath)"
-          workingDirectory: ./src/artifact-transfer
-          displayName: Canonicalize Hyper-V Vagrant box
-
       - script: |
           dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target test
         displayName: Test
 
       - ${{ if eq(parameters.build, 'vagrant') }}:
-        - script: |
-            go run . prepare-vagrant "$(artifactPath)" "$(artifactTransferPath)"
-          workingDirectory: ./src/artifact-transfer
-          displayName: Prepare Vagrant artifact handoff
-
-        - publish: $(artifactTransferPath)
-          artifact: vagrant-transfer
-          displayName: Publish Vagrant transfer
+        - publish: $(artifactPath)/image
+          artifact: ${{ parameters.build }}-build
+          displayName: Publish artifacts
       - ${{ if eq(parameters.build, 'native') }}:
         - publish: $(artifactPath)
           artifact: ${{ parameters.build }}-build
@@ -131,8 +119,6 @@ jobs:
         - group: environment-hcp-vagrant
         - name: artifactPath
           value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
-        - name: artifactTransferPath
-          value: $(Pipeline.Workspace)/artifact-transfer-payload/${{ parameters.build }}
 
       steps:
         - checkout: self
@@ -155,19 +141,13 @@ jobs:
         - task: DownloadPipelineArtifact@2
           inputs:
             source: current
-            artifact: vagrant-transfer
-            targetPath: $(artifactTransferPath)
-          displayName: Download Vagrant transfer
+            artifact: vagrant-build
+            targetPath: $(artifactPath)/image
+          displayName: Download artifacts
 
         - script: |
-            go run . reconstruct-vagrant "$(artifactTransferPath)" "$(artifactPath)"
-          workingDirectory: ./src/artifact-transfer
-          displayName: Reconstruct Vagrant artifact
-
-        - script: |
-            go run . verify-vagrant "$(artifactTransferPath)" "$(artifactPath)"
-          workingDirectory: ./src/artifact-transfer
-          displayName: Verify Vagrant artifact
+            dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target restore
+          displayName: Restore
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish
