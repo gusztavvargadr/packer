@@ -10,7 +10,7 @@ module ArtifactTransfer
     BOX_PATH = File.join('vagrant', 'vagrant.box').freeze
     IMAGE_PATH = 'image'.freeze
     METADATA_PATH = 'metadata.json'.freeze
-    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
+    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/darwin|mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
     PIGZ_COMMAND = 'pigz'.freeze
 
     def run_command(*arguments, chdir: nil)

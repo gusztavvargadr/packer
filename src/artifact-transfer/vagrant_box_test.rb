@@ -11,7 +11,7 @@ module ArtifactTransfer
 
     SCRIPT = File.expand_path('vagrant_box.rb', __dir__).freeze
     WINDOWS_HOST = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i)
-    ARCHIVE_COMMAND = WINDOWS_HOST ? 'tar' : 'bsdtar'
+    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/darwin|mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
 
     def run_command(*arguments, chdir: nil, allow_failure: false, environment: {})
       options = {}

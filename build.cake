@@ -20,6 +20,8 @@ var configurationImageDirectory = Directory($"artifacts/{sample}/{image}/{provid
 
 Task("init")
   .Does(() => {
+    RunVersionCommand(IsRunningOnWindows() || IsRunningOnMacOs() ? "tar" : "bsdtar", "--version");
+    RunVersionCommand("pigz", "--version");
     PackerInit();
   });
 

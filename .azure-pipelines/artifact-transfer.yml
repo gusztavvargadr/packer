@@ -11,6 +11,8 @@ jobs:
           hostedImage: windows-2025
         linux:
           hostedImage: ubuntu-22.04
+        macos:
+          hostedImage: macOS-15-arm64
 
     pool:
       vmImage: $(hostedImage)
@@ -22,16 +24,40 @@ jobs:
       - checkout: self
         submodules: recursive
 
-      - script: |
-          sudo apt-get update
-          sudo apt-get install --yes libarchive-tools
+      - powershell: |
+          if (-not (Get-Command pigz -ErrorAction SilentlyContinue)) {
+            $conda = Join-Path $env:CONDA "Scripts\conda.exe"
+            & $conda install --yes --channel conda-forge pigz
+            if ($LASTEXITCODE -ne 0) {
+              throw "pigz installation failed with code $LASTEXITCODE."
+            }
+            $pigzDirectory = Join-Path $env:CONDA "Library\bin"
+            if (-not (Test-Path (Join-Path $pigzDirectory "pigz.exe"))) {
+              throw "pigz installation did not produce pigz.exe in $pigzDirectory."
+            }
+            Write-Host "##vso[task.prependpath]$pigzDirectory"
+          }
+        displayName: Install pigz
+        condition: eq(variables['Agent.OS'], 'Windows_NT')
+
+      - bash: |
+          if ! command -v bsdtar >/dev/null 2>&1 || ! command -v pigz >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install --yes libarchive-tools pigz
+          fi
         displayName: Install archive tools
         condition: eq(variables['Agent.OS'], 'Linux')
+
+      - bash: |
+          if ! command -v pigz >/dev/null 2>&1; then
+            brew install pigz
+          fi
+        displayName: Install pigz
+        condition: eq(variables['Agent.OS'], 'Darwin')
 
       - script: |
           dotnet --info
           dotnet tool restore
-          ruby -e "require 'rbconfig'; command = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/i ? 'tar' : 'bsdtar'; exit(system(command, '--version') ? 0 : 1)"
           dotnet cake src/artifact-transfer/build.cake
         displayName: Test artifact transfer
 

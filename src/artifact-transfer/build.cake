@@ -2,7 +2,7 @@ var target = Argument("target", "default");
 
 Task("init")
   .Does(() => {
-    RunVersionCommand(IsRunningOnWindows() ? "tar" : "bsdtar");
+    RunVersionCommand(IsRunningOnWindows() || IsRunningOnMacOs() ? "tar" : "bsdtar");
     RunVersionCommand("pigz");
   });
 
