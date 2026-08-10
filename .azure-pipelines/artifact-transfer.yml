@@ -11,8 +11,6 @@ jobs:
           hostedImage: windows-2025
         linux:
           hostedImage: ubuntu-22.04
-        macos:
-          hostedImage: macOS-15-arm64
 
     pool:
       vmImage: $(hostedImage)
@@ -47,13 +45,6 @@ jobs:
           fi
         displayName: Install archive tools
         condition: eq(variables['Agent.OS'], 'Linux')
-
-      - bash: |
-          if ! command -v pigz >/dev/null 2>&1; then
-            brew install pigz
-          fi
-        displayName: Install pigz
-        condition: eq(variables['Agent.OS'], 'Darwin')
 
       - script: |
           dotnet --info
