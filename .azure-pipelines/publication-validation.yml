@@ -1,4 +1,4 @@
-# Temporary acceptance flow for #578 and its subsequent Hyper-V proof.
+# Temporary acceptance flow for the Hyper-V proof in #579.
 trigger: none
 pr: none
 
@@ -14,8 +14,8 @@ parameters:
 stages:
   - template: ./stages.yml
     parameters:
-      sample: windows-11
-      image: 25h2-enterprise
+      sample: windows-server
+      image: 2025-standard-core
       provider: ${{ parameters.provider }}
       publishToVagrantCloud: false
 
@@ -25,7 +25,7 @@ stages:
 
     jobs:
       - job: publish
-        displayName: Publish internal windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+        displayName: Publish internal windows-server/2025-standard-core/${{ parameters.provider }}/vagrant
 
         pool:
           name: default
@@ -36,7 +36,7 @@ stages:
           clean: all
 
         variables:
-          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-server/2025-standard-core/${{ parameters.provider }}/vagrant
           candidatePath: $(Build.ArtifactStagingDirectory)/publication-candidate
 
         steps:
@@ -54,7 +54,7 @@ stages:
             displayName: Initialize Packer
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target init
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target init
             displayName: Init
 
           - task: DownloadPipelineArtifact@2
@@ -65,7 +65,7 @@ stages:
             displayName: Download canonical image
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target restore
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target restore
             displayName: Restore publication candidate
 
           - task: CopyFiles@2
@@ -83,7 +83,7 @@ stages:
             displayName: Publish publication candidate
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target clean
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target clean
             displayName: Clean
             condition: always()
 
@@ -93,7 +93,7 @@ stages:
 
     jobs:
       - job: download
-        displayName: Download internal windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+        displayName: Download internal windows-server/2025-standard-core/${{ parameters.provider }}/vagrant
 
         pool:
           name: default
@@ -105,7 +105,7 @@ stages:
           clean: all
 
         variables:
-          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-server/2025-standard-core/${{ parameters.provider }}/vagrant
 
         steps:
           - checkout: self
@@ -130,11 +130,11 @@ stages:
             displayName: Initialize Vagrant
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target init
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target init
             displayName: Init
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target restore-configuration
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target restore-configuration
             displayName: Restore configuration
 
           - task: DownloadPipelineArtifact@2
@@ -149,10 +149,10 @@ stages:
             displayName: Verify publication candidate
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target test
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target test
             displayName: Test publication candidate
 
           - script: |
-              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target clean
+              dotnet cake --configuration windows-server/2025-standard-core/${{ parameters.provider }}/vagrant --target clean
             displayName: Clean
             condition: always()
