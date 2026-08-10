@@ -31,13 +31,13 @@ Task("restore-configuration")
   });
 
 Task("restore-box")
-  .IsDependentOn("restore-configuration")
   .WithCriteria(() => build == "vagrant" && DirectoryExists(configurationImageDirectory))
   .Does(() => {
     PackerBuild("restore-box");
   });
 
 Task("restore")
+  .IsDependentOn("restore-configuration")
   .IsDependentOn("restore-box");
 
 Task("build")
