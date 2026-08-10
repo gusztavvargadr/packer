@@ -4,7 +4,7 @@ parameters:
   provider: ''
   hostArchitecture: ''
   build: ''
-  publish: true
+  publishToVagrantCloud: true
 
 jobs:
   - job: build
@@ -99,7 +99,7 @@ jobs:
         displayName: Clean
         condition: always()
 
-  - ${{ if and(eq(parameters.build, 'vagrant'), parameters.publish) }}:
+  - ${{ if and(eq(parameters.build, 'vagrant'), parameters.publishToVagrantCloud) }}:
     - job: publish
       displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build

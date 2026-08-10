@@ -17,7 +17,7 @@ stages:
       sample: windows-11
       image: 25h2-enterprise
       provider: ${{ parameters.provider }}
-      publish: false
+      publishToVagrantCloud: false
 
   - stage: publication
     displayName: Publication
