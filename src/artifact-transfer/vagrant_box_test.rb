@@ -87,6 +87,27 @@ module ArtifactTransfer
       tools
     end
 
+    def with_recoverable_publication(prefix)
+      Dir.mktmpdir(prefix) do |root|
+        artifact = File.join(root, 'artifact')
+        image = File.join(artifact, 'image')
+        vagrant = File.join(artifact, 'vagrant')
+        FileUtils.mkdir_p(image)
+        FileUtils.mkdir_p(vagrant)
+        File.write(File.join(image, 'metadata.json'), JSON.generate({ provider: 'virtualbox' }))
+        File.binwrite(File.join(image, 'disk.vmdk'), 'disk contents')
+        box = File.join(vagrant, 'vagrant.box')
+        File.binwrite(box, 'recoverable publication box')
+        yield root, artifact, image, box
+      end
+    end
+
+    def assert_recoverable_publication(root, image, box, failure)
+      assert(File.binread(box) == 'recoverable publication box', "#{failure} did not preserve the prior publication box")
+      assert(File.binread(File.join(image, 'disk.vmdk')) == 'disk contents', "#{failure} changed the transferred image")
+      assert_no_temporary_content(root, 'artifact')
+    end
+
     def generic_round_trip
       Dir.mktmpdir('vagrant-box-round-trip-') do |root|
         artifact = File.join(root, 'artifact')
@@ -285,49 +306,26 @@ module ArtifactTransfer
     end
 
     def missing_pigz_preserves_prior_output
-      Dir.mktmpdir('vagrant-box-pigz-') do |root|
-        artifact = File.join(root, 'artifact')
-        image = File.join(artifact, 'image')
-        vagrant = File.join(artifact, 'vagrant')
-        FileUtils.mkdir_p(image)
-        FileUtils.mkdir_p(vagrant)
-        File.write(File.join(image, 'metadata.json'), JSON.generate({ provider: 'virtualbox' }))
-        File.binwrite(File.join(image, 'disk.vmdk'), 'disk contents')
-        box = File.join(vagrant, 'vagrant.box')
-        File.binwrite(box, 'recoverable publication box')
-
+      with_recoverable_publication('vagrant-box-pigz-') do |root, artifact, image, box|
         environment = { 'PATH' => isolated_tool_path(root) }
 
         _stdout, stderr, status = run_module('restore', artifact, allow_failure: true, environment: environment)
 
         assert(!status.success?, 'restore accepted a missing pigz executable')
         assert(stderr.include?('pigz') && stderr.include?('required'), "restore did not explain the missing pigz dependency: #{stderr}")
-        assert(File.binread(box) == 'recoverable publication box', 'missing pigz failure did not preserve the prior publication box')
-        assert(File.binread(File.join(image, 'disk.vmdk')) == 'disk contents', 'missing pigz failure changed the transferred image')
-        assert_no_temporary_content(root, 'artifact')
+        assert_recoverable_publication(root, image, box, 'missing pigz failure')
       end
     end
 
     def compression_failure_preserves_prior_output
-      Dir.mktmpdir('vagrant-box-compression-') do |root|
-        artifact = File.join(root, 'artifact')
-        image = File.join(artifact, 'image')
-        vagrant = File.join(artifact, 'vagrant')
-        FileUtils.mkdir_p(image)
-        FileUtils.mkdir_p(vagrant)
-        File.write(File.join(image, 'metadata.json'), JSON.generate({ provider: 'virtualbox' }))
-        File.binwrite(File.join(image, 'disk.vmdk'), 'disk contents')
-        box = File.join(vagrant, 'vagrant.box')
-        File.binwrite(box, 'recoverable publication box')
+      with_recoverable_publication('vagrant-box-compression-') do |root, artifact, image, box|
         environment = { 'PATH' => isolated_tool_path(root, pigz_source: executable_path(ARCHIVE_COMMAND)) }
 
         _stdout, stderr, status = run_module('restore', artifact, allow_failure: true, environment: environment)
 
         assert(!status.success?, 'restore accepted a failed compression process')
         assert(stderr.include?('failed'), 'restore did not explain the compression failure')
-        assert(File.binread(box) == 'recoverable publication box', 'compression failure did not preserve the prior publication box')
-        assert(File.binread(File.join(image, 'disk.vmdk')) == 'disk contents', 'compression failure changed the transferred image')
-        assert_no_temporary_content(root, 'artifact')
+        assert_recoverable_publication(root, image, box, 'compression failure')
       end
     end
 
