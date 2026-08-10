@@ -67,9 +67,24 @@ module ArtifactTransfer
       assert(leftovers.empty?, "temporary artifact-transfer content was not cleaned: #{leftovers.join(', ')}")
     end
 
-    def install_test_tool(source, directory)
-      destination = File.join(directory, File.basename(source))
+    def install_test_tool(source, directory, name: File.basename(source))
+      destination = File.join(directory, name)
       WINDOWS_HOST ? FileUtils.cp(source, destination) : FileUtils.ln_s(source, destination)
+    end
+
+    def isolated_tool_path(root, pigz_source: nil)
+      tools = File.join(root, 'tools')
+      FileUtils.mkdir_p(tools)
+      archive = executable_path(ARCHIVE_COMMAND)
+      install_test_tool(archive, tools)
+      install_test_tool(pigz_source, tools, name: WINDOWS_HOST ? 'pigz.exe' : 'pigz') unless pigz_source.nil?
+      begin
+        uname = executable_path('uname')
+        install_test_tool(uname, tools)
+      rescue RuntimeError
+        # Ruby only shells out to uname during startup on hosts that provide it.
+      end
+      tools
     end
 
     def generic_round_trip
@@ -281,17 +296,7 @@ module ArtifactTransfer
         box = File.join(vagrant, 'vagrant.box')
         File.binwrite(box, 'recoverable publication box')
 
-        tools = File.join(root, 'tools')
-        FileUtils.mkdir_p(tools)
-        archive = executable_path(ARCHIVE_COMMAND)
-        install_test_tool(archive, tools)
-        begin
-          uname = executable_path('uname')
-          install_test_tool(uname, tools)
-        rescue RuntimeError
-          # Ruby only shells out to uname during startup on hosts that provide it.
-        end
-        environment = { 'PATH' => tools }
+        environment = { 'PATH' => isolated_tool_path(root) }
 
         _stdout, stderr, status = run_module('restore', artifact, allow_failure: true, environment: environment)
 
@@ -299,6 +304,29 @@ module ArtifactTransfer
         assert(stderr.include?('pigz') && stderr.include?('required'), "restore did not explain the missing pigz dependency: #{stderr}")
         assert(File.binread(box) == 'recoverable publication box', 'missing pigz failure did not preserve the prior publication box')
         assert(File.binread(File.join(image, 'disk.vmdk')) == 'disk contents', 'missing pigz failure changed the transferred image')
+        assert_no_temporary_content(root, 'artifact')
+      end
+    end
+
+    def compression_failure_preserves_prior_output
+      Dir.mktmpdir('vagrant-box-compression-') do |root|
+        artifact = File.join(root, 'artifact')
+        image = File.join(artifact, 'image')
+        vagrant = File.join(artifact, 'vagrant')
+        FileUtils.mkdir_p(image)
+        FileUtils.mkdir_p(vagrant)
+        File.write(File.join(image, 'metadata.json'), JSON.generate({ provider: 'virtualbox' }))
+        File.binwrite(File.join(image, 'disk.vmdk'), 'disk contents')
+        box = File.join(vagrant, 'vagrant.box')
+        File.binwrite(box, 'recoverable publication box')
+        environment = { 'PATH' => isolated_tool_path(root, pigz_source: executable_path(ARCHIVE_COMMAND)) }
+
+        _stdout, stderr, status = run_module('restore', artifact, allow_failure: true, environment: environment)
+
+        assert(!status.success?, 'restore accepted a failed compression process')
+        assert(stderr.include?('failed'), 'restore did not explain the compression failure')
+        assert(File.binread(box) == 'recoverable publication box', 'compression failure did not preserve the prior publication box')
+        assert(File.binread(File.join(image, 'disk.vmdk')) == 'disk contents', 'compression failure changed the transferred image')
         assert_no_temporary_content(root, 'artifact')
       end
     end
@@ -322,6 +350,8 @@ module ArtifactTransfer
       puts 'empty image failure: passed'
       missing_pigz_preserves_prior_output
       puts 'missing pigz rollback: passed'
+      compression_failure_preserves_prior_output
+      puts 'compression rollback: passed'
     end
   end
 end

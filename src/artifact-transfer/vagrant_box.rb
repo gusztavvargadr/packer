@@ -82,7 +82,7 @@ module ArtifactTransfer
       run_command(*arguments, *entries, chdir: image)
     end
 
-    def duration
+    def measure_elapsed_seconds
       started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       yield
       Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at
@@ -164,10 +164,10 @@ module ArtifactTransfer
       packaging_duration = nil
       with_staging(artifact_directory, 'prepare') do |staging|
         image = File.join(staging, IMAGE_PATH)
-        extraction_duration = duration { extract_box(source_box, image) }
+        extraction_duration = measure_elapsed_seconds { extract_box(source_box, image) }
         selected_provider = provider(image)
         correct_hyperv(image) if selected_provider == 'hyperv'
-        packaging_duration = duration { package_box(image, File.join(staging, BOX_PATH)) }
+        packaging_duration = measure_elapsed_seconds { package_box(image, File.join(staging, BOX_PATH)) }
         promote_directories(artifact_directory, staging, [IMAGE_PATH, 'vagrant'])
       end
       output_box = File.join(artifact_directory, BOX_PATH)
@@ -194,7 +194,7 @@ module ArtifactTransfer
 
       compression_duration = nil
       with_staging(artifact_directory, 'restore') do |staging|
-        compression_duration = duration { package_box(image, File.join(staging, BOX_PATH), compression: PIGZ_COMMAND) }
+        compression_duration = measure_elapsed_seconds { package_box(image, File.join(staging, BOX_PATH), compression: PIGZ_COMMAND) }
         promote_directories(artifact_directory, staging, ['vagrant'])
       end
       output_box = File.join(artifact_directory, BOX_PATH)
