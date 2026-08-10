@@ -1,0 +1,158 @@
+# Temporary acceptance flow for #578 and its subsequent Hyper-V proof.
+trigger: none
+pr: none
+
+parameters:
+  - name: provider
+    displayName: Provider
+    type: string
+    default: qemu
+    values:
+      - qemu
+      - hyperv
+
+stages:
+  - template: ./stages.yml
+    parameters:
+      sample: windows-11
+      image: 25h2-enterprise
+      provider: ${{ parameters.provider }}
+      publish: false
+
+  - stage: publication
+    displayName: Publication
+    dependsOn: vagrant
+
+    jobs:
+      - job: publish
+        displayName: Publish internal windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+
+        pool:
+          name: default
+          demands:
+            - VSTS_AGENT_CAP_PACKER -equals publish
+
+        workspace:
+          clean: all
+
+        variables:
+          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+          candidatePath: $(Build.ArtifactStagingDirectory)/publication-candidate
+
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - script: |
+              dotnet --info
+
+              dotnet tool restore
+            displayName: Initialize .NET
+
+          - script: |
+              packer --version
+            displayName: Initialize Packer
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target init
+            displayName: Init
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: current
+              artifact: vagrant-build
+              targetPath: $(artifactPath)/image
+            displayName: Download canonical image
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target restore
+            displayName: Restore publication candidate
+
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: $(artifactPath)
+              Contents: |
+                vagrant/vagrant.box
+                checksum.sha256
+              TargetFolder: $(candidatePath)
+              flattenFolders: true
+            displayName: Stage publication candidate
+
+          - publish: $(candidatePath)
+            artifact: publication-candidate
+            displayName: Publish publication candidate
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target clean
+            displayName: Clean
+            condition: always()
+
+  - stage: acceptance
+    displayName: Acceptance
+    dependsOn: publication
+
+    jobs:
+      - job: download
+        displayName: Download internal windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+
+        pool:
+          name: default
+          demands:
+            - VSTS_AGENT_CAP_PACKER -equals build
+            - VSTS_AGENT_CAP_VIRTUALIZATION_PROVIDER -equals ${{ parameters.provider }}
+
+        workspace:
+          clean: all
+
+        variables:
+          artifactPath: $(Build.SourcesDirectory)/artifacts/windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant
+
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - script: |
+              dotnet --info
+
+              dotnet tool restore
+            displayName: Initialize .NET
+
+          - script: |
+              packer --version
+            displayName: Initialize Packer
+
+          - script: |
+              vagrant --version
+              vagrant plugin list
+
+              vagrant box list
+              vagrant global-status --prune
+            displayName: Initialize Vagrant
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target init
+            displayName: Init
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target restore-configuration
+            displayName: Restore configuration
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: current
+              artifact: publication-candidate
+              targetPath: $(artifactPath)/vagrant
+            displayName: Download publication candidate
+
+          - script: |
+              ruby -rdigest -e "expected = File.read(ARGV.fetch(1)).split.first; actual = Digest::SHA256.file(ARGV.fetch(0)).hexdigest; raise %Q(checksum mismatch: expected #{expected}, got #{actual}) unless actual == expected; puts %Q(publication candidate sha256: #{actual})" "$(artifactPath)/vagrant/vagrant.box" "$(artifactPath)/vagrant/checksum.sha256"
+            displayName: Verify publication candidate
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target test
+            displayName: Test publication candidate
+
+          - script: |
+              dotnet cake --configuration windows-11/25h2-enterprise/${{ parameters.provider }}/vagrant --target clean
+            displayName: Clean
+            condition: always()
