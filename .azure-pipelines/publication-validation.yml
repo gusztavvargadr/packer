@@ -145,7 +145,7 @@ stages:
             displayName: Download publication candidate
 
           - script: |
-              ruby -rdigest -e "expected = File.read(ARGV.fetch(1)).split.first; actual = Digest::SHA256.file(ARGV.fetch(0)).hexdigest; raise %Q(checksum mismatch: expected #{expected}, got #{actual}) unless actual == expected; puts %Q(publication candidate sha256: #{actual})" "$(artifactPath)/vagrant/vagrant.box" "$(artifactPath)/vagrant/checksum.sha256"
+              ruby -rdigest -e "expected = File.read(ARGV.fetch(1)).split.first; actual = Digest::SHA256.file(ARGV.fetch(0)).hexdigest; raise 'checksum mismatch: expected ' + expected + ', got ' + actual unless actual == expected; puts 'publication candidate sha256: ' + actual" "$(artifactPath)/vagrant/vagrant.box" "$(artifactPath)/vagrant/checksum.sha256"
             displayName: Verify publication candidate
 
           - script: |
