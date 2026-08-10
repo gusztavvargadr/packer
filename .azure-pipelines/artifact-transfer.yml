@@ -23,19 +23,35 @@ jobs:
         submodules: recursive
 
       - powershell: |
-          if (-not (Get-Command pigz -ErrorAction SilentlyContinue)) {
-            $conda = Join-Path $env:CONDA "Scripts\conda.exe"
-            & $conda install --yes --channel conda-forge pigz
-            if ($LASTEXITCODE -ne 0) {
-              throw "pigz installation failed with code $LASTEXITCODE."
-            }
-            $pigzDirectory = Join-Path $env:CONDA "Library\bin"
-            if (-not (Test-Path (Join-Path $pigzDirectory "pigz.exe"))) {
-              throw "pigz installation did not produce pigz.exe in $pigzDirectory."
-            }
-            Write-Host "##vso[task.prependpath]$pigzDirectory"
+          $micromambaDirectory = Join-Path $env:AGENT_TEMPDIRECTORY "micromamba"
+          $micromambaArchive = Join-Path $micromambaDirectory "micromamba.tar.bz2"
+          $micromamba = Join-Path $micromambaDirectory "Library\bin\micromamba.exe"
+          $pigzPrefix = Join-Path $env:AGENT_TOOLSDIRECTORY "pigz\2.8\x64"
+          $pigzDirectory = Join-Path $pigzPrefix "Library\bin"
+
+          New-Item -ItemType Directory -Path $micromambaDirectory -Force | Out-Null
+          Invoke-WebRequest -Uri "https://micro.mamba.pm/api/micromamba/win-64/latest" -OutFile $micromambaArchive
+          tar.exe -xf $micromambaArchive -C $micromambaDirectory
+          if ($LASTEXITCODE -ne 0) {
+            throw "micromamba extraction failed with code $LASTEXITCODE."
           }
-        displayName: Install pigz
+
+          $env:MAMBA_ROOT_PREFIX = Join-Path $micromambaDirectory "root"
+          $env:CONDA_OVERRIDE_CUDA = "0"
+          & $micromamba create --yes --prefix $pigzPrefix --channel conda-forge "pigz=2.8"
+          if ($LASTEXITCODE -ne 0) {
+            throw "pigz installation failed with code $LASTEXITCODE."
+          }
+
+          $pigz = Join-Path $pigzDirectory "pigz.exe"
+          if (-not (Test-Path $pigz)) {
+            throw "pigz installation did not produce $pigz."
+          }
+
+          $env:PATH = "$pigzDirectory;$env:PATH"
+          Write-Host "##vso[task.prependpath]$pigzDirectory"
+          pigz --version
+        displayName: Install pigz with micromamba
         condition: eq(variables['Agent.OS'], 'Windows_NT')
 
       - bash: |
