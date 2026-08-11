@@ -23,6 +23,21 @@ This box has the following contents:
 
 ### Versions
 
+#### 2607.0.0
+
+[Downloads][BoxVersion260700]
+
+This version provides AMD64 artifacts for Hyper-V, libvirt, VirtualBox and VMware.
+
+This version has the following contents:
+
+- [OS Build 29621.1000](https://techcommunity.microsoft.com/discussions/windowsserverinsiders/announcing-windows-server-vnext-preview-build-29621/4536572)
+- QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- VirtualBox [VirtualBox Guest Additions 7.2.14](https://www.virtualbox.org/wiki/Changelog-7.2#v14)
+- VMware [VMware Tools 13.1.0](https://knowledge.broadcom.com/external/article?articleNumber=304809)
+
+[BoxVersion260700]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/windows-server-insider-preview-standard/versions/2607.0.0
+
 #### 2511.0.0
 
 [Downloads][BoxVersion251100]
