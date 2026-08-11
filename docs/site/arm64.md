@@ -45,6 +45,6 @@ Start the machine with an existing provider identity, for example `vagrant up --
 
 The canonical `ubuntu-server-2404-lts` box and the `ubuntu-server` alias remain AMD64 by default for compatibility. ARM64 releases add architecture-specific artifacts under the normal catalog versions.
 
-Windows 11 uses architecture-dependent editions. The generic `windows-11` alias continues to target Windows 11 25H2 Enterprise on AMD64 and targets Windows 11 25H2 Professional on ARM64. The Professional ARM64 artifact is published truthfully as `windows-11-25h2-professional` and defaults to ARM64 because that canonical box is ARM64-only; the multi-architecture alias remains AMD64 by default.
+Windows 11 uses architecture-dependent editions. The generic `windows-11` alias continues to target Windows 11 25H2 Enterprise on AMD64 and targets Windows 11 25H2 Professional on ARM64. The Professional ARM64 artifact is published truthfully as `windows-11-25h2-professional` and defaults to ARM64 because that canonical box is ARM64-only. The multi-architecture alias has provider-specific default-architecture metadata, so select its guest architecture explicitly.
 
 ARM64 support currently excludes Hyper-V, QEMU/libvirt, and Intel Macs. Additional image and provider combinations will be listed here after their native build, Vagrant packaging, publication, and downloaded-box boot gates pass.
