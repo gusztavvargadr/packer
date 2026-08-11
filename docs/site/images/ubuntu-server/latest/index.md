@@ -13,6 +13,22 @@ This box is an alias of [Ubuntu Server 24.04 LTS]({{ site.baseurl }}{% link imag
 
 ### Versions
 
+#### 2607.1.0
+
+[Downloads][BoxVersion260710]
+
+This version provides AMD64 and ARM64 artifacts for VirtualBox and VMware. It is an alias of [Ubuntu Server 24.04 LTS 2607.1.0]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#260710) and reuses that canonical version's component evidence.
+
+[BoxVersion260710]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server/versions/2607.1.0
+
+#### 2607.0.0
+
+[Downloads][BoxVersion260700]
+
+This version provides AMD64 artifacts for Hyper-V, libvirt, VirtualBox and VMware, plus an ARM64 artifact for VMware. It is an alias of [Ubuntu Server 24.04 LTS 2607.0.0]({{ site.baseurl }}{% link images/ubuntu-server/2404-lts/index.md %}#260700) and reuses that canonical version's component evidence.
+
+[BoxVersion260700]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/ubuntu-server/versions/2607.0.0
+
 #### 2601.0.0
 
 [Downloads][BoxVersion260100]
