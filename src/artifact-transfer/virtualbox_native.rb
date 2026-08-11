@@ -45,10 +45,11 @@ module ArtifactTransfer
       end
     end
 
-    def machine_state(vm_name)
+    def machine_state(vm_name, allow_aborted: false)
       output, = vbox('showvminfo', vm_name, '--machinereadable')
       values = parse_machine_readable(output)
-      raise "#{vm_name} is not powered off" unless values['VMState'] == 'poweroff'
+      vm_state = values['VMState']
+      raise "#{vm_name} is not powered off" unless vm_state == 'poweroff' || (allow_aborted && vm_state == 'aborted')
 
       controllers = values.each_with_object([]) do |(key, value), result|
         match = key.match(/\Astoragecontrollername(\d+)\z/)
@@ -236,9 +237,9 @@ module ArtifactTransfer
       manifest
     end
 
-    def produce(vm_name, target, manifest: true)
+    def produce(vm_name, target, manifest: true, allow_aborted: false)
       raise "target already exists: #{target}" if File.exist?(target)
-      state = machine_state(vm_name)
+      state = machine_state(vm_name, allow_aborted: allow_aborted)
       source_disk = medium_state(state.dig(:attachment, :path))
       unless %w[VDI VMDK].include?(source_disk[:format])
         raise "expected Packer source format VDI or VMDK, found #{source_disk[:format]}"
@@ -272,7 +273,8 @@ module ArtifactTransfer
       ensure
         if detached
           attach(vm_name, state.fetch(:attachment))
-          raise 'failed to restore the original disk attachment' unless machine_state(vm_name).fetch(:attachment) == state.fetch(:attachment)
+          restored_state = machine_state(vm_name, allow_aborted: allow_aborted)
+          raise 'failed to restore the original disk attachment' unless restored_state.fetch(:attachment) == state.fetch(:attachment)
           emit('disk_restored', vm_name: vm_name, attachment: state.fetch(:attachment))
         end
         vbox('closemedium', 'disk', vmdk) if canonical_registered
@@ -302,10 +304,10 @@ module ArtifactTransfer
       end
     end
 
-    def find_registered_vm(image_directory)
+    def find_registered_vm(image_directory, allow_aborted: false)
       prefix = "#{File.expand_path(image_directory)}#{File::SEPARATOR}"
       matches = registered_vms.select do |name|
-        File.expand_path(machine_state(name).dig(:attachment, :path)).start_with?(prefix)
+        File.expand_path(machine_state(name, allow_aborted: allow_aborted).dig(:attachment, :path)).start_with?(prefix)
       rescue StandardError
         false
       end
@@ -362,10 +364,10 @@ module ArtifactTransfer
     def prepare_virtualbox_vagrant(artifact_root)
       artifact_root = File.expand_path(artifact_root)
       image = File.join(artifact_root, 'image')
-      vm_name = find_registered_vm(image)
+      vm_name = find_registered_vm(image, allow_aborted: true)
       canonical = File.join(artifact_root, ".virtualbox-vagrant-#{Process.pid}")
       begin
-        produce(vm_name, canonical, manifest: false)
+        produce(vm_name, canonical, manifest: false, allow_aborted: true)
       ensure
         vbox('unregistervm', vm_name, '--delete', allow_failure: true) if registered?(vm_name)
       end

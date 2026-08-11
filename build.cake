@@ -20,6 +20,8 @@ var configurationImageDirectory = Directory($"artifacts/{sample}/{image}/{provid
 
 Task("init")
   .Does(() => {
+    RunVersionCommand(IsRunningOnWindows() || IsRunningOnMacOs() ? "tar" : "bsdtar", "--version");
+    RunVersionCommand("pigz", "--version");
     PackerInit();
   });
 
@@ -29,13 +31,13 @@ Task("restore-configuration")
   });
 
 Task("restore-box")
-  .IsDependentOn("restore-configuration")
   .WithCriteria(() => build == "vagrant" && DirectoryExists(configurationImageDirectory))
   .Does(() => {
     PackerBuild("restore-box");
   });
 
 Task("restore")
+  .IsDependentOn("restore-configuration")
   .IsDependentOn("restore-box");
 
 Task("build")

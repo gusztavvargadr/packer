@@ -10,7 +10,8 @@ module ArtifactTransfer
     BOX_PATH = File.join('vagrant', 'vagrant.box').freeze
     IMAGE_PATH = 'image'.freeze
     METADATA_PATH = 'metadata.json'.freeze
-    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
+    ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/darwin|mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
+    PIGZ_COMMAND = 'pigz'.freeze
 
     def run_command(*arguments, chdir: nil)
       options = {}
@@ -28,6 +29,12 @@ module ArtifactTransfer
 
     def require_file(path, description)
       raise "#{description} does not exist: #{path}" unless File.file?(path)
+    end
+
+    def validate_tool(command, description)
+      run_command(command, '--version')
+    rescue Errno::ENOENT
+      raise "#{description} is required but was not found: #{command}"
     end
 
     def provider(image)
@@ -65,12 +72,26 @@ module ArtifactTransfer
       run_command(ARCHIVE_COMMAND, '-xf', box, '-C', image)
     end
 
-    def package_box(image, box)
+    def package_box(image, box, compression: nil)
       entries = Dir.children(image).sort
       raise "Vagrant image is empty: #{image}" if entries.empty?
 
       FileUtils.mkdir_p(File.dirname(box))
-      run_command(ARCHIVE_COMMAND, '-czf', box, *entries, chdir: image)
+      arguments = [ARCHIVE_COMMAND, '-cf', box]
+      arguments.concat(['--use-compress-program', compression]) unless compression.nil?
+      run_command(*arguments, *entries, chdir: image)
+    end
+
+    def measure_elapsed_seconds
+      started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      yield
+      Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at
+    end
+
+    def directory_size(directory)
+      Dir.glob(File.join(directory, '**', '*'), File::FNM_DOTMATCH).sum do |path|
+        File.file?(path) ? File.size(path) : 0
+      end
     end
 
     def correct_hyperv(image)
@@ -135,17 +156,31 @@ module ArtifactTransfer
       require_directory(artifact_directory, 'artifact directory')
       source_box = File.join(artifact_directory, BOX_PATH)
       require_file(source_box, 'Packer Vagrant box')
+      validate_tool(ARCHIVE_COMMAND, 'tar implementation')
+      input_size = File.size(source_box)
 
       selected_provider = nil
+      extraction_duration = nil
+      packaging_duration = nil
       with_staging(artifact_directory, 'prepare') do |staging|
         image = File.join(staging, IMAGE_PATH)
-        extract_box(source_box, image)
+        extraction_duration = measure_elapsed_seconds { extract_box(source_box, image) }
         selected_provider = provider(image)
         correct_hyperv(image) if selected_provider == 'hyperv'
-        package_box(image, File.join(staging, BOX_PATH))
+        packaging_duration = measure_elapsed_seconds { package_box(image, File.join(staging, BOX_PATH)) }
         promote_directories(artifact_directory, staging, [IMAGE_PATH, 'vagrant'])
       end
-      puts JSON.generate(operation: 'prepare', artifact_directory: artifact_directory, provider: selected_provider)
+      output_box = File.join(artifact_directory, BOX_PATH)
+      puts JSON.generate(
+        operation: 'prepare',
+        artifact_directory: artifact_directory,
+        provider: selected_provider,
+        input_size_bytes: input_size,
+        extraction_duration_seconds: extraction_duration,
+        packaging_duration_seconds: packaging_duration,
+        output_size_bytes: File.size(output_box),
+        outcome: 'passed'
+      )
     end
 
     def restore(artifact_directory)
@@ -154,12 +189,24 @@ module ArtifactTransfer
       image = File.join(artifact_directory, IMAGE_PATH)
       require_directory(image, 'Vagrant image')
       selected_provider = provider(image)
+      validate_tool(ARCHIVE_COMMAND, 'tar implementation')
+      validate_tool(PIGZ_COMMAND, 'pigz parallel gzip compressor')
 
+      compression_duration = nil
       with_staging(artifact_directory, 'restore') do |staging|
-        package_box(image, File.join(staging, BOX_PATH))
+        compression_duration = measure_elapsed_seconds { package_box(image, File.join(staging, BOX_PATH), compression: PIGZ_COMMAND) }
         promote_directories(artifact_directory, staging, ['vagrant'])
       end
-      puts JSON.generate(operation: 'restore', artifact_directory: artifact_directory, provider: selected_provider)
+      output_box = File.join(artifact_directory, BOX_PATH)
+      puts JSON.generate(
+        operation: 'restore',
+        artifact_directory: artifact_directory,
+        provider: selected_provider,
+        input_size_bytes: directory_size(image),
+        compression_duration_seconds: compression_duration,
+        output_size_bytes: File.size(output_box),
+        outcome: 'passed'
+      )
     end
 
     def run(arguments)
