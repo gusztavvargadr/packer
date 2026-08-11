@@ -17,6 +17,14 @@ Valid providers include `virtualbox`, `vmware`, `hyperv`, and `qemu`; builds req
 
 When a container command cannot reach the local Docker daemon from the sandbox, retry that same command outside the sandbox before installing or compiling alternative tooling.
 
+## Build and pipeline scripting
+
+Treat the repository-pinned Cake build as the single interface for repository-owned build logic shared by local development and CI. If an operation can run locally and in a pipeline, implement it as a Cake target or Cake-invoked helper and call that same target from both environments.
+
+Pipeline YAML should be limited to stage and job orchestration, parameters and conditions, Azure-native artifact or publication tasks, the minimal bootstrap needed to run Cake, and Cake target invocations. Do not embed repository-owned Ruby, PowerShell, shell one-liners, checksum logic, archive logic, path manipulation, or duplicated command sequences directly in pipeline YAML.
+
+When an inline script is unavoidable because Cake is not yet available or an Azure task has no suitable interface, keep it minimal and add a comment explaining why it cannot live behind the Cake boundary.
+
 ## Coding Style & Naming Conventions
 
 Run `packer fmt` for HCL. Use Packer input variables only to capture external input; assign them to descriptively named locals and use locals everywhere else, including for all derived values. Use two-space indentation in Ruby, YAML, and Cake files, and follow existing PowerShell and shell conventions. Ruby style is governed by `.rubocop.yml`; generated and vendored `lib/` content is excluded. Do not hard-wrap prose in Markdown files or GitHub issue and pull request content; keep each paragraph or list item on one source line and let the renderer wrap it. Preserve repository line endings: LF for shell scripts and CRLF for PowerShell. Use lowercase, hyphenated sample and image-variant directories (for example, `ubuntu-server` and `25h2-enterprise`), and keep provider-specific files named consistently, such as `source.virtualbox.pkr.hcl`.
