@@ -28,11 +28,3 @@ This version provides AMD64 artifacts for Hyper-V, libvirt, VirtualBox and VMwar
 This version is an alias of [IIS on Windows 2022 2601.0.0]({{ site.baseurl }}{% link images/iis/windows-2022/index.md %}#260100).
 
 [BoxVersion260100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis/versions/2601.0.0
-
-#### 2511.0.0
-
-[Downloads][BoxVersion251100]
-
-This version is an alias of [IIS on Windows 2022 2511.0.0]({{ site.baseurl }}{% link images/iis/windows-2022/index.md %}#251100).
-
-[BoxVersion251100]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis/versions/2511.0.0
