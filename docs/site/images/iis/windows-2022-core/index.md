@@ -25,6 +25,22 @@ This box has the following contents:
 
 ### Versions
 
+#### 2607.0.0
+
+[Downloads][BoxVersion260700]
+
+This version provides AMD64 artifacts for Hyper-V, libvirt, VirtualBox and VMware.
+
+This version has the following contents:
+
+- .NET and ASP.NET Core runtimes 10.0.10, 9.0.18, 8.0.29
+- [OS Build 20348.2113](https://support.microsoft.com/en-us/topic/november-14-2023-kb5032198-os-build-20348-2113-e3411fed-057d-402a-86fd-814124e5f26d)
+- QEMU [VirtIO Drivers 0.1.285](https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG)
+- VirtualBox [VirtualBox Guest Additions 7.2.14](https://www.virtualbox.org/wiki/Changelog-7.2#v14)
+- VMware [VMware Tools 13.1.0](https://knowledge.broadcom.com/external/article?articleNumber=304809)
+
+[BoxVersion260700]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/iis-windows-server-core/versions/2607.0.0
+
 #### 2601.0.0
 
 [Downloads][BoxVersion260100]
