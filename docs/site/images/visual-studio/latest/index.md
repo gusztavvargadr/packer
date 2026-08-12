@@ -13,6 +13,14 @@ This box is an alias of [Visual Studio 2022 Community on Windows 11]({{ site.bas
 
 ### Versions
 
+#### 2607.1.0
+
+[Downloads][BoxVersion260710]
+
+This version provides AMD64 artifacts for Hyper-V, libvirt, VirtualBox and VMware. It is an alias of [Visual Studio 2022 Community on Windows 11 2607.1.0]({{ site.baseurl }}{% link images/visual-studio/2022-community-windows-11/index.md %}#260710) and reuses that canonical version's component evidence.
+
+[BoxVersion260710]: https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr/visual-studio/versions/2607.1.0
+
 #### 2601.0.0
 
 [Downloads][BoxVersion260100]
