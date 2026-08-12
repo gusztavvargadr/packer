@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Release 2607.0.0"
+date: 2026-08-12 02:00:00 +0200
+categories: release
+---
+
+## Overview
+
+- Update the supported Ubuntu and Windows image catalog for 2607
+- Add VirtualBox and VMware ARM64 artifacts for Ubuntu and Windows 11 on Apple-silicon Macs
+- Add Windows 11 Version 25H2 Professional as the canonical ARM64 Windows 11 image
+- Publish exact provider, guest-architecture and component details for every 2607 Vagrant box version
+- Retire the Ubuntu 20.04 and Windows 11 Version 21H2 image variants
+
+The `2607.0.0` catalog release includes Vagrant registry versions `2607.0.0` and `2607.1.0`. These exact registry versions were published at different points in the monthly release cycle, but together form one catalog-wide release.
+
+## Moving parts
+
+- The release covers 40 Vagrant boxes and 58 exact registry versions: 37 at `2607.0.0` and 21 at `2607.1.0`.
+- AMD64 images use Hyper-V, QEMU/libvirt, VirtualBox and VMware where supported. ARM64 images use VirtualBox and VMware on Apple-silicon Macs.
+- Stable box names either publish direct artifacts or resolve to canonical image variants. Their exact version sections identify the corresponding provider and guest-architecture relationships.
+- Each participating image page records its exact release versions, available providers and guest architectures, and verified operating-system, runtime and guest-tool versions.
+
+## Resources
+
+- [Image catalog]({{ site.baseurl }}{% link images/index.md %})
+- [ARM64 support]({{ site.baseurl }}{% link arm64.md %})
+- [Vagrant boxes](https://portal.cloud.hashicorp.com/vagrant/discover/gusztavvargadr)
+- [Issues](https://github.com/gusztavvargadr/packer/issues?q=is%3Aissue+milestone%3A2607.0.0+is%3Aclosed)
+- [Pull requests](https://github.com/gusztavvargadr/packer/issues?q=is%3Apr+milestone%3A2607.0.0+is%3Aclosed)
+- [Milestone](https://github.com/gusztavvargadr/packer/milestone/68?closed=1)
+- [Release](https://github.com/gusztavvargadr/packer/releases/tag/2607.0.0)
