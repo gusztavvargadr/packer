@@ -87,6 +87,8 @@ Repository-owned Ruby, PowerShell, shell one-liners, checksum logic, archive log
 
 HCL MUST use `packer fmt`. Packer's external-input boundary is defined by the [architecture invariants](architecture.md#invariants).
 
+Use the [product terms](product.md#terms) and [architecture](architecture.md) for domain terminology and implementation deviations. Prose about guest environments MUST distinguish guest architecture from host architecture and name the guest operating system or architecture explicitly, for example `Ubuntu ARM64 guest on a macOS ARM64 host`, rather than the ambiguous `platform`.
+
 Ruby, YAML, and Cake MUST use two-space indentation. PowerShell and shell changes SHOULD follow the surrounding conventions. Shell files MUST retain LF and PowerShell files CRLF, as specified by `.gitattributes`. Markdown paragraphs and list items MUST each stay on one source line rather than being hard-wrapped.
 
 Sample and image-variant directories MUST use lowercase, hyphenated names such as `ubuntu-server` and `25h2-enterprise`. Provider-specific files MUST follow the existing naming pattern, such as `source.virtualbox.pkr.hcl`.
@@ -124,7 +126,7 @@ The request MUST contain `definition.id`, `sourceBranch`, `sourceVersion`, and a
 
 ## Commits and pull requests
 
-Requests and PRDs are tracked in this repository's GitHub Issues. Issue and pull-request operations use `gh`; the user-level delivery guides define the workflow. Domain terminology comes from the [product terms](product.md#terms), and implementation deviations belong in [architecture](architecture.md).
+Requests and PRDs are tracked in this repository's GitHub Issues. Issue and pull-request operations use `gh`; the user-level delivery guides define the workflow.
 
 Delivery commits MUST follow the user-level delivery Git guide, including the target issue number. Other repository commits SHOULD use a short, imperative summary; merged summaries include the PR number. A delivery commit subject has this form:
 
