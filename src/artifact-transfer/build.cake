@@ -1,12 +1,14 @@
 var target = Argument("target", "default");
 
 Task("init")
+  .Description("Validate the platform libarchive tar and pigz versions.")
   .Does(() => {
     RunVersionCommand(IsRunningOnWindows() || IsRunningOnMacOs() ? "tar" : "bsdtar");
     RunVersionCommand("pigz");
   });
 
 Task("test")
+  .Description("Validate archive tools and test Vagrant box preparation, restoration, and checksums.")
   .IsDependentOn("init")
   .Does(() => {
     var arguments = new ProcessArgumentBuilder();
@@ -23,6 +25,7 @@ Task("test")
   });
 
 Task("default")
+  .Description("Run the artifact-transfer validation and Vagrant box tests.")
   .IsDependentOn("test");
 
 RunTarget(target);

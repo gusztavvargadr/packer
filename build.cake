@@ -19,6 +19,7 @@ var artifactsDirectory = Directory($"artifacts");
 var configurationImageDirectory = Directory($"artifacts/{sample}/{image}/{provider}/{build}/image");
 
 Task("init")
+  .Description("Validate archive tools and initialize the selected OS's Packer plugins.")
   .Does(() => {
     RunVersionCommand(IsRunningOnWindows() || IsRunningOnMacOs() ? "tar" : "bsdtar", "--version");
     RunVersionCommand("pigz", "--version");
@@ -26,46 +27,55 @@ Task("init")
   });
 
 Task("restore-configuration")
+  .Description("Run the selected Packer restore stage to prepare build dependencies.")
   .Does(() => {
     PackerBuild("restore");
   });
 
 Task("restore-box")
+  .Description("Repackage downloaded Vagrant image contents when present.")
   .WithCriteria(() => build == "vagrant" && DirectoryExists(configurationImageDirectory))
   .Does(() => {
     PackerBuild("restore-box");
   });
 
 Task("restore")
+  .Description("Prepare build dependencies and restore a downloaded Vagrant box when present.")
   .IsDependentOn("restore-configuration")
   .IsDependentOn("restore-box");
 
 Task("build")
+  .Description("Build the selected native image or package its native result as a Vagrant box.")
   .Does(() => {
     PackerBuild("build");
   });
 
 Task("test")
+  .Description("Run the selected Packer test stage; Vagrant boots the local box, while native is empty.")
   .Does(() => {
     PackerBuild("test");
   });
 
 Task("publish")
+  .Description("Publish Vagrant payloads to R2 and metadata to HCP; the native stage is empty.")
   .Does(() => {
     PackerBuild("publish");
   });
 
 Task("download")
+  .Description("Download and boot the published Vagrant box through its Packer download stage.")
   .Does(() => {
     PackerBuild("download");
   });
 
 Task("clean")
+  .Description("Remove all generated files under artifacts for every configuration.")
   .Does(() => {
     CleanDirectory(artifactsDirectory);
   });
 
 Task("default")
+  .Description("Initialize, restore, build, and test the selected configuration.")
   .IsDependentOn("init")
   .IsDependentOn("restore")
   .IsDependentOn("build")
