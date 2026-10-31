@@ -36,6 +36,24 @@ The rclone destination and public origin are configurable through `box_artifact_
 
 An alias publishes metadata pointing to the canonical entry's readable `https://vagrantcloud.com/<author>/boxes/<canonical-box-name>/versions/<release-version>/providers/<vagrant-provider>/<architecture>/vagrant.box` URL. It reuses the version, provider, architecture, and checksum rather than uploading a second payload. The box download URL therefore follows alias metadata to canonical metadata and then to the R2 payload.
 
+R2 also keeps the registry metadata and payloads that only HCP stored, because HCP Vagrant operations end on 2026-12-31. These objects in `r2:packer` are released object keys:
+
+- `hcp-vagrant-registry/manifest-20261031T112055Z.json` is a snapshot of the whole `gusztavvargadr` HCP Vagrant registry on 2026-10-31, in the format `vagrant-registry-export registry manifest` writes. It lists every box, version, provider, and architecture with its SHA-256 checksum, including the entries not saved, and is the only object under `hcp-vagrant-registry/`.
+- The newest version of each retired canonical box, provider, and architecture is saved under the object key above, 27 AMD64 entries in all. A box is retired when its page under `docs/site/images` marks it deprecated. A retired box gets no further release, so only HCP stored its newest payload; an active box saves nothing from HCP, because its next release is published through R2.
+- Each saved entry's release version is in the catalog's `yymm.0.0` form, mapped from its HCP version as the table below states, and each saved object has the SHA-256 the snapshot records for its HCP entry.
+- The retired aliases `windows-10` and `sql-server` resolve to `windows-10-22h2-enterprise` and `sql-server-2019-developer-windows-server`, so their payloads are those saved canonical entries.
+
+| Canonical box | HCP version | Release version | Vagrant providers |
+| --- | --- | --- | --- |
+| `windows-10-22h2-enterprise` | 2511.0.0 | 2511.0.0 | `hyperv`, `libvirt`, `virtualbox`, `vmware_desktop` |
+| `windows-11-22h2-enterprise` | 2511.0.0 | 2511.0.0 | `hyperv`, `libvirt`, `virtualbox`, `vmware_desktop` |
+| `visual-studio-2022-community-windows-10` | 2511.0.0 | 2511.0.0 | `hyperv`, `libvirt`, `virtualbox`, `vmware_desktop` |
+| `windows-10-21h2-enterprise-ltsc` | 2509.0.0 | 2509.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+| `windows-server-2019-standard` | 1809.0.2407 | 2407.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+| `windows-server-2019-standard-core` | 1809.0.2407 | 2407.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+| `sql-server-2019-developer-windows-server` | 2019.2102.2503 | 2503.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+| `sql-server-2019-developer-windows-server-core` | 2019.2102.2503 | 2503.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+
 ## Architecture-dependent catalog choices
 
 Provider maps distinguish Packer provider names from Vagrant identities: `vmware` becomes `vmware_desktop`, and `qemu` becomes `libvirt`. Support is the documented and validated image/provider/architecture combination, not the Cartesian product of those maps. Current ARM64 pipelines target VirtualBox and VMware on macOS ARM64; the [consumer documentation](site/arm64.md) records their supported combinations and guest-tool limitations.
