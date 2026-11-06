@@ -16,7 +16,7 @@ variable "box_artifact_destination" {
 variable "box_artifact_origin" {
   type        = string
   description = "The public origin for published Vagrant boxes."
-  default     = "https://pub-8fcabe1edc344cb782c6dafddb0fe446.r2.dev"
+  default     = "https://images.packer.gusztavvargadr.me"
 }
 
 locals {
