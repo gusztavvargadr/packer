@@ -30,7 +30,7 @@ Vagrant test stages boot and remove the locally built box through the selected p
 
 ## Payload hosting and registry metadata
 
-Both operating systems publish Vagrant payloads to Cloudflare R2, regardless of box size. HCP Vagrant Registry records versions, providers, architectures, SHA-256 checksums, and external download URLs. This separation keeps payload hosting independent of metadata and discovery and gives publication one path for all payload sizes.
+Both operating systems publish Vagrant payloads to Cloudflare R2, regardless of box size. HCP Vagrant Registry is still the registry publication writes to, and records versions, providers, architectures, SHA-256 checksums, and external download URLs. This separation keeps payload hosting independent of metadata and discovery and gives publication one path for all payload sizes.
 
 The rclone destination and public origin are configurable through `box_artifact_destination` and `box_artifact_origin`, defaulting to `r2:packer` and `https://images.packer.gusztavvargadr.me` in the shared Windows and Ubuntu Vagrant definitions. Future publications use this project image origin by default. The object key is `<canonical-box-name>/<release-version>/<vagrant-provider>/<architecture>/vagrant.box`. Publication copies only `vagrant.box` with `--checksum --immutable`, then writes canonical registry metadata using its public URL and the Packer checksum. There is no direct-HCP payload fallback. An upload can remain when a later metadata operation fails; these steps are not a transaction.
 
@@ -55,6 +55,23 @@ R2 also keeps the registry metadata and payloads that only HCP stored, because H
 | `windows-server-2019-standard-core` | 1809.0.2407 | 2407.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
 | `sql-server-2019-developer-windows-server` | 2019.2102.2503 | 2503.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
 | `sql-server-2019-developer-windows-server-core` | 2019.2102.2503 | 2503.0.0 | `hyperv`, `virtualbox`, `vmware_desktop` |
+
+## Metadata host
+
+`https://vagrant.gusztavvargadr.me` serves Vagrant box metadata for the boxes with a payload on R2, without HCP. It is a custom domain on the `vagrant` R2 bucket, which is separate from `r2:packer` and holds only these metadata documents. Its objects are not released object keys, so the rule against overwriting one describes `r2:packer` alone.
+
+- Each box's metadata is at `https://vagrant.gusztavvargadr.me/gusztavvargadr/<box>`, in Vagrant's box metadata format, served as `application/json`. Vagrant first requests `/api/v2/vagrant/gusztavvargadr/<box>`, which the host does not serve, then this path, and reads a response as metadata only when it is `application/json`.
+- The metadata lists exactly the entries of the 2026-10-31 registry snapshot whose payload is in `r2:packer`: 147 entries across 36 boxes, 110 canonical and 37 alias. A saved retired entry is listed at the release version the table above maps it to.
+- Every listed download URL is the canonical entry's object under `https://images.packer.gusztavvargadr.me`. An alias entry carries its canonical entry's download URL and checksum directly, so it resolves to the canonical payload without `vagrantcloud.com` or HCP.
+- `windows-11` defaults to AMD64 on every provider, and every other box listing more than one guest architecture keeps the default architecture HCP reports for it.
+- Publication writes nothing to this host, so a release published after the snapshot is listed only in HCP.
+
+A consumer selects the host with either of these settings, and Vagrant with neither uses its default server, `https://vagrantcloud.com`:
+
+- `VAGRANT_SERVER_URL=https://vagrant.gusztavvargadr.me` in the environment, with no Vagrantfile change.
+- `config.vm.box_server_url = "https://vagrant.gusztavvargadr.me"` in a Vagrantfile, where the environment variable would also redirect other publishers' boxes.
+
+`VAGRANT_SERVER_URL` takes precedence over `config.vm.box_server_url` whenever it is set and not empty.
 
 ## Architecture-dependent catalog choices
 
