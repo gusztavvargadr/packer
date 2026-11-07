@@ -124,6 +124,31 @@ The request MUST contain `definition.id`, `sourceBranch`, `sourceVersion`, and a
 }
 ```
 
+## Retention
+
+This policy decides which versions of the Vagrant boxes hosted on R2 stay and which go. The maintainer applies it by hand, and no tooling enforces it.
+
+Each canonical box, Vagrant provider, and guest architecture is one combination, counted separately. The versions of a combination group by release month, the `yymm` their release version starts with, so every `2607.*` version is one month. The current release month is the `yymm` of the current release version, the default `version` argument in [`build.cake`](../build.cake).
+
+A combination keeps a release month when both of these hold, and every other release month is removed:
+
+- It is one of the combination's latest two release months.
+- It is no more than six months behind the current release month, so a current release month of 2607 keeps 2601, and one of 2610 does not.
+
+These limit what is removed:
+
+- A combination never loses its last version. Where every release month has aged out, the single newest version stays, so a combination holding `2607.0.0` and `2607.1.0` keeps only `2607.1.0`.
+- An alias box has no count of its own. An alias entry stays and goes with the canonical entry it references, and a canonical entry stays where removing it would remove an alias's last version for that provider and guest architecture.
+- Removing a whole box, or a whole provider or guest architecture from a box, is a separate action the maintainer names, and this policy does not do it.
+
+Removal works like this:
+
+- Removing a version removes its registry entry and its R2 file together. The documentation site shows only what remains, and no registry entry or alias is left pointing at a missing file.
+- A removed release version is never published again.
+- A `vagrant.box` file on R2 that has no registry entry is removed, and every other R2 object stays.
+
+The policy is applied only after a full new release has finished publishing. The maintainer approves the exact removals immediately before they happen.
+
 ## Commits and pull requests
 
 Requests and PRDs are tracked in this repository's GitHub Issues. Issue and pull-request operations use `gh`; the user-level delivery guides define the workflow.
