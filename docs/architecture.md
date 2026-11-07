@@ -34,7 +34,7 @@ Both operating systems publish Vagrant payloads to Cloudflare R2, regardless of 
 
 The rclone destination and public origin are configurable through `box_artifact_destination` and `box_artifact_origin`, defaulting to `r2:packer` and `https://images.packer.gusztavvargadr.me` in the shared Windows and Ubuntu Vagrant definitions. Future publications use this project image origin by default. The object key is `<canonical-box-name>/<release-version>/<vagrant-provider>/<architecture>/vagrant.box`. Publication copies only `vagrant.box` with `--checksum --immutable`, then writes canonical registry metadata using its public URL and the Packer checksum. There is no direct-HCP payload fallback. An upload can remain when a later metadata operation fails; these steps are not a transaction.
 
-Cloudflare hosts authoritative DNS for `gusztavvargadr.me`; AWS remains the registrar. The project image hostname is a custom domain on the existing R2 bucket. The bucket's public `https://pub-8fcabe1edc344cb782c6dafddb0fe446.r2.dev` endpoint remains enabled, and previously published registry download URLs are retained unchanged. Existing released object keys and payload bytes are unchanged.
+Cloudflare hosts authoritative DNS for `gusztavvargadr.me`; AWS remains the registrar. The project image hostname is a custom domain on the existing R2 bucket. The bucket's public `https://pub-8fcabe1edc344cb782c6dafddb0fe446.r2.dev` endpoint remains enabled, and adding the custom domain rewrote no previously published registry download URL. It also changed no released object key or payload bytes.
 
 An alias publishes metadata pointing to the canonical entry's readable `https://vagrantcloud.com/<author>/boxes/<canonical-box-name>/versions/<release-version>/providers/<vagrant-provider>/<architecture>/vagrant.box` URL. It reuses the version, provider, architecture, and checksum rather than uploading a second payload. The box download URL therefore follows alias metadata to canonical metadata and then to the R2 payload.
 
@@ -69,7 +69,7 @@ The generic `windows-11` alias points to 25H2 Enterprise on AMD64 and 25H2 Profe
 - Packer variables MUST capture external input only. Descriptively named locals MUST represent those inputs and all derived values used by the templates.
 - Repository-owned build logic shared by local work and CI MUST run through Cake targets or Cake-invoked helpers. Pipeline YAML MUST remain orchestration around that boundary.
 - Artifact transfer MUST preserve provider importability, and the publication checksum MUST describe the final compressed box bytes.
-- A released R2 object key MUST remain immutable. Publication MUST NOT select a different payload-hosting path by size or fall back to direct HCP upload.
+- Publication MUST NOT overwrite a released R2 object key, select a different payload-hosting path by size, or fall back to direct HCP upload.
 - An alias MUST reference its canonical entry for the same release version, provider, and architecture without duplicating the payload.
 - Canonical box names MUST identify their actual OS release and edition. A Windows 11 alias whose edition varies by guest architecture MUST disclose that difference in consumer documentation.
 - A sample directory MUST NOT be treated as the definition of an image family; Docker, Development, and Kitchen each span their current OS-specific samples.
