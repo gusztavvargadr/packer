@@ -1,7 +1,7 @@
 # Packer
 
-This repository builds Windows and Ubuntu virtual machine images and Vagrant boxes with [Packer] for various development scenarios.
+Windows and Ubuntu Vagrant boxes, and the [Packer](https://www.packer.io) definitions that build them.
 
-Please see the documentation at https://packer.gusztavvargadr.me/.
+The catalog, usage, and ARM64 support are on https://packer.gusztavvargadr.me/.
 
-[Packer]: https://www.packer.io
+**Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md).
