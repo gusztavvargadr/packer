@@ -9,7 +9,7 @@ title: Kitchen on Windows 2022
 
 This box has the following contents:
 
-- Chef Infra Client
+- Cinc Client
 - Windows Server 2022 Standard
 - OpenSSH Server and WinRM
 - Windows Updates disabled
