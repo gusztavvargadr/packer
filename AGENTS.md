@@ -6,6 +6,7 @@ Read [README.md](README.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before changi
 
 - Running the `publish` target, or anything else that writes to R2 or the registry, because a released key can't be overwritten and a release version can't be published again.
 - Removing a box version under the [retention policy](CONTRIBUTING.md#retention).
+- Running the `clean` target, because derived and Vagrant builds depend on the native results it removes.
 - Installing packages, or changing host tools or configuration, because they affect more than this repository.
 
 ## Builds

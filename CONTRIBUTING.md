@@ -2,27 +2,33 @@
 
 ## Layout
 
-`samples/<sample>` holds image options, Vagrantfiles, and Chef policies. `src/windows` and `src/ubuntu` hold the shared templates and provisioning. `src/artifact-transfer` holds the artifact handoff between jobs. `lib/gusztavvargadr/chef` is a submodule. `.azure-pipelines` holds the pipelines, and `docs/site` the public site. Docker, Development, and Kitchen each have a Windows and an Ubuntu sample.
+`samples/<sample>` holds image options, Vagrantfiles, and Chef policies. `src/windows` and `src/ubuntu` hold the shared templates and provisioning. `src/artifact-transfer` holds the artifact handoff between jobs. `lib/gusztavvargadr/chef` is a submodule. `.azure-pipelines` holds the pipelines, and `docs/site` the public site. Docker, Development, and Kitchen each have a Windows and a Linux sample, such as `docker-windows` and `docker-linux`.
 
 ## Prerequisites
 
 - The .NET SDK, Packer, Chef Workstation, Vagrant, and the provider. The native builds run `chef install` and `chef export` on the build machine.
-- Image builds also need Ruby and the archive tools [the artifact-transfer README](src/artifact-transfer/README.md) lists.
+- Ruby, and the archive tools the [artifact-transfer README](src/artifact-transfer/README.md) lists. Every image build uses both.
 - Docker, for the site preview.
 - On Apple-silicon hosts, see the site's [ARM64 page](https://packer.gusztavvargadr.me/arm64.html).
 
 ## Build
 
-Run `dotnet tool restore`, then `dotnet cake --configuration <sample>/<image>/<provider>/<native|vagrant> [--target <target>]`, from the repository root. Valid `<image>` and `<provider>` values are the keys of `samples/<sample>/images.pkrvars.hcl`, and `.azure-pipelines/<sample>/<image>/<provider>.yml` exists for each piped configuration. `--showdescription` and `--tree` list the targets, and `build.cake` needs a `--configuration` for them, where any well-formed one works, while `src/artifact-transfer/build.cake` needs none. The default target builds and tests the selected configuration only. A derived native or a Vagrant build needs its native source under `artifacts/` already, because Cake doesn't build it. `clean` removes all of `artifacts/`, not only the selected configuration. Ubuntu native builds take about 10 minutes and Vagrant builds under 5. Windows native builds take about an hour, Vagrant builds 5 to 10 minutes, and a CI build can pass 90 minutes. A long Windows build is not a reason to cancel it.
+- Run `dotnet tool restore`, then `dotnet cake --configuration <sample>/<image>/<provider>/<native|vagrant> [--target <target>]`, from the repository root.
+- The `<image>` values are the keys of `samples/<sample>/images.pkrvars.hcl`. Each configuration with a pipeline has `.azure-pipelines/<sample>/<image>/<provider>.yml`.
+- `--showdescription` and `--tree` list the targets. For `build.cake` they need a `--configuration`, and any well-formed one works. `src/artifact-transfer/build.cake` needs none.
+- The default target builds and tests the selected configuration only.
+- A derived native or a Vagrant build needs its native source under `artifacts/` already, because Cake doesn't build it.
+- `clean` removes all of `artifacts/`, not only the selected configuration.
+- Ubuntu native builds take about 10 minutes and Vagrant builds under 5. Windows native builds take about an hour, Vagrant builds 5 to 10 minutes, and a CI build can pass 90 minutes. A long Windows build is not a reason to cancel it.
 
 ## Checks
 
 - Image build or provisioning: the smallest affected configuration through Cake, including its `test`. A native `test` is empty, so native changes are proven by the derived or Vagrant build and boot test that consumes them.
-- Artifact transfer: `dotnet cake src/artifact-transfer/build.cake`, plus the image builds that consume the changed provider. `.azure-pipelines/artifact-transfer.yml` runs it on hosted Windows and Linux agents.
+- Artifact transfer: `dotnet cake src/artifact-transfer/build.cake`, plus the image builds that consume the changed provider. The `artifact-transfer.yml` pipeline covers Windows and Linux.
 - Cake task descriptions: `--showdescription` for both definitions, with any well-formed `--configuration` for `build.cake`, without running any target.
 - HCL: `packer fmt -check src`.
 - Ruby: `ruby -c <file>`, following `.rubocop.yml`.
-- Pipeline YAML: parse it, and run the Cake targets it calls.
+- Pipeline YAML: parse it, as `ruby -e "require 'yaml'; YAML.load_file(ARGV[0])" <file>` does, and run the Cake targets it calls.
 - The site: `docker compose --file docs/site/compose.yml up --build`, and read the changed pages.
 - Docs: read the changed text and its links, and run `git diff --check`.
 
