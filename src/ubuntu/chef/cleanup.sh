@@ -27,7 +27,7 @@ dpkg --list \
     | sudo xargs apt-get -y purge;
 
 if [ "${CHEF_KEEP}" != "true" ]; then
-    sudo apt-get -y purge chef
+    sudo apt-get -y purge cinc
 fi
 
 sudo apt-get -y autoremove;
