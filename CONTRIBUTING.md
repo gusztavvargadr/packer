@@ -2,36 +2,24 @@
 
 ## Layout
 
-`samples/<sample>` holds image options, Vagrantfiles, and Chef policies.
-`src/windows` and `src/ubuntu` hold the shared templates and provisioning.
-`src/artifact-transfer` holds the artifact handoff between jobs.
-`lib/gusztavvargadr/chef` is a submodule.
-`.azure-pipelines` holds the pipelines, and `docs/site` the public site.
-Docker, Development, and Kitchen each have a Windows and an Ubuntu sample.
+`samples/<sample>` holds image options, Vagrantfiles, and Chef policies. `src/windows` and `src/ubuntu` hold the shared templates and provisioning. `src/artifact-transfer` holds the artifact handoff between jobs. `lib/gusztavvargadr/chef` is a submodule. `.azure-pipelines` holds the pipelines, and `docs/site` the public site. Docker, Development, and Kitchen each have a Windows and an Ubuntu sample.
 
 ## Prerequisites
 
 - The .NET SDK, Packer, Chef Workstation, Vagrant, and the provider. The native builds run `chef install` and `chef export` on the build machine.
-- The tools artifact transfer needs are in [its README](src/artifact-transfer/README.md).
+- Image builds also need Ruby and the archive tools [the artifact-transfer README](src/artifact-transfer/README.md) lists.
 - Docker, for the site preview.
-- On Apple-silicon hosts, see the site's [ARM64 page](docs/site/arm64.md).
+- On Apple-silicon hosts, see the site's [ARM64 page](https://packer.gusztavvargadr.me/arm64.html).
 
 ## Build
 
-Run `dotnet tool restore`, then `dotnet cake --configuration <sample>/<image>/<provider>/<native|vagrant> [--target <target>]`, from the repository root.
-`--showdescription` and `--tree` list the targets, for `build.cake` and `src/artifact-transfer/build.cake`.
-The default target builds and tests the selected configuration only.
-A derived native or a Vagrant build needs its native source under `artifacts/` already, because Cake doesn't build it.
-`clean` removes all of `artifacts/`, not only the selected configuration.
-Ubuntu native builds take about 10 minutes and Vagrant builds under 5.
-Windows native builds take about an hour, Vagrant builds 5 to 10 minutes, and a CI build can pass 90 minutes.
-A long Windows build is not a reason to cancel it.
+Run `dotnet tool restore`, then `dotnet cake --configuration <sample>/<image>/<provider>/<native|vagrant> [--target <target>]`, from the repository root. Valid `<image>` and `<provider>` values are the keys of `samples/<sample>/images.pkrvars.hcl`, and `.azure-pipelines/<sample>/<image>/<provider>.yml` exists for each piped configuration. `--showdescription` and `--tree` list the targets, and `build.cake` needs a `--configuration` for them, where any well-formed one works, while `src/artifact-transfer/build.cake` needs none. The default target builds and tests the selected configuration only. A derived native or a Vagrant build needs its native source under `artifacts/` already, because Cake doesn't build it. `clean` removes all of `artifacts/`, not only the selected configuration. Ubuntu native builds take about 10 minutes and Vagrant builds under 5. Windows native builds take about an hour, Vagrant builds 5 to 10 minutes, and a CI build can pass 90 minutes. A long Windows build is not a reason to cancel it.
 
 ## Checks
 
 - Image build or provisioning: the smallest affected configuration through Cake, including its `test`. A native `test` is empty, so native changes are proven by the derived or Vagrant build and boot test that consumes them.
-- Artifact transfer: `dotnet cake src/artifact-transfer/build.cake`, plus the image builds that consume the changed provider.
-- Cake task descriptions: `--showdescription` for both definitions, without running any target.
+- Artifact transfer: `dotnet cake src/artifact-transfer/build.cake`, plus the image builds that consume the changed provider. `.azure-pipelines/artifact-transfer.yml` runs it on hosted Windows and Linux agents.
+- Cake task descriptions: `--showdescription` for both definitions, with any well-formed `--configuration` for `build.cake`, without running any target.
 - HCL: `packer fmt -check src`.
 - Ruby: `ruby -c <file>`, following `.rubocop.yml`.
 - Pipeline YAML: parse it, and run the Cake targets it calls.
@@ -45,7 +33,7 @@ A long Windows build is not a reason to cancel it.
 - Packer variables hold external input only, and named locals hold everything derived from them.
 - Build logic shared by local work and CI runs through Cake. Pipeline YAML only orchestrates, and an unavoidable inline script stays minimal with a comment saying why.
 - The publication checksum describes the final compressed box.
-- Publication uploads the payload to R2 under `<box>/<release-version>/<vagrant-provider>/<architecture>/vagrant.box`, never overwrites a released key, and has no HCP fallback.
+- Publication uploads the payload to R2 under `<box>/<release-version>/<vagrant-provider>/<architecture>/vagrant.box`, never overwrites a released key, and has no HCP fallback. The upload and the registry write are not a transaction, so an upload can remain when the later registry step fails.
 - An alias points at its canonical box's entry for the same version, provider, and architecture, and has no payload of its own.
 - A canonical box name states its real OS release and edition. Where an alias's edition differs by guest architecture, the site says so.
 - Generated boxes and images stay in the ignored `artifacts/`. `packer_cache` and `.vagrant` are never committed.
@@ -53,12 +41,9 @@ A long Windows build is not a reason to cancel it.
 
 ## Retention
 
-This policy decides which versions of the hosted Vagrant boxes stay and which go.
-The maintainer applies it by hand, and no tooling enforces it.
+This policy decides which versions of the hosted Vagrant boxes stay and which go. The maintainer applies it by hand, and no tooling enforces it.
 
-Each canonical box, Vagrant provider, and guest architecture is one combination, counted separately.
-The versions of a combination group by release month, the `yymm` their release version starts with, so every `2607.*` version is one month.
-The current release month is the `yymm` of the current release version, the default `version` argument in `build.cake`.
+Each canonical box, Vagrant provider, and guest architecture is one combination, counted separately. The versions of a combination group by release month, the `yymm` their release version starts with, so every `2607.*` version is one month. The current release month is the `yymm` of the current release version, the default `version` argument in `build.cake`.
 
 A combination keeps a release month when both of these hold, and every other release month is removed:
 
@@ -78,8 +63,7 @@ Removal works like this:
 - A removed release version is never published again.
 - A `vagrant.box` file on R2 that has no registry entry is removed. Every other R2 object stays.
 
-Apply the policy only after a full new release has finished publishing.
-The maintainer approves the exact removals immediately before they happen.
+Apply the policy only after a full new release has finished publishing. The maintainer approves the exact removals immediately before they happen.
 
 ## Conventions
 
@@ -91,8 +75,8 @@ The maintainer approves the exact removals immediately before they happen.
 
 ## Pipelines
 
-- One Azure Pipeline per image and provider. They run only when queued, never on push or pull request.
-- They run on self-hosted agents, and starting one may need the maintainer.
+- One Azure Pipeline per image and provider, plus `artifact-transfer.yml` for the artifact handoff. They run only when queued, never on push or pull request.
+- The image pipelines run on self-hosted agents, and starting one may need the maintainer. `artifact-transfer.yml` runs on hosted Windows and Linux agents.
 - A run on `master` also publishes. A run on a branch builds and tests only.
 - `pages.yml` builds `docs/site` on a pull request that changes it, and deploys it from `master`.
 
