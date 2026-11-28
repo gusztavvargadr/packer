@@ -105,7 +105,7 @@ module VagrantMetadata
   class RcloneStore
     READ_ATTEMPTS = 3
     REJECTED = /StatusCode: 412|PreconditionFailed/.freeze
-    WRITE_OPTIONS = ['--streaming-upload-cutoff', '16Mi', '--retries', '1', '--low-level-retries', '1'].freeze
+    WRITE_OPTIONS = ['--streaming-upload-cutoff', '16Mi', '--retries', '1'].freeze
 
     def initialize(destination, runner: Open3.method(:capture3))
       @destination = destination

@@ -124,6 +124,10 @@ module VagrantMetadata
       assert_equal(true, find_provider(document, '2610.0.0', 'vmware_desktop', 'amd64')['default_architecture'], 'configured default architecture')
       assert_equal(false, find_provider(document, '2610.0.0', 'vmware_desktop', 'arm64')['default_architecture'], 'other architecture')
       assert_equal(%w[amd64 arm64], document['versions'][0]['providers'].map { |item| item['architecture'] }, 'architecture order')
+
+      document = merge_all(nil, [entry(provider: 'vmware_desktop', architecture: 'amd64'), entry(provider: 'vmware_desktop', architecture: 'arm64')], default_architecture: 'arm64')
+      assert_equal(true, find_provider(document, '2610.0.0', 'vmware_desktop', 'arm64')['default_architecture'], 'configured default architecture after the alphabetically first')
+      assert_equal(false, find_provider(document, '2610.0.0', 'vmware_desktop', 'amd64')['default_architecture'], 'alphabetically first architecture when another is configured')
     end
 
     def test_default_architecture_falls_back_to_only_architecture
@@ -294,7 +298,7 @@ module VagrantMetadata
     end
 
     def test_publish_updates_existing_document
-      store = FakeStore.new(KEY => existing_body([entry(provider: 'hyperv')]))
+      store = FakeStore.new({ KEY => existing_body([entry(provider: 'hyperv')]) })
       etag = store.read(KEY)[1]
       calls = 0
       result, = publish_with(store, entry, description_source: -> { calls += 1 })
@@ -306,7 +310,7 @@ module VagrantMetadata
     end
 
     def test_publish_unchanged_skips_write
-      store = FakeStore.new(KEY => existing_body([entry]))
+      store = FakeStore.new({ KEY => existing_body([entry]) })
       result, = publish_with(store)
 
       assert_equal(:unchanged, result, 'publish result for an identical entry')
@@ -317,7 +321,7 @@ module VagrantMetadata
       other = lambda do |store, key, count|
         store.put(key, existing_body([entry(provider: 'hyperv')])) if count == 1
       end
-      store = FakeStore.new(KEY => existing_body([]), before_write: other)
+      store = FakeStore.new({ KEY => existing_body([]) }, before_write: other)
       sleeps = []
       result, = publish_with(store, entry, sleeper: ->(seconds) { sleeps << seconds })
 
@@ -342,7 +346,7 @@ module VagrantMetadata
     def test_publish_gives_up_after_attempts
       other_body = existing_body([entry(provider: 'hyperv')])
       other = ->(store, key, _count) { store.put(key, other_body) }
-      store = FakeStore.new(KEY => existing_body([]), before_write: other)
+      store = FakeStore.new({ KEY => existing_body([]) }, before_write: other)
 
       assert_raises(RuntimeError, 'publish after every write was rejected') { publish_with(store, entry, attempts: 3) }
       assert_equal(3, store.writes.length, 'writes before giving up')
@@ -350,7 +354,7 @@ module VagrantMetadata
     end
 
     def test_publish_conflicting_entry_writes_nothing
-      store = FakeStore.new(KEY => existing_body([entry]))
+      store = FakeStore.new({ KEY => existing_body([entry]) })
 
       assert_raises(ConflictingEntryError, 'publish of a conflicting entry') { publish_with(store, entry(checksum: 'b' * 64)) }
       assert_equal(0, store.writes.length, 'writes for a conflicting entry')
@@ -382,7 +386,7 @@ module VagrantMetadata
       assert(log.include?(store.body(KEY)), 'log lacks the document after the merge')
       assert(log.include?('accepted'), 'log lacks the write result')
 
-      store = FakeStore.new(KEY => existing_body([entry(provider: 'hyperv')]))
+      store = FakeStore.new({ KEY => existing_body([entry(provider: 'hyperv')]) })
       before = store.body(KEY)
       _result, log = publish_with(store)
       assert(log.include?(before), 'log lacks the document before the merge')
@@ -456,9 +460,10 @@ module VagrantMetadata
       common = ['rclone', 'rcat', "r2:vagrant/#{KEY}", '--header-upload', 'Content-Type: application/json']
       assert_equal(common + ['--header-upload', 'If-None-Match: *'], create_arguments.first(7), 'create arguments')
       assert_equal(common + ['--header-upload', 'If-Match: "abc"'], update_arguments.first(7), 'update arguments')
-      %w[--streaming-upload-cutoff --retries --low-level-retries].each do |flag|
+      %w[--streaming-upload-cutoff --retries].each do |flag|
         assert(create_arguments.include?(flag), "write lacks #{flag}")
       end
+      assert(!create_arguments.include?('--low-level-retries'), 'write disables rclone low-level retries, which are safe for a conditional write')
       assert_equal('body', create_options[:stdin_data], 'write body')
     end
 
@@ -511,6 +516,29 @@ module VagrantMetadata
       assert_equal('Ubuntu', document['description'], 'CLI document description')
       assert_equal(entry.url, document['versions'][0]['providers'][0]['url'], 'CLI entry URL')
       assert(log.string.include?('created'), 'CLI log lacks the result')
+    end
+
+    def test_cli_publishes_alias_entry
+      alias_name = 'gusztavvargadr/windows-11'
+      canonical_url = 'https://images.packer.gusztavvargadr.me/windows-11-25h2-enterprise/2610.0.0/vmware_desktop/arm64/vagrant.box'
+      amd64 = entry(provider: 'vmware_desktop', url: 'https://images.packer.gusztavvargadr.me/windows-11-25h2-enterprise/2610.0.0/vmware_desktop/amd64/vagrant.box')
+      body = VagrantMetadata.serialize(VagrantMetadata.merge({ 'name' => alias_name, 'description' => 'old', 'versions' => [] }, amd64, name: alias_name, default_architecture: 'amd64').first)
+      runner = StubRunner.new([[stat_json(body), '', 0], [body, '', 0], ['', '', 0]])
+      arguments = cli_arguments('--box' => 'windows-11', '--provider' => 'vmware_desktop', '--architecture' => 'arm64', '--url' => canonical_url, '--checksum' => 'c' * 64)
+      code = VagrantMetadata.run(arguments, runner: runner, log: StringIO.new, error: StringIO.new)
+
+      assert_equal(0, code, 'CLI exit code for an alias')
+      write_arguments, write_options = runner.calls[2]
+      assert_equal("r2:vagrant/#{alias_name}", write_arguments[2], 'alias write path')
+      assert(write_arguments.include?(%(If-Match: "#{Digest::MD5.hexdigest(body)}")), 'alias write is not conditional on the read ETag')
+      document = JSON.parse(write_options[:stdin_data])
+      assert_equal(alias_name, document['name'], 'alias document name')
+      assert_equal('old', document['description'], 'alias document description')
+      arm64 = find_provider(document, '2610.0.0', 'vmware_desktop', 'arm64')
+      assert_equal(canonical_url, arm64['url'], 'alias entry URL')
+      assert_equal('c' * 64, arm64['checksum'], 'alias entry checksum')
+      assert_equal(false, arm64['default_architecture'], 'alias arm64 default flag')
+      assert_equal(true, find_provider(document, '2610.0.0', 'vmware_desktop', 'amd64')['default_architecture'], 'alias amd64 default flag')
     end
 
     def test_cli_rejects_missing_option

@@ -27,7 +27,7 @@ Every option is required. The command merges one entry into the document `<desti
 
 The command reads the document's MD5 hash with `rclone lsjson --stat --hash --files-only`, then its body with `rclone cat`, and rereads when the body doesn't match the hash. For R2, that hash is the object's ETag. `lsjson` prints `null` for a missing document.
 
-It writes with `rclone rcat` and `--header-upload "If-Match: \"<etag>\""`, or `--header-upload "If-None-Match: *"` for a new document, so R2 rejects the write with `412 Precondition Failed` when another publish changed the document in between. On a rejection the command waits 1 to 4 seconds, rereads, merges again, and retries, up to 5 attempts. Any other rclone failure stops the publish at once with rclone's error.
+It writes with `rclone rcat` and `--header-upload "If-Match: \"<etag>\""`, or `--header-upload "If-None-Match: *"` for a new document, so R2 rejects the write with `412 Precondition Failed` when another publish changed the document in between. On a rejection the command waits 1 to 4 seconds, rereads, merges again, and retries, up to 5 attempts. rclone retries a transient network or server error on its own, which is safe for a conditional write, and any other failure stops the publish at once with rclone's error.
 
 When R2 commits a write but its response is lost, the retry finds the entry already present and stops.
 
