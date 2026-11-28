@@ -25,12 +25,6 @@ variable "box_metadata_destination" {
   default     = "r2:vagrant"
 }
 
-variable "box_metadata_origin" {
-  type        = string
-  description = "The public origin for published Vagrant box metadata."
-  default     = "https://vagrant.gusztavvargadr.me"
-}
-
 variable "box_metadata_snapshot" {
   type        = string
   description = "The rclone path of the HCP registry snapshot that supplies descriptions for new box metadata."
@@ -41,7 +35,6 @@ locals {
   box_artifact_destination = var.box_artifact_destination
   box_artifact_origin      = var.box_artifact_origin
   box_metadata_destination = var.box_metadata_destination
-  box_metadata_origin      = var.box_metadata_origin
   box_metadata_snapshot    = var.box_metadata_snapshot
 
   vagrant_import_sources = {
@@ -274,10 +267,6 @@ build {
     ]
 
     valid_exit_codes = [0, 1]
-
-    env = {
-      VAGRANT_SERVER_URL = local.box_metadata_origin
-    }
   }
 
   provisioner "shell-local" {
@@ -286,10 +275,6 @@ build {
     ]
 
     max_retries = 1
-
-    env = {
-      VAGRANT_SERVER_URL = local.box_metadata_origin
-    }
   }
 
   provisioner "shell-local" {
@@ -299,9 +284,5 @@ build {
     ]
 
     valid_exit_codes = [0, 1]
-
-    env = {
-      VAGRANT_SERVER_URL = local.box_metadata_origin
-    }
   }
 }

@@ -4,6 +4,7 @@ var reportHostAndProvider = Argument("reportHostAndProvider", false);
 
 var author = Argument("author", "gusztavvargadr");
 var version = Argument("version", "2607.1.0");
+var boxMetadataOrigin = Argument("boxMetadataOrigin", "https://vagrant.gusztavvargadr.me");
 
 var configurationParts = configuration.Split('/', StringSplitOptions.RemoveEmptyEntries);
 var sample = configurationParts.ElementAtOrDefault(0) ?? Argument<string>("sample");
@@ -148,13 +149,21 @@ void PackerBuild(string stage) {
   arguments.Append("-timestamp-ui");
   arguments.Append(platformDirectory);
 
-  Packer(arguments);
+  // The download stage resolves boxes by name, so Vagrant asks the metadata host. Packer's shell-local env
+  // would keep a trailing space in the value on Windows, so the variable is set on the Packer process instead.
+  var environment = new Dictionary<string, string>();
+  if (stage == "download") {
+    environment["VAGRANT_SERVER_URL"] = boxMetadataOrigin;
+  }
+
+  Packer(arguments, environment);
 }
 
-void Packer(ProcessArgumentBuilder arguments) {
+void Packer(ProcessArgumentBuilder arguments, IDictionary<string, string> environment = null) {
   var result = StartProcess("packer", new ProcessSettings {
     Arguments = arguments,
-    WorkingDirectory = sampleDirectory
+    WorkingDirectory = sampleDirectory,
+    EnvironmentVariables = environment ?? new Dictionary<string, string>()
   });
   
   if (result != 0) {

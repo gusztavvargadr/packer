@@ -61,14 +61,14 @@
 
 A consumer selects the host with either of these settings. Vagrant with neither uses its default server, `https://vagrantcloud.com`:
 
-- `VAGRANT_SERVER_URL=https://vagrant.gusztavvargadr.me` in the environment, with no Vagrantfile change. The `download` target sets it, so the sample Vagrantfiles stay unchanged.
+- `VAGRANT_SERVER_URL=https://vagrant.gusztavvargadr.me` in the environment, with no Vagrantfile change. The `download` target sets it on the Packer process from the Cake argument `boxMetadataOrigin`, so the sample Vagrantfiles stay unchanged.
 - `config.vm.box_server_url = "https://vagrant.gusztavvargadr.me"` in a Vagrantfile, where the environment variable would also redirect other publishers' boxes.
 
 `VAGRANT_SERVER_URL` takes precedence over `config.vm.box_server_url` whenever it is set and not empty.
 
 ### Publication
 
-- `publish` uploads the payload, then runs the [Vagrant metadata helper](src/vagrant-metadata/README.md) for the canonical box, and again for the alias when the image has one. The Packer variables `box_metadata_destination`, `box_metadata_origin`, and `box_metadata_snapshot` sit beside `box_artifact_destination` and `box_artifact_origin`.
+- `publish` uploads the payload, then runs the [Vagrant metadata helper](src/vagrant-metadata/README.md) for the canonical box, and again for the alias when the image has one. The Packer variables `box_metadata_destination` and `box_metadata_snapshot` sit beside `box_artifact_destination` and `box_artifact_origin`.
 - The helper reads the document and its ETag, merges the entry, and writes it back with `If-Match: "<etag>"`, or `If-None-Match: *` for a new document. R2 rejects the write when another publish changed the document in between, and the helper then rereads, merges again, and retries. Several publishes updating the same document at once lose no entry.
 - An entry already present with the same URL and checksum leaves the document unwritten, and one with a different URL or checksum fails the publish. A rerun with the same values is therefore safe.
 - A new document gets its description from the registry snapshot below. An existing document keeps its name, its description, and every other version as they are.
