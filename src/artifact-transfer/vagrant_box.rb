@@ -72,14 +72,26 @@ module ArtifactTransfer
       run_command(ARCHIVE_COMMAND, '-xf', box, '-C', image)
     end
 
+    # Compression pipes tar's output into the compressor through an OS pipe instead of
+    # tar's --use-compress-program, whose filter deadlocks on Windows once the input
+    # outgrows the pipe buffers.
+    def run_pipeline(producer, consumer, output, chdir:)
+      statuses = Open3.pipeline([*producer, { chdir: chdir }], consumer, out: output)
+      [producer, consumer].zip(statuses).each do |arguments, status|
+        raise "#{arguments.join(' ')} failed (#{status.exitstatus})" unless status.success?
+      end
+    end
+
     def package_box(image, box, compression: nil)
       entries = Dir.children(image).sort
       raise "Vagrant image is empty: #{image}" if entries.empty?
 
       FileUtils.mkdir_p(File.dirname(box))
-      arguments = [ARCHIVE_COMMAND, '-cf', box]
-      arguments.concat(['--use-compress-program', compression]) unless compression.nil?
-      run_command(*arguments, *entries, chdir: image)
+      if compression.nil?
+        run_command(ARCHIVE_COMMAND, '-cf', box, *entries, chdir: image)
+      else
+        run_pipeline([ARCHIVE_COMMAND, '-cf', '-', *entries], [compression], box, chdir: image)
+      end
     end
 
     def measure_elapsed_seconds

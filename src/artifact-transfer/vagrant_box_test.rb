@@ -12,6 +12,10 @@ module ArtifactTransfer
     SCRIPT = File.expand_path('vagrant_box.rb', __dir__).freeze
     WINDOWS_HOST = RbConfig::CONFIG['host_os'].match?(/mswin|mingw|cygwin/i)
     ARCHIVE_COMMAND = RbConfig::CONFIG['host_os'].match?(/darwin|mswin|mingw|cygwin/i) ? 'tar' : 'bsdtar'
+    # Incompressible, and far beyond what pipe buffers and pigz's own buffers hold, so a
+    # compression filter that is never drained deadlocks instead of finishing.
+    LARGE_IMAGE_BYTES = 32 * 1024 * 1024
+    LARGE_RESTORE_TIMEOUT_SECONDS = 120
 
     def run_command(*arguments, chdir: nil, allow_failure: false, environment: {})
       options = {}
@@ -48,6 +52,43 @@ module ArtifactTransfer
 
     def run_module(command, artifact_directory, allow_failure: false, environment: {})
       run_command(RbConfig.ruby, SCRIPT, command, artifact_directory, allow_failure: allow_failure, environment: environment)
+    end
+
+    def monotonic_seconds
+      Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    end
+
+    def terminate_process_tree(pid)
+      if WINDOWS_HOST
+        system('taskkill', '/T', '/F', '/PID', pid.to_s, out: File::NULL, err: File::NULL)
+      else
+        Process.kill('KILL', -pid)
+      end
+    rescue Errno::ESRCH
+      nil
+    end
+
+    def run_module_with_timeout(command, artifact_directory, timeout:)
+      Dir.mktmpdir('vagrant-box-output-') do |logs|
+        stdout = File.join(logs, 'stdout')
+        stderr = File.join(logs, 'stderr')
+        options = { out: stdout, err: stderr }
+        options[:pgroup] = true unless WINDOWS_HOST
+        pid = Process.spawn(RbConfig.ruby, SCRIPT, command, artifact_directory, options)
+        deadline = monotonic_seconds + timeout
+        loop do
+          _pid, status = Process.wait2(pid, Process::WNOHANG)
+          return [File.read(stdout), File.read(stderr), status] unless status.nil?
+
+          if monotonic_seconds > deadline
+            terminate_process_tree(pid)
+            Process.wait(pid)
+            sleep 1
+            raise "#{command} did not finish within #{timeout} seconds"
+          end
+          sleep 0.2
+        end
+      end
     end
 
     def executable_path(command)
@@ -305,6 +346,26 @@ module ArtifactTransfer
       end
     end
 
+    def large_restore_completes
+      Dir.mktmpdir('vagrant-box-large-') do |root|
+        artifact = File.join(root, 'artifact')
+        image = File.join(artifact, 'image')
+        FileUtils.mkdir_p(image)
+        File.write(File.join(image, 'metadata.json'), JSON.generate({ provider: 'virtualbox' }))
+        disk = Random.new(639).bytes(LARGE_IMAGE_BYTES)
+        File.binwrite(File.join(image, 'disk.vmdk'), disk)
+
+        _stdout, stderr, status = run_module_with_timeout('restore', artifact, timeout: LARGE_RESTORE_TIMEOUT_SECONDS)
+
+        assert(status.success?, "restore failed on a large image: #{stderr}")
+        restored = File.join(root, 'restored')
+        extract_box(File.join(artifact, 'vagrant', 'vagrant.box'), restored)
+        restored_sha256 = Digest::SHA256.file(File.join(restored, 'disk.vmdk')).hexdigest
+        assert(restored_sha256 == Digest::SHA256.hexdigest(disk), 'restore did not package a large image intact')
+        assert_no_temporary_content(root, 'artifact')
+      end
+    end
+
     def missing_pigz_preserves_prior_output
       with_recoverable_publication('vagrant-box-pigz-') do |root, artifact, image, box|
         environment = { 'PATH' => isolated_tool_path(root) }
@@ -346,6 +407,8 @@ module ArtifactTransfer
       puts 'archive failure: passed'
       empty_image_is_actionable
       puts 'empty image failure: passed'
+      large_restore_completes
+      puts 'large restore: passed'
       missing_pigz_preserves_prior_output
       puts 'missing pigz rollback: passed'
       compression_failure_preserves_prior_output
