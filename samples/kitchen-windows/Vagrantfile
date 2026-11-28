@@ -12,6 +12,6 @@ Vagrant.configure("2") do |config|
 
     choco list -i
 
-    chef-client --version
+    cinc-client --version
   EOH
 end

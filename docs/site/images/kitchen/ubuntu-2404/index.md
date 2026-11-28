@@ -9,7 +9,7 @@ title: Kitchen on Ubuntu 24.04
 
 This box has the following contents:
 
-- Chef Infra Client
+- Cinc Client
 - Ubuntu Server 24.04 LTS
 - OpenSSH Server
 - User `vagrant` with password `vagrant` and Vagrant's default SSH key

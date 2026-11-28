@@ -81,6 +81,10 @@ build {
 }
 
 locals {
+  # Matches gusztavvargadr/chef's src/kitchen.vagrant.yml, so Test Kitchen finds it installed.
+  chef_version             = "18.11.11"
+  chef_bootstrap_directory = "${path.root}/../../lib/gusztavvargadr/chef/src/bootstrap"
+
   chef_destination = "C:/Windows/Temp/chef/"
   chef_max_retries = 10
   chef_attributes  = lookup(local.image_options.native, "chef_attributes", "")
@@ -92,6 +96,8 @@ locals {
   native_provider_guest_additions_reconcile = lookup(local.native_provider_options, "guest_additions_reconcile", "false")
 
   native_chef_environment = {
+    CHEF_VERSION                         = local.chef_version
+    CHEF_POLICY_PATH                     = local.chef_destination
     CHEF_ATTRIBUTES                      = local.chef_attributes
     VIRTUALBOX_GUEST_ADDITIONS_RECONCILE = local.native_provider_guest_additions_reconcile
     VMWARE_TOOLS_SOURCE                  = local.native_provider_tools_source
@@ -112,6 +118,17 @@ build {
     elevated_password = local.communicator.password
   }
 
+  provisioner "powershell" {
+    script = "${local.chef_bootstrap_directory}/provision.ps1"
+
+    env = {
+      CHEF_VERSION = local.chef_version
+    }
+
+    elevated_user     = local.communicator.username
+    elevated_password = local.communicator.password
+  }
+
   provisioner "file" {
     source      = "${local.artifacts_directory}/chef/"
     destination = local.chef_destination
@@ -123,7 +140,7 @@ build {
   }
 
   provisioner "powershell" {
-    script           = "${path.root}/chef/apply.ps1"
+    script           = "${local.chef_bootstrap_directory}/provision.ps1"
     valid_exit_codes = [0, 35]
 
     env = local.native_chef_environment
@@ -141,7 +158,7 @@ build {
   }
 
   provisioner "powershell" {
-    script       = "${path.root}/chef/apply.ps1"
+    script       = "${local.chef_bootstrap_directory}/provision.ps1"
     max_retries  = local.chef_max_retries
     pause_before = "300s"
 

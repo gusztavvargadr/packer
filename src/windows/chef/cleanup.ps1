@@ -2,7 +2,10 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
 if ($env:CHEF_KEEP -ne "true") {
-    $app = Get-WmiObject -Class Win32_Product | Where-Object -Property Name -Match "Chef Infra Client"
+    $app = Get-WmiObject -Class Win32_Product | Where-Object -Property Name -Match "^Cinc Client"
+    if ($null -eq $app) {
+        throw "Cinc Client is not installed, so it can't be removed."
+    }
     $app.Uninstall()
 
     $userKey = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment',$true)

@@ -2,7 +2,7 @@
 
 ## Layout
 
-`samples/<sample>` holds image options, Vagrantfiles, and Chef policies. `src/windows` and `src/ubuntu` hold the shared templates and provisioning. `src/artifact-transfer` holds the artifact handoff between jobs. `lib/gusztavvargadr/chef` is a submodule. `.azure-pipelines` holds the pipelines, and `docs/site` the public site. Docker, Development, and Kitchen each have a Windows and a Linux sample, such as `docker-windows` and `docker-linux`.
+`samples/<sample>` holds image options, Vagrantfiles, and Chef policies. `src/windows` and `src/ubuntu` hold the shared templates and provisioning. `src/artifact-transfer` holds the artifact handoff between jobs. `lib/gusztavvargadr/chef` is a submodule, and the native builds run its bootstrap scripts to install Cinc Client in the guest. `.azure-pipelines` holds the pipelines, and `docs/site` the public site. Docker, Development, and Kitchen each have a Windows and a Linux sample, such as `docker-windows` and `docker-linux`.
 
 ## Prerequisites
 

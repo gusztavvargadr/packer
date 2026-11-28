@@ -9,7 +9,7 @@ title: Kitchen on Windows 2025
 
 This box has the following contents:
 
-- Chef Infra Client
+- Cinc Client
 - Windows Server 2025 Standard
 - OpenSSH Server and WinRM
 - Windows Updates disabled

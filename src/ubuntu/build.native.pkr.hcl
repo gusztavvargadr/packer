@@ -67,6 +67,11 @@ build {
 }
 
 locals {
+  # Matches gusztavvargadr/chef's src/kitchen.vagrant.yml, so Test Kitchen finds it installed.
+  chef_version             = "18.11.11"
+  chef_bootstrap_directory = "${path.root}/../../lib/gusztavvargadr/chef/src/bootstrap"
+  chef_execute_command     = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
+
   chef_destination = "/var/tmp/packer-build/chef/"
   chef_max_retries = 10
   chef_attributes  = lookup(local.image_options.native, "chef_attributes", "")
@@ -82,6 +87,15 @@ build {
     script = "${path.root}/chef/initialize.sh"
   }
 
+  provisioner "shell" {
+    script          = "${local.chef_bootstrap_directory}/provision.sh"
+    execute_command = local.chef_execute_command
+
+    env = {
+      CHEF_VERSION = local.chef_version
+    }
+  }
+
   provisioner "file" {
     source      = "${local.artifacts_directory}/chef/"
     destination = local.chef_destination
@@ -93,11 +107,14 @@ build {
   }
 
   provisioner "shell" {
-    script           = "${path.root}/chef/apply.sh"
+    script           = "${local.chef_bootstrap_directory}/provision.sh"
+    execute_command  = local.chef_execute_command
     valid_exit_codes = [0, 35]
 
     env = {
-      CHEF_ATTRIBUTES = local.chef_attributes
+      CHEF_VERSION     = local.chef_version
+      CHEF_POLICY_PATH = local.chef_destination
+      CHEF_ATTRIBUTES  = local.chef_attributes
     }
   }
 
@@ -106,12 +123,15 @@ build {
   }
 
   provisioner "shell" {
-    script       = "${path.root}/chef/apply.sh"
-    max_retries  = local.chef_max_retries
-    pause_before = "120s"
+    script          = "${local.chef_bootstrap_directory}/provision.sh"
+    execute_command = local.chef_execute_command
+    max_retries     = local.chef_max_retries
+    pause_before    = "120s"
 
     env = {
-      CHEF_ATTRIBUTES = local.chef_attributes
+      CHEF_VERSION     = local.chef_version
+      CHEF_POLICY_PATH = local.chef_destination
+      CHEF_ATTRIBUTES  = local.chef_attributes
     }
   }
 
