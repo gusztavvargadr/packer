@@ -26,7 +26,7 @@
 
 - Image build or provisioning: the smallest affected configuration through Cake, including its `test`. A native `test` is empty, so native changes are proven by the derived or Vagrant build and boot test that consumes them.
 - Artifact transfer: `dotnet cake src/artifact-transfer/build.cake`, plus the image builds that consume the changed provider. The `artifact-transfer.yml` pipeline covers Windows and Linux.
-- Vagrant metadata: `dotnet cake src/vagrant-metadata/build.cake`.
+- Vagrant metadata: `dotnet cake src/vagrant-metadata/build.cake` on Linux and Windows as well as macOS. The publish agents run Ruby 3, and macOS ships Ruby 2.6, which accepts code that Ruby 3 rejects.
 - Cake task descriptions: `--showdescription` for both definitions, with any well-formed `--configuration` for `build.cake`, without running any target.
 - HCL: `packer fmt -check src`.
 - Ruby: `ruby -c <file>`, following `.rubocop.yml`.
