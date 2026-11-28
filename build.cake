@@ -57,13 +57,13 @@ Task("test")
   });
 
 Task("publish")
-  .Description("Publish Vagrant payloads to R2 and metadata to HCP; the native stage is empty.")
+  .Description("Publish Vagrant payloads to R2 and their metadata to the metadata host; the native stage is empty.")
   .Does(() => {
     PackerBuild("publish");
   });
 
 Task("download")
-  .Description("Download and boot the published Vagrant box through its Packer download stage.")
+  .Description("Download and boot the published Vagrant box by name through the metadata host.")
   .Does(() => {
     PackerBuild("download");
   });

@@ -4,7 +4,7 @@ parameters:
   provider: ''
   hostArchitecture: ''
   build: ''
-  publishToVagrantCloud: true
+  publishBoxes: true
 
 jobs:
   - job: build
@@ -99,7 +99,7 @@ jobs:
         displayName: Clean
         condition: always()
 
-  - ${{ if and(eq(parameters.build, 'vagrant'), parameters.publishToVagrantCloud) }}:
+  - ${{ if and(eq(parameters.build, 'vagrant'), parameters.publishBoxes) }}:
     - job: publish
       displayName: Publish ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }}
       dependsOn: build
@@ -114,8 +114,6 @@ jobs:
         clean: all
 
       variables:
-        - group: environment-vagrant-cloud
-        - group: environment-hcp-vagrant
         - name: artifactPath
           value: $(Build.SourcesDirectory)/artifacts/${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/vagrant/image
 
@@ -151,10 +149,6 @@ jobs:
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target publish
           displayName: Publish
-          env:
-            VAGRANT_CLOUD_TOKEN: $(vagrant-cloud-token)
-            HCP_CLIENT_ID: $(hcp-client-id)
-            HCP_CLIENT_SECRET: $(hcp-client-secret)
 
         - script: |
             dotnet cake --configuration ${{ parameters.sample }}/${{ parameters.image }}/${{ parameters.provider }}/${{ parameters.build }} --target clean

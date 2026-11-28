@@ -19,9 +19,30 @@ variable "box_artifact_origin" {
   default     = "https://images.packer.gusztavvargadr.me"
 }
 
+variable "box_metadata_destination" {
+  type        = string
+  description = "The rclone destination root for published Vagrant box metadata."
+  default     = "r2:vagrant"
+}
+
+variable "box_metadata_origin" {
+  type        = string
+  description = "The public origin for published Vagrant box metadata."
+  default     = "https://vagrant.gusztavvargadr.me"
+}
+
+variable "box_metadata_snapshot" {
+  type        = string
+  description = "The rclone path of the HCP registry snapshot that supplies descriptions for new box metadata."
+  default     = "r2:packer/hcp-vagrant-registry/manifest-20261031T112055Z.json"
+}
+
 locals {
   box_artifact_destination = var.box_artifact_destination
   box_artifact_origin      = var.box_artifact_origin
+  box_metadata_destination = var.box_metadata_destination
+  box_metadata_origin      = var.box_metadata_origin
+  box_metadata_snapshot    = var.box_metadata_snapshot
 
   vagrant_import_sources = {
     virtualbox = "virtualbox-ovf.core"
@@ -51,6 +72,7 @@ locals {
   vagrant_box_name       = lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))
   vagrant_box_provider   = lookup(local.vagrant_providers, local.image_provider, "")
   vagrant_box_object_key = "${local.vagrant_box_name}/${local.image_version}/${local.vagrant_box_provider}/${local.image_architecture}/vagrant.box"
+  vagrant_box_url        = "${local.box_artifact_origin}/${local.vagrant_box_object_key}"
   vagrant_box_tag        = "${local.image_author}/${local.vagrant_box_name}"
   vagrant_test_box_name  = "${local.image_author}-test/${local.vagrant_box_name}"
 }
@@ -247,39 +269,17 @@ build {
     ]
   }
 
-  post-processors {
-    post-processor "artifice" {
-      files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
-    }
-
-    post-processor "vagrant-registry" {
-      box_tag              = local.vagrant_box_tag
-      version              = local.image_version
-      box_download_url     = "${local.box_artifact_origin}/${local.vagrant_box_object_key}"
-      box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-      architecture         = local.image_architecture
-      default_architecture = local.vagrant_default_architecture
-      // no_release           = true
-    }
-  }
-
-  dynamic "post-processors" {
-    for_each = compact([lookup(local.vagrant_options, "box_alias", "")])
+  dynamic "provisioner" {
+    for_each = concat(
+      [{ box = local.vagrant_box_name, default_architecture = local.vagrant_default_architecture }],
+      [for box_alias in compact([lookup(local.vagrant_options, "box_alias", "")]) : { box = box_alias, default_architecture = local.vagrant_alias_default_architecture }]
+    )
+    labels = ["shell-local"]
 
     content {
-      post-processor "artifice" {
-        files = ["${local.artifacts_directory}/vagrant/vagrant.box"]
-      }
-
-      post-processor "vagrant-registry" {
-        box_tag              = "${local.image_author}/${post-processors.value}"
-        version              = local.image_version
-        box_download_url     = "https://vagrantcloud.com/${local.image_author}/boxes/${lookup(local.vagrant_options, "box_name", replace(local.image_name, "/", "-"))}/versions/${local.image_version}/providers/${lookup(local.vagrant_providers, local.image_provider, "")}/${local.image_architecture}/vagrant.box"
-        box_checksum         = "SHA256:${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}"
-        architecture         = local.image_architecture
-        default_architecture = local.vagrant_alias_default_architecture
-        // no_release           = true
-      }
+      inline = [
+        "ruby \"${path.root}/../vagrant-metadata/vagrant_metadata.rb\" publish --destination \"${local.box_metadata_destination}\" --author \"${local.image_author}\" --box \"${provisioner.value.box}\" --version \"${local.image_version}\" --provider \"${local.vagrant_box_provider}\" --architecture \"${local.image_architecture}\" --url \"${local.vagrant_box_url}\" --checksum \"${split("\t", file("${local.artifacts_directory}/checksum.sha256"))[0]}\" --default-architecture \"${provisioner.value.default_architecture}\" --snapshot \"${local.box_metadata_snapshot}\"",
+      ]
     }
   }
 }
@@ -296,6 +296,10 @@ build {
     ]
 
     valid_exit_codes = [0, 1]
+
+    env = {
+      VAGRANT_SERVER_URL = local.box_metadata_origin
+    }
   }
 
   provisioner "shell-local" {
@@ -304,6 +308,10 @@ build {
     ]
 
     max_retries = 1
+
+    env = {
+      VAGRANT_SERVER_URL = local.box_metadata_origin
+    }
   }
 
   provisioner "shell-local" {
@@ -313,5 +321,9 @@ build {
     ]
 
     valid_exit_codes = [0, 1]
+
+    env = {
+      VAGRANT_SERVER_URL = local.box_metadata_origin
+    }
   }
 }

@@ -3,7 +3,7 @@ parameters:
   image: ''
   provider: ''
   hostArchitecture: ''
-  publishToVagrantCloud: true
+  publishBoxes: true
 
 stages:
   - stage: native
@@ -17,7 +17,7 @@ stages:
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
           build: native
-          publishToVagrantCloud: ${{ parameters.publishToVagrantCloud }}
+          publishBoxes: ${{ parameters.publishBoxes }}
 
   - stage: vagrant
     displayName: Vagrant
@@ -30,4 +30,4 @@ stages:
           provider: ${{ parameters.provider }}
           hostArchitecture: ${{ parameters.hostArchitecture }}
           build: vagrant
-          publishToVagrantCloud: ${{ parameters.publishToVagrantCloud }}
+          publishBoxes: ${{ parameters.publishBoxes }}
